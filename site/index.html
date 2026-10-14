@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>n1m21n · room</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75,800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --paper:#F1E9D2; --ink:#0A0618; --blue:#2E3BDB; --pink:#E0368F; --spiral:#F6E27A; }
+  html,body { margin:0; height:100%; background:var(--paper); color:var(--ink); overflow:hidden; touch-action:none; }
+  canvas { display:block; width:100vw; height:100vh; }
+  .chrome { position:fixed; left:16px; right:16px; top:14px; display:flex; justify-content:space-between; align-items:flex-start; pointer-events:none; }
+  .mark { font:800 28px/0.9 'Bricolage Grotesque',sans-serif; font-stretch:75%; letter-spacing:-0.02em; text-transform:lowercase; position:relative; }
+  .mark span { position:absolute; left:2px; top:-1px; color:var(--pink); mix-blend-mode:multiply; }
+  .mark b { color:var(--blue); mix-blend-mode:multiply; font-weight:800; }
+  .meta { font:400 11px/1.4 "DM Mono",monospace; text-align:right; background:var(--paper); padding:4px 8px; border:2px solid var(--ink); border-radius:6px; }
+  .seg { position:fixed; bottom:18px; left:50%; transform:translateX(-50%); display:flex; gap:6px; }
+  .seg button { font:500 12px 'DM Mono',monospace; background:var(--paper); color:var(--ink); border:2px solid var(--ink); border-radius:999px; padding:7px 14px; cursor:pointer; }
+  .seg button.on { background:var(--ink); color:var(--spiral); }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div class="chrome">
+  <div class="mark"><b>n1m21n</b><span>n1m21n</span></div>
+  <div class="meta">look test · round 1<br><span id="lbl"></span></div>
+</div>
+<div class="seg" id="seg">
+  <button data-m="A">A · 2d puppet</button>
+  <button data-m="B">B · 3d toon</button>
+  <button data-m="AB">both</button>
+</div>
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>
