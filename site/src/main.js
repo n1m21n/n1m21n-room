@@ -2,7 +2,7 @@
 import * as THREE from 'three';
 import { makeCompositor, shared } from './look.js';
 import { buildRoom, stool, snake, puppet } from './room.js';
-import { man3d } from './man.js';
+import { loadMan } from './man.js';
 
 const canvas = document.getElementById('c');
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, powerPreference: 'high-performance' });
@@ -22,7 +22,8 @@ const spotA = new THREE.Group(), spotB = new THREE.Group();
 spotB.add(stool());                      // the 2D drawing already includes its stool
 const card = puppet('/media/sprites/man-seated.webp', 1.62);
 spotA.add(card);
-const m3 = man3d(); m3.position.y = 0; spotB.add(m3);
+const man = await loadMan(); man.pose(new URLSearchParams(location.search).get('pose') || 'seated'); spotB.add(man.root);
+window.man = man;                                          // dev: pose from the console
 scene.add(spotA, spotB);
 
 function setMode(m) {
@@ -31,7 +32,7 @@ function setMode(m) {
   spotB.position.set(m === 'AB' ? 0.75 : -0.2, 0, 0.1);
   for (const b of document.querySelectorAll('#seg button')) b.classList.toggle('on', b.dataset.m === m);
   document.getElementById('lbl').textContent = { A: 'a · signed-off 2d drawing on a card', B: 'b · 3d toon puppet', AB: 'a (left) · b (right)' }[m];
-  history.replaceState(null, '', '?man=' + m);
+  const u = new URL(location.href); u.searchParams.set('man', m); history.replaceState(null, '', u);
 }
 document.getElementById('seg').addEventListener('click', e => e.target.dataset.m && setMode(e.target.dataset.m));
 setMode(new URLSearchParams(location.search).get('man') || 'AB');
@@ -40,6 +41,9 @@ setMode(new URLSearchParams(location.search).get('man') || 'AB');
 const target = new THREE.Vector3(0, 1.05, -0.4);
 const orbit = { yaw: 0, pitch: 0.2, dist: 7.6 };
 const lim = { yaw: [-0.75, 0.75], pitch: [0.05, 0.6], dist: [3.2, 9.5] };
+const qs = new URLSearchParams(location.search);
+if (qs.get('cam') === 'close') { orbit.dist = 3.4; orbit.pitch = 0.12; target.set(-0.05, 1.05, 0.1); }
+if (qs.has('yaw')) orbit.yaw = +qs.get('yaw');
 const clamp = (x, [a, b]) => Math.min(b, Math.max(a, x));
 const ptrs = new Map(); let pinch0 = 0, dist0 = 0;
 canvas.addEventListener('pointerdown', e => { canvas.setPointerCapture(e.pointerId); ptrs.set(e.pointerId, [e.clientX, e.clientY]); });
@@ -81,7 +85,6 @@ renderer.setAnimationLoop(() => {
   if (k !== tick) { tick = k; shared.uBoil.value = (k % 3) + 1; comp.mat.uniforms.uSeed.value = (k % 3) * 7.31; }
   shelf.userData.spin.rotation.y = t * 3.5;
   snk.children.at(-1).rotation.z = Math.sin(t * 2) * 0.15;  // head sway
-  m3.userData.head.rotation.z = Math.sin(t * 1.3) * 0.05;
 
   const cp = Math.cos(orbit.pitch);
   camera.position.set(target.x + Math.sin(orbit.yaw) * cp * orbit.dist, target.y + Math.sin(orbit.pitch) * orbit.dist, target.z + Math.cos(orbit.yaw) * cp * orbit.dist);

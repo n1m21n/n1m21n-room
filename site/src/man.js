@@ -1,71 +1,77 @@
-// Option B: the man as a 3D toon puppet built from primitives (r11 colours), seated on the stool.
+// The man: Blender-built skinned toon puppet (tools/build_man.py -> media/man/man.glb), dressed in the riso look.
+// Colours + shadow colours are man2d's (ek-pinjare-mai lib/man2d.py C / LIQUID); face = man2d features (tools/export_face.py).
 import * as THREE from 'three';
-import { mesh, toon, addInk } from './look.js';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { toon, addInk } from './look.js';
 import * as T from './textures.js';
 
-const { PAL } = T;
+const LOOK = {                                   // glTF material name -> toon options
+  skin: ['#F7A39F', { shadeCol: '#C0568E', shade: 1, ink: 0.011 }],
+  face: [null, { shadeCol: '#C0568E', shade: 0.35, ink: 0.013 }],
+  ear: ['#F7A39F', { shadeCol: '#C0568E', shade: 1, ink: 0.008 }],
+  tee: [null, { shadeCol: '#140B52', shade: 0.42, ink: 0.013, restUV: [1.5, 1.6] }],
+  collar: ['#B8B5F0', { shadeCol: '#3B2BB0', shade: 0.5, ink: 0.006 }],
+  pants: ['#3A49C9', { shadeCol: '#232A8F', shade: 1, ink: 0.012 }],
+  boot: ['#141026', { shadeCol: '#0B0B0B', shade: 0.5, ink: 0.012 }],
+  sole: ['#E8263F', { shadeCol: '#A3122E', shade: 1, ink: 0.008 }],
+  hair: ['#1A1438', { shadeCol: '#0B0820', shade: 0.6, ink: 0.014, twoSided: true }],
+  hair_hi: ['#7FA6FF', { shadeCol: '#3B2BB0', shade: 0.4, ink: false, unlit: true, onTop: true }],
+};
 
-function cap(r, len, color, opts) { return mesh(new THREE.CapsuleGeometry(r, len, 6, 14), color, opts); }
-function limb(a, b, r, color, opts) {                       // capsule from point a to point b
-  const d = new THREE.Vector3().subVectors(b, a), len = d.length();
-  const m = cap(r, Math.max(len - 2 * r, 0.001) + r * 0.6, color, opts);
-  m.position.copy(a).addScaledVector(d, 0.5);
-  m.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), d.normalize());
-  return m;
-}
-const v = (x, y, z) => new THREE.Vector3(x, y, z);
-
-export function man3d() {
-  const g = new THREE.Group();
-  const hipY = 0.74;
-
-  // legs: thighs forward, shins down, chunky boots with red soles
-  for (const s of [-1, 1]) {
-    const hip = v(s * 0.1, hipY, 0.02), knee = v(s * 0.13, hipY + 0.02, 0.42), ankle = v(s * 0.14, 0.12, 0.46);
-    g.add(limb(hip, knee, 0.085, PAL.pants, { ink: 0.012 }));
-    g.add(limb(knee, ankle, 0.072, PAL.pants, { ink: 0.012 }));
-    const boot = mesh(new THREE.BoxGeometry(0.13, 0.12, 0.26), PAL.boot, { ink: 0.01 });
-    boot.position.set(s * 0.14, 0.09, 0.52); g.add(boot);
-    const sole = mesh(new THREE.BoxGeometry(0.14, 0.035, 0.27), PAL.red, { ink: 0.008 });
-    sole.position.set(s * 0.14, 0.018, 0.52); g.add(sole);
+const faces = {};
+const texLoader = new THREE.TextureLoader();
+export function faceTex(name = 'neutral') {
+  if (!faces[name]) {
+    faces[name] = texLoader.load(`/media/man/face-${name}.webp`);
+    faces[name].colorSpace = THREE.SRGBColorSpace;
+    faces[name].anisotropy = 4;
+    faces[name].flipY = false;                   // glTF UV convention
   }
-
-  // torso in the liquid tee, slight forward lean
-  const torso = mesh(new THREE.CapsuleGeometry(0.17, 0.3, 6, 18).scale(1, 1, 0.72), null, { map: T.teeTex(), ink: 0.013 });
-  torso.position.set(0, hipY + 0.26, 0.02); torso.rotation.x = 0.1;
-  g.add(torso);
-
-  // arms: lav sleeves, skin forearms, hands resting on the knees
-  for (const s of [-1, 1]) {
-    const sh = v(s * 0.2, hipY + 0.44, 0.02), el = v(s * 0.24, hipY + 0.2, 0.18), hand = v(s * 0.15, hipY + 0.1, 0.4);
-    g.add(limb(sh, el, 0.06, PAL.lav, { ink: 0.011 }));
-    g.add(limb(el, hand, 0.045, PAL.skin, { ink: 0.01 }));
-    const h = mesh(new THREE.SphereGeometry(0.055, 12, 10).scale(1, 0.7, 1.2), PAL.skin, { ink: 0.009 });
-    h.position.copy(hand); g.add(h);
-  }
-
-  // neck + head (face texture front at +z) + hair cap and strands
-  g.add(at(cap(0.05, 0.06, PAL.skin, { ink: 0.009 }), 0, hipY + 0.52, 0.04));
-  const head = mesh(new THREE.SphereGeometry(0.17, 32, 24).scale(0.95, 1.05, 0.95), null, { map: T.faceTex(), ink: 0.013, shade: 0.25 });
-  head.position.set(0, hipY + 0.72, 0.05);
-  g.add(head);
-  const hair = mesh(new THREE.SphereGeometry(0.182, 28, 16, 0, Math.PI * 2, 0, Math.PI * 0.42), PAL.hair, { ink: 0.012 });
-  hair.position.copy(head.position).add(v(0, 0.015, -0.01)); hair.rotation.x = -0.25;
-  g.add(hair);
-  for (let i = 0; i < 6; i++) {                              // swept strands over the brow
-    const a = -0.9 + i * 0.36;
-    const st = mesh(new THREE.ConeGeometry(0.035, 0.16, 5), i % 3 ? PAL.hair : PAL.hairHi, { ink: 0.006 });
-    st.position.copy(head.position).add(v(Math.sin(a) * 0.15, 0.1, Math.cos(a) * 0.12));
-    st.rotation.set(1.9, a, 0.3);
-    g.add(st);
-  }
-  for (const s of [-1, 1]) {                                 // ears
-    const e = mesh(new THREE.SphereGeometry(0.04, 10, 8).scale(0.5, 1, 0.8), s < 0 ? PAL.skin : PAL.skinSh, { ink: 0.007 });
-    e.position.copy(head.position).add(v(s * 0.165, -0.01, 0)); g.add(e);
-  }
-  g.userData.head = head;
-  return g;
+  return faces[name];
 }
 
-function at(o, x, y, z) { o.position.set(x, y, z); return o; }
-export { addInk, toon };
+export async function loadMan() {
+  const gltf = await new GLTFLoader().loadAsync('/media/man/man.glb');
+  const root = gltf.scene;
+  const tee = T.teeTex(); tee.wrapS = tee.wrapT = THREE.RepeatWrapping;
+  const meshes = [];
+  root.traverse(o => { if (o.isMesh) meshes.push(o); });
+  for (const o of meshes) {
+    const [color, opts] = LOOK[o.material.name] || ['#ff00ff', {}];
+    const map = o.material.name === 'face' ? faceTex() : o.material.name === 'tee' ? tee : null;
+    o.material = toon(color, { ...opts, map });
+    if (opts.onTop) Object.assign(o.material, { side: THREE.DoubleSide, polygonOffset: true, polygonOffsetFactor: -6, polygonOffsetUnits: -6 });
+    if (opts.twoSided) o.material.side = THREE.DoubleSide;
+    o.frustumCulled = false;                       // skinned bounds don't follow the pose
+    if (opts.ink !== false) addInk(o, opts.ink);
+  }
+  const bones = {};
+  root.traverse(o => { if (o.isBone) { bones[o.name] = o; o.userData.rest = o.quaternion.clone(); } });
+  const head = meshes.find(o => o.material.uniforms.uMap.value === faces.neutral);
+  const man = { root, bones, head, pose: p => pose(man, p), face: n => { head.material.uniforms.uMap.value = faceTex(n); } };
+  return man;
+}
+
+// poses: per-bone euler deltas (radians, bone-local; +x swings a limb forward) applied on top of the rest pose
+const e = new THREE.Euler(), q = new THREE.Quaternion();
+export const POSES = {
+  stand: {},
+  seated: {
+    _y: -0.17,
+    thighL: [1.5, 0, 0], thighR: [1.5, 0, 0], shinL: [-1.45, 0, 0], shinR: [-1.45, 0, 0],
+    footL: [-0.1, 0, 0], footR: [-0.1, 0, 0],
+    spine: [0.06, 0, 0], chest: [0.06, 0, 0], neck: [-0.05, 0, 0], head: [-0.04, 0, 0],
+    upperarmL: [0.25, 0, -0.1], upperarmR: [0.25, 0, 0.1], forearmL: [0.7, 0, 0], forearmR: [0.7, 0, 0],
+    handL: [-0.7, 0, 0], handR: [-0.7, 0, 0],
+  },
+};
+
+function pose(man, p) {
+  const P = typeof p === 'string' ? POSES[p] : p;
+  for (const [name, b] of Object.entries(man.bones)) {
+    const d = P[name];
+    b.quaternion.copy(b.userData.rest);
+    if (d) b.quaternion.multiply(q.setFromEuler(e.set(d[0], d[1], d[2])));
+  }
+  man.root.position.y = P._y || 0;
+}

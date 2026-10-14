@@ -15,23 +15,33 @@ export const shared = {
   uWarm: { value: new THREE.Color('#FFD27A') },
 };
 
+// skinning chunks are no-ops on plain meshes (USE_SKINNING is defined only for SkinnedMesh)
 const toonVert = /* glsl */`
-  varying vec3 vN; varying vec3 vW; varying vec2 vUv;
+  #include <common>
+  #include <skinning_pars_vertex>
+  varying vec3 vN; varying vec3 vW; varying vec2 vUv; varying vec3 vRest;
   void main(){
-    vUv = uv;
-    vec4 w = modelMatrix * vec4(position,1.0);
-    vW = w.xyz; vN = normalize(mat3(modelMatrix) * normal);
+    vUv = uv; vRest = position;                        // rest-pose position: cloth patterns stick to the body
+    #include <beginnormal_vertex>
+    #include <skinbase_vertex>
+    #include <skinnormal_vertex>
+    #include <begin_vertex>
+    #include <skinning_vertex>
+    vec4 w = modelMatrix * vec4(transformed,1.0);
+    vW = w.xyz; vN = normalize(mat3(modelMatrix) * objectNormal);
     gl_Position = projectionMatrix * viewMatrix * w;
   }`;
 
 const toonFrag = /* glsl */`
   uniform vec3 uColor; uniform sampler2D uMap; uniform float uHasMap; uniform float uUnlit;
   uniform vec3 uKeyDir; uniform vec3 uLampPos; uniform float uLamp; uniform vec3 uShadeCol; uniform vec3 uWarm;
-  uniform float uShadeAmt;
-  varying vec3 vN; varying vec3 vW; varying vec2 vUv;
+  uniform float uShadeAmt; uniform float uRestUV; uniform vec2 uRestScale;
+  varying vec3 vN; varying vec3 vW; varying vec2 vUv; varying vec3 vRest;
   void main(){
     vec3 base = uColor;
-    if (uHasMap > 0.5) base = texture2D(uMap, vUv).rgb;
+    vec2 uv = vUv;
+    if (uRestUV > 0.5) uv = vec2(atan(vRest.x, vRest.z) / 6.2832 + 0.5, vRest.y) * uRestScale;   // cylindrical, rest pose
+    if (uHasMap > 0.5) base = texture2D(uMap, uv).rgb;
     if (uUnlit > 0.5) { gl_FragColor = vec4(base,1.0); return; }
     vec3 n = normalize(vN);
     float key = dot(n, uKeyDir);
@@ -45,12 +55,15 @@ const toonFrag = /* glsl */`
     #include <colorspace_fragment>
   }`;
 
-export function toon(color, { map = null, unlit = false, shade = 0.5 } = {}) {
+// shadeCol: the part's own shadow colour (2D man: skin_sh, pants_sh ...); default the room's indigo
+export function toon(color, { map = null, unlit = false, shade = 0.5, shadeCol = null, restUV = null } = {}) {
   return new THREE.ShaderMaterial({
     uniforms: {
       ...shared,
       uColor: { value: new THREE.Color(color || '#ffffff') },
       uMap: { value: map }, uHasMap: { value: map ? 1 : 0 }, uUnlit: { value: unlit ? 1 : 0 }, uShadeAmt: { value: shade },
+      uRestUV: { value: restUV ? 1 : 0 }, uRestScale: { value: new THREE.Vector2(...(restUV || [1, 1])) },
+      ...(shadeCol ? { uShadeCol: { value: new THREE.Color(shadeCol) } } : {}),
     },
     vertexShader: toonVert, fragmentShader: toonFrag,
   });
@@ -58,12 +71,19 @@ export function toon(color, { map = null, unlit = false, shade = 0.5 } = {}) {
 
 // inverted hull; width wobbles with a boil seed so lines "re-draw" on twos like the 2D film
 const hullVert = /* glsl */`
+  #include <common>
+  #include <skinning_pars_vertex>
   uniform float uW; uniform float uBoil;
   float h(vec3 p){ return fract(sin(dot(p, vec3(12.9898,78.233,37.719)) + uBoil*17.13) * 43758.5453); }
   void main(){
-    vec4 w = modelMatrix * vec4(position,1.0);
-    vec3 n = normalize(mat3(modelMatrix) * normal);
-    float j = 0.65 + 0.7 * h(floor(w.xyz * 9.0));
+    #include <beginnormal_vertex>
+    #include <skinbase_vertex>
+    #include <skinnormal_vertex>
+    #include <begin_vertex>
+    #include <skinning_vertex>
+    vec4 w = modelMatrix * vec4(transformed,1.0);
+    vec3 n = normalize(mat3(modelMatrix) * objectNormal);
+    float j = 0.65 + 0.7 * h(floor(position * 9.0));               // seeded in rest space so the boil doesn't crawl as he moves
     vec4 v = viewMatrix * w;
     float persp = clamp(-v.z / 6.0, 0.6, 1.6);                     // keep line weight even across depth
     w.xyz += n * uW * j * persp;
@@ -73,14 +93,16 @@ const hullFrag = /* glsl */`void main(){ gl_FragColor = vec4(1.0); }`;
 
 export function addInk(mesh, width = 0.012) {
   let g = mesh.geometry.clone();
-  for (const k of Object.keys(g.attributes)) if (k !== 'position') g.deleteAttribute(k);
+  for (const k of Object.keys(g.attributes)) if (!['position', 'skinIndex', 'skinWeight'].includes(k)) g.deleteAttribute(k);
   g = mergeVertices(g, 1e-4);
   g.computeVertexNormals();                               // smooth normals so hulls don't crack at box corners
   const m = new THREE.ShaderMaterial({
     uniforms: { uW: { value: width }, uBoil: shared.uBoil },
     vertexShader: hullVert, fragmentShader: hullFrag, side: THREE.BackSide,
   });
-  const hull = new THREE.Mesh(g, m);
+  let hull;
+  if (mesh.isSkinnedMesh) { hull = new THREE.SkinnedMesh(g, m); hull.bind(mesh.skeleton, mesh.bindMatrix); }
+  else hull = new THREE.Mesh(g, m);
   hull.layers.set(INK_LAYER);
   hull.renderOrder = 1;
   mesh.add(hull);
