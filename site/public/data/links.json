@@ -1,0 +1,27 @@
+{
+  "socials": [
+    {"id": "instagram", "label": "Instagram", "handle": "@n1m21n", "url": "https://www.instagram.com/n1m21n/"},
+    {"id": "x", "label": "X / Twitter", "handle": "@n1m21n", "url": "https://x.com/n1m21n"},
+    {"id": "youtube", "label": "YouTube", "handle": "@n1m21n", "url": "https://www.youtube.com/@n1m21n"},
+    {"id": "substack", "label": "Substack", "handle": "@n1m21n", "url": "https://substack.com/@n1m21n"},
+    {"id": "spotify", "label": "Spotify", "url": "https://open.spotify.com/artist/3gugf7oQFbrPsTpNT8EsBO"},
+    {"id": "apple_music", "label": "Apple Music", "url": "https://music.apple.com/in/artist/naman/1705841663"},
+    {"id": "youtube_music", "label": "YouTube Music", "url": "https://music.youtube.com/@n1m21n"},
+    {"id": "bandcamp", "label": "Bandcamp", "url": "https://n1m21n.bandcamp.com/"},
+    {"id": "github", "label": "GitHub", "handle": "n1m21n", "url": "https://github.com/n1m21n"}
+  ],
+  "software": [
+    {"id": "infinite", "label": "Infinite", "tagline": "a DAW for designers", "url": "https://infinitedevices.org", "source": "https://github.com/n1m21n/Infinite"}
+  ],
+  "timeline": [
+    {"from": 2017, "to": 2020, "label": "dance crew", "kind": "dance", "url": "https://www.youtube.com/watch?v=2Xsf6wzNTA4"},
+    {"from": 2019, "label": "started Procreate", "kind": "art"},
+    {"from": 2020, "label": "graduated Hansraj College, DU", "kind": "life"},
+    {"from": 2020, "label": "started Blender", "kind": "art"},
+    {"from": 2020, "label": "started Spark AR (augmented reality)", "kind": "art"},
+    {"from": 2023, "label": "MBA, IIM Ranchi", "kind": "life"},
+    {"from": 2024, "label": "started music: Logic, Ableton, Bitwig, Bespoke", "kind": "music", "note": "first release Species is dated 2023-11-22; owner to confirm"},
+    {"from": 2026, "label": "founded Infinite Devices", "kind": "software", "url": "https://infinitedevices.org"}
+  ],
+  "timeline_auto": "album release dates come from music.json; artwork dates from artworks.json (built later)"
+}
