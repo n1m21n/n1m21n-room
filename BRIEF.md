@@ -54,7 +54,7 @@ Live schedule (IST, proposal): 00-07 sleeps (lamp off) · 07-10 window · 10-17 
 | Infinite brand (for reference, not copied) | `~/infinte-main/website/brand.css` | |
 
 ## 4. Timeline (data: `site/public/data/links.json`)
-2017-2020 dance crew ([video](https://www.youtube.com/watch?v=2Xsf6wzNTA4)) · 2019 Procreate · 2020 Hansraj DU, Blender, Spark AR · 2023 MBA IIM Ranchi · 2024 music (Logic, Ableton, Bitwig, Bespoke) · 2024-26 releases (album dates) + artwork dates · 2026 founded Infinite Devices.
+2017-2020 dance crew ([video](https://www.youtube.com/watch?v=2Xsf6wzNTA4)) · 2019 Procreate · 2020 Hansraj DU, Blender, Spark AR · 2023 MBA IIM Ranchi · 2023 music (Logic, Ableton, Bitwig, Bespoke; first release Species 2023-11-22) · 2023-26 releases (album dates) + artwork dates · 2026 founded Infinite Devices.
 
 ## 4b. Socials (all `n1m21n`; in `links.json`)
 Instagram, X / Twitter, YouTube, Substack, Spotify, Apple Music, YouTube Music, Bandcamp, GitHub. Shown on the stool / bio panel + a persistent footer row; the dance video plays on the TV or timeline card.

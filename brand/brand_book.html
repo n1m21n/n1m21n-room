@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>naman · brand r1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;700;800&family=Space+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;600&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=DM+Mono:wght@400;500&family=Tiro+Devanagari+Hindi&display=swap" rel="stylesheet">
+<style>
+/* shared thermal palette (ek-pinjare-mai core.PAL + covers) */
+:root{
+  --ink:#0A0618; --deep:#140B52; --indigo:#2A1A9E; --blue:#2E3BDB; --volt:#3D5BFF; --violet:#5A22B8;
+  --lav:#B8B5F0; --mag:#E0368F; --red:#FF2E4A; --gold:#F6E27A; --cream:#F4EFA1; --white:#FBF8E8; --paper:#F1E9D2;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#1a1a1a;font-family:'Space Grotesk',sans-serif}
+.board{width:1440px;padding:56px 64px 64px;position:relative;overflow:hidden}
+.tag{font:600 12px/1 'JetBrains Mono',monospace;letter-spacing:.12em;text-transform:uppercase;opacity:.6;margin-bottom:14px}
+.grid{display:grid;gap:28px}
+h3{font:600 12px/1 'JetBrains Mono',monospace;letter-spacing:.14em;text-transform:uppercase;opacity:.55;margin-bottom:14px}
+.sw{display:flex;gap:10px}
+.sw div{width:96px;height:96px;border-radius:14px;display:flex;align-items:flex-end;padding:8px;font:500 10px/1.2 'JetBrains Mono',monospace}
+.row{display:flex;gap:28px;align-items:flex-start}
+
+/* ---------- A: NIGHT ROOM ---------- */
+.A{background:radial-gradient(1200px 700px at 78% 18%, #1c1478 0%, var(--ink) 62%);color:var(--white)}
+.A .word{font:800 168px/.85 'Syne',sans-serif;letter-spacing:-.05em;display:flex;align-items:center;gap:.08em}
+.A .word .sp{width:.62em;height:.62em;display:inline-block}
+.A .sub{font:400 15px/1.5 'JetBrains Mono',monospace;color:var(--lav);margin-top:18px}
+.A .card{background:rgba(20,11,82,.55);border:1.5px solid rgba(184,181,240,.28);border-radius:22px;padding:22px;backdrop-filter:blur(14px)}
+.A .btn{font:600 14px/1 'Space Grotesk';padding:14px 20px;border-radius:999px;border:0;background:var(--volt);color:var(--white);box-shadow:0 0 0 1.5px var(--volt),0 0 28px rgba(61,91,255,.55)}
+.A .btn.ghost{background:transparent;color:var(--white);box-shadow:inset 0 0 0 1.5px rgba(251,248,232,.45)}
+.A .chip{font:500 12px/1 'JetBrains Mono';padding:9px 12px;border-radius:999px;background:rgba(251,248,232,.07);border:1px solid rgba(251,248,232,.18);color:var(--white)}
+.A .help{display:inline-flex;align-items:center;gap:10px;font:500 14px 'Space Grotesk';padding:11px 16px 11px 12px;border-radius:999px;background:var(--white);color:var(--ink)}
+.A .help .dot{width:22px;height:22px;border-radius:50%;background:var(--mag);box-shadow:0 0 0 4px rgba(224,54,143,.25);animation:pulse 1.6s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 9px rgba(224,54,143,0)}}
+.A h1{font:800 54px/1 'Syne';letter-spacing:-.03em}
+.A h2{font:700 28px/1.1 'Syne';letter-spacing:-.02em}
+.A p{font:400 16px/1.55 'Space Grotesk';color:rgba(251,248,232,.78)}
+.A .mono{font:400 12px/1.5 'JetBrains Mono';color:var(--lav)}
+.A .thought{background:var(--white);color:var(--ink);border-radius:40px;padding:18px 24px;font:500 18px/1.35 'Space Grotesk';position:relative;max-width:330px}
+.A .thought:after,.A .thought:before{content:"";position:absolute;background:var(--white);border-radius:50%}
+.A .thought:after{width:18px;height:18px;left:34px;bottom:-22px}
+.A .thought:before{width:10px;height:10px;left:22px;bottom:-36px}
+
+/* ---------- B: SKETCHBOOK RISO ---------- */
+.B{background:var(--paper);color:var(--ink)}
+.B:before{content:"";position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");mix-blend-mode:multiply;pointer-events:none;opacity:.55}
+.B .word{font:800 190px/.9 'Bricolage Grotesque';font-stretch:75%;letter-spacing:-.01em;position:relative;display:block;width:max-content;padding-bottom:6px}
+.B .riso{position:relative;display:inline-block}
+.B .riso span{position:absolute;inset:0;mix-blend-mode:multiply}
+.B .riso .p1{color:var(--blue);transform:translate(-5px,3px)}
+.B .riso .p2{color:var(--mag);transform:translate(5px,-3px);opacity:.92}
+.B .riso .base{visibility:hidden;position:relative}
+.B .sub{font:500 15px/1.5 'DM Mono',monospace;margin-top:18px}
+.B .card{position:relative;padding:22px;isolation:isolate}
+.B .ln{position:relative;isolation:isolate}
+.B .ln:before,.B .card:before{content:'';position:absolute;inset:0;z-index:-1;background:var(--white);border:2.5px solid var(--ink);border-radius:inherit;box-shadow:6px 6px 0 var(--blue);filter:url(#boil)}
+.B .card{border-radius:6px}
+.B .btn{font:800 16px/1 'Bricolage Grotesque';padding:13px 20px;border:2.5px solid var(--ink);border-radius:999px;background:var(--gold);color:var(--ink);box-shadow:4px 4px 0 var(--ink)}
+.B .btn.ghost{background:transparent;box-shadow:none}
+.B .chip{font:500 12px/1 'DM Mono';padding:8px 11px;border:1.5px solid var(--ink);border-radius:4px;background:transparent}
+.B .help{display:inline-flex;align-items:center;gap:10px;font:700 15px 'Bricolage Grotesque';padding:10px 16px;border-radius:999px;color:var(--white)}
+.B .help.ln:before{background:var(--mag);box-shadow:4px 4px 0 var(--ink)}
+.B h1{font:800 60px/.95 'Bricolage Grotesque';font-stretch:75%;letter-spacing:-.02em}
+.B h2{font:800 30px/1 'Bricolage Grotesque';font-stretch:80%}
+.B p{font:400 16px/1.55 'Bricolage Grotesque'}
+.B .mono{font:400 12px/1.5 'DM Mono';opacity:.7}
+.B .thought{border-radius:46% 54% 50% 50%/60% 55% 45% 40%;padding:24px 30px;font:700 19px/1.3 'Bricolage Grotesque';max-width:340px}
+.B .thought.ln:before{box-shadow:5px 5px 0 var(--mag)}
+.B .tape{position:absolute;width:90px;height:26px;background:rgba(246,226,122,.75);top:-12px;left:40%;transform:rotate(-4deg)}
+
+/* player (both) */
+.player{display:flex;gap:16px;align-items:center;width:560px}
+.player img{width:84px;height:84px;border-radius:10px;object-fit:cover}
+.B .player img{border-radius:3px;border:2px solid var(--ink)}
+.player .meta{flex:1;min-width:0}
+.player canvas{width:100%;height:38px;display:block;margin:8px 0 6px}
+.ctrl{display:flex;gap:8px;align-items:center}
+.ic{width:38px;height:38px;border-radius:50%;display:grid;place-items:center}
+.A .ic{background:rgba(251,248,232,.08)} .A .ic.play{background:var(--white);color:var(--ink)}
+.B .ic{border:2px solid var(--ink)} .B .ic.play{background:var(--ink);color:var(--paper)}
+.album{width:180px}
+.album img{width:180px;height:180px;object-fit:cover;display:block}
+.A .album img{border-radius:12px;box-shadow:0 18px 40px rgba(0,0,0,.5)}
+.B .album img{border:2.5px solid var(--ink);box-shadow:5px 5px 0 var(--mag)}
+.hindi{font-family:'Tiro Devanagari Hindi',serif}
+.loader{width:120px;height:120px}
+.tl{display:flex;align-items:center;gap:0;margin-top:6px}
+.tl .y{font:600 11px 'JetBrains Mono';width:96px;text-align:left;position:relative;padding-top:18px}
+.tl .y:before{content:"";position:absolute;top:2px;left:0;width:10px;height:10px;border-radius:50%;background:currentColor}
+.tl .y:after{content:"";position:absolute;top:6px;left:12px;right:4px;height:2px;background:currentColor;opacity:.3}
+.A .tl .y{color:var(--lav)} .A .tl .y.hot{color:var(--gold)}
+.B .tl .y{font-family:'DM Mono'} .B .tl .y.hot{color:var(--mag)}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><filter id="boil"><feTurbulence id="turb" type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="1"/><feDisplacementMap in="SourceGraphic" scale="3.2"/></filter></svg>
+
+<!-- ================= A ================= -->
+<section class="board A" id="A">
+  <div class="tag">direction A · night room · glass over the 3D room</div>
+  <div class="row" style="justify-content:space-between;align-items:flex-end">
+    <div>
+      <div class="word">n<svg class="sp" viewBox="-50 -50 100 100" data-spiral="#3D5BFF"></svg>man</div>
+      <div class="sub">n1m21n · visual artist · electronic musician · creative technologist · dancer · delhi ncr</div>
+    </div>
+    <svg class="loader" viewBox="-60 -60 120 120" data-eye="A"></svg>
+  </div>
+
+  <div class="row" style="margin-top:44px">
+    <div>
+      <h3>colour</h3>
+      <div class="sw">
+        <div style="background:var(--ink);box-shadow:inset 0 0 0 1px #333">ink<br>#0A0618</div>
+        <div style="background:var(--deep)">deep<br>#140B52</div>
+        <div style="background:var(--volt)">volt<br>#3D5BFF</div>
+        <div style="background:var(--lav);color:var(--ink)">lav<br>#B8B5F0</div>
+        <div style="background:var(--white);color:var(--ink)">cream<br>#FBF8E8</div>
+        <div style="background:var(--mag)">mag<br>#E0368F</div>
+        <div style="background:var(--red)">red<br>#FF2E4A</div>
+        <div style="background:var(--gold);color:var(--ink)">spiral<br>#F6E27A</div>
+      </div>
+      <p class="mono" style="margin-top:10px">70% ink / deep · 20% volt · 10% cream · accents (mag, red, spiral) only on things you can touch</p>
+    </div>
+  </div>
+
+  <div class="row" style="margin-top:40px">
+    <div style="width:560px">
+      <h3>type</h3>
+      <h1>everything, all at once.</h1>
+      <h2 style="margin-top:14px">redhand · 2025</h2>
+      <p style="margin-top:12px">a hypnotic, dark, experimental techno album that felt undeniably powerful. <span class="hindi" style="color:var(--gold)">अँधेरा</span></p>
+      <p class="mono" style="margin-top:10px">syne 800 display · space grotesk 400–600 body · jetbrains mono meta · tiro devanagari</p>
+    </div>
+    <div>
+      <h3>controls</h3>
+      <div class="row" style="gap:12px;flex-wrap:wrap;width:520px">
+        <button class="btn">play album</button>
+        <button class="btn ghost">open on spotify ↗</button>
+        <span class="chip">spotify</span><span class="chip">apple music</span><span class="chip">bandcamp</span><span class="chip">substack</span>
+      </div>
+      <div style="margin-top:22px"><span class="help"><span class="dot"></span>tap the record shelf</span></div>
+      <div class="tl" style="margin-top:28px">
+        <div class="y">2017</div><div class="y">2019</div><div class="y">2020</div><div class="y hot">2023</div><div class="y">2024</div><div class="y hot">2026</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" style="margin-top:40px">
+    <div class="card"><h3>mini player</h3><div class="player" data-album="redhand"></div></div>
+    <div><h3>window thought</h3><div class="thought">observation is only the recollection of the past.</div></div>
+    <div><h3>sleeve</h3><div class="album"><img src="../site/public/media/covers/andhera-400.webp"></div></div>
+  </div>
+</section>
+
+<!-- ================= B ================= -->
+<section class="board B" id="B">
+  <div class="tag">direction B · sketchbook riso · paper cards on the 3D room</div>
+  <div class="row" style="justify-content:space-between;align-items:flex-end">
+    <div>
+      <div class="word riso"><span class="base">naman</span><span class="p1">naman</span><span class="p2">naman</span></div>
+      <div class="sub">n1m21n — visual artist / electronic musician / creative technologist / dancer — delhi ncr</div>
+    </div>
+    <svg class="loader" viewBox="-60 -60 120 120" data-eye="B" style="filter:url(#boil)"></svg>
+  </div>
+
+  <div class="row" style="margin-top:44px">
+    <div>
+      <h3>colour</h3>
+      <div class="sw">
+        <div style="background:var(--paper);box-shadow:inset 0 0 0 2px var(--ink)">paper<br>#F1E9D2</div>
+        <div style="background:var(--ink);color:var(--paper)">ink<br>#0A0618</div>
+        <div style="background:var(--blue);color:var(--white)">riso blue<br>#2E3BDB</div>
+        <div style="background:var(--mag);color:var(--white)">riso pink<br>#E0368F</div>
+        <div style="background:var(--gold)">spiral<br>#F6E27A</div>
+        <div style="background:var(--indigo);color:var(--white)">indigo<br>#2A1A9E</div>
+        <div style="background:var(--red);color:var(--white)">red<br>#FF2E4A</div>
+        <div style="background:var(--white);box-shadow:inset 0 0 0 2px var(--ink)">white<br>#FBF8E8</div>
+      </div>
+      <p class="mono" style="margin-top:10px">paper + ink always · two riso plates (blue + pink) printed slightly off-register · lines boil on twos</p>
+    </div>
+  </div>
+
+  <div class="row" style="margin-top:40px">
+    <div style="width:560px">
+      <h3>type</h3>
+      <h1>everything, all at once.</h1>
+      <h2 style="margin-top:14px">redhand · 2025</h2>
+      <p style="margin-top:12px">a hypnotic, dark, experimental techno album that felt undeniably powerful. <span class="hindi" style="color:var(--mag)">अँधेरा</span></p>
+      <p class="mono" style="margin-top:10px">bricolage grotesque condensed 800 display + body · dm mono meta · tiro devanagari</p>
+    </div>
+    <div>
+      <h3>controls</h3>
+      <div class="row" style="gap:12px;flex-wrap:wrap;width:520px">
+        <button class="btn">play album</button>
+        <button class="btn ghost">open on spotify ↗</button>
+        <span class="chip">spotify</span><span class="chip">apple music</span><span class="chip">bandcamp</span><span class="chip">substack</span>
+      </div>
+      <div style="margin-top:22px"><span class="help ln">☞ tap the record shelf</span></div>
+      <div class="tl" style="margin-top:28px">
+        <div class="y">2017</div><div class="y">2019</div><div class="y">2020</div><div class="y hot">2023</div><div class="y">2024</div><div class="y hot">2026</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" style="margin-top:40px">
+    <div class="card" style="position:relative"><div class="tape"></div><h3>mini player</h3><div class="player" data-album="redhand"></div></div>
+    <div><h3>window thought</h3><div class="thought ln">observation is only the recollection of the past.</div></div>
+    <div><h3>sleeve</h3><div class="album"><img src="../site/public/media/covers/andhera-400.webp"></div></div>
+  </div>
+</section>
+
+<script>
+const only = new URLSearchParams(location.search).get('only');
+if (only) document.querySelectorAll('.board').forEach(b => { if (b.id !== only) b.remove(); });
+const NS = 'http://www.w3.org/2000/svg';
+function spiralPath(turns = 3.2, r = 46, n = 220) {
+  let d = '';
+  for (let i = 0; i <= n; i++) {
+    const t = i / n, a = t * turns * Math.PI * 2, rr = t * r;
+    d += (i ? 'L' : 'M') + (Math.cos(a) * rr).toFixed(2) + ' ' + (Math.sin(a) * rr).toFixed(2);
+  }
+  return d;
+}
+document.querySelectorAll('[data-spiral]').forEach(svg => {
+  const p = document.createElementNS(NS, 'path');
+  p.setAttribute('d', spiralPath()); p.setAttribute('fill', 'none');
+  p.setAttribute('stroke', svg.dataset.spiral); p.setAttribute('stroke-width', '11'); p.setAttribute('stroke-linecap', 'round');
+  svg.appendChild(p);
+  svg.animate([{transform: 'rotate(0deg)'}, {transform: 'rotate(360deg)'}], {duration: 6000, iterations: Infinity});
+});
+// eye-with-spiral-iris mark = loader
+document.querySelectorAll('[data-eye]').forEach(svg => {
+  const A = svg.dataset.eye === 'A';
+  svg.innerHTML = `
+    <path d="M-56 0 Q0 -46 56 0 Q0 46 -56 0Z" fill="${A ? '#FBF8E8' : '#FBF8E8'}" stroke="${A ? 'none' : '#0A0618'}" stroke-width="4"/>
+    <circle r="27" fill="${A ? '#3D5BFF' : '#2E3BDB'}" stroke="${A ? 'none' : '#0A0618'}" stroke-width="4"/>
+    <g class="iris"><path d="${spiralPath(2.6, 22)}" fill="none" stroke="${A ? '#F6E27A' : '#F6E27A'}" stroke-width="4.5" stroke-linecap="round"/></g>
+    ${A ? '' : '<path d="M-56 0 Q0 -46 56 0" fill="none" stroke="#E0368F" stroke-width="4" transform="translate(3,-3)" opacity=".8"/>'}`;
+  svg.querySelector('.iris').animate([{transform: 'rotate(0)'}, {transform: 'rotate(-360deg)'}], {duration: 2400, iterations: Infinity});
+});
+// boil: re-seed the turbulence on twos (12 fps)
+let seed = 1; setInterval(() => { seed = seed % 3 + 1; document.getElementById('turb').setAttribute('seed', seed); }, 1000 / 6);
+
+// players with real data + waveform peaks
+fetch('../site/public/data/music.json').then(r => r.json()).then(data => {
+  document.querySelectorAll('.player').forEach(el => {
+    const al = data.albums.find(a => a.id === el.dataset.album), tr = al.tracks[1];
+    const A = !!el.closest('.A');
+    el.innerHTML = `<img src="../site/public/media/covers/${al.id}-400.webp"><div class="meta">
+      <div style="font:${A ? "700 18px 'Syne'" : "800 20px 'Bricolage Grotesque'"}">${tr.title.toLowerCase()}</div>
+      <div class="mono">${al.title.toLowerCase()} · ${al.released.slice(0, 4)} · ${String(tr.n).padStart(2, '0')}/${al.tracks.length}</div>
+      <canvas></canvas>
+      <div class="ctrl"><span class="ic">⏮</span><span class="ic play">▶</span><span class="ic">⏭</span><span class="mono" style="margin-left:auto">1:12 / ${Math.floor(tr.dur / 60)}:${String(Math.round(tr.dur % 60)).padStart(2, '0')}</span></div></div>`;
+    const c = el.querySelector('canvas'), dpr = 2; c.width = c.offsetWidth * dpr; c.height = 38 * dpr;
+    const g = c.getContext('2d'), n = tr.peaks.length, w = c.width / n;
+    tr.peaks.forEach((v, i) => {
+      const h = Math.max(2 * dpr, v / 99 * c.height);
+      g.fillStyle = i / n < .4 ? (A ? '#3D5BFF' : '#E0368F') : (A ? 'rgba(251,248,232,.28)' : 'rgba(10,6,24,.3)');
+      g.fillRect(i * w + w * .2, (c.height - h) / 2, w * .6, h);
+    });
+  });
+});
+</script>
+</body>
+</html>
