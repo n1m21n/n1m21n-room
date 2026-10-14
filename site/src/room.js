@@ -1,11 +1,12 @@
 // The Ek Pinjare Mai room (r11 layout) built from simple shapes. Units: metres; floor y = 0.
-// Room 9 x 9 x 3.4 in the film; the site uses the back half as a diorama (open front).
+// A closed 8 x 6 room; the right wall has the doorway to the gallery. Walls between camera and player are cut away.
 import * as THREE from 'three';
 import { mesh, toon, addInk, CUT_LAYER } from './look.js';
 import * as T from './textures.js';
 
 const { PAL } = T;
-const W = 8, D = 6, H = 3.4;                        // diorama: x -4..4, z -3..3
+export const W = 8, D = 6, H = 3.4;                 // x -4..4, z -3..3
+export const DOOR = { z0: 0.9, z1: 2.3, h: 2.4 };   // doorway in the right wall (x = +4) -> gallery
 
 function box(w, h, d, color, opts) { return mesh(new THREE.BoxGeometry(w, h, d), color, opts); }
 function cyl(rt, rb, h, color, opts, seg = 20) { return mesh(new THREE.CylinderGeometry(rt, rb, h, seg), color, opts); }
@@ -30,10 +31,18 @@ export function buildRoom() {
   const floor = new THREE.Mesh(fg, toon(null, { map: floorTex, shade: 0.35 }));
   floor.rotation.x = -Math.PI / 2;
   room.add(floor);
-  const back = at(box(W, H, 0.1, PAL.indigo, { ink: 0.008, shade: 0.35 }), 0, H / 2, -D / 2);
-  const left = at(box(0.1, H, D, PAL.plum, { ink: 0.008, shade: 0.35 }), -W / 2, H / 2, 0);
-  const right = at(box(0.1, H, D, PAL.plum, { ink: 0.008, shade: 0.35 }), W / 2, H / 2, 0);
-  room.add(back, left, right);
+  const wall = (w, h, d, c, x, y, z) => { const m = at(box(w, h, d, c, { ink: 0.008, shade: 0.35 }), x, y, z); m.userData.wall = true; walls.push(m); return m; };
+  const walls = [];
+  room.add(wall(W, H, 0.1, PAL.indigo, 0, H / 2, -D / 2));                       // back
+  room.add(wall(W, H, 0.1, PAL.indigo, 0, H / 2, D / 2));                        // front (cut away when the camera is outside)
+  room.add(wall(0.1, H, D, PAL.plum, -W / 2, H / 2, 0));                         // left
+  const r0 = DOOR.z0 + D / 2, r1 = D / 2 - DOOR.z1;                              // right wall: two pieces + lintel around the doorway
+  room.add(wall(0.1, H, r0, PAL.plum, W / 2, H / 2, -D / 2 + r0 / 2));
+  room.add(wall(0.1, H, r1, PAL.plum, W / 2, H / 2, D / 2 - r1 / 2));
+  room.add(wall(0.1, H - DOOR.h, DOOR.z1 - DOOR.z0, PAL.plum, W / 2, (H + DOOR.h) / 2, (DOOR.z0 + DOOR.z1) / 2));
+  const trim = (o) => { o.userData.wall = true; walls.push(o); room.add(o); };          // door trim cuts away with the wall
+  for (const z of [DOOR.z0, DOOR.z1]) trim(at(box(0.16, DOOR.h, 0.08, PAL.white, { ink: 0.009 }), W / 2 - 0.04, DOOR.h / 2, z));
+  trim(at(box(0.16, 0.08, DOOR.z1 - DOOR.z0 + 0.08, PAL.white, { ink: 0.009 }), W / 2 - 0.04, DOOR.h, (DOOR.z0 + DOOR.z1) / 2));
 
   // window with the night swirl sky
   const win = new THREE.Group();
@@ -119,7 +128,7 @@ export function buildRoom() {
   }
   room.add(at(mo, -3.3, 0, 0.8));
 
-  return { room, shelf, lamp };
+  return { room, shelf, lamp, walls, win, kb, gt };
 }
 
 export function stool() {

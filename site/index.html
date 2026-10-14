@@ -15,22 +15,31 @@
   .mark span { position:absolute; left:2px; top:-1px; color:var(--pink); mix-blend-mode:multiply; }
   .mark b { color:var(--blue); mix-blend-mode:multiply; font-weight:800; }
   .meta { font:400 11px/1.4 "DM Mono",monospace; text-align:right; background:var(--paper); padding:4px 8px; border:2px solid var(--ink); border-radius:6px; }
-  .seg { position:fixed; bottom:18px; left:50%; transform:translateX(-50%); display:flex; gap:6px; }
-  .seg button { font:500 12px 'DM Mono',monospace; background:var(--paper); color:var(--ink); border:2px solid var(--ink); border-radius:999px; padding:7px 14px; cursor:pointer; }
-  .seg button.on { background:var(--ink); color:var(--spiral); }
+  .pill, .chrome button { font:500 12px 'DM Mono',monospace; background:var(--paper); color:var(--ink); border:2px solid var(--ink); border-radius:999px; padding:7px 14px; cursor:pointer; pointer-events:auto; }
+  .right { display:flex; flex-direction:column; align-items:flex-end; gap:8px; }
+  #prompt { position:fixed; bottom:22px; left:50%; transform:translateX(-50%); background:var(--ink); color:var(--spiral); border-color:var(--ink); font-size:13px; }
+  #prompt kbd { font:inherit; background:var(--spiral); color:var(--ink); border-radius:4px; padding:0 5px; margin-right:6px; }
+  #toast { position:fixed; top:70px; left:50%; transform:translateX(-50%); max-width:min(520px, calc(100vw - 32px)); font:400 13px/1.45 'DM Mono',monospace; background:var(--paper); border:2px solid var(--ink); border-radius:8px; padding:10px 14px; text-align:center; }
+  .help { position:fixed; left:16px; bottom:18px; font:400 11px/1.5 'DM Mono',monospace; color:var(--paper); opacity:.75; pointer-events:none; }
+  #card { position:fixed; inset:0; margin:auto; width:min(560px, calc(100vw - 32px)); height:fit-content; max-height:calc(100vh - 40px); overflow:auto; background:var(--paper); border:2px solid var(--ink); border-radius:10px; padding:14px; box-shadow:6px 6px 0 var(--pink); }
+  #card img, #card video { width:100%; max-height:60vh; object-fit:contain; background:var(--ink); border-radius:4px; display:block; }
+  #card .cap { font:800 22px/1.1 'Bricolage Grotesque',sans-serif; font-stretch:75%; margin:12px 0 4px; }
+  #card .meta { font:400 12px 'DM Mono',monospace; margin:0 0 10px; } #card a { color:var(--blue); }
+  #card .x { font:500 12px 'DM Mono',monospace; background:var(--ink); color:var(--spiral); border:0; border-radius:999px; padding:7px 14px; cursor:pointer; }
+  [hidden] { display:none !important; }
+  @media (pointer:coarse) { .help { display:none; } }
 </style>
 </head>
 <body>
 <canvas id="c"></canvas>
 <div class="chrome">
   <div class="mark"><b>n1m21n</b><span>n1m21n</span></div>
-  <div class="meta">look test · round 1<br><span id="lbl"></span></div>
+  <div class="right"><div class="meta"><span id="lbl">the room</span></div><button id="view">view · 3rd person</button></div>
 </div>
-<div class="seg" id="seg">
-  <button data-m="A">A · 2d puppet</button>
-  <button data-m="B">B · 3d toon</button>
-  <button data-m="AB">both</button>
-</div>
+<button class="pill" id="prompt" hidden><kbd>E</kbd><span id="plabel"></span></button>
+<div id="toast" hidden></div>
+<div id="card" hidden></div>
+<div class="help">wasd / arrows move · shift run · drag look · wheel zoom · v view · e interact</div>
 <script type="module" src="/src/main.js"></script>
 </body>
 </html>
