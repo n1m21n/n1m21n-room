@@ -64,6 +64,12 @@ export const POSES = {
     upperarmL: [0.25, 0, -0.1], upperarmR: [0.25, 0, 0.1], forearmL: [0.7, 0, 0], forearmR: [0.7, 0, 0],
     handL: [-0.7, 0, 0], handR: [-0.7, 0, 0],
   },
+  lying: {                                       // on his back; player.js tips the root onto the mattress
+    _y: 0.72,
+    thighL: [0.35, 0, 0], shinL: [-0.7, 0, 0], footR: [0.3, 0, 0], footL: [0.15, 0, 0],
+    upperarmL: [0, 0, -0.25], upperarmR: [-0.2, 0, 1.9], forearmR: [1.4, 0, 0],
+    head: [0, 0.35, 0], neck: [0.15, 0, 0],
+  },
 };
 
 function pose(man, p) {

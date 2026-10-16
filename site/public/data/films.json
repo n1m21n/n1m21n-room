@@ -1,0 +1,160 @@
+{
+ "films": [
+  {
+   "id": "500-days-of-summer-2009",
+   "title": "(500) Days of Summer",
+   "year": 2009,
+   "poster": "media/films/500-days-of-summer-2009.webp"
+  },
+  {
+   "id": "127-hours-2010",
+   "title": "127 Hours",
+   "year": 2010,
+   "poster": "media/films/127-hours-2010.webp"
+  },
+  {
+   "id": "back-to-the-future-part-i-1985",
+   "title": "Back to the Future Part I",
+   "year": 1985,
+   "poster": "media/films/back-to-the-future-part-i-1985.webp"
+  },
+  {
+   "id": "back-to-the-future-part-ii-1989",
+   "title": "Back to the Future Part II",
+   "year": 1989,
+   "poster": "media/films/back-to-the-future-part-ii-1989.webp"
+  },
+  {
+   "id": "back-to-the-future-part-iii-1990",
+   "title": "Back to the Future Part III",
+   "year": 1990,
+   "poster": "media/films/back-to-the-future-part-iii-1990.webp"
+  },
+  {
+   "id": "before-sunset-2004",
+   "title": "Before Sunset",
+   "year": 2004,
+   "poster": "media/films/before-sunset-2004.webp"
+  },
+  {
+   "id": "bojack-horseman-2014",
+   "title": "BoJack Horseman",
+   "year": 2014,
+   "poster": "media/films/bojack-horseman-2014.webp"
+  },
+  {
+   "id": "dead-poets-society-1989",
+   "title": "Dead Poets Society",
+   "year": 1989,
+   "poster": "media/films/dead-poets-society-1989.webp"
+  },
+  {
+   "id": "eternal-sunshine-of-the-spotless-mind-2004",
+   "title": "Eternal Sunshine of the Spotless Mind",
+   "year": 2004,
+   "poster": "media/films/eternal-sunshine-of-the-spotless-mind-2004.webp"
+  },
+  {
+   "id": "good-will-hunting-1997",
+   "title": "Good Will Hunting",
+   "year": 1997,
+   "poster": "media/films/good-will-hunting-1997.webp"
+  },
+  {
+   "id": "hamnet-2025",
+   "title": "Hamnet",
+   "year": 2025,
+   "poster": "media/films/hamnet-2025.webp"
+  },
+  {
+   "id": "her-2013",
+   "title": "Her",
+   "year": 2013,
+   "poster": "media/films/her-2013.webp"
+  },
+  {
+   "id": "legion-the-x-men-series-2017",
+   "title": "Legion - The X-Men Series",
+   "year": 2017,
+   "poster": "media/films/legion-the-x-men-series-2017.webp"
+  },
+  {
+   "id": "little-miss-sunshine-2006",
+   "title": "Little Miss Sunshine",
+   "year": 2006,
+   "poster": "media/films/little-miss-sunshine-2006.webp"
+  },
+  {
+   "id": "looper-2012",
+   "title": "Looper",
+   "year": 2012,
+   "poster": "media/films/looper-2012.webp"
+  },
+  {
+   "id": "moon-2009",
+   "title": "Moon",
+   "year": 2009,
+   "poster": "media/films/moon-2009.webp"
+  },
+  {
+   "id": "predestination-2014",
+   "title": "Predestination",
+   "year": 2014,
+   "poster": "media/films/predestination-2014.webp"
+  },
+  {
+   "id": "rick-and-morty-2013",
+   "title": "Rick and Morty",
+   "year": 2013,
+   "poster": "media/films/rick-and-morty-2013.webp"
+  },
+  {
+   "id": "shutter-island-2010",
+   "title": "Shutter Island",
+   "year": 2010,
+   "poster": "media/films/shutter-island-2010.webp"
+  },
+  {
+   "id": "spirited-away-2001",
+   "title": "Spirited Away",
+   "year": 2001,
+   "poster": "media/films/spirited-away-2001.webp"
+  },
+  {
+   "id": "the-big-bang-theory-2007",
+   "title": "The Big Bang Theory",
+   "year": 2007,
+   "poster": "media/films/the-big-bang-theory-2007.webp"
+  },
+  {
+   "id": "the-butterfly-effect-2004",
+   "title": "The Butterfly Effect",
+   "year": 2004,
+   "poster": "media/films/the-butterfly-effect-2004.webp"
+  },
+  {
+   "id": "the-office-2005",
+   "title": "The Office",
+   "year": 2005,
+   "poster": "media/films/the-office-2005.webp"
+  },
+  {
+   "id": "the-purge-2013",
+   "title": "The Purge",
+   "year": 2013,
+   "poster": "media/films/the-purge-2013.webp"
+  },
+  {
+   "id": "the-truman-show-1998",
+   "title": "The Truman Show",
+   "year": 1998,
+   "poster": "media/films/the-truman-show-1998.webp"
+  },
+  {
+   "id": "under-the-skin-2013",
+   "title": "Under the Skin",
+   "year": 2013,
+   "poster": "media/films/under-the-skin-2013.webp"
+  }
+ ]
+}

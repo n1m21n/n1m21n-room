@@ -186,27 +186,40 @@ def build_body():
     return objs
 
 
-def hand(s):
-    """Big cartoon hand hanging down: palm + four fingers + thumb (2D hands are large and readable)."""
+FINGERS = ("idx", "mid", "rng", "pky")
+HK = 1.35                                                         # 2D hands read big
+
+
+def hand_joints(s):
+    """Joint points of one hand: palm (wrist -> knuckles), four fingers [base, middle, tip], thumb [base, middle, tip]."""
     x = 1 if s == "L" else -1
     wr, fi = V(f"wr.{s}"), V(f"fi.{s}")
     d = (fi - wr).normalized()
-    side = Vector((1, 0, 0))
-    fwd = Vector((0, -1, 0))
-    k = 1.35                                                      # 2D hands read big
-    pts = [wr, wr + d * 0.07 * k]
-    edges = [(0, 1)]
-    rad = [(0.032 * k, 0.024 * k), (0.046 * k, 0.022 * k)]
+    side, fwd, k = Vector((1, 0, 0)), Vector((0, -1, 0)), HK
+    fingers = {}
     for i, off in enumerate((-0.03, -0.01, 0.01, 0.03)):          # index (front, -y) -> little (back)
         L = (0.07, 0.082, 0.078, 0.062)[i] * k
         b = wr + d * 0.075 * k + fwd * (-off * k)
+        fingers[FINGERS[i]] = [b, b + d * L * 0.55, b + d * L]
+    tb = wr + (d * 0.03 + fwd * 0.03 + side * x * -0.012) * k
+    fingers["thb"] = [tb, tb + (d * 0.035 + fwd * 0.02) * k, tb + (d * 0.065 + fwd * 0.025) * k]
+    return wr, wr + d * 0.07 * k, fingers
+
+
+def hand(s):
+    """Big cartoon hand hanging down: palm + four fingers + thumb, each finger on its own two bones."""
+    k = HK
+    wr, knuck, fingers = hand_joints(s)
+    pts = [wr, knuck]
+    edges = [(0, 1)]
+    rad = [(0.032 * k, 0.024 * k), (0.046 * k, 0.022 * k)]
+    for n in FINGERS:
         a = len(pts)
-        pts += [b, b + d * L * 0.55, b + d * L]
+        pts += fingers[n]
         rad += [0.014 * k, 0.013 * k, 0.0115 * k]
         edges += [(1, a), (a, a + 1), (a + 1, a + 2)]
     a = len(pts)
-    tb = wr + (d * 0.03 + fwd * 0.03 + side * x * -0.012) * k
-    pts += [tb, tb + (d * 0.035 + fwd * 0.02) * k, tb + (d * 0.065 + fwd * 0.025) * k]
+    pts += fingers["thb"]
     rad += [0.017 * k, 0.014 * k, 0.012 * k]
     edges += [(0, a), (a, a + 1), (a + 1, a + 2)]
     return skin_mesh(f"hand.{s}", pts, edges, rad, "skin", subd=1)
@@ -355,15 +368,21 @@ def build_hair():
 
 
 # ---------------------------------------------------------------- armature + weights
+FINGER_BONES = []                                                 # name, head, tail, parent (points, not joint keys)
+for _s in "LR":
+    _wr, _kn, _f = hand_joints(_s)
+    for _n, (_a, _b, _c) in _f.items():
+        FINGER_BONES += [(f"{_n}1.{_s}", _a, _b, f"hand.{_s}"), (f"{_n}2.{_s}", _b, _c, f"{_n}1.{_s}")]
+
 def build_armature():
     arm = bpy.data.armatures.new("rig")
     ob = bpy.data.objects.new("man", arm)
     bpy.context.collection.objects.link(ob)
     bpy.context.view_layer.objects.active = ob
     bpy.ops.object.mode_set(mode="EDIT")
-    for name, h, t, parent in BONES:
+    for name, h, t, parent in BONES + FINGER_BONES:
         b = arm.edit_bones.new(name)
-        b.head, b.tail = V(h), V(t)
+        b.head, b.tail = (V(h), V(t)) if isinstance(h, str) else (h, t)
         b.align_roll(Vector((0, 0, 1)) if name.startswith("foot") else Vector((0, -1, 0)))   # local Z faces forward: bends are local-X turns
         if parent:
             b.parent = arm.edit_bones[parent]
@@ -381,6 +400,11 @@ def seg_dist(p, a, b):
 def weight(ob, rig, bones):
     """Smooth weights over a short candidate list: inverse distance^4 to each bone segment, top 2 kept."""
     segs = {n: (V(h), V(t)) for n, h, t, _ in BONES if n in bones}
+    segs.update({n: (h, t) for n, h, t, _ in FINGER_BONES if n in bones})
+    for n in bones:                                              # the hand bone only owns the palm (wrist -> knuckles)
+        if n.startswith("hand."):
+            wr, kn, _ = hand_joints(n[-1])
+            segs[n] = (wr, kn)
     groups = {n: ob.vertex_groups.new(name=n) for n in bones}
     for v in ob.data.vertices:
         d = sorted(((seg_dist(v.co, *segs[n]), n) for n in bones))[:2]
@@ -407,7 +431,7 @@ def main():
             s = n[-1]
             weight(ob, rig, ["chest", f"upperarm.{s}", f"forearm.{s}", f"hand.{s}"])
         elif n.startswith("hand."):
-            weight(ob, rig, [f"hand.{n[-1]}"])
+            weight(ob, rig, [f"hand.{n[-1]}"] + [f"{f}{i}.{n[-1]}" for f in FINGERS + ("thb",) for i in (1, 2)])
         elif n == "tee":
             weight(ob, rig, ["hips", "spine", "chest", "upperarm.L", "upperarm.R"])
         elif n.startswith("sleeve."):

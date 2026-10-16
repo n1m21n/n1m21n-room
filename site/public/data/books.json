@@ -1,0 +1,113 @@
+{
+ "books": [
+  {
+   "id": "analytic-idealism-in-a-nutshell",
+   "title": "Analytic Idealism in a Nutshell",
+   "author": "Bernardo Kastrup",
+   "cover": "media/books/analytic-idealism-in-a-nutshell.webp"
+  },
+  {
+   "id": "consciousness-and-fundamental-reality",
+   "title": "Consciousness and Fundamental Reality",
+   "author": "Philip Goff",
+   "cover": "media/books/consciousness-and-fundamental-reality.webp"
+  },
+  {
+   "id": "determined-a-science-of-life-without-free-will",
+   "title": "Determined - A Science of Life Without Free Will",
+   "author": "Robert Sapolsky",
+   "cover": "media/books/determined-a-science-of-life-without-free-will.webp"
+  },
+  {
+   "id": "essays-and-aphorisms",
+   "title": "Essays and Aphorisms",
+   "author": "Arthur Schopenhauer",
+   "cover": "media/books/essays-and-aphorisms.webp"
+  },
+  {
+   "id": "freedom-from-the-known",
+   "title": "Freedom from the Known",
+   "author": "Jiddu Krishnamurti",
+   "cover": "media/books/freedom-from-the-known.webp"
+  },
+  {
+   "id": "galileo-s-error-foundations-for-a-new-science-of-consciousness",
+   "title": "Galileo's Error - Foundations for a New Science of Consciousness",
+   "author": "Philip Goff",
+   "cover": "media/books/galileo-s-error-foundations-for-a-new-science-of-consciousness.webp"
+  },
+  {
+   "id": "hamnet",
+   "title": "Hamnet",
+   "author": "Maggie O'Farrell",
+   "cover": "media/books/hamnet.webp"
+  },
+  {
+   "id": "if-you-meet-the-buddha-on-the-road-kill-him",
+   "title": "If You Meet the Buddha on the Road, Kill Him",
+   "author": "Sheldon Kopp",
+   "cover": "media/books/if-you-meet-the-buddha-on-the-road-kill-him.webp"
+  },
+  {
+   "id": "shoe-dog",
+   "title": "Shoe Dog",
+   "author": "Phil Knight",
+   "cover": "media/books/shoe-dog.webp"
+  },
+  {
+   "id": "talent-is-overrated",
+   "title": "Talent Is Overrated",
+   "author": "Geoff Colvin",
+   "cover": "media/books/talent-is-overrated.webp"
+  },
+  {
+   "id": "the-art-of-impossible",
+   "title": "The Art of Impossible",
+   "author": "Steven Kotler",
+   "cover": "media/books/the-art-of-impossible.webp"
+  },
+  {
+   "id": "the-laws-of-human-nature",
+   "title": "The Laws of Human Nature",
+   "author": "Robert Greene",
+   "cover": "media/books/the-laws-of-human-nature.webp"
+  },
+  {
+   "id": "the-metamorphosis",
+   "title": "The Metamorphosis",
+   "author": "Franz Kafka",
+   "cover": "media/books/the-metamorphosis.webp"
+  },
+  {
+   "id": "thinking-fast-and-slow",
+   "title": "Thinking, Fast and Slow",
+   "author": "Daniel Kahneman",
+   "cover": "media/books/thinking-fast-and-slow.webp"
+  },
+  {
+   "id": "this-is-your-brain-on-music",
+   "title": "This Is Your Brain on Music",
+   "author": "Daniel J. Levitin",
+   "cover": "media/books/this-is-your-brain-on-music.webp"
+  },
+  {
+   "id": "wholeness-and-the-implicate-order",
+   "title": "Wholeness and the Implicate Order",
+   "author": "David Bohm",
+   "cover": "media/books/wholeness-and-the-implicate-order.webp"
+  },
+  {
+   "id": "why-materialism-is-baloney",
+   "title": "Why Materialism Is Baloney",
+   "author": "Bernardo Kastrup",
+   "cover": "media/books/why-materialism-is-baloney.webp"
+  },
+  {
+   "id": "unreleased",
+   "title": "untitled",
+   "author": "Naman",
+   "cover": null,
+   "unreleased": true
+  }
+ ]
+}

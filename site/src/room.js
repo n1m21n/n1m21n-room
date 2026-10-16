@@ -14,7 +14,7 @@ function at(o, x, y, z, ry = 0) { o.position.set(x, y, z); o.rotation.y = ry; re
 
 function framed(tex, w, h, x, y, z, ry = 0) {
   const g = new THREE.Group();
-  g.add(box(w + 0.12, h + 0.12, 0.06, PAL.red, { ink: 0.01 }));
+  g.add(box(w + 0.12, h + 0.12, 0.06, PAL.red, { ink: 0.01, mat: 'paint' }));
   const art = new THREE.Mesh(new THREE.PlaneGeometry(w, h), toon(null, { map: tex, unlit: true }));
   art.position.z = 0.032;
   g.add(art);
@@ -28,29 +28,31 @@ export function buildRoom() {
   const floorTex = T.checkerTex();
   const fg = new THREE.PlaneGeometry(W, D), fuv = fg.attributes.uv;
   for (let i = 0; i < fuv.count; i++) fuv.setXY(i, fuv.getX(i) * W / 1.5, fuv.getY(i) * D / 1.5);   // 0.75 m tiles (shader ignores .repeat)
-  const floor = new THREE.Mesh(fg, toon(null, { map: floorTex, shade: 0.35 }));
+  const floor = new THREE.Mesh(fg, toon(null, { map: floorTex, shade: 0.35, mat: 'lino' }));
   floor.rotation.x = -Math.PI / 2;
   room.add(floor);
-  const wall = (w, h, d, c, x, y, z) => { const m = at(box(w, h, d, c, { ink: 0.008, shade: 0.35 }), x, y, z); m.userData.wall = true; walls.push(m); return m; };
+  const wall = (w, h, d, c, x, y, z) => { const m = at(box(w, h, d, c, { ink: 0.008, shade: 0.35, mat: 'plaster' }), x, y, z); m.userData.wall = true; walls.push(m); return m; };
   const walls = [];
   room.add(wall(W, H, 0.1, PAL.indigo, 0, H / 2, -D / 2));                       // back
   room.add(wall(W, H, 0.1, PAL.indigo, 0, H / 2, D / 2));                        // front (cut away when the camera is outside)
   room.add(wall(0.1, H, D, PAL.plum, -W / 2, H / 2, 0));                         // left
-  const r0 = DOOR.z0 + D / 2, r1 = D / 2 - DOOR.z1;                              // right wall: two pieces + lintel around the doorway
-  room.add(wall(0.1, H, r0, PAL.plum, W / 2, H / 2, -D / 2 + r0 / 2));
-  room.add(wall(0.1, H, r1, PAL.plum, W / 2, H / 2, D / 2 - r1 / 2));
-  room.add(wall(0.1, H - DOOR.h, DOOR.z1 - DOOR.z0, PAL.plum, W / 2, (H + DOOR.h) / 2, (DOOR.z0 + DOOR.z1) / 2));
-  const trim = (o) => { o.userData.wall = true; walls.push(o); room.add(o); };          // door trim cuts away with the wall
-  for (const z of [DOOR.z0, DOOR.z1]) trim(at(box(0.16, DOOR.h, 0.08, PAL.white, { ink: 0.009 }), W / 2 - 0.04, DOOR.h / 2, z));
-  trim(at(box(0.16, 0.08, DOOR.z1 - DOOR.z0 + 0.08, PAL.white, { ink: 0.009 }), W / 2 - 0.04, DOOR.h, (DOOR.z0 + DOOR.z1) / 2));
+  // right wall: two pieces + lintel around the doorway. The chase camera stops at these (`arm`) rather than cutting
+  // them away: passing through the doorway used to blink the whole wall off and on
+  const r0 = DOOR.z0 + D / 2, r1 = D / 2 - DOOR.z1, arm = m => { m.userData.arm = true; return m; };
+  room.add(arm(wall(0.1, H, r0, PAL.plum, W / 2, H / 2, -D / 2 + r0 / 2)));
+  room.add(arm(wall(0.1, H, r1, PAL.plum, W / 2, H / 2, D / 2 - r1 / 2)));
+  room.add(arm(wall(0.1, H - DOOR.h, DOOR.z1 - DOOR.z0, PAL.plum, W / 2, (H + DOOR.h) / 2, (DOOR.z0 + DOOR.z1) / 2)));
+  const trim = (o) => { o.userData.wall = true; o.userData.arm = true; walls.push(o); room.add(o); };
+  for (const z of [DOOR.z0, DOOR.z1]) trim(at(box(0.16, DOOR.h, 0.08, PAL.white, { ink: 0.009, mat: 'paint', matAxis: 'y' }), W / 2 - 0.04, DOOR.h / 2, z));
+  trim(at(box(0.16, 0.08, DOOR.z1 - DOOR.z0 + 0.08, PAL.white, { ink: 0.009, mat: 'paint', matAxis: 'z' }), W / 2 - 0.04, DOOR.h, (DOOR.z0 + DOOR.z1) / 2));
 
   // window with the night swirl sky
   const win = new THREE.Group();
   const sky = new THREE.Mesh(new THREE.PlaneGeometry(1.7, 1.35), toon(null, { map: T.skyTex(), unlit: true }));
   sky.position.z = 0.01; win.add(sky);
   for (const [w, h, x, y] of [[1.86, 0.09, 0, 0.72], [1.86, 0.09, 0, -0.72], [0.09, 1.5, -0.89, 0], [0.09, 1.5, 0.89, 0], [1.7, 0.06, 0, 0.05], [0.06, 1.35, 0, 0]])
-    win.add(at(box(w, h, 0.08, PAL.white, { ink: 0.009 }), x, y, 0.05));
-  win.add(at(box(2.0, 0.08, 0.22, PAL.white, { ink: 0.009 }), 0, -0.79, 0.12));   // sill
+    win.add(at(box(w, h, 0.08, PAL.white, { ink: 0.009, mat: 'paint', matAxis: w > h ? 'x' : 'y' }), x, y, 0.05));
+  win.add(at(box(2.0, 0.08, 0.22, PAL.white, { ink: 0.009, mat: 'paint' }), 0, -0.79, 0.12));   // sill
   room.add(at(win, -1.7, 2.0, -D / 2 + 0.06));
 
   room.add(framed(T.eyePaintingTex(), 0.9, 0.7, 0.75, 2.25, -D / 2 + 0.08));
@@ -59,46 +61,47 @@ export function buildRoom() {
 
   // record shelf + turntable (back right)
   const shelf = new THREE.Group();
-  shelf.add(at(box(1.8, 0.7, 0.42, PAL.wood, { ink: 0.012 }), 0, 0.35, 0));
+  shelf.add(at(box(1.8, 0.7, 0.42, PAL.wood, { ink: 0.012, mat: 'wood' }), 0, 0.35, 0));
   const spines = new THREE.Mesh(new THREE.PlaneGeometry(1.66, 0.56), toon(null, { map: T.spinesTex(), unlit: true }));
   spines.position.set(0, 0.35, 0.215); shelf.add(spines);
-  shelf.add(at(box(0.7, 0.14, 0.42, PAL.white, { ink: 0.01 }), 0.35, 0.77, 0));
-  const disc = at(cyl(0.18, 0.18, 0.02, PAL.ink, { ink: 0.006 }), 0.32, 0.85, 0);
-  disc.add(at(cyl(0.06, 0.06, 0.025, PAL.red, { ink: false }), 0, 0, 0));
+  shelf.add(at(box(0.7, 0.14, 0.42, PAL.white, { ink: 0.01, mat: 'plastic' }), 0.35, 0.77, 0));
+  const disc = at(cyl(0.18, 0.18, 0.02, PAL.ink, { ink: 0.006, mat: 'vinyl' }), 0.32, 0.85, 0);
+  const label = at(cyl(0.075, 0.075, 0.025, PAL.red, { ink: false }, 32), 0, 0, 0);   // main.js puts the playing cover on it
+  disc.add(label);
   shelf.add(disc);
-  shelf.userData.spin = disc;
+  shelf.userData.spin = disc; shelf.userData.label = label;
   room.add(at(shelf, 1.3, 0, -D / 2 + 0.32));
 
   // keyboard on an X stand (front left)
   const kb = new THREE.Group();
-  kb.add(at(box(1.25, 0.1, 0.36, '#241c4f', { ink: 0.012 }), 0, 0.82, 0));
+  kb.add(at(box(1.25, 0.1, 0.36, '#241c4f', { ink: 0.012, mat: 'plastic' }), 0, 0.98, 0));       // keys at 1.03: standing height
   const keys = new THREE.Mesh(new THREE.PlaneGeometry(1.1, 0.18), toon(null, { map: T.keysTex(), unlit: true }));
-  keys.rotation.x = -Math.PI / 2; keys.position.set(0, 0.872, 0.06); kb.add(keys);
-  for (const [c, x] of [[PAL.white, -0.5], [PAL.white, -0.42], [PAL.spiral, -0.34], [PAL.white, -0.26]]) kb.add(at(cyl(0.022, 0.022, 0.03, c, { ink: 0.005 }), x, 0.885, -0.11));
-  kb.add(at(box(0.26, 0.012, 0.06, PAL.teal, { ink: 0.005 }), 0.38, 0.875, -0.11));
+  keys.rotation.x = -Math.PI / 2; keys.position.set(0, 1.032, 0.06); kb.add(keys);
+  for (const [c, x] of [[PAL.white, -0.5], [PAL.white, -0.42], [PAL.spiral, -0.34], [PAL.white, -0.26]]) kb.add(at(cyl(0.022, 0.022, 0.03, c, { ink: 0.005 }), x, 1.045, -0.11));
+  kb.add(at(box(0.26, 0.012, 0.06, PAL.teal, { ink: 0.005 }), 0.38, 1.035, -0.11));
   for (const s of [-1, 1]) {
-    const leg = box(0.04, 1.05, 0.04, PAL.ink, { ink: false });
-    leg.position.set(0, 0.42, 0); leg.rotation.z = s * 0.72; kb.add(leg);
+    const leg = box(0.04, 1.24, 0.04, PAL.ink, { ink: false, mat: 'metal', matAxis: 'y' });
+    leg.position.set(0, 0.47, 0); leg.rotation.z = s * 0.72; kb.add(leg);
   }
-  room.add(at(kb, -2.4, 0, -0.6, 0.12));
+  room.add(at(kb, -2.2, 0, 0.15, 0.08));
 
   // guitar leaning by the shelf
   const gt = new THREE.Group();
   const body = new THREE.Group();
-  body.add(at(mesh(new THREE.SphereGeometry(0.23, 24, 16).scale(1, 1, 0.32), PAL.wood, { ink: 0.012 }), 0, 0, 0));
-  body.add(at(mesh(new THREE.SphereGeometry(0.17, 24, 16).scale(1, 1, 0.32), PAL.wood, { ink: 0.012 }), 0, 0.3, 0));
+  body.add(at(mesh(new THREE.SphereGeometry(0.23, 24, 16).scale(1, 1, 0.32), PAL.wood, { ink: 0.012, mat: 'wood', matAxis: 'y' }), 0, 0, 0));
+  body.add(at(mesh(new THREE.SphereGeometry(0.17, 24, 16).scale(1, 1, 0.32), PAL.wood, { ink: 0.012, mat: 'wood', matAxis: 'y' }), 0, 0.3, 0));
   const hole = at(cyl(0.07, 0.07, 0.01, PAL.ink, { ink: false }), 0, 0.2, 0.075); hole.rotation.x = Math.PI / 2; body.add(hole);
-  body.add(at(box(0.07, 0.7, 0.04, '#5A2A1A', { ink: 0.008 }), 0, 0.72, 0));
-  body.add(at(box(0.1, 0.16, 0.05, '#5A2A1A', { ink: 0.008 }), 0, 1.12, 0));
+  body.add(at(box(0.07, 0.7, 0.04, '#5A2A1A', { ink: 0.008, mat: 'wood', matAxis: 'y' }), 0, 0.72, 0));
+  body.add(at(box(0.1, 0.16, 0.05, '#5A2A1A', { ink: 0.008, mat: 'wood', matAxis: 'y' }), 0, 1.12, 0));
   body.position.y = 0.25; body.rotation.z = 0.12; gt.add(body);
-  room.add(at(gt, 2.55, 0, -1.9, -0.3));
+  room.add(at(gt, 2.55, 0, -1.9, -0.3)); gt.userData.body = body; body.name = 'guitar';
 
   // snake plant in an orange pot
   const sp = new THREE.Group();
-  sp.add(at(cyl(0.22, 0.17, 0.42, PAL.orange, { ink: 0.012 }), 0, 0.21, 0));
+  sp.add(at(cyl(0.22, 0.17, 0.42, PAL.orange, { ink: 0.012, mat: 'clay' }), 0, 0.21, 0));
   for (let i = 0; i < 9; i++) {
     const a = i / 9 * Math.PI * 2, h = 0.7 + (i * 37 % 10) / 22;
-    const blade = mesh(new THREE.ConeGeometry(0.06, h, 4).scale(1, 1, 0.3), i % 2 ? PAL.green : PAL.greenD, { ink: 0.007 });
+    const blade = mesh(new THREE.ConeGeometry(0.06, h, 4).scale(1, 1, 0.3), i % 2 ? PAL.green : PAL.greenD, { ink: 0.007, mat: 'blade' });
     blade.position.set(Math.cos(a) * 0.08, 0.42 + h / 2, Math.sin(a) * 0.08);
     blade.rotation.set(Math.sin(a) * 0.25, a, -Math.cos(a) * 0.25);
     sp.add(blade);
@@ -107,9 +110,9 @@ export function buildRoom() {
 
   // floor lamp (front right) + light pool decal
   const lamp = new THREE.Group();
-  lamp.add(at(cyl(0.2, 0.22, 0.04, PAL.ink, { ink: false }), 0, 0.02, 0));
-  lamp.add(at(cyl(0.018, 0.018, 1.75, PAL.ink, { ink: false }), 0, 0.9, 0));
-  lamp.add(at(cyl(0.15, 0.3, 0.34, PAL.spiral, { ink: 0.012 }), 0, 1.86, 0));
+  lamp.add(at(cyl(0.2, 0.22, 0.04, PAL.ink, { ink: false, mat: 'metal' }), 0, 0.02, 0));
+  lamp.add(at(cyl(0.018, 0.018, 1.75, PAL.ink, { ink: false, mat: 'metal', matAxis: 'y' }), 0, 0.9, 0));
+  lamp.add(at(cyl(0.15, 0.3, 0.34, PAL.spiral, { ink: 0.012, mat: 'fabric' }), 0, 1.86, 0));
   const pool = new THREE.Mesh(new THREE.CircleGeometry(1, 40), new THREE.MeshBasicMaterial({ color: PAL.spiral, transparent: true, opacity: 0.18, depthWrite: false }));
   pool.rotation.x = -Math.PI / 2; pool.scale.set(1.3, 0.8, 1); pool.position.set(-0.3, 0.005, 0.2);
   lamp.add(pool);
@@ -118,25 +121,25 @@ export function buildRoom() {
 
   // monstera, front left
   const mo = new THREE.Group();
-  mo.add(at(cyl(0.3, 0.22, 0.5, PAL.orange, { ink: 0.012 }), 0, 0.25, 0));
+  mo.add(at(cyl(0.3, 0.22, 0.5, PAL.orange, { ink: 0.012, mat: 'clay' }), 0, 0.25, 0));
   for (let i = 0; i < 7; i++) {
     const a = i / 7 * Math.PI * 2 + 0.3;
-    const leaf = mesh(new THREE.SphereGeometry(0.28, 14, 8).scale(1, 0.12, 0.62), i % 2 ? PAL.green : PAL.greenD, { ink: 0.009 });
+    const leaf = mesh(new THREE.SphereGeometry(0.28, 14, 8).scale(1, 0.12, 0.62), i % 2 ? PAL.green : PAL.greenD, { ink: 0.009, mat: 'leaf' });
     leaf.position.set(Math.cos(a) * 0.32, 0.85 + (i % 3) * 0.16, Math.sin(a) * 0.32);
     leaf.rotation.set(0, -a, 0.5);
     mo.add(leaf);
   }
-  room.add(at(mo, -3.3, 0, 0.8));
+  room.add(at(mo, -3.45, 0, 2.45));
 
   return { room, shelf, lamp, walls, win, kb, gt };
 }
 
 export function stool() {
   const s = new THREE.Group();
-  s.add(at(cyl(0.2, 0.2, 0.06, PAL.red, { ink: 0.012 }), 0, 0.66, 0));
+  s.add(at(cyl(0.2, 0.2, 0.06, PAL.red, { ink: 0.012, mat: 'paint' }), 0, 0.66, 0));
   for (let i = 0; i < 4; i++) {
-    const a = i / 4 * Math.PI * 2 + Math.PI / 4;
-    const l = cyl(0.02, 0.025, 0.66, PAL.red, { ink: 0.008 }, 8);
+    const a = i / 4 * Math.PI * 2;                               // a leg dead ahead: his feet rest on the ring either side of it
+    const l = cyl(0.02, 0.025, 0.66, PAL.red, { ink: 0.008, mat: 'paint', matAxis: 'y' }, 8);
     l.position.set(Math.cos(a) * 0.14, 0.33, Math.sin(a) * 0.14); l.rotation.set(Math.sin(a) * 0.08, 0, -Math.cos(a) * 0.08);
     s.add(l);
   }

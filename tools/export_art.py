@@ -9,6 +9,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(os.path.dirname(ROOT), "artworks")
 OUT = os.path.join(ROOT, "site", "public", "media", "art")
 DATA = os.path.join(ROOT, "site", "public", "data", "art.json")
+KEEP_FILE = os.path.join(ROOT, "tools", "art_keep.txt")   # owner curation: artworks only
 SKIP = re.compile(r"infinite|\bdaw\b|node|launch|waitlist|beta", re.I)
 HALLS = [  # id, title, years
     ("early", "early days · 2017–2021", range(2017, 2022)),
@@ -28,6 +29,7 @@ def caption(meta):
 def main():
     os.makedirs(OUT, exist_ok=True)
     os.makedirs(os.path.dirname(DATA), exist_ok=True)
+    keep = {l.strip() for l in open(KEEP_FILE) if l.strip() and not l.startswith("#")} if os.path.exists(KEEP_FILE) else None
     works = []
     for f in sorted(os.listdir(SRC)):
         if not f.endswith((".jpg", ".mp4")):
@@ -36,7 +38,7 @@ def main():
         if os.path.exists(os.path.join(SRC, f + ".json")):
             meta = json.load(open(os.path.join(SRC, f + ".json")))
         cap = caption(meta)
-        if SKIP.search(cap):
+        if SKIP.search(cap) or (keep is not None and f.rsplit(".", 1)[0] not in keep):
             continue
         year = int(f[:4])
         hall = next(h for h, _, ys in HALLS if year in ys)
@@ -65,6 +67,7 @@ def main():
         works.append(dict(id=stem, hall=hall, date=f[:10], caption=cap, url=meta.get("post_url", ""),
                           img=f"/media/art/{stem}.webp", video=f"/media/art/{video}" if video else None, w=w, h=h))
     halls = [dict(id=h, title=t, works=[w for w in works if w["hall"] == h]) for h, t, _ in HALLS]
+    halls = [h for h in halls if h["works"]]
     json.dump(dict(halls=halls), open(DATA, "w"), indent=1)
     for h in halls:
         print(h["id"], len(h["works"]), "works,", sum(1 for w in h["works"] if w["video"]), "videos")
