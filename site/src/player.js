@@ -22,18 +22,20 @@ export function makePlayer({ man, camera, canvas, solids, walls, nav, onTap }) {
   addEventListener('keyup', ev => keys.delete(ev.code));
   addEventListener('blur', () => keys.clear());
 
-  // --- pointer: drag to look, pinch to zoom, tap to walk / use. On touch, a thumb that lands in the lower-right
-  // quarter (under the right thumb) grabs a floating joystick (#joy): it jumps to the thumb, the knob follows up to JOY px, past 90% = run
+  // --- pointer: drag to look, pinch to zoom, tap to walk / use. On touch the joystick (#joy) is fixed bottom-left
+  // under the left thumb: a touch on or near it grabs it and keeps it (sticky) until that finger lifts, wherever the
+  // finger wanders; the knob follows up to JOY px from the centre, past 90% = run. Any other finger looks around
   const ptrs = new Map(); let pinch0 = 0, dist0 = 0, stick = null;
   const joy = document.getElementById('joy'), knob = joy?.firstElementChild, JOY = 52;
-  const stickZone = ev => ev.pointerType !== 'mouse' && ev.clientX > innerWidth * 0.5 && ev.clientY > innerHeight * 0.4;
-  function joyShow(p) {
-    if (!joy) return;
-    joy.classList.add('on'); joy.style.left = p.x0 + 'px'; joy.style.top = p.y0 + 'px'; knob.style.transform = '';
-  }
-  function joyHide() { if (!joy) return; joy.classList.remove('on'); joy.style.left = joy.style.top = ''; knob.style.transform = ''; }
+  const joyAt = () => { const r = joy.getBoundingClientRect(); return [r.left + r.width / 2, r.top + r.height / 2, r.width]; };
+  const stickZone = ev => {
+    if (ev.pointerType === 'mouse' || !joy) return false;
+    const [x, y, w] = joyAt(); return w > 0 && Math.hypot(ev.clientX - x, ev.clientY - y) < w * 0.85;   // w = 0: hidden
+  };
+  function joyShow(p) { joy.classList.add('on'); [p.x0, p.y0] = joyAt(); }       // offsets measure from the stick's centre
+  function joyHide() { if (!joy) return; joy.classList.remove('on'); knob.style.transform = ''; }
   canvas.addEventListener('pointerdown', ev => {
-    canvas.setPointerCapture(ev.pointerId);
+    try { canvas.setPointerCapture(ev.pointerId); } catch {}
     const p = { x: ev.clientX, y: ev.clientY, x0: ev.clientX, y0: ev.clientY, t0: performance.now(), stick: stickZone(ev) && !stick };
     if (p.stick) { stick = ev.pointerId; joyShow(p); }
     ptrs.set(ev.pointerId, p);

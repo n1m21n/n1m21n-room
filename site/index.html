@@ -29,12 +29,37 @@
   #thought i:nth-of-type(1) { width:14px; height:14px; left:22%; bottom:-20px; }
   #thought i:nth-of-type(2) { width:8px; height:8px; left:18%; bottom:-34px; }
   @keyframes bob { 50% { transform:translateY(-4px); } }
-  #remote { position:fixed; left:calc(var(--edge) + env(safe-area-inset-left)); bottom:70px; width:200px; background:#1d1640; color:var(--paper); border:2px solid var(--ink); border-radius:28px 28px 16px 16px; padding:14px 12px 12px; box-shadow:4px 4px 0 var(--pink); font:400 12px/1.4 'DM Mono',monospace; z-index:6; }
-  #remote .rn { margin:0 0 10px; padding:6px 8px; background:#0B0618; border-radius:6px; color:#F6E27A; min-height:1.4em; }
-  #remote .rb { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; }
-  #remote button { font:inherit; color:var(--ink); background:var(--paper); border:2px solid var(--ink); border-radius:999px; padding:7px 0; cursor:pointer; }
-  #remote button[data-k=pw] { background:#E8263F; color:var(--paper); }
-  #remote .go { width:100%; margin-top:8px; background:#F6E27A; }
+  #tvp { position:fixed; left:calc(var(--edge) + env(safe-area-inset-left)); bottom:calc(var(--edge) + env(safe-area-inset-bottom)); width:min(340px, calc(100vw - 32px)); box-sizing:border-box; background:var(--paper); color:var(--ink); border:2px solid var(--ink); border-radius:12px; padding:10px; box-shadow:5px 5px 0 var(--pink); font:400 12px 'DM Mono',monospace; z-index:6; }
+  #tvp button { font:inherit; color:var(--ink); background:none; border:0; cursor:pointer; padding:0; }
+  #tvp .tscr { position:relative; aspect-ratio:4/3; width:100%; margin:0 auto; background:#0B0B0B; border:2px solid var(--ink); border-radius:10px / 14px; overflow:hidden; }
+  #tvp .tscr img { position:absolute; inset:0; width:100%; height:100%; object-fit:contain; }
+  #tvp .tscr::after { content:''; position:absolute; inset:0; pointer-events:none; background:repeating-linear-gradient(0deg, rgba(0,0,0,.16) 0 1px, transparent 1px 3px), radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,.45)); }
+  #tvp .snow { position:absolute; inset:-50%; display:none; background:repeating-radial-gradient(circle at 17% 32%, #ddd 0 1px, #222 1px 2px, #888 2px 3px); animation:snow .2s steps(4) infinite; }
+  #tvp.off .snow { display:block; } #tvp.off .tscr img { display:none; }
+  @keyframes snow { 25% { transform:translate(7%,3%); } 50% { transform:translate(-4%,6%); } 75% { transform:translate(5%,-6%); } }
+  #tvp .tch, #tvp .tn { position:absolute; top:8px; padding:2px 7px; border-radius:4px; background:rgba(11,6,24,.75); color:#F6E27A; font-size:11px; z-index:1; }
+  #tvp .tch { left:8px; } #tvp .tn { right:8px; color:var(--paper); } #tvp .tn:empty { display:none; }
+  #tvp .thead { display:flex; gap:6px; align-items:flex-start; margin-top:10px; }
+  #tvp .ttitles { flex:1; min-width:0; }
+  #tvp .tt { font:800 18px/1.05 'Bricolage Grotesque',sans-serif; font-stretch:75%; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  #tvp .ta { opacity:.7; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-top:2px; }
+  #tvp .tx { flex:0 0 auto; width:22px; height:22px; border-radius:50%; border:1.5px solid var(--ink); display:grid; place-items:center; }
+  #tvp .tx svg { width:9px; height:9px; stroke:var(--ink); stroke-width:2.4; }
+  #tvp .tctl { display:flex; align-items:center; justify-content:space-between; margin-top:6px; }
+  #tvp .tctl button { width:34px; height:34px; display:grid; place-items:center; border-radius:50%; }
+  #tvp .tctl button:hover, #tvp .tpw:hover { background:rgba(10,6,24,.08); }
+  #tvp .tctl svg { width:20px; height:20px; fill:var(--ink); }
+  #tvp .tctl .tbig { width:44px; height:44px; background:var(--ink); } #tvp .tctl .tbig:hover { background:var(--pink); }
+  #tvp .tctl .tbig svg { fill:var(--spiral); width:22px; height:22px; }
+  #tvp .tctl .tsm { width:auto; height:26px; padding:0 9px; border-radius:999px; border:1.5px solid var(--ink); font-size:11px; }
+  #tvp .tchips { display:flex; gap:6px; overflow-x:auto; margin:8px -10px 0; padding:2px 10px 4px; scrollbar-width:none; scroll-snap-type:x proximity; }
+  #tvp .tchips::-webkit-scrollbar { display:none; }
+  #tvp .tchips button { flex:0 0 auto; height:26px; padding:0 10px; border-radius:999px; border:1.5px solid var(--ink); font-size:11px; white-space:nowrap; scroll-snap-align:center; }
+  #tvp .tchips button.on { background:var(--ink); color:var(--spiral); }
+  #tvp .tpw { flex:0 0 auto; width:22px; height:22px; display:grid; place-items:center; border-radius:50%; background:#E8263F !important; border:1.5px solid var(--ink) !important; }
+  #tvp .go[hidden] { display:none; }
+  #tvp .tpw svg { width:12px; height:12px; stroke:var(--paper); }
+  #tvp .go { display:block; width:100%; margin-top:8px; height:34px; border-radius:999px; border:2px solid var(--ink) !important; background:#F6E27A !important; font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; padding:0 12px; }
   .shelfui .grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(96px,1fr)); gap:12px; }
   .shelfui .bk { all:unset; cursor:pointer; display:flex; flex-direction:column; gap:3px; }
   .shelfui .bk img, .shelfui .bk .un { width:100%; aspect-ratio:2/3; object-fit:cover; border:2px solid var(--ink); border-radius:3px; box-shadow:3px 3px 0 var(--ink); transition:transform .15s; }
@@ -64,8 +89,6 @@
   .x svg { width:13px; height:13px; stroke:var(--spiral); stroke-width:2.6; stroke-linecap:round; fill:none; }
   .x:hover { background:var(--pink); transform:rotate(90deg); } .x:hover svg { stroke:var(--paper); }
   #card .x { position:sticky; top:0; float:right; margin:-4px -4px 0 10px; z-index:2; }
-  #remote .x { position:absolute; top:-12px; right:-12px; width:28px; height:28px; padding:0; border-radius:50%; background:var(--ink); }
-  #remote .x svg { width:11px; height:11px; }
   /* portal wipe: the screen spirals shut onto the portal, then open again at the other end */
   #warp { position:fixed; inset:0; z-index:20; pointer-events:none; overflow:hidden; }
   #warp i { position:absolute; inset:-60%; background:
@@ -144,11 +167,11 @@
   .chrome .round { width:var(--hud); padding:0; font-weight:500; }
   #snd svg { width:16px; height:16px; fill:none; stroke:var(--ink); stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
   #snd svg .w { transition:opacity .15s; } #snd.off svg .w { opacity:0; } #snd svg .m { opacity:0; } #snd.off svg .m { opacity:1; }
-  /* ---------- touch: floating joystick lower-right (right thumb); music deck lower-left with the action button
-     stacked above it (left thumb); everything sits on the same 16px edge and 8px gap */
-  #joy { display:none; position:fixed; --r:56px; left:calc(100% - var(--edge) - var(--r) - env(safe-area-inset-right)); top:calc(100% - var(--edge) - var(--r) - env(safe-area-inset-bottom) - var(--deck-clear, 0px)); width:112px; height:112px; margin:-56px 0 0 -56px; border-radius:50%; border:2px solid rgba(241,233,210,.5); background:rgba(10,6,24,.3); pointer-events:none; z-index:4; opacity:.55; transition:opacity .25s; box-sizing:border-box; }
-  #joy i { position:absolute; left:50%; top:50%; width:46px; height:46px; margin:-23px 0 0 -23px; border-radius:50%; background:var(--paper); border:2px solid var(--ink); box-shadow:2px 2px 0 var(--pink); box-sizing:border-box; }
-  #joy::after { content:'move'; position:absolute; left:0; right:0; top:50%; margin-top:30px; text-align:center; font:500 10px 'DM Mono',monospace; letter-spacing:.08em; color:var(--paper); opacity:.8; }
+  /* ---------- touch: fixed joystick bottom-left (left thumb); the right thumb drags the camera and owns the action
+     button bottom-right; music deck and tv player at the top under the HUD; same 16px edge and 8px gap everywhere */
+  #joy { display:none; position:fixed; --r:58px; left:calc(var(--edge) + var(--r) + env(safe-area-inset-left)); top:calc(100% - var(--edge) - 8px - var(--r) - env(safe-area-inset-bottom)); width:116px; height:116px; margin:-58px 0 0 -58px; border-radius:50%; border:2px solid rgba(241,233,210,.55); background:radial-gradient(circle, rgba(10,6,24,.15), rgba(10,6,24,.45)); pointer-events:none; z-index:4; opacity:.85; transition:opacity .2s; box-sizing:border-box; }
+  #joy i { position:absolute; left:50%; top:50%; width:50px; height:50px; margin:-25px 0 0 -25px; border-radius:50%; background:var(--paper); border:2px solid var(--ink); box-shadow:2px 2px 0 var(--pink); box-sizing:border-box; }
+  #joy::after { content:'move'; position:absolute; left:0; right:0; top:50%; margin-top:31px; text-align:center; font:500 10px 'DM Mono',monospace; letter-spacing:.08em; color:var(--paper); opacity:.8; }
   #joy.on { opacity:1; transition:none; } #joy.on::after { display:none; }
   @media (pointer:coarse) {
     #joy { display:block; }
@@ -156,11 +179,16 @@
     .mark { font-size:24px; }
     .pill, .chrome button { padding:0 12px; }
     #musicsw { padding:0 10px 0 12px; } #musicsw .sl { font-size:0; } #musicsw .sl::before { content:'♪'; font-size:14px; } #musicsw .st { display:none; }
-    #prompt { left:calc(var(--edge) + env(safe-area-inset-left)); transform:none; bottom:calc(var(--deck-top, 96px) + 12px); font-size:15px; padding:12px 20px; min-height:48px; }
+    #prompt { left:auto; right:calc(var(--edge) + env(safe-area-inset-right)); transform:none; bottom:calc(var(--edge) + 8px + 34px + env(safe-area-inset-bottom)); font-size:15px; padding:12px 20px; min-height:48px; max-width:calc(100vw - 2 * var(--edge) - 116px - 24px); }
     #prompt kbd { display:none; }
-    #toast { top:calc(var(--edge) + 84px + env(safe-area-inset-top)); }
-    #inf { bottom:auto; top:calc(var(--edge) + 84px + env(safe-area-inset-top)); }
+    #deck, #tvp { top:calc(var(--edge) + var(--hud) + var(--gap) + env(safe-area-inset-top)); bottom:auto !important; animation:drop .25s cubic-bezier(.2,.9,.3,1); }
+    #deck.mini { padding:4px; } #deck.mini .vbtn { width:52px; height:52px; }
+    body.watching #deck { display:none; }
+    #tvp { width:auto; right:calc(var(--edge) + env(safe-area-inset-right)); }
+    #tvp .tscr { max-height:30dvh; }
+    #toast, #inf { top:calc(var(--deck-bot, 120px) + 12px); bottom:auto; }
   }
+  @keyframes drop { from { transform:translateY(-12px); opacity:0; } }
   @media (max-width:600px) {
     #card { inset:auto 0 0 0; margin:0; width:auto; max-height:86dvh; border-radius:18px 18px 0 0; border-width:2px 0 0; box-shadow:0 -5px 0 var(--pink); padding:14px 16px calc(18px + env(safe-area-inset-bottom)); animation:sheet .28s cubic-bezier(.2,.9,.3,1); }
     #card::before { content:''; display:block; width:44px; height:4px; border-radius:2px; background:var(--ink); opacity:.25; margin:-4px auto 10px; }
@@ -237,8 +265,8 @@
         <li><span class="g"><kbd>V</kbd><kbd>M</kbd></span><span>change camera · music on / off</span></li>
       </ul>
       <ul class="guide tc">
-        <li><span class="g"><svg viewBox="0 0 34 34"><circle cx="17" cy="17" r="14"/><circle class="f" cx="21" cy="13" r="6"/></svg></span><span>right thumb: joystick to walk, push all the way to run</span></li>
-        <li><span class="g"><svg viewBox="0 0 34 34"><path d="M6 17h22M22 11l6 6-6 6M12 11l-6 6 6 6"/></svg></span><span>left thumb: drag to look around</span></li>
+        <li><span class="g"><svg viewBox="0 0 34 34"><circle cx="17" cy="17" r="14"/><circle class="f" cx="21" cy="13" r="6"/></svg></span><span>left thumb: joystick to walk, push all the way to run</span></li>
+        <li><span class="g"><svg viewBox="0 0 34 34"><path d="M6 17h22M22 11l6 6-6 6M12 11l-6 6 6 6"/></svg></span><span>right thumb: drag to look around</span></li>
         <li><span class="g"><svg viewBox="0 0 34 34"><path d="M8 26l7-7M26 8l-7 7M8 26v-6M8 26h6M26 8v6M26 8h-6"/></svg></span><span>pinch to zoom in and out</span></li>
         <li><span class="g"><svg viewBox="0 0 34 34"><circle class="f" cx="17" cy="15" r="5"/><path d="M17 4v3M27 15h-3M10 15H7M24 8l-2 2M10 8l2 2"/><path d="M17 20v10"/></svg></span><span>tap anything to walk over and use it</span></li>
       </ul>

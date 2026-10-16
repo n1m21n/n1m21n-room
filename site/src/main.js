@@ -21,10 +21,11 @@ const sfx = makeSfx();
 const boot = window.boot || { step() {}, ready() {} };            // loading screen (index.html)
 const canvas = document.getElementById('c');
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, powerPreference: 'high-performance' });
-// phones: the four-pass toon render is fill-rate bound, so start at a lower pixel ratio and let it adapt to the frame time
+// phones: the four-pass toon render is fill-rate bound; start sharp and only trade resolution when it buys frames
 const TOUCH = matchMedia('(pointer: coarse)').matches;
-const DPR_MAX = Math.min(devicePixelRatio, TOUCH ? 1.6 : 2), DPR_MIN = TOUCH ? 0.8 : 1;
-let dpr = Math.min(DPR_MAX, TOUCH ? 1.25 : 2);
+const DPR_MAX = Math.min(devicePixelRatio, 2);
+let DPR_MIN = Math.min(DPR_MAX, TOUCH ? 1.5 : 1);
+let dpr = DPR_MAX;
 renderer.setPixelRatio(dpr);
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 const comp = makeCompositor(renderer, { samples: TOUCH ? 2 : 4 });
@@ -269,13 +270,9 @@ function setView(v) { $('view').textContent = (TOUCH ? '' : 'view · ') + VIEW_L
 // "?" reopens the loading screen's controls guide (the one for this device: keys or thumbs)
 const guide = [...document.querySelectorAll('#boot .guide')].map(g => g.outerHTML).join('');
 $('help').onclick = () => card(`<p class="cap">how to get around</p>${guide}`);
-// touch: the action button sits on top of the music deck; when the open deck spans a phone's width the joystick lifts too
+// phones: the deck sits at the top; toasts drop in under it, however tall it is
 const deckEl = $('deck');
-const deckTop = () => {
-  const r = deckEl.getBoundingClientRect(), top = deckEl.hidden ? 0 : innerHeight - r.top, rs = document.documentElement.style;
-  rs.setProperty('--deck-top', top + 'px');                                         // the action button stacks on it
-  rs.setProperty('--deck-clear', (top && r.right > innerWidth * 0.6 ? top - 16 + 8 : 0) + 'px');   // open full width: joystick lifts too
-};
+const deckTop = () => { const r = deckEl.getBoundingClientRect(); document.documentElement.style.setProperty('--deck-bot', (deckEl.hidden ? 0 : r.bottom) + 'px'); };
 if (deckEl) { new ResizeObserver(deckTop).observe(deckEl); addEventListener('resize', deckTop); }
 setView('third');
 // sound on / off (remembered), and a soft tick on every HUD button
@@ -310,16 +307,21 @@ function resize() {
 }
 addEventListener('resize', resize); resize();
 
-// adaptive resolution: average frame time over ~1.5 s, step the pixel ratio down when slow, back up when there is room
-const perf = { sum: 0, n: 0, calm: 0 };
+// adaptive resolution. The frame budget is the display's own cadence (the fastest frames we see), not 60 fps: in
+// iOS Low Power Mode Safari runs at 30 fps whatever the load, and chasing 60 there only blurred the picture. Every
+// ~1.5 s: dropping frames against that cadence -> step the pixel ratio down; if a step down bought nothing, put it
+// back and stop trying lower; comfortably inside it for a while -> step back up.
+const perf = { sum: 0, n: 0, calm: 0, best: 1, tried: null };
 function adapt(raw) {
   if (raw > 0.25) return;                                       // tab was hidden / stalled: not a real frame
+  perf.best = Math.min(perf.best * 1.0005, raw);                // display cadence, drifts up if the cap changes
   perf.sum += raw; perf.n++;
   if (perf.sum < 1.5) return;
-  const avg = perf.sum / perf.n; perf.sum = perf.n = 0;
+  const avg = perf.sum / perf.n, beat = Math.max(perf.best, 1 / 120); perf.sum = perf.n = 0;
   let next = dpr;
-  if (avg > 1 / 42) { next = Math.max(DPR_MIN, dpr - 0.15); perf.calm = 0; }
-  else if (avg < 1 / 57 && ++perf.calm >= 2) { next = Math.min(DPR_MAX, dpr + 0.1); perf.calm = 0; }
+  if (perf.tried && avg > perf.tried.avg * 0.92) { next = perf.tried.dpr; DPR_MIN = next; perf.tried = null; }   // no gain
+  else if (avg > beat * 1.3 && dpr > DPR_MIN) { perf.tried = { dpr, avg }; next = Math.max(DPR_MIN, dpr - 0.2); perf.calm = 0; }
+  else { perf.tried = null; if (avg < beat * 1.08 && ++perf.calm >= 3) { next = Math.min(DPR_MAX, dpr + 0.1); perf.calm = 0; } }
   if (Math.abs(next - dpr) > 0.01) { dpr = next; renderer.setPixelRatio(dpr); }
 }
 
