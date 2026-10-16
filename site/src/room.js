@@ -57,7 +57,7 @@ export function buildRoom() {
 
   room.add(framed(T.eyePaintingTex(), 0.9, 0.7, 0.75, 2.25, -D / 2 + 0.08));
   room.add(framed(T.spiralPaintingTex(), 0.62, 0.62, 1.85, 2.3, -D / 2 + 0.08));
-  room.add(framed(T.snakePaintingTex(), 0.5, 0.7, W / 2 - 0.08, 2.0, 0.6, -Math.PI / 2));
+  room.add(framed(T.snakePaintingTex(), 0.5, 0.7, W / 2 - 0.08, 1.9, -0.1, -Math.PI / 2));   // centred on the bare stretch between the lamp and the door
 
   // record shelf + turntable (back right)
   const shelf = new THREE.Group();

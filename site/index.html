@@ -21,7 +21,7 @@
   .chrome button:active { transform:translate(1px,1px); box-shadow:1px 1px 0 var(--ink); }
   .right { display:grid; grid-template-columns:auto auto; gap:var(--gap); justify-items:end; align-items:center; }
   .right .meta { grid-row:2; grid-column:1 / -1; }
-  #prompt { position:fixed; bottom:calc(var(--edge) + env(safe-area-inset-bottom)); height:auto; min-height:var(--hud); box-shadow:3px 3px 0 var(--pink); left:50%; transform:translateX(-50%); background:var(--ink); color:var(--spiral); border-color:var(--ink); font-size:13px; }
+  #prompt { position:fixed; white-space:nowrap; bottom:calc(var(--edge) + env(safe-area-inset-bottom)); height:auto; min-height:var(--hud); box-shadow:3px 3px 0 var(--pink); left:50%; transform:translateX(-50%); background:var(--ink); color:var(--spiral); border-color:var(--ink); font-size:13px; }
   #prompt kbd { font:inherit; background:var(--spiral); color:var(--ink); border-radius:4px; padding:0 5px; margin-right:6px; }
   #thought { position:fixed; transform:translate(-30%,-100%); max-width:min(300px, calc(100vw - 32px)); pointer-events:none; z-index:5; }
   #thought p { margin:0; font:400 13px/1.45 'DM Mono',monospace; background:var(--paper); border:2px solid var(--ink); border-radius:22px; padding:12px 16px; animation:bob 3s ease-in-out infinite; }
@@ -29,6 +29,7 @@
   #thought i:nth-of-type(1) { width:14px; height:14px; left:22%; bottom:-20px; }
   #thought i:nth-of-type(2) { width:8px; height:8px; left:18%; bottom:-34px; }
   @keyframes bob { 50% { transform:translateY(-4px); } }
+  body.watching #deck { display:none; }                          /* the tv player stands in for the deck while watching */
   #tvp { position:fixed; left:calc(var(--edge) + env(safe-area-inset-left)); bottom:calc(var(--edge) + env(safe-area-inset-bottom)); width:min(340px, calc(100vw - 32px)); box-sizing:border-box; background:var(--paper); color:var(--ink); border:2px solid var(--ink); border-radius:12px; padding:10px; box-shadow:5px 5px 0 var(--pink); font:400 12px 'DM Mono',monospace; z-index:6; }
   #tvp button { font:inherit; color:var(--ink); background:none; border:0; cursor:pointer; padding:0; }
   #tvp .tscr { position:relative; aspect-ratio:4/3; width:100%; margin:0 auto; background:#0B0B0B; border:2px solid var(--ink); border-radius:10px / 14px; overflow:hidden; }
@@ -66,7 +67,7 @@
   .shelfui .bk .un { display:grid; place-items:center; text-align:center; background:var(--paper); font:800 16px 'Bricolage Grotesque',sans-serif; }
   .shelfui .bk:hover img, .shelfui .bk:hover .un { transform:translateY(-4px) rotate(-1.5deg); }
   .shelfui .bk b { font:600 11px/1.2 'DM Mono',monospace; } .shelfui .bk i { font:400 10px/1.2 'DM Mono',monospace; opacity:.65; font-style:normal; }
-  #inf { position:fixed; left:50%; bottom:70px; transform:translateX(-50%); font:500 13px 'DM Mono',monospace; color:var(--ink); background:#F6E27A; border:2px solid var(--ink); border-radius:999px; padding:9px 16px; box-shadow:3px 3px 0 var(--ink); text-decoration:none; z-index:6; }
+  #inf { position:fixed; left:50%; bottom:70px; white-space:nowrap; transform:translateX(-50%); font:500 13px 'DM Mono',monospace; color:var(--ink); background:#F6E27A; border:2px solid var(--ink); border-radius:999px; padding:9px 16px; box-shadow:3px 3px 0 var(--ink); text-decoration:none; z-index:6; }
   .tline .eras { position:relative; height:74px; margin:14px 0 4px; }
   .tline .era { position:absolute; top:0; height:100%; border:2px solid var(--ink); border-radius:8px; padding:6px; text-align:left; cursor:pointer; display:flex; flex-direction:column; justify-content:space-between; overflow:hidden; color:var(--paper); transition:transform .15s; }
   .tline .era:hover { transform:translateY(-3px); box-shadow:0 3px 0 var(--ink); }
@@ -80,15 +81,18 @@
   .tline .k-art { background:#F6E27A; } .tline .k-music { background:#E0368F; color:var(--paper); } .tline .k-life { background:#B8B5F0; } .tline .k-dance { background:#1E6B63; color:var(--paper); } .tline .k-software { background:#2E3BDB; color:var(--paper); }
   .tline .pins a, .tline .lk { color:var(--ink); font:inherit; background:none; border:0; padding:0; text-decoration:underline; cursor:pointer; text-align:left; }
   #toast { position:fixed; top:70px; left:50%; transform:translateX(-50%); max-width:min(520px, calc(100vw - 32px)); font:400 13px/1.45 'DM Mono',monospace; background:var(--paper); border:2px solid var(--ink); border-radius:8px; padding:10px 14px; text-align:center; }
-  #card { position:fixed; inset:0; margin:auto; width:min(560px, calc(100vw - 32px)); height:fit-content; max-height:calc(100vh - 40px); overflow:auto; background:var(--paper); border:2px solid var(--ink); border-radius:10px; padding:14px; box-shadow:6px 6px 0 var(--pink); z-index:10; }
+  #card { position:fixed; inset:0; margin:auto; width:min(560px, calc(100vw - 32px)); height:fit-content; max-height:calc(100vh - 40px); overflow:auto; background:var(--paper); border:2px solid var(--ink); border-radius:10px; padding:var(--cpy) var(--cpx); --cpy:14px; --cpx:14px; box-shadow:6px 6px 0 var(--pink); z-index:10; }
   #card > img, #card > video { width:100%; max-height:60vh; object-fit:contain; background:var(--ink); border-radius:4px; display:block; }
   #card .cap { font:800 22px/1.1 'Bricolage Grotesque',sans-serif; font-stretch:75%; margin:12px 0 4px; }
   #card .meta { font:400 12px 'DM Mono',monospace; margin:0 0 10px; background:none; border:0; padding:0; text-align:left; } #card a { color:var(--blue); }
   /* close: one icon, top right of every panel (sticky so it stays while the card scrolls) */
+  button:focus:not(:focus-visible) { outline:none; }   /* a tap or click leaves no ring; keyboard focus still shows */
+  button:focus-visible { outline:2px solid var(--pink); outline-offset:2px; }
   .x { width:32px; height:32px; display:grid; place-items:center; padding:0; border:2px solid var(--ink); border-radius:50%; background:var(--ink); cursor:pointer; box-shadow:2px 2px 0 var(--pink); transition:transform .15s, background .15s; }
   .x svg { width:13px; height:13px; stroke:var(--spiral); stroke-width:2.6; stroke-linecap:round; fill:none; }
   .x:hover { background:var(--pink); transform:rotate(90deg); } .x:hover svg { stroke:var(--paper); }
-  #card .x { position:sticky; top:0; float:right; margin:-4px -4px 0 10px; z-index:2; }
+  /* close lives in its own sticky bar so it never sits on a cover or a link, scrolled or not */
+  #card .cbar { position:sticky; top:calc(-1 * var(--cpy)); z-index:3; display:flex; justify-content:flex-end; align-items:center; margin:calc(-1 * var(--cpy)) calc(-1 * var(--cpx)) 8px; padding:10px 10px 6px; background:var(--paper); }
   /* portal wipe: the screen spirals shut onto the portal, then open again at the other end */
   #warp { position:fixed; inset:0; z-index:20; pointer-events:none; overflow:hidden; }
   #warp i { position:absolute; inset:-60%; background:
@@ -121,7 +125,10 @@
   #deck .dt { font:800 18px/1.05 'Bricolage Grotesque',sans-serif; font-stretch:75%; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   #deck .da { opacity:.7; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-top:2px; }
   #deck .dmin { width:22px; height:22px; border-radius:50%; border:1.5px solid var(--ink) !important; line-height:1; }
-  #deck canvas { display:block; width:100%; height:28px; margin-top:8px; cursor:pointer; touch-action:none; }
+  #deck .dseek { position:relative; height:24px; margin-top:6px; cursor:pointer; touch-action:none; }
+  #deck .dseek::before { content:''; position:absolute; left:0; right:0; top:10px; height:4px; border-radius:2px; background:rgba(10,6,24,.18); }
+  #deck .dseek::after { content:''; position:absolute; left:0; width:var(--p,0%); top:10px; height:4px; border-radius:2px; background:var(--pink); }
+  #deck .dseek i { position:absolute; left:var(--p,0%); top:5px; width:14px; height:14px; margin-left:-7px; border-radius:50%; background:var(--paper); border:2px solid var(--ink); box-sizing:border-box; z-index:1; }
   #deck .dtime { display:flex; justify-content:space-between; font-size:10px; opacity:.7; margin-top:2px; }
   #deck .dctl { display:flex; align-items:center; justify-content:space-between; margin-top:4px; }
   #deck .dctl button { width:34px; height:34px; display:grid; place-items:center; border-radius:50%; }
@@ -149,7 +156,7 @@
   .crate { font:400 12px 'DM Mono',monospace; }
   .crate .chead { display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; } .crate .chead .cap { margin:0; }
   .crate .links.artist { margin:6px 0 12px; }
-  .sleeves { display:grid; grid-template-columns:repeat(auto-fill, minmax(118px, 1fr)); gap:14px 12px; padding-right:14px; }
+  .sleeves { display:grid; grid-template-columns:repeat(auto-fill, minmax(118px, 1fr)); gap:14px 12px; }
   .sleeve { position:relative; text-align:left; background:none; border:0; padding:0; cursor:pointer; font:400 11px/1.3 'DM Mono',monospace; color:var(--ink); }
   .sleeve > img { position:relative; z-index:1; display:block; width:100%; aspect-ratio:1; object-fit:cover; border:2px solid var(--ink); border-radius:3px; box-sizing:border-box; background:var(--ink); }
   .sleeve .sdisc { position:absolute; top:4%; left:4%; width:92%; z-index:0; transition:transform .25s cubic-bezier(.3,1.4,.5,1); }
@@ -159,7 +166,9 @@
   .crate .back { font:500 11px 'DM Mono',monospace; background:none; border:1.5px solid var(--ink); border-radius:999px; padding:4px 10px; cursor:pointer; margin-bottom:10px; color:var(--ink); }
   .crate .ahead { display:flex; gap:16px; align-items:center; }
   .crate .vinyl.big { width:150px; flex:0 0 auto; }
-  .crate .playall { background:var(--ink); color:var(--spiral); }
+  .crate .playall { display:inline-flex; align-items:center; gap:8px; height:40px; padding:0 18px 0 14px; margin-top:4px; border:2px solid var(--ink); border-radius:999px; background:var(--ink); color:var(--spiral); font:500 13px 'DM Mono',monospace; cursor:pointer; box-shadow:3px 3px 0 var(--pink); transition:transform .15s, background .15s; }
+  .crate .playall:hover { background:var(--pink); transform:translate(-1px, -1px); }
+  .crate .playall svg { width:16px; height:16px; fill:var(--spiral); }
   .crate .atracks { max-height:none; }
   @media (max-width:480px) { .crate .ahead { flex-direction:column; align-items:flex-start; } .crate .vinyl.big { width:120px; } }
 
@@ -183,17 +192,35 @@
     #prompt kbd { display:none; }
     #deck, #tvp { top:calc(var(--edge) + var(--hud) + var(--gap) + env(safe-area-inset-top)); bottom:auto !important; animation:drop .25s cubic-bezier(.2,.9,.3,1); }
     #deck.mini { padding:4px; } #deck.mini .vbtn { width:52px; height:52px; }
-    body.watching #deck { display:none; }
     #tvp { width:auto; right:calc(var(--edge) + env(safe-area-inset-right)); }
     #tvp .tscr { max-height:30dvh; }
     #toast, #inf { top:calc(var(--deck-bot, 120px) + 12px); bottom:auto; }
   }
   @keyframes drop { from { transform:translateY(-12px); opacity:0; } }
-  @media (max-width:600px) {
-    #card { inset:auto 0 0 0; margin:0; width:auto; max-height:86dvh; border-radius:18px 18px 0 0; border-width:2px 0 0; box-shadow:0 -5px 0 var(--pink); padding:14px 16px calc(18px + env(safe-area-inset-bottom)); animation:sheet .28s cubic-bezier(.2,.9,.3,1); }
-    #card::before { content:''; display:block; width:44px; height:4px; border-radius:2px; background:var(--ink); opacity:.25; margin:-4px auto 10px; }
+  /* ---------- phone on its side: a short screen, so a smaller stick, the deck a column at the left, and the tv player
+     splits into screen | controls; panels never run under the stick or off the bottom */
+  @media (pointer:coarse) and (orientation:landscape) and (max-height:540px) {
+    :root { --edge:12px; --top:calc(var(--edge) + var(--hud) + var(--gap) + env(safe-area-inset-top)); }
+    #joy { --r:48px; width:96px; height:96px; margin:-48px 0 0 -48px; top:calc(100% - var(--edge) - var(--r) - env(safe-area-inset-bottom)); }
+    #joy i { width:42px; height:42px; margin:-21px 0 0 -21px; } #joy::after { margin-top:24px; }
+    #prompt { bottom:calc(var(--edge) + 24px + env(safe-area-inset-bottom)); }
+    #deck:not(.mini) { width:min(340px, 46vw); max-height:calc(100dvh - var(--top) - var(--edge)); overflow:auto; box-sizing:border-box; }
+    body:has(#deck:not(.mini)) #joy { display:none; }   /* the open deck takes the left side; mini it to walk again */
+    body.watching #joy { display:none; }
+    #tvp { right:auto; width:auto; max-width:calc(100vw - 2 * var(--edge) - 170px); display:grid; grid-template-columns:auto 220px; column-gap:12px; align-items:start; max-height:calc(100dvh - var(--top) - var(--edge)); }
+    #tvp .tscr { --th:min(calc(100dvh - var(--top) - var(--edge) - 24px), 210px); grid-row:1 / span 5; height:var(--th); width:calc(var(--th) * 4 / 3); max-height:none; margin:0; }
+    #tvp .thead { margin-top:2px; } #tvp .tchips { margin:8px 0 0; padding:2px 0 4px; }
+    #toast, #inf { top:var(--top); max-width:50vw; }
+  }
+  @media (max-width:600px), (pointer:coarse) and (orientation:landscape) and (max-height:540px) {
+    #card { inset:auto 0 0 0; margin:0; width:auto; box-sizing:border-box; max-height:calc(100% - var(--edge) - var(--hud) - var(--gap) - 64px - 12px - env(safe-area-inset-top));   /* clears the HUD and the mini deck */ border-radius:18px 18px 0 0; border-width:2px 0 0; box-shadow:0 -5px 0 var(--pink); --cpx:16px; padding-bottom:calc(18px + env(safe-area-inset-bottom)); animation:sheet .28s cubic-bezier(.2,.9,.3,1); }
+    #card .cbar { border-radius:18px 18px 0 0; }
+    #card .cbar::before { content:''; position:absolute; left:50%; top:8px; width:44px; height:4px; margin-left:-22px; border-radius:2px; background:var(--ink); opacity:.25; }
     .tline .era b { font-size:12px; } .tline .era i { display:none; }
     .tline .pins li { grid-template-columns:52px 1fr; } .tline .pins li .k { display:none; }
+  }
+  @media (pointer:coarse) and (orientation:landscape) and (max-height:540px) {   /* on its side the sheet just clears the HUD */
+    #card { max-height:calc(100% - var(--top)); width:min(640px, calc(100% - 2 * var(--edge))); margin:0 auto; border-width:2px 2px 0; }
   }
   @keyframes sheet { from { transform:translateY(100%); } }
 

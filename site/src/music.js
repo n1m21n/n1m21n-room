@@ -35,7 +35,7 @@ export function makeMusic({ data, cardEl, card, closeCard, onTrack = () => {} })
     <div class="dbody">
       <div class="dhead"><div class="dtitles"><div class="dt" id="dt"></div><div class="da" id="da"></div></div>
         <button class="dmin" id="dmin" aria-label="minimise">–</button></div>
-      <canvas id="dw" height="56"></canvas>
+      <div id="dw" class="dseek" role="slider" aria-label="seek"><i></i></div>
       <div class="dtime"><span id="dc">0:00</span><span id="dd">0:00</span></div>
       <div class="dctl">
         <button id="dlist" class="dsm" aria-label="tracklist">${ICON.list}</button>
@@ -49,7 +49,7 @@ export function makeMusic({ data, cardEl, card, closeCard, onTrack = () => {} })
     </div>`;
   document.body.appendChild(deck);
   const q = id => deck.querySelector('#' + id);
-  if (matchMedia('(max-width: 640px)').matches) deck.classList.add('mini');
+  if (matchMedia('(max-width: 640px), (pointer: coarse)').matches) deck.classList.add('mini');
   q('dv').onclick = () => deck.classList.toggle('mini');
   q('dmin').onclick = () => deck.classList.add('mini');
   q('dplay').onclick = () => toggle();
@@ -64,27 +64,17 @@ export function makeMusic({ data, cardEl, card, closeCard, onTrack = () => {} })
   document.querySelector('.chrome .right').prepend(sw);
   sw.onclick = () => toggle();
 
-  // ---------- waveform scrubber
-  const wave = q('dw'), wg = wave.getContext('2d');
+  // ---------- seek bar: filled to the playhead, drag or tap anywhere on it to scrub
+  const wave = q('dw');
   function drawWave() {
-    const w = wave.clientWidth, h = wave.height, dpr = devicePixelRatio || 1;
-    if (!w) return;
-    if (wave.width !== Math.round(w * dpr)) { wave.width = Math.round(w * dpr); wave.style.height = h / dpr + 'px'; }
-    const W = wave.width, H = wave.height, pk = track().peaks || [], n = pk.length || 1;
-    const p = audio.duration ? audio.currentTime / audio.duration : 0, bw = W / n;
-    wg.clearRect(0, 0, W, H);
-    for (let i = 0; i < n; i++) {
-      const v = Math.max(0.06, (pk[i] || 0) / 100), bh = v * H * 0.92;
-      wg.fillStyle = (i + 0.5) / n <= p ? '#E0368F' : 'rgba(10,6,24,.28)';
-      wg.fillRect(i * bw + bw * 0.18, (H - bh) / 2, bw * 0.64, bh);
-    }
-    wg.fillStyle = '#0A0618'; wg.fillRect(Math.round(p * W) - dpr, 0, 2 * dpr, H);
+    const p = audio.duration ? audio.currentTime / audio.duration : 0;
+    wave.style.setProperty('--p', (p * 100).toFixed(2) + '%'); wave.setAttribute('aria-valuenow', Math.round(p * 100));
   }
   let scrub = false;
   const seek = e => { const r = wave.getBoundingClientRect(), f = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width)); if (audio.duration) audio.currentTime = f * audio.duration; drawWave(); };
-  wave.addEventListener('pointerdown', e => { scrub = true; wave.setPointerCapture(e.pointerId); seek(e); e.stopPropagation(); });
+  wave.addEventListener('pointerdown', e => { scrub = true; try { wave.setPointerCapture(e.pointerId); } catch {} seek(e); e.stopPropagation(); });
   wave.addEventListener('pointermove', e => { if (scrub) seek(e); });
-  wave.addEventListener('pointerup', () => { scrub = false; });
+  wave.addEventListener('pointerup', () => { scrub = false; }); wave.addEventListener('pointercancel', () => { scrub = false; });
   for (const el of [deck, sw]) for (const ev of ['pointerdown', 'pointerup', 'wheel']) el.addEventListener(ev, e => e.stopPropagation());
 
   // ---------- state -> UI
@@ -166,8 +156,8 @@ export function makeMusic({ data, cardEl, card, closeCard, onTrack = () => {} })
     const a = albums[i];
     card(`<div class="crate"><button class="back" id="cback">← all records</button>
       <div class="ahead">${disc(a.cover['400'], 'vinyl big' + (i === A && !audio.paused ? ' spin' : ''))}
-        <div><p class="cap">${esc(a.title)}</p><p class="meta">${KIND[a.kind] || a.kind} · ${year(a)} · ${esc(a.genre || '')} · ${a.tracks.length} ${a.tracks.length > 1 ? 'tracks' : 'track'}</p>
-        <button class="x playall" id="cplay">▶ play ${a.tracks.length > 1 ? 'record' : 'track'}</button></div></div>
+        <div><p class="cap">${esc(a.title)}</p><p class="meta">${[KIND[a.kind] || a.kind, year(a), esc(a.genre || ''), `${a.tracks.length} ${a.tracks.length > 1 ? 'tracks' : 'track'}`].filter(Boolean).join(' · ')}</p>
+        <button class="playall" id="cplay">${ICON.play}<span>play ${a.tracks.length > 1 ? 'record' : 'track'}</span></button></div></div>
       ${linkRow(a.links)}
       <ol class="atracks">${a.tracks.map((t, k) => `<li data-t="${k}" class="${i === A && k === T && on ? 'cur' : ''}"><span>${esc(t.title)}</span><em>${fmt(t.dur)}</em></li>`).join('')}</ol></div>`);
     const go = k => { play(i, k); closeCard(); deck.classList.remove('mini'); };

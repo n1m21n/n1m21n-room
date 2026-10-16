@@ -16,6 +16,7 @@ import { makeTelly } from './telly.js';
 import { makePortals } from './portal.js';
 import { makeDoors } from './doors.js';
 import { makeSfx } from './sfx.js';
+import { makeRoutine, istNow, istClock } from './routine.js';
 
 const sfx = makeSfx();
 const boot = window.boot || { step() {}, ready() {} };            // loading screen (index.html)
@@ -73,9 +74,9 @@ const $ = id => document.getElementById(id);
 boot.step(0.7, 'dusting the records');
 const music = await (await fetch('/data/music.json')).json();
 const thoughts = (await (await fetch('/data/thoughts.json')).json()).thoughts;
-const night = () => { const h = new Date().getHours(); return h >= 19 || h < 6; };
+const night = () => { const { h } = istNow(); return h >= 19 || h < 6; };     // his night: India time
 
-const CLOSE = '<button class="x" id="cardx" aria-label="close (esc)" title="close · esc"><svg viewBox="0 0 16 16"><path d="M3 3l10 10M13 3L3 13"/></svg></button>';
+const CLOSE = '<div class="cbar"><button class="x" id="cardx" aria-label="close (esc)" title="close · esc"><svg viewBox="0 0 16 16"><path d="M3 3l10 10M13 3L3 13"/></svg></button></div>';
 function card(html) { sfx.fx('card'); $('card').innerHTML = CLOSE + html; $('card').hidden = false; $('cardx').onclick = closeCard; player.st.frozen = true; }
 let afterClose = null;
 function closeCard() { if (!$('card').hidden) sfx.fx('card'); $('card').hidden = true; $('card').innerHTML = ''; player.st.frozen = false; const f = afterClose; afterClose = null; f?.(); }
@@ -133,6 +134,11 @@ const GUITAR = {
   enter: () => { man.root.add(body); body.position.set(...GUITAR_AT.pos); body.rotation.set(0, 0, GUITAR_AT.rotZ); },
   leave: () => { gt.add(body); body.position.copy(rack.p); body.rotation.copy(rack.r); },
 };
+function lookOut() {
+  const pool = thoughts.filter(t => t.when === 'any' || t.when === (night() ? 'night' : 'day'));
+  WINDOW.text = pool[Math.floor(Math.random() * pool.length)].text;
+  player.sit(WINDOW);
+}
 const stations = [
   { label: 'sit', seat: STOOL, obj: st0, p: [STOOL.x, STOOL.z + 0.5], r: 0.9, act: () => (player.st.seated ? player.stand() : player.sit(STOOL)) },
   {
@@ -142,9 +148,7 @@ const stations = [
   {
     label: 'look outside', seat: WINDOW, obj: win, p: [WINDOW.x, WINDOW.z], face: [-1.7, -3], r: 1.2, act: () => {
       if (player.st.seated) return player.stand();
-      const pool = thoughts.filter(t => t.when === 'any' || t.when === (night() ? 'night' : 'day'));
-      WINDOW.text = pool[Math.floor(Math.random() * pool.length)].text;
-      player.sit(WINDOW);
+      lookOut();
     },
   },
   { label: 'pet the snake', obj: snk.group, p: [0, 0], live: () => snk.head.position, r: 1.1, act: () => { snk.pet(); sfx.fx('hiss'); toast('sss…'); man.face('delighted'); } },
@@ -165,6 +169,17 @@ for (const f of gallery.frames) stations.push({
 });
 for (const b of gallery.benches) stations.push({ label: 'sit on the bench', seat: b.seat, obj: b.obj, p: b.seat.out, face: b.face, r: 1.1, act: () => (player.st.seated ? player.stand() : player.sit(b.seat)) });
 stations.push(...doors.stations());
+// his day on India time (routine.js): where he walks to and how he starts each thing
+const at = (seat, face) => ({ seat, at: seat.out || [seat.x, seat.z], face, start: () => player.sit(seat) });
+const bench = gallery.benches[istNow().day % gallery.benches.length];
+const routine = makeRoutine({
+  player, toast: (...a) => toast(...a), spots: {
+    sleep: at(F.BED), work: at(F.CHAIR), keys: at(KEYS), guitar: at(GUITAR),
+    window: { ...at(WINDOW), start: lookOut },
+    read: { ...at(reading.READ), start: () => reading.read() },
+    ...(bench && { bench: at(bench.seat) }),
+  },
+});
 const byObj = new Map();
 for (const s of stations) for (const o of [s.obj].flat()) if (o) byObj.set(o, s);
 
@@ -240,7 +255,7 @@ async function shoot(act, { t = 2.5, off = [1.2, 0.4, 2.4], look = 'chest', fov 
   await fetch('/__still?name=' + name, { method: 'POST', body: renderer.domElement.toDataURL('image/png') });
   return name;
 }
-window.dev = { sfx, get dpr() { return dpr; }, doors, gallery, portals, stations, walkTo, nav, solids, man, player, scene, camera, room, phys, verifyActs, ACTS, GUITAR_AT, render: () => comp.render(scene, camera), renderer, reading, telly, shoot };                              // dev
+window.dev = { routine, sfx, get dpr() { return dpr; }, doors, gallery, portals, stations, walkTo, nav, solids, man, player, scene, camera, room, phys, verifyActs, ACTS, GUITAR_AT, render: () => comp.render(scene, camera), renderer, reading, telly, shoot };                              // dev
 let near = null;
 function pickStation() {
   const p = player.pos, h = player.st.heading;
@@ -274,6 +289,19 @@ $('help').onclick = () => card(`<p class="cap">how to get around</p>${guide}`);
 const deckEl = $('deck');
 const deckTop = () => { const r = deckEl.getBoundingClientRect(); document.documentElement.style.setProperty('--deck-bot', (deckEl.hidden ? 0 : r.bottom) + 'px'); };
 if (deckEl) { new ResizeObserver(deckTop).observe(deckEl); addEventListener('resize', deckTop); }
+// desktop: the deck / tv player hold the bottom-left corner, so the action prompt and the desk link centre in the
+// floor space to their right, or stack above the panel when the window is too narrow for that. Never on top of it
+function floats() {
+  if (TOUCH) return;
+  const panels = [deckEl, $('tvp')].filter(e => e && !e.hidden && e.offsetWidth).map(e => e.getBoundingClientRect());
+  const right = Math.max(0, ...panels.map(b => b.right)), top = Math.min(innerHeight, ...panels.map(b => b.top));
+  const items = [$('prompt'), infLink].filter(e => !e.hidden);
+  const w = Math.max(0, ...items.map(e => e.offsetWidth)), edge = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--edge')) || 16;
+  const side = w + 2 * edge <= innerWidth - right - edge;
+  let y = side ? edge : innerHeight - top + 12;
+  for (const e of items) { e.style.left = (side ? right + (innerWidth - right) / 2 : innerWidth / 2) + 'px'; e.style.bottom = y + 'px'; y += e.offsetHeight + 10; }
+}
+{ const ro = new ResizeObserver(floats); for (const e of [deckEl, $('tvp'), $('prompt'), infLink]) if (e) ro.observe(e); addEventListener('resize', floats); }
 setView('third');
 // sound on / off (remembered), and a soft tick on every HUD button
 const snd = $('snd');
@@ -306,6 +334,8 @@ function resize() {
   camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix();
 }
 addEventListener('resize', resize); resize();
+// turning the phone: iOS reports the new size late, so settle once more, and start the new layout with the deck folded
+addEventListener('orientationchange', () => setTimeout(() => { resize(); deckTop(); if (TOUCH) deckEl.classList.add('mini'); }, 350));
 
 // adaptive resolution. The frame budget is the display's own cadence (the fastest frames we see), not 60 fps: in
 // iOS Low Power Mode Safari runs at 30 fps whatever the load, and chasing 60 there only blurred the picture. Every
@@ -328,7 +358,9 @@ function adapt(raw) {
 // first frame: compile every shader up front so walking into a new hall does not hitch, then open the door
 comp.render(scene, camera);
 player.st.frozen = !!window.boot;                              // no walking about behind the loading screen
-boot.ready(() => { player.st.frozen = false; });
+const arrived = routine.arrive();                              // he's already at whatever the hour says
+if (night()) { shared.uLamp.value = 1; lamp.userData.pool.visible = true; }
+boot.ready(() => { player.st.frozen = false; toast(arrived, 5000); });
 
 const clock = new THREE.Clock();
 let tick = -1, lastWhere = '', boilNow = false;
@@ -345,10 +377,12 @@ renderer.setAnimationLoop(() => {
   snk.update(dt, t, player.pos);
   if (marker.visible) { marker.scale.setScalar(1 + Math.sin(t * 6) * 0.12); if (!player.auto.pts) marker.visible = false; }
   gallery.update(player.pos);
+  routine.update(dt, { busy: !$('card').hidden || player.st.seated === telly.TV || portals.busy });
   pickStation();
   thought();
   const w = whereAmI(player.pos);
-  if (w !== lastWhere) { lastWhere = w; $('lbl').textContent = w; }
+  const lb = `${w} · ${istClock()}`;
+  if (lb !== lastWhere) { lastWhere = lb; $('lbl').textContent = lb; }
   sfx.tick(dt, { player, musicPlaying: !audio.paused, hard: w !== 'the room', night: night(), pressed: telly.TV.pressed, tvOn: telly.on, portal: portals.busy, doors: doors.all });
   comp.render(scene, camera);
 });

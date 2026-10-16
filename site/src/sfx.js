@@ -1,5 +1,6 @@
-// Sound: everything is synthesised with Web Audio (no files to fetch). A vinyl crackle runs under the room whenever no
-// record is playing; footsteps, bumps, chairs, typing, keys, guitar, pages, doors, the portal, the remote, the snake and
+// Sound: real foley takes (Kenney's CC0 packs, tools/export_sfx.py -> /media/sfx) for steps, bumps, cloth, chairs, books,
+// doors, switches and typing, a random take each time; everything else, and anything still loading, is synthesised with
+// Web Audio. A vinyl crackle runs under the room whenever no record is playing; footsteps, bumps, chairs, typing, keys, guitar, pages, doors, the portal, the remote, the snake and
 // the HUD each get a small effect. main.js calls tick() every frame with what is going on and fx(name) for one-offs.
 const KEY = 'n1m21n-sound';
 
@@ -19,6 +20,7 @@ export function makeSfx() {
     white = ctx.createBuffer(1, ctx.sampleRate * 2, ctx.sampleRate);
     const w = white.getChannelData(0); for (let i = 0; i < w.length; i++) w[i] = Math.random() * 2 - 1;
     amb = crackle();
+    loadTakes();
   }
   const wake = () => { init(); if (ctx?.state === 'suspended' && !document.hidden) ctx.resume(); };
   for (const ev of ['pointerdown', 'touchend', 'keydown', 'click']) addEventListener(ev, wake, { capture: true, passive: true });
@@ -143,8 +145,48 @@ export function makeSfx() {
     cricket() { const t = now(); for (let i = 0; i < 3; i++) tone({ t: t + i * 0.05, f: 4600, gain: 0.015, d: 0.03 }); },
   };
 
+  // ---------- real takes: S(name, gain, rate) plays one at random (slightly detuned so repeats don't sound copied)
+  const takes = {};
+  async function loadTakes() {
+    try {
+      const counts = await (await fetch('/media/sfx/sfx.json')).json();
+      await Promise.all(Object.entries(counts).map(async ([name, n]) => {
+        const bufs = await Promise.all([...Array(n)].map(async (_, i) => ctx.decodeAudioData(await (await fetch(`/media/sfx/${name}_${i}.mp3`)).arrayBuffer())));
+        takes[name] = bufs;
+      }));
+    } catch { /* offline or old browser: the synth covers everything */ }
+  }
+  let lastTake = {};
+  function S(name, gain = 0.6, rate = 1, t = now()) {
+    const b = takes[name]; if (!b?.length) return false;
+    let i = Math.floor(Math.random() * b.length); if (b.length > 1 && i === lastTake[name]) i = (i + 1) % b.length; lastTake[name] = i;
+    const src = ctx.createBufferSource(), g = ctx.createGain();
+    src.buffer = b[i]; src.playbackRate.value = rate * rnd(0.94, 1.06); g.gain.value = gain;
+    src.connect(g).connect(out); src.start(t);
+    return true;
+  }
+  const REAL = {                                                     // effect -> real take; false falls through to the synth
+    step: ({ run, hard }) => S(hard ? 'stephard' : 'step', run ? 0.85 : 0.55, run ? 1.06 : 1),
+    bump: () => S('bump', 1.1),
+    rustle: (g = 0.08) => S('cloth', Math.min(0.8, g * 7)),
+    creak: (b, g = 0.05) => S('creak', Math.min(0.8, g * 9)),
+    sit: () => S('sit', 0.7) && (S('cloth', 0.45), S('creak', 0.35), true),
+    stand: () => S('cloth', 0.45),
+    bed: () => S('bump', 0.7, 0.75) && (S('cloth', 0.6), true),
+    key: space => S('key', space ? 0.45 : rnd(0.22, 0.32), space ? 0.75 : rnd(1.15, 1.45)),
+    page: () => S('page', 0.7),
+    book: () => S('book', 0.8),
+    click: () => S('click', 0.6),
+    lamp: () => S('lamp', 0.6),
+    tick: () => S('tick', 0.3),
+    card: () => S('card', 0.35),
+    crate: () => S('place', 0.7) && (S('crate', 0.45, 1, now() + 0.18), true),
+    doorOpen: () => S('doorOpen', 0.8),
+    doorShut: () => S('doorShut', 0.8),
+  };
+
   const heard = [];                                                  // dev: the last effects played, by name
-  for (const [k, f] of Object.entries(FX)) FX[k] = (...a) => { heard.push(k); if (heard.length > 60) heard.shift(); return f(...a); };
+  for (const [k, f] of Object.entries(FX)) FX[k] = (...a) => { heard.push(k); if (heard.length > 60) heard.shift(); return REAL[k]?.(...a) || f(...a); };
 
   // ---------- music made at the stations (keys and guitar follow the act's clock so hands and sound agree)
   const CHORDS = [[57, 60, 64], [53, 57, 60, 64], [48, 52, 55, 60], [55, 59, 62]];          // Am  Fmaj7  C  G
@@ -231,5 +273,5 @@ export function makeSfx() {
     muted = m; try { localStorage.setItem(KEY, m ? 'off' : 'on'); } catch { /* private mode */ }
     if (ctx) out.gain.setTargetAtTime(m ? 0 : 0.9, now(), 0.05);
   }
-  return { tick, fx, setMuted, heard, get muted() { return muted; }, get state() { return ctx?.state; } };
+  return { tick, fx, setMuted, heard, takes, get muted() { return muted; }, get state() { return ctx?.state; } };
 }

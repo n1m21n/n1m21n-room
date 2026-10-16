@@ -27,13 +27,16 @@ function desk() {
   for (const y of [0.13, 0.31]) g.add(at(box(0.12, 0.025, 0.02, PAL.spiral, { ink: 0.004, mat: 'metal' }), 0.55, y, -0.235));
   // monitor: screen faces -z (into the room, toward the chair)
   const mon = new THREE.Group();
-  mon.add(at(box(0.78, 0.48, 0.05, PAL.ink, { ink: 0.01, mat: 'plastic' }), 0, 0.3, 0));
+  const SY = 0.42;                                                  // screen centre: a hand's width of stand under it
+  mon.add(at(box(0.76, 0.46, 0.035, PAL.ink, { ink: 0.01, mat: 'plastic' }), 0, SY, 0));                  // thin panel
+  mon.add(at(box(0.3, 0.2, 0.05, PAL.ink, { ink: 0.006, mat: 'plastic' }), 0, SY - 0.02, 0.04));         // back hump
   const site = new THREE.TextureLoader().load('/media/infinite/site.webp'); site.colorSpace = THREE.SRGBColorSpace; site.anisotropy = 4;
   const scr = flat(0.7, 0.4, site);                                // infinitedevices.org (sit at the desk -> link)
-  scr.rotation.y = Math.PI; scr.position.set(0, 0.3, -0.03); mon.add(scr);
-  mon.add(at(box(0.06, 0.12, 0.06, PAL.ink, { ink: false }), 0, 0.03, 0.02));
-  mon.add(at(box(0.26, 0.02, 0.18, PAL.ink, { ink: false }), 0, 0.0, 0.02));
-  g.add(at(mon, -0.15, 0.73, 0.12));
+  scr.rotation.y = Math.PI; scr.position.set(0, SY, -0.019); mon.add(scr);
+  const neck = box(0.05, 0.36, 0.025, '#2A2A35', { ink: 0.005, mat: 'metal', matAxis: 'y' });
+  neck.position.set(0, 0.19, 0.09); neck.rotation.x = -0.12; mon.add(neck);                              // leans back to the panel
+  mon.add(at(box(0.3, 0.015, 0.2, '#2A2A35', { ink: 0.006, mat: 'metal' }), 0, 0.0075, 0.08));            // flat foot
+  g.add(at(mon, -0.15, 0.72, 0.12));
   g.add(at(box(0.5, 0.025, 0.16, PAL.lav, { ink: 0.006, mat: 'plastic' }), -0.15, 0.7325, -0.13));   // keyboard
   g.add(at(box(0.07, 0.025, 0.1, PAL.lav, { ink: 0.005, mat: 'plastic' }), -0.5, 0.7325, -0.12));    // mouse (his right)
   const mug = at(cyl(0.045, 0.04, 0.1, PAL.spiral, { ink: 0.006, mat: 'glaze' }), 0.3, 0.77, -0.02); g.add(mug);

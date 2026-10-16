@@ -81,9 +81,7 @@ export async function makeTelly({ man, player, screen, noise, zones, goHall }) {
     el.querySelectorAll('.tchips button').forEach((b, i) => b.classList.toggle('on', on && i === ch));
     const go = $q('.go'); go.hidden = !on || !c.zone; if (c.zone) go.textContent = `go to the ${c.name} hall →`;
   }
-  function ui(show) {                                             // desktop: stacks just above the music deck; phones: CSS puts it on top
-    const deck = document.getElementById('deck');
-    el.style.bottom = show && deck && !deck.hidden && !matchMedia('(pointer: coarse)').matches ? (innerHeight - deck.getBoundingClientRect().top + 14) + 'px' : '';
+  function ui(show) {                                             // takes the music deck's place (hidden while watching)
     el.hidden = !show; document.body.classList.toggle('watching', show); paint();
     if (show) el.querySelector('.tchips .on')?.scrollIntoView({ block: 'nearest', inline: 'center' });
   }

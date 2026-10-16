@@ -61,9 +61,9 @@ export async function makeReading({ man, player, card, closeCard, toast }) {
     }
   }
 
+  function read(i = Math.floor(Math.random() * books.length)) { const b = books[i]; READ.book = b; setCover(b); player.sit(READ); return b; }
   function pick(i) {
-    const b = books[i]; READ.book = b; setCover(b); closeCard();
-    player.sit(READ);
+    closeCard(); const b = read(i);
     toast(`reading · ${b.title} — ${b.author}`, 5000);
   }
   function open() {
@@ -74,5 +74,5 @@ export async function makeReading({ man, player, card, closeCard, toast }) {
         <b>${b.title}</b><i>${b.author}</i></button>`).join('')}</div></div>`);
     document.querySelectorAll('#card .bk').forEach(el => { el.onclick = () => pick(+el.dataset.i); });
   }
-  return { READ, open, update };
+  return { READ, open, read, update };
 }
