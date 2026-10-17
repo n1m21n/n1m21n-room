@@ -141,12 +141,12 @@ export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onT
       w.geometry.boundingBox || w.geometry.computeBoundingBox();
       c = { k: 0, until: 0, py: w.position.y, sy: w.scale.y, minY: w.geometry.boundingBox.min.y }; cuts.set(w, c);
     }
-    attached(w); c.until = clock + 0.35;
+    attached(w); c.until = clock + 2.0;
   }
   function stepCuts(dt) {
     for (const [w, c] of cuts) {
       const want = clock < c.until ? 1 : 0;
-      c.k += (want - c.k) * (1 - Math.exp(-(want ? 9 : 5) * dt));
+      c.k += (want - c.k) * (1 - Math.exp(-(want ? 9 : 2.5) * dt));
       if (!want && c.k < 0.01) { w.scale.y = c.sy; w.position.y = c.py; w.visible = true; for (const q of attached(w)) q.visible = true; cuts.delete(w); continue; }
       const sy = c.sy * (1 - 0.985 * c.k), base = c.py + c.minY * c.sy;
       w.scale.y = sy; w.position.y = base - c.minY * sy; w.visible = c.k < 0.97;
@@ -258,13 +258,16 @@ export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onT
       // camera parked inside a wall: its back-face ink hull would fill the screen black
       if (!boxes) boxes = walls.filter(w => !w.userData.door).map(w => [w, new THREE.Box3().setFromObject(w).expandByScalar(w.userData.arm ? 0.02 : 0.3)]);
       for (const [w, b] of boxes) if (b.containsPoint(camera.position)) cutWall(w);
-      tgt.set(pos.x, 1.0, pos.z);
-      const v = tgt.clone().sub(camera.position), L = v.length();
-      ray.set(camera.position, v.normalize()); ray.far = L;
-      const rayHits = ray.intersectObjects(walls, false);
-      for (const h of rayHits) {
-        if (st.view === 'third' && (h.object.userData.door || orb.d > 0.62) && (h.object.userData.arm || (h.object.userData.armOut && !inBox(h.object.userData.armOut)))) continue;   // those stop the camera instead (a door must never blink out mid-push), unless the arm is fully in and one is still between
-        cutWall(h.object);
+      // three rays (centre, and 0.35 m to either side of him) so a wall grazing the line of sight stays cut instead of flickering
+      const side = new THREE.Vector3(Math.cos(orb.yaw), 0, -Math.sin(orb.yaw));
+      for (const off of [0, -0.35, 0.35]) {
+        tgt.set(pos.x + side.x * off, 1.0, pos.z + side.z * off);
+        const v = tgt.clone().sub(camera.position), L = v.length();
+        ray.set(camera.position, v.normalize()); ray.far = L;
+        for (const h of ray.intersectObjects(walls, false)) {
+          if (st.view === 'third' && (h.object.userData.door || orb.d > 0.62) && (h.object.userData.arm || (h.object.userData.armOut && !inBox(h.object.userData.armOut)))) continue;   // those stop the camera instead (a door must never blink out mid-push), unless the arm is fully in and one is still between
+          cutWall(h.object);
+        }
       }
     }
     clock += dt; stepCuts(dt);
