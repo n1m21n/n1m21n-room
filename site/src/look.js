@@ -97,6 +97,17 @@ const matGLSL = /* glsl */`
     return b;
   }`;
 
+// cut-away fade (player.js cutWall): a screen-door dither, 0 = solid, 1 = gone. Fill and ink hull share the pattern, so a
+// wall thins out as one piece and never changes height. Every material that runs these shaders must carry uCut (a shared
+// program keeps the last value it was given)
+const cutGLSL = /* glsl */`
+  uniform float uCut;
+  float bayer2(vec2 a){ a = floor(a); return fract(dot(a, vec2(0.5, a.y * 0.75))); }
+  bool cut(){ if (uCut <= 0.0) return false; vec2 p = gl_FragCoord.xy;   // 8x8 ordered dither, thresholds 0 .. 63/64
+    return bayer2(p * 0.25) * 0.0625 + bayer2(p * 0.5) * 0.25 + bayer2(p) < uCut; }`;
+// objects mid-fade: the ink plate's depth-only pass skips them once they are mostly gone, so his ink shows through
+export const fading = new Set();
+
 export const toonFrag = /* glsl */`
   uniform vec3 uColor; uniform sampler2D uMap; uniform float uHasMap; uniform float uUnlit;
   uniform vec3 uKeyDir; uniform vec3 uLampPos; uniform float uLamp; uniform vec3 uShadeCol; uniform vec3 uWarm;
@@ -104,7 +115,9 @@ export const toonFrag = /* glsl */`
   uniform float uMat; uniform float uMatAxis; uniform float uMatScale; uniform float uMatAmt;
   varying vec3 vN; varying vec3 vW; varying vec2 vUv; varying vec3 vRest; varying vec3 vON;
   ${matGLSL}
+  ${cutGLSL}
   void main(){
+    if (cut()) discard;
     vec3 base = uColor;
     vec2 uv = vUv;
     if (uRestUV > 0.5) uv = vec2(atan(vRest.x, vRest.z) / 6.2832 + 0.5, vRest.y) * uRestScale;   // cylindrical, rest pose
@@ -132,6 +145,7 @@ export function toon(color, { map = null, unlit = false, shade = 0.5, shadeCol =
       uColor: { value: new THREE.Color(color || '#ffffff') },
       uMap: { value: map }, uHasMap: { value: map ? 1 : 0 }, uUnlit: { value: unlit ? 1 : 0 }, uShadeAmt: { value: shade },
       uRestUV: { value: restUV ? 1 : 0 }, uRestScale: { value: new THREE.Vector2(...(restUV || [1, 1])) },
+      uCut: { value: 0 },
       uMat: { value: MATS[mat] || 0 }, uMatAxis: { value: 'xyz'.indexOf(matAxis) }, uMatScale: { value: matScale }, uMatAmt: { value: matAmt },
       ...(shadeCol ? { uShadeCol: { value: new THREE.Color(shadeCol) } } : {}),
     },
@@ -159,7 +173,8 @@ export const hullVert = /* glsl */`
     w.xyz += n * uW * j * persp;
     gl_Position = projectionMatrix * viewMatrix * w;
   }`;
-export const hullFrag = /* glsl */`void main(){ gl_FragColor = vec4(1.0); }`;
+export const hullFrag = /* glsl */`${cutGLSL}
+  void main(){ if (cut()) discard; gl_FragColor = vec4(1.0); }`;
 
 // live: share the mesh's own geometry (it must already be seamless with smooth normals), for meshes deformed on the CPU
 export function addInk(mesh, width = 0.012, { live = false } = {}) {
@@ -171,7 +186,7 @@ export function addInk(mesh, width = 0.012, { live = false } = {}) {
     g.computeVertexNormals();                             // smooth normals so hulls don't crack at box corners
   }
   const m = new THREE.ShaderMaterial({
-    uniforms: { uW: { value: width }, uBoil: shared.uBoil },
+    uniforms: { uW: { value: width }, uBoil: shared.uBoil, uCut: { value: 0 } },
     vertexShader: hullVert, fragmentShader: hullFrag, side: THREE.BackSide,
   });
   let hull;
@@ -232,7 +247,7 @@ export function makeCompositor(renderer, { samples = 4 } = {}) {   // phones: 2 
   const quadScene = new THREE.Scene(); quadScene.add(quad);
   const depthOnly = new THREE.MeshBasicMaterial({ colorWrite: false, side: THREE.DoubleSide });   // both sides: a curtain seen from behind still hides the ink beyond it
   const black = new THREE.Color(0, 0, 0);
-  let inked = null, age = 0;
+  let inked = null, age = 0; const skipped = [];
 
   return {
     mat,
@@ -248,7 +263,9 @@ export function makeCompositor(renderer, { samples = 4 } = {}) {   // phones: 2 
       // ink plate: fills write depth only, then hulls in white
       renderer.setRenderTarget(rtK); renderer.setClearColor(black, 1); renderer.clear();
       camera.layers.set(0);
+      for (const o of fading) if (o.userData.fadeK > 0.5 && o.visible) { o.visible = false; skipped.push(o); }
       scene.overrideMaterial = depthOnly; renderer.render(scene, camera); scene.overrideMaterial = null;
+      for (const o of skipped) o.visible = true; skipped.length = 0;
       const ac = renderer.autoClear; renderer.autoClear = false;
       const bg = scene.background; scene.background = null;
       camera.layers.set(CUT_LAYER);                     // sprites hide the ink behind them, keep their own ink

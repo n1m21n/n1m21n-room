@@ -111,13 +111,13 @@ export function batch(root, { cell = 4 } = {}) {
     for (const it of kind.list) { const k = it.cx + ',' + it.cz; (cells.get(k) || cells.set(k, []).get(k)).push(it); }
     for (const list of cells.values()) {
       const mat = new THREE.ShaderMaterial({
-        uniforms: { ...shared, uMap: { value: null }, uHasMap: { value: 0 }, uUnlit: { value: kind.unlit }, uRestUV: { value: kind.restUV }, uRestScale: { value: kind.restScale } },
+        uniforms: { ...shared, uMap: { value: null }, uHasMap: { value: 0 }, uUnlit: { value: kind.unlit }, uRestUV: { value: kind.restUV }, uRestScale: { value: kind.restScale }, uCut: { value: 0 } },
         vertexShader: batchVert, fragmentShader: batchFrag, side: kind.side,
       });
       const m = new THREE.Mesh(merge(list.map(i => i.fg)), mat); m.name = 'batch';
       const hs = list.filter(i => i.hg);
       if (hs.length) {
-        const hm = new THREE.ShaderMaterial({ uniforms: { uBoil: shared.uBoil }, vertexShader: batchHullVert, fragmentShader: hullFrag, side: THREE.BackSide });
+        const hm = new THREE.ShaderMaterial({ uniforms: { uBoil: shared.uBoil, uCut: { value: 0 } }, vertexShader: batchHullVert, fragmentShader: hullFrag, side: THREE.BackSide });
         const h = new THREE.Mesh(merge(hs.map(i => i.hg)), hm); h.layers.set(INK_LAYER); h.renderOrder = 1; m.add(h);
       }
       root.add(m); batches++;

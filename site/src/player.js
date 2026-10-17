@@ -1,6 +1,7 @@
 // Playable man: keyboard / touch input, circle-vs-box collisions, procedural walk / run / idle on the rig,
 // and three camera views: third person (chase, spring arm), first person (head), top-down (overhead follow).
 import * as THREE from 'three';
+import { fading } from './look.js';
 import { POSES } from './man.js';
 import { ACTS, applyAct, relaxHands } from './acts.js';
 
@@ -132,25 +133,67 @@ export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onT
   // --- camera
   const ray = new THREE.Raycaster(), tgt = new THREE.Vector3(), want = new THREE.Vector3(), headW = new THREE.Vector3();
   const hidden = new Set();
-  // walls are cut away by sinking them into the floor (eased, with a short hold before they rise again), never by blinking off
+  // walls between the lens and him are cut away by FADING them out (look.js screen-door dither on the fill and the ink
+  // hull alike): never by changing their height (sinking them read as the walls bobbing as the camera swung round) and
+  // never by blinking them off. The state can't oscillate:
+  //   enter  the moment a wall blocks (a ray to him, the lens inside its pad, or the lens hugging it)
+  //   stay   while it blocks, or while a FATTER test (wider pad, the wall grown by FAT) still says it is close
+  //   leave  only after HOLD s with nothing in the way; while it fades back in only a real block (enter) re-cuts it
+  // No test reads the fade, so the camera and the cut state never feed back into each other.
   const cuts = new Map(); let clock = 0;
+  const HOLD = 2.0, FAT = 0.2, PAD_OUT = 0.6, FADE_OUT = 0.2, FADE_IN = 0.5;
   const live = o => o.visible || hidden.has(o) || cuts.has(o);
-  function cutWall(w) {
+  // a per-object copy of a toon / hull material whose uCut is its own (the other uniforms stay shared, never cloned)
+  function own(o, c) {
+    const m = o.material; if (!m?.uniforms?.uCut) return false;
+    const n = new THREE.ShaderMaterial({ vertexShader: m.vertexShader, fragmentShader: m.fragmentShader, defines: m.defines, side: m.side,
+      transparent: m.transparent, depthWrite: m.depthWrite, depthTest: m.depthTest, blending: m.blending, toneMapped: m.toneMapped,
+      polygonOffset: m.polygonOffset, polygonOffsetFactor: m.polygonOffsetFactor, polygonOffsetUnits: m.polygonOffsetUnits,
+      uniforms: { ...m.uniforms, uCut: { value: 0 } } });
+    n.name = m.name; c.mats.push([o, m, n]); o.material = n; return true;
+  }
+  function cutWall(w, why) {
     let c = cuts.get(w);
     if (!c) {
-      w.geometry.boundingBox || w.geometry.computeBoundingBox();
-      c = { k: 0, until: 0, py: w.position.y, sy: w.scale.y, minY: w.geometry.boundingBox.min.y }; cuts.set(w, c);
+      c = { k: 0, clear: 0, hit: true, why, mats: [], pop: [] }; cuts.set(w, c);
+      own(w, c); for (const h of w.children) own(h, c);
+      for (const q of attached(w)) { if (own(q, c)) { for (const h of q.children) own(h, c); fading.add(q); } else c.pop.push(q); }
+      fading.add(w);
     }
-    attached(w); c.until = clock + 2.0;
+    c.hit = true; c.clear = 0; c.why = why;
+  }
+  const exitBox = new Map(), hitV = new THREE.Vector3(), segV = new THREE.Vector3(), rr = new THREE.Ray();
+  // the wider "still close" test: lens within PAD_OUT of the wall, or a line to him (3 rays) through the wall grown by FAT
+  function near(w) {
+    let b = exitBox.get(w);
+    if (!b || w.userData.door) { b = [new THREE.Box3().setFromObject(w).expandByScalar(PAD_OUT), new THREE.Box3().setFromObject(w).expandByScalar(FAT)]; exitBox.set(w, b); }
+    if (b[0].containsPoint(camera.position)) return true;
+    const side = new THREE.Vector3(Math.cos(orb.yaw), 0, -Math.sin(orb.yaw));
+    for (const off of [0, -0.35, 0.35]) {
+      segV.set(pos.x + side.x * off, 1.0, pos.z + side.z * off).sub(camera.position); const L = segV.length();
+      rr.set(camera.position, segV.normalize());
+      if (rr.intersectBox(b[1], hitV) && hitV.distanceTo(camera.position) < L - 0.4) return true;   // (not the bit right by him)
+    }
+    return false;
   }
   function stepCuts(dt) {
     for (const [w, c] of cuts) {
-      const want = clock < c.until ? 1 : 0;
-      c.k += (want - c.k) * (1 - Math.exp(-(want ? 9 : 2.5) * dt));
-      if (!want && c.k < 0.01) { w.scale.y = c.sy; w.position.y = c.py; w.visible = true; for (const q of attached(w)) q.visible = true; cuts.delete(w); continue; }
-      const sy = c.sy * (1 - 0.985 * c.k), base = c.py + c.minY * c.sy;
-      w.scale.y = sy; w.position.y = base - c.minY * sy; w.visible = c.k < 0.97;
-      for (const q of attached(w)) q.visible = c.k < 0.25;
+      if (c.hit) c.clear = 0;
+      else if (c.clear < HOLD && near(w)) c.clear = 0;           // still close: the hold restarts
+      else c.clear += dt;
+      c.hit = false;
+      const on = c.clear < HOLD;
+      c.k = on ? Math.min(1, c.k + dt / FADE_OUT) : Math.max(0, c.k - dt / FADE_IN);
+      if (!on && c.k === 0) {
+        for (const [o, m, n] of c.mats) { o.material = m; n.dispose(); }
+        for (const q of c.pop) q.visible = true;
+        for (const q of attached(w)) { q.visible = true; q.userData.fadeK = 0; fading.delete(q); }
+        w.visible = true; w.userData.fadeK = 0; fading.delete(w); cuts.delete(w); continue;
+      }
+      for (const [, , n] of c.mats) n.uniforms.uCut.value = c.k;
+      w.visible = c.k < 1; w.userData.fadeK = c.k;
+      for (const q of attached(w)) { q.userData.fadeK = c.k; if (!c.pop.includes(q)) q.visible = c.k < 1; }
+      for (const q of c.pop) q.visible = c.k < 0.5;              // hung things that can't fade (sprites) go at half way
     }
   }
   let boxes = null, arm = null, armOut = null, props = null, lens = null; const occl = [], OCCL = 1.2;
@@ -175,10 +218,6 @@ export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onT
   const ARM_PAD = 0.3, LENS_AX = [[1, 0, 0], [-1, 0, 0], [0, 1, 0], [0, -1, 0], [0, 0, 1], [0, 0, -1]].map(a => new THREE.Vector3(...a));
   const orb = { init: false, yaw: 0, pitch: 0, d: 0 }, focus = new THREE.Vector3(), dir = new THREE.Vector3();
   function cam(dt) {
-    // every camera test (spring arm, cut-away rays) sees sunk walls at full height: a wall that has sunk no longer stops
-    // the arm, so the camera slid through, the wall rose, blocked again and sank again (the wall bobbing up and down).
-    // stepCuts() at the end puts the sunk pose back before anything is drawn
-    for (const [w, c] of cuts) { w.scale.y = c.sy; w.position.y = c.py; w.updateMatrixWorld(true); }
     const f = new THREE.Vector3(-Math.sin(st.yaw), 0, -Math.cos(st.yaw));
     for (const o of headParts) o.visible = st.view !== 'first' && !o.userData.underHat;   // outfits.js hides the hair shine under a hat
     for (const o of man.bones.head.children) if (o.name === 'hat') o.visible = st.view !== 'first';   // outfits.js hats
@@ -248,7 +287,7 @@ export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onT
       camera.lookAt(focus.x, focus.y - drop, focus.z); camera.fov = tall ? 66 : 50;
       // the arm can't pull in any further (0.6 m) and a prop still hugs the lens (the tees inside the wardrobe, a corner
       // plant's leaves, an open wardrobe door): cut it away like the ones right by him
-      for (const a of LENS_AX) { ray.set(camera.position, a); ray.far = 0.14; for (const q of ray.intersectObjects(lens, false)) if ((q.object.visible || hidden.has(q.object)) && !occl.includes(q.object)) occl.push(q.object); }
+      for (const a of LENS_AX) { ray.set(camera.position, a); ray.far = 0.14; for (const q of ray.intersectObjects(lens, false)) if (walls.includes(q.object)) cutWall(q.object, 'lens'); else if ((q.object.visible || hidden.has(q.object)) && !occl.includes(q.object)) occl.push(q.object); }
     }
     camera.updateProjectionMatrix();
     // cut away any wall still between camera and player (top-down, tight corners)
@@ -257,7 +296,7 @@ export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onT
     if (st.view !== 'first') {
       // camera parked inside a wall: its back-face ink hull would fill the screen black
       if (!boxes) boxes = walls.filter(w => !w.userData.door).map(w => [w, new THREE.Box3().setFromObject(w).expandByScalar(w.userData.arm ? 0.02 : 0.3)]);
-      for (const [w, b] of boxes) if (b.containsPoint(camera.position)) cutWall(w);
+      for (const [w, b] of boxes) if (b.containsPoint(camera.position)) cutWall(w, 'box');
       // three rays (centre, and 0.35 m to either side of him) so a wall grazing the line of sight stays cut instead of flickering
       const side = new THREE.Vector3(Math.cos(orb.yaw), 0, -Math.sin(orb.yaw));
       for (const off of [0, -0.35, 0.35]) {
@@ -266,12 +305,11 @@ export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onT
         ray.set(camera.position, v.normalize()); ray.far = L;
         for (const h of ray.intersectObjects(walls, false)) {
           if (st.view === 'third' && (h.object.userData.door || orb.d > 0.62) && (h.object.userData.arm || (h.object.userData.armOut && !inBox(h.object.userData.armOut)))) continue;   // those stop the camera instead (a door must never blink out mid-push), unless the arm is fully in and one is still between
-          cutWall(h.object);
+          cutWall(h.object, 'ray' + off);
         }
       }
     }
     clock += dt; stepCuts(dt);
-    for (const w of cuts.keys()) w.updateMatrixWorld(true);
   }
 
   // --- tap-to-walk: follow nav waypoints; any stick / key input takes back control
@@ -375,5 +413,5 @@ export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onT
   }
   function cycleView() { st.view = VIEWS[(VIEWS.indexOf(st.view) + 1) % VIEWS.length]; if (st.view === 'first') st.pitch = 0; else st.pitch = 0.38; return st.view; }
 
-  return { pos, st, keys, update, sit, stand, goTo, cancelAuto, auto, cycleView, POSES };
+  return { pos, st, keys, update, sit, stand, goTo, cancelAuto, auto, cycleView, POSES, dbg: { cuts, orb } };   // dbg: tests/walls.mjs
 }

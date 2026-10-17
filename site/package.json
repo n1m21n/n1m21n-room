@@ -13,6 +13,7 @@
     "test:content": "node tests/content.mjs",
     "test:health": "node tests/health.mjs",
     "test:layout": "node tests/layout.mjs",
+    "test:walls": "node tests/walls.mjs",
     "stills": "node tests/stills.mjs",
     "test": "node tests/ui-hygiene.mjs && node tests/physics.mjs && node tests/layout.mjs && node tests/design.mjs && node tests/platform.mjs && node tests/content.mjs && node tests/health.mjs"
   },
