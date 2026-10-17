@@ -3,11 +3,14 @@ import * as THREE from 'three';
 import { makeCompositor, shared } from './look.js';
 import { makeMusic } from './music.js';
 import { makePhysics } from './physics.js';
-import { buildRoom, stool, W as RW, D as RD } from './room.js';
+import { ARM_PLAY, buildRoom, stool, W as RW, D as RD } from './room.js';
 import { furnish } from './furniture.js';
-import { makeSnake } from './snake.js';
+import { makeOutfits, SLOTS, WEEK, DAYS } from './outfits.js';
+import { makeSnake, BED as SNAKE_BED } from './snake.js';
+import { wardrobe as makeWardrobe, WARD as WD } from './wardrobe.js';
 import { makeNav } from './nav.js';
 import { buildGallery } from './gallery.js';
+import { buildAnnex } from './annex.js';
 import { loadMan } from './man.js';
 import { makePlayer, VIEW_LABEL } from './player.js';
 import { GUITAR_AT, ACTS } from './acts.js';
@@ -17,6 +20,7 @@ import { makePortals } from './portal.js';
 import { makeDoors } from './doors.js';
 import { makeSfx } from './sfx.js';
 import { makeRoutine, istNow, istClock } from './routine.js';
+import { PAL, skyTex } from './textures.js';
 
 const sfx = makeSfx();
 const boot = window.boot || { step() {}, ready() {} };            // loading screen (index.html)
@@ -46,24 +50,31 @@ for (const w of walls) { const b = new THREE.Box3().setFromObject(w); if (b.min.
 const STOOL = { x: -0.2, z: 0.1, heading: 0, act: 'stool' };
 const st0 = stool(); st0.position.set(STOOL.x, 0, STOOL.z); scene.add(st0);
 const snk = makeSnake(); scene.add(snk.group);
+disc(SNAKE_BED.x, SNAKE_BED.z, SNAKE_BED.r);                    // its cushion
 solid(0.4, -3, 2.2, -2.45);                                     // record shelf
-solid(-2.85, -0.05, -1.55, 0.35);                               // keyboard
-disc(2.55, -1.9, 0.28); disc(3.35, -2.5, 0.28); disc(3.2, -1.0, 0.24); disc(-3.45, 2.45, 0.4); disc(STOOL.x, STOOL.z, 0.22);
+solid(-0.95, -2.8, 0.35, -2.4);                                 // keyboard
+disc(2.55, -1.9, 0.28); disc(3.35, -2.5, 0.28); disc(3.5, -1.0, 0.24); disc(-3.36, 2.36, 0.4); disc(STOOL.x, STOOL.z, 0.22);
 const F = furnish({ room, walls, solid, W: RW, D: RD });
+// wardrobe: back to the right wall between the lamp and the doorway, opening into the room (-x)
+const ward = makeWardrobe(); ward.group.position.set(RW / 2 - 0.05 - WD.d / 2, 0, 0); ward.group.rotation.y = -Math.PI / 2; room.add(ward.group);
+solid(RW / 2 - 0.05 - WD.d, -WD.w / 2 - 0.02, RW / 2, WD.w / 2 + 0.02);
 disc(F.CHAIR.x, F.CHAIR.z, 0.26);
 
 boot.step(0.3, 'hanging the gallery');
 const gallery = await buildGallery({ walls, solid });
 scene.add(gallery.group);
+const annex = buildAnnex({ walls, solid });                   // bathroom + kitchen off the corridor
+scene.add(annex.group);
 
 boot.step(0.5, 'waking him up');
 const man = await loadMan();
 man.pose('stand');
 scene.add(man.root);
+const fits = makeOutfits(man);                                   // today's look (weekday, or what he picked today)
 window.man = man;
 
 const nav = makeNav(solids, 0.26);
-const player = makePlayer({ man, camera, canvas, solids, walls, nav, onTap });
+const player = makePlayer({ man, scene, camera, canvas, solids, walls, nav, onTap });
 window.player = player;                                         // dev
 // doors go in after the nav grid is baked: routes run through them, he stops and pushes them open on the way
 const doors = makeDoors({ scene, walls, solids, player, man });
@@ -77,7 +88,7 @@ const thoughts = (await (await fetch('/data/thoughts.json')).json()).thoughts;
 const night = () => { const { h } = istNow(); return h >= 19 || h < 6; };     // his night: India time
 
 const CLOSE = '<div class="cbar"><button class="x" id="cardx" aria-label="close (esc)" title="close · esc"><svg viewBox="0 0 16 16"><path d="M3 3l10 10M13 3L3 13"/></svg></button></div>';
-function card(html) { sfx.fx('card'); $('card').innerHTML = CLOSE + html; $('card').hidden = false; $('cardx').onclick = closeCard; player.st.frozen = true; }
+function card(html) { sfx.fx('card'); $('card').classList.remove('fitc'); $('card').innerHTML = CLOSE + html; $('card').hidden = false; $('cardx').onclick = closeCard; player.st.frozen = true; }
 let afterClose = null;
 function closeCard() { if (!$('card').hidden) sfx.fx('card'); $('card').hidden = true; $('card').innerHTML = ''; player.st.frozen = false; const f = afterClose; afterClose = null; f?.(); }
 
@@ -118,22 +129,61 @@ function openTimeline() {
 
 // desk: the monitor shows infinitedevices.org; a link chip shows while he sits there
 const infLink = Object.assign(document.createElement('a'), { id: 'inf', href: 'https://infinitedevices.org', target: '_blank', rel: 'noopener', hidden: true, textContent: 'open infinitedevices.org ↗' });
-document.body.append(infLink);
+$('stack').append(infLink);
 Object.assign(F.CHAIR, { enter: () => { infLink.hidden = false; }, leave: () => { infLink.hidden = true; } });
 
 boot.step(0.85, 'warming up the tv');
 const reading = await makeReading({ man, player, card, closeCard, toast: (...a) => toast(...a) });
 const telly = await makeTelly({ man, player, screen: F.tvScreen, noise: F.tvNoise, zones: gallery.zones, goHall });
+{ const on = telly.TV.enter; telly.TV.enter = s => { on(s); player.st.yaw = telly.TV.heading + Math.PI; player.st.pitch = 0.3; }; }   // over his shoulder at the screen
 
 // standing activities: he stays where he is and does the thing (acts.js); `out` = step back from it
 const WINDOW = { x: -1.7, z: -2.4, heading: Math.PI, act: 'think', out: [-1.7, -2.0] };
-const KEYS = { x: -2.16, z: 0.65, heading: Math.PI + 0.08, act: 'keys', out: [-2.14, 0.95] };
+const KEYS = { x: -0.3, z: -2.1, heading: Math.PI, act: 'keys', out: [-0.3, -1.7] };
 const body = gt.userData.body, rack = { p: body.position.clone(), r: body.rotation.clone() };
 const GUITAR = {
   x: 2.2, z: -1.35, heading: -0.75, act: 'guitar', out: [2.0, -1.1],
   enter: () => { man.root.add(body); body.position.set(...GUITAR_AT.pos); body.rotation.set(0, 0, GUITAR_AT.rotZ); },
   leave: () => { gt.add(body); body.position.copy(rack.p); body.rotation.copy(rack.r); },
 };
+// wardrobe: he opens it, runs a hand along the rail, turns round to show the look; the outfit panel (#card.fitc) picks
+// hat / upper / lower / shoes, a weekday's look or a shuffle. Every change spins him once; picks hold for today (IST)
+const WARD = { x: RW / 2 - 0.05 - WD.d - 0.42, z: 0, heading: Math.PI / 2, act: 'wardrobe', out: [RW / 2 - 1.4, 0],
+  enter: () => { ward.open(true); ward.pick(fits.now); sfx.fx('creak'); }, leave: () => { ward.open(false); sfx.fx('creak'); } };
+const SLOT_LABEL = { hat: 'hat', upper: 'top', lower: 'bottoms', shoes: 'shoes' };
+const sameFit = (a, b) => Object.keys(SLOTS).every(k => a[k] === b[k]);
+function openWardrobe() {
+  if (player.st.seated === WARD) return closeCard();
+  if (player.st.seated) player.stand();
+  WARD.twirlAt = 0; player.sit(WARD);
+  player.st.yaw = WARD.heading + Math.PI; player.st.pitch = 0.22;   // the camera comes round to his front (he turns to face it)
+  const today = fits.today().day;
+  const row = slot => `<div class="frow" data-slot="${slot}"><div class="fh"><b>${SLOT_LABEL[slot]}</b><span class="fname"></span></div>
+    <div class="sws" role="radiogroup" aria-label="${SLOT_LABEL[slot]}">${SLOTS[slot].map(it => `<button class="sw${it.id === 'none' ? ' none' : ''}" role="radio" data-id="${it.id}" aria-label="${it.name}" title="${it.name}" style="--sw:${it.sw}"></button>`).join('')}</div></div>`;
+  card(`<div class="fit"><div class="chead"><p class="cap">wardrobe</p><p class="meta fday"></p></div>
+    <div class="days" role="group" aria-label="a look for each day">${DAYS.map((d, i) => `<button class="day${i === today ? ' today' : ''}" data-day="${i}" aria-label="${d}'s look" title="${d}'s look">${d.slice(0, 3)}</button>`).join('')}</div>
+    ${Object.keys(SLOTS).map(row).join('')}
+    <div class="fbar"><button class="shuf">shuffle</button><button class="done">done</button></div></div>`);
+  const el = $('card'); el.classList.add('fitc');
+  const paint = () => {
+    const now = fits.now, d = WEEK.findIndex(w => sameFit(w, now));
+    for (const r of el.querySelectorAll('.frow')) {
+      const slot = r.dataset.slot, it = SLOTS[slot].find(o => o.id === now[slot]);
+      r.querySelector('.fname').textContent = it?.name || '';
+      for (const b of r.querySelectorAll('.sw')) b.setAttribute('aria-checked', b.dataset.id === now[slot]);
+    }
+    for (const b of el.querySelectorAll('.day')) b.setAttribute('aria-pressed', +b.dataset.day === d);
+    el.querySelector('.fday').textContent = d < 0 ? 'your pick · holds for today' : d === today ? `${DAYS[d]}'s look · today` : `${DAYS[d]}'s look`;
+    ward.pick(now);
+  };
+  const wear = f => { fits.apply(f); fits.save(); WARD.twirlAt = performance.now(); sfx.fx('rustle', 0.1); man.face('delighted'); paint(); };
+  el.querySelectorAll('.sw').forEach(b => { b.onclick = () => wear({ [b.closest('.frow').dataset.slot]: b.dataset.id }); });
+  el.querySelectorAll('.day').forEach(b => { b.onclick = () => wear(fits.weekday(+b.dataset.day)); });
+  el.querySelector('.shuf').onclick = () => { let f; do f = fits.random(); while (sameFit(f, fits.now)); wear(f); };
+  el.querySelector('.done').onclick = closeCard;
+  afterClose = () => { el.classList.remove('fitc'); if (player.st.seated === WARD) player.stand(); };
+  paint();
+}
 function lookOut() {
   const pool = thoughts.filter(t => t.when === 'any' || t.when === (night() ? 'night' : 'day'));
   WINDOW.text = pool[Math.floor(Math.random() * pool.length)].text;
@@ -144,7 +194,7 @@ const stations = [
   {
     label: 'records', obj: shelf, p: [1.3, -2.05], face: [1.3, -2.8], r: 1.1, act: () => { sfx.fx('crate'); deck.openCrate(); man.face('delighted'); },
   },
-  { label: 'lamp', obj: lamp, p: [2.7, -0.75], face: [3.2, -1.0], r: 1.0, act: () => { sfx.fx('lamp'); const on = shared.uLamp.value < 0.5; shared.uLamp.value = on ? 1 : 0; lamp.userData.pool.visible = on; } },
+  { label: 'lamp', obj: lamp, p: [2.7, -0.75], face: [3.5, -1.0], r: 1.0, act: () => { sfx.fx('lamp'); const on = shared.uLamp.value < 0.5; shared.uLamp.value = on ? 1 : 0; lamp.userData.pool.visible = on; F.desk.userData.lamp.userData.pool.visible = on; } },
   {
     label: 'look outside', seat: WINDOW, obj: win, p: [WINDOW.x, WINDOW.z], face: [-1.7, -3], r: 1.2, act: () => {
       if (player.st.seated) return player.stand();
@@ -153,11 +203,12 @@ const stations = [
   },
   { label: 'pet the snake', obj: snk.group, p: [0, 0], live: () => snk.head.position, r: 1.1, act: () => { snk.pet(); sfx.fx('hiss'); toast('sss…'); man.face('delighted'); } },
   { label: 'play guitar', seat: GUITAR, obj: gt, p: [GUITAR.x, GUITAR.z], face: [2.55, -1.9], r: 1.0, act: () => (player.st.seated ? player.stand() : player.sit(GUITAR)) },
-  { label: 'play keys', seat: KEYS, obj: kb, p: [KEYS.x, KEYS.z], face: [-2.2, 0.15], r: 1.1, act: () => (player.st.seated ? player.stand() : player.sit(KEYS)) },
+  { label: 'play keys', seat: KEYS, obj: kb, p: [KEYS.x, KEYS.z], face: [-0.3, -2.6], r: 1.1, act: () => (player.st.seated ? player.stand() : player.sit(KEYS)) },
   { label: 'computer', seat: F.CHAIR, obj: [F.desk, F.chair], p: [F.CHAIR.x, F.CHAIR.z - 0.5], r: 1.0, act: () => (player.st.seated ? player.stand() : player.sit(F.CHAIR)) },
   { label: 'lie down', seat: F.BED, obj: F.bed, p: F.BED.out, face: [F.BED.x, -1.9], r: 1.2, act: () => (player.st.seated ? player.stand() : player.sit(F.BED)) },
   { label: 'books', seat: reading.READ, obj: F.bookshelf, p: [reading.READ.x, reading.READ.z], face: [-3.9, 1.25], r: 1.1, act: reading.open },
-  { label: 'watch tv', seat: telly.TV, obj: F.tv, p: [telly.TV.x, telly.TV.z], face: [2.05, 2.8], r: 1.1, act: () => (player.st.seated ? player.stand() : player.sit(telly.TV)) },
+  { label: 'watch tv', seat: telly.TV, obj: [F.tv, F.beanBag], p: [telly.TV.x, telly.TV.z - 0.6], face: [2.05, 2.8], r: 1.1, act: () => (player.st.seated ? player.stand() : player.sit(telly.TV)) },
+  { label: 'wardrobe', seat: WARD, obj: ward.group, p: [WARD.x, WARD.z], face: [RW / 2, 0], r: 1.1, act: openWardrobe },
   { label: 'timeline', seat: PIN, obj: F.pinboard, p: [PIN.x, PIN.z], face: [-4, -0.35], r: 1.1, act: openTimeline },
 ];
 for (const f of gallery.frames) stations.push({
@@ -169,6 +220,16 @@ for (const f of gallery.frames) stations.push({
 });
 for (const b of gallery.benches) stations.push({ label: 'sit on the bench', seat: b.seat, obj: b.obj, p: b.seat.out, face: b.face, r: 1.1, act: () => (player.st.seated ? player.stand() : player.sit(b.seat)) });
 stations.push(...doors.stations());
+// annex: bathroom (wash, loo, shower) and kitchen (tea, fridge). The camera swings behind him for the private ones
+{
+  const A = annex.spots, O = annex.objs, behind = s => () => { player.st.yaw = s.heading + Math.PI; };
+  Object.assign(A.LOO, { enter: behind(A.LOO), leave: () => sfx.fx('flush') });
+  Object.assign(A.SHOWER, { enter: behind(A.SHOWER) });
+  Object.assign(A.FRIDGE, { enter: () => sfx.fx('fridge') });
+  const use = (label, s, obj) => stations.push({ label, seat: s, obj, p: [s.x, s.z], face: [s.x + Math.sin(s.heading), s.z + Math.cos(s.heading)], r: 1.1, act: () => (player.st.seated ? player.stand() : player.sit(s)) });
+  use('wash face', A.WASH, [O.sink, O.mirror]); use('use the loo', A.LOO, O.loo); use('shower', A.SHOWER, O.shower);
+  use('make tea', A.TEA, O.hob); use('open the fridge', A.FRIDGE, O.fridge);
+}
 // his day on India time (routine.js): where he walks to and how he starts each thing
 const at = (seat, face) => ({ seat, at: seat.out || [seat.x, seat.z], face, start: () => player.sit(seat) });
 const bench = gallery.benches[istNow().day % gallery.benches.length];
@@ -221,7 +282,7 @@ async function verifyActs({ only, times = [0.8, 2, 3.5, 6] } = {}) {
     player.sit(spot);
     let t = 0; const rows = [];
     for (const at of times) {
-      while (t < at) { player.update(1 / 30, performance.now() / 1000 + t); reading.update(); telly.update(false); t += 1 / 30; }
+      while (t < at) { player.update(1 / 30, performance.now() / 1000 + t); reading.update(); telly.update(false); annex.update(1 / 30, t, player); t += 1 / 30; }
       for (const h of phys.check()) rows.push({ t: at, ...h });
     }
     player.stand();
@@ -244,7 +305,7 @@ async function verifyActs({ only, times = [0.8, 2, 3.5, 6] } = {}) {
 async function shoot(act, { t = 2.5, off = [1.2, 0.4, 2.4], look = 'chest', fov = 40, name = act } = {}) {
   const s = stations.find(s => s.seat?.act === act);
   if (s && player.st.seated !== s.seat) { if (player.st.seated) player.stand(); if (s.seat === reading.READ) reading.READ.book ||= { title: 'test' }; player.sit(s.seat); }
-  for (let k = 0; k < t; k += 1 / 30) { player.update(1 / 30, k); reading.update(); telly.update(false); }
+  for (let k = 0; k < t; k += 1 / 30) { player.update(1 / 30, k); reading.update(); telly.update(false); annex.update(1 / 30, k, player); }
   man.root.updateMatrixWorld(true);
   const V = THREE.Vector3, B = n => man.bones[n].getWorldPosition(new V());
   const tgt = look === 'hands' ? B('handL').add(B('handR')).multiplyScalar(0.5) : B(look);
@@ -255,7 +316,7 @@ async function shoot(act, { t = 2.5, off = [1.2, 0.4, 2.4], look = 'chest', fov 
   await fetch('/__still?name=' + name, { method: 'POST', body: renderer.domElement.toDataURL('image/png') });
   return name;
 }
-window.dev = { routine, sfx, get dpr() { return dpr; }, doors, gallery, portals, stations, walkTo, nav, solids, man, player, scene, camera, room, phys, verifyActs, ACTS, GUITAR_AT, render: () => comp.render(scene, camera), renderer, reading, telly, shoot };                              // dev
+window.dev = { THREE, fits, ward, openWardrobe, snake: snk, routine, sfx, get dpr() { return dpr; }, doors, gallery, annex, portals, stations, walkTo, nav, solids, man, player, scene, camera, room, phys, verifyActs, ACTS, GUITAR_AT, render: () => comp.render(scene, camera), renderer, reading, telly, shoot, sky: ph => { lastSky = ph; win.userData.sky.material.uniforms.uMap.value = skies[ph] ||= skyTex(ph); } };                              // dev
 let near = null;
 function pickStation() {
   const p = player.pos, h = player.st.heading;
@@ -270,7 +331,7 @@ function pickStation() {
   }
   if (player.st.seated) best = stations.find(s => s.seat === player.st.seated) || best;
   if (best !== near) { near = best; $('prompt').hidden = !best; }
-  if (best) $('plabel').textContent = player.st.seated && best.seat === player.st.seated ? (best.seat.lying ? 'get up' : ['think', 'keys', 'guitar', 'read', 'tv', 'pin'].includes(best.seat.act) ? 'stop' : 'stand up') : best.label;
+  if (best) $('plabel').textContent = player.st.seated && best.seat === player.st.seated ? (best.seat.lying ? 'get up' : ['think', 'keys', 'guitar', 'read', 'tv', 'pin', 'wardrobe', 'wash', 'loo', 'shower', 'tea', 'fridge'].includes(best.seat.act) ? 'stop' : 'stand up') : best.label;
 }
 function interact() { if (!$('card').hidden) return closeCard(); if (near) near.act(); }
 addEventListener('keydown', ev => {
@@ -285,10 +346,38 @@ function setView(v) { $('view').textContent = (TOUCH ? '' : 'view · ') + VIEW_L
 // "?" reopens the loading screen's controls guide (the one for this device: keys or thumbs)
 const guide = [...document.querySelectorAll('#boot .guide')].map(g => g.outerHTML).join('');
 $('help').onclick = () => card(`<p class="cap">how to get around</p>${guide}`);
-// phones: the deck sits at the top; toasts drop in under it, however tall it is
-const deckEl = $('deck');
-const deckTop = () => { const r = deckEl.getBoundingClientRect(); document.documentElement.style.setProperty('--deck-bot', (deckEl.hidden ? 0 : r.bottom) + 'px'); };
-if (deckEl) { new ResizeObserver(deckTop).observe(deckEl); addEventListener('resize', deckTop); }
+// phones: the deck / tv player dock at the top; the toast + desk link stack under whichever is there, however tall
+// (on a phone on its side the open deck is a left column instead, and the stack keeps to the right half)
+const deckEl = $('deck'), tvEl = $('tvp'), SIDE = matchMedia('(pointer: coarse) and (orientation: landscape) and (max-height: 540px)');
+const deckTop = () => {
+  const b = el => (el && !el.hidden && el.offsetWidth ? el.getBoundingClientRect().bottom : 0);
+  const bottom = TOUCH ? Math.max(b(tvEl), SIDE.matches && !deckEl.classList.contains('mini') ? 0 : b(deckEl)) : 0;
+  document.documentElement.style.setProperty('--deck-bot', bottom + 'px');
+};
+{
+  const ro = new ResizeObserver(deckTop), mo = new MutationObserver(deckTop);
+  for (const e of [deckEl, tvEl]) if (e) { ro.observe(e); mo.observe(e, { attributes: true, attributeFilter: ['hidden', 'class'] }); }
+  addEventListener('resize', deckTop); deckTop();
+}
+// panels never sit on the man: while a panel covers the middle of the screen, the camera's view is shifted so he stands
+// in the middle of what is left (the free area), eased in and out
+const vo = { x: 0, y: 0 };
+function framePanels(dt) {
+  const vw = innerWidth, vh = innerHeight; let L = 0, R = vw, T = TOUCH ? 62 : 0, B = vh;
+  if (player.st.view !== 'first') for (const el of [deckEl, tvEl, $('card')]) {
+    if (!el || el.hidden || !el.offsetWidth || el.classList.contains('mini')) continue;
+    const r = el.getBoundingClientRect();
+    const wide = r.width > vw * 0.6;   // a sheet across the screen counts even when it only takes the bottom quarter
+    if (r.right < vw * 0.3 || r.left > vw * 0.7 || (!wide && (r.bottom < vh * 0.3 || r.top > vh * 0.7))) continue;   // not over the middle
+    if (wide) { if (r.top + r.height / 2 < vh / 2) T = Math.max(T, r.bottom + 8); else B = Math.min(B, r.top - 8); }
+    else if (r.left + r.width / 2 < vw / 2) L = Math.max(L, r.right + 8); else R = Math.min(R, r.left - 8);
+  }
+  // (a sheet from below: the focus is his neck, so it sits a third of the way down what is left and his body fits above it)
+  const tx = (L + R) / 2 - vw / 2, ty = T + (B - T) * (B < vh ? 0.36 : 0.5) - vh / 2, k = 1 - Math.exp(-8 * dt);
+  vo.x += (tx - vo.x) * k; vo.y += (ty - vo.y) * k;
+  if (Math.abs(vo.x) < 0.5 && Math.abs(vo.y) < 0.5 && !tx && !ty) { if (camera.view?.enabled) camera.clearViewOffset(); }
+  else camera.setViewOffset(vw, vh, -vo.x, -vo.y, vw, vh);
+}
 // desktop: the deck / tv player hold the bottom-left corner, so the action prompt and the desk link centre in the
 // floor space to their right, or stack above the panel when the window is too narrow for that. Never on top of it
 function floats() {
@@ -325,9 +414,52 @@ function toast(s, ms = 3500) { $('toast').textContent = s; $('toast').hidden = f
 // where am I
 function whereAmI(p) {
   if (Math.abs(p.x) < RW / 2 && Math.abs(p.z) < RD / 2) return 'the room';
+  const a = annex.zoneAt(p); if (a) return a.name;
   const z = gallery.zoneAt(p);
   return z ? (z.name === 'corridor' ? 'gallery →' : 'gallery · ' + z.title) : 'gallery';
 }
+
+// HUD: the clock chip (IST, little face, night colours after dark) and the room sign, which opens every place he can go
+const PLACES = () => [
+  { name: 'the room', dot: PAL.mag, at: [0.3, 1.2] },
+  ...annex.zones.map((z, i) => ({ name: z.name, dot: [PAL.teal, '#2B5C2E'][i], at: z.at })),
+  ...gallery.zones.filter(z => z.entry).map((z, i) => ({ name: 'gallery · ' + z.title, short: z.title, dot: [PAL.spiral, '#2FB59A', PAL.orange, '#7B6CF6', PAL.red][i % 5], at: [z.entry.x, z.entry.z] })),
+];
+let lastClock = '';
+function hudClock() {
+  const { h, m } = istNow(), k = `${h}:${m}`; if (k === lastClock) return; lastClock = k;
+  const el = $('clock'); $('clk').textContent = istClock();
+  el.querySelector('.hh').style.transform = `rotate(${((h % 12) + m / 60) * 30}deg)`;
+  el.querySelector('.mh').style.transform = `rotate(${m * 6}deg)`;
+  el.classList.toggle('night', night()); el.setAttribute('aria-label', `${istClock()} in India`);
+}
+// the window follows India time: dawn 5-7, day 7-17, dusk 17-19, night after
+const skyPhase = h => h >= 5 && h < 7 ? 'dawn' : h >= 7 && h < 17 ? 'day' : h >= 17 && h < 19 ? 'dusk' : 'night';
+const skies = {}; let lastSky = '';
+function hudSky() {
+  const ph = skyPhase(istNow().h); if (ph === lastSky) return; lastSky = ph;
+  annex.sky.material.uniforms.uMap.value = win.userData.sky.material.uniforms.uMap.value = skies[ph] ||= skyTex(ph);
+}
+function hudPlace(w) {
+  $('lbl').textContent = w;
+  const p = PLACES().find(p => p.name === w); $('where').style.setProperty('--dot', p ? p.dot : PAL.spiral);
+}
+function placesMenu(open = $('places').hidden) {
+  const m = $('places'), b = $('where'); m.hidden = !open; b.setAttribute('aria-expanded', open);
+  if (!open) return;
+  const here = whereAmI(player.pos);
+  m.replaceChildren(...PLACES().map(p => {
+    const e = document.createElement('button'); e.setAttribute('role', 'menuitem'); if (p.name === here) e.className = 'here';
+    e.innerHTML = `<i class="dot" style="background:${p.dot}"></i><span></span>${p.name === here ? '<small>you are here</small>' : ''}`;
+    e.querySelector('span').textContent = p.short || p.name;
+    e.onclick = () => { placesMenu(false); if (p.name === here) return; if (player.st.seated) player.stand(); showMarker(player.goTo(p.at[0], p.at[1])); };
+    return e;
+  }));
+  m.querySelector('button')?.focus({ preventScroll: true });
+}
+$('where').addEventListener('click', e => { e.stopPropagation(); placesMenu(); });
+addEventListener('pointerdown', e => { if (!$('places').hidden && !e.target.closest('#places, #where')) placesMenu(false); }, true);
+addEventListener('keydown', e => { if (e.key === 'Escape' && !$('places').hidden) placesMenu(false); });
 
 function resize() {
   renderer.setSize(innerWidth, innerHeight, false);
@@ -359,7 +491,7 @@ function adapt(raw) {
 comp.render(scene, camera);
 player.st.frozen = !!window.boot;                              // no walking about behind the loading screen
 const arrived = routine.arrive();                              // he's already at whatever the hour says
-if (night()) { shared.uLamp.value = 1; lamp.userData.pool.visible = true; }
+if (night()) { shared.uLamp.value = 1; lamp.userData.pool.visible = true; F.desk.userData.lamp.userData.pool.visible = true; }
 boot.ready(() => { player.st.frozen = false; toast(arrived, 5000); });
 
 const clock = new THREE.Clock();
@@ -370,9 +502,13 @@ renderer.setAnimationLoop(() => {
   shared.uTime.value = t;
   const k = Math.floor(t * 12);                                 // boil on twos
   if (k !== tick) { tick = k; boilNow = true; shared.uBoil.value = (k % 3) + 1; comp.mat.uniforms.uSeed.value = (k % 3) * 7.31; }
-  shelf.userData.spin.rotation.y = audio.paused ? 0 : t * 3.5;
+  if (!audio.paused) shelf.userData.spin.rotation.y = t * 3.5;     // 33⅓-ish; stops where it was when paused
+  const arm = shelf.userData.arm; arm.rotation.y += ((audio.paused ? 0 : ARM_PLAY) - arm.rotation.y) * (1 - Math.exp(-2.5 * dt));   // tonearm swings onto the record
   player.update(dt, t);
+  framePanels(dt);
   doors.update(dt);
+  ward.update(dt, t);
+  annex.update(dt, t, player);
   reading.update(); telly.update(boilNow); boilNow = false;
   snk.update(dt, t, player.pos);
   if (marker.visible) { marker.scale.setScalar(1 + Math.sin(t * 6) * 0.12); if (!player.auto.pts) marker.visible = false; }
@@ -381,8 +517,8 @@ renderer.setAnimationLoop(() => {
   pickStation();
   thought();
   const w = whereAmI(player.pos);
-  const lb = `${w} · ${istClock()}`;
-  if (lb !== lastWhere) { lastWhere = lb; $('lbl').textContent = lb; }
+  if (w !== lastWhere) { lastWhere = w; hudPlace(w); }
+  hudClock(); hudSky();
   sfx.tick(dt, { player, musicPlaying: !audio.paused, hard: w !== 'the room', night: night(), pressed: telly.TV.pressed, tvOn: telly.on, portal: portals.busy, doors: doors.all });
   comp.render(scene, camera);
 });

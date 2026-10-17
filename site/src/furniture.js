@@ -40,7 +40,47 @@ function desk() {
   g.add(at(box(0.5, 0.025, 0.16, PAL.lav, { ink: 0.006, mat: 'plastic' }), -0.15, 0.7325, -0.13));   // keyboard
   g.add(at(box(0.07, 0.025, 0.1, PAL.lav, { ink: 0.005, mat: 'plastic' }), -0.5, 0.7325, -0.12));    // mouse (his right)
   const mug = at(cyl(0.045, 0.04, 0.1, PAL.spiral, { ink: 0.006, mat: 'glaze' }), 0.3, 0.77, -0.02); g.add(mug);
+  // desk lamp (back right corner, beside the mug): weighted base, two-part arm, cone shade tipped onto the desk
+  const dl = new THREE.Group(); dl.name = 'desk lamp';
+  dl.add(at(cyl(0.065, 0.075, 0.025, PAL.teal, { ink: 0.006, mat: 'metal' }, 20), 0, 0.0125, 0));
+  const a1 = box(0.018, 0.24, 0.018, PAL.ink, { ink: false, mat: 'metal', matAxis: 'y' }); a1.position.set(0.03, 0.135, 0); a1.rotation.z = -0.25; dl.add(a1);
+  const a2 = box(0.018, 0.2, 0.018, PAL.ink, { ink: false, mat: 'metal', matAxis: 'y' }); a2.position.set(-0.03, 0.31, 0); a2.rotation.z = 0.9; dl.add(a2);
+  const shade = cyl(0.025, 0.075, 0.1, PAL.teal, { ink: 0.006, mat: 'metal' }, 18); shade.position.set(-0.13, 0.33, 0); shade.rotation.z = 0.7; dl.add(shade);
+  const bulb = mesh(new THREE.SphereGeometry(0.028, 12, 8), PAL.spiral, { ink: false, unlit: true }); bulb.position.set(-0.16, 0.3, 0); dl.add(bulb);
+  const pool = new THREE.Mesh(new THREE.CircleGeometry(0.2, 28), new THREE.MeshBasicMaterial({ color: PAL.spiral, transparent: true, opacity: 0.22, depthWrite: false }));
+  pool.rotation.x = -Math.PI / 2; pool.position.set(-0.24, 0.002, -0.04); pool.visible = false; dl.add(pool); dl.userData.pool = pool;   // lit with the room lamp
+  g.add(at(dl, 0.6, 0.72, 0.14, -0.35)); g.userData.lamp = dl;
+  // two tiny plants: a succulent rosette in the far left corner, a little cactus behind the mug
+  const suc = new THREE.Group(); suc.name = 'succulent';
+  suc.add(at(cyl(0.05, 0.04, 0.07, PAL.orange, { ink: 0.005, mat: 'clay' }, 14), 0, 0.035, 0));
+  for (let i = 0; i < 8; i++) {
+    const a = i / 8 * Math.PI * 2, lf = mesh(new THREE.SphereGeometry(0.03, 8, 6).scale(1, 0.4, 0.55), i % 2 ? PAL.green : '#5FBF7A', { ink: 0.004, mat: 'leaf' });
+    lf.position.set(Math.cos(a) * 0.028, 0.08 + (i % 2) * 0.008, Math.sin(a) * 0.028); lf.rotation.set(0, -a, 0.45); suc.add(lf);
+  }
+  g.add(at(suc, -0.68, 0.72, 0.16));
+  const cac = new THREE.Group(); cac.name = 'cactus';
+  cac.add(at(cyl(0.035, 0.03, 0.055, PAL.white, { ink: 0.005, mat: 'glaze' }, 14), 0, 0.0275, 0));
+  cac.add(at(mesh(new THREE.CapsuleGeometry(0.022, 0.07, 4, 10), PAL.greenD, { ink: 0.004, mat: 'leaf' }), 0, 0.1, 0));
+  const arm = mesh(new THREE.CapsuleGeometry(0.012, 0.03, 4, 8), PAL.greenD, { ink: 0.003, mat: 'leaf' }); arm.position.set(0.026, 0.11, 0); arm.rotation.z = -0.5; cac.add(arm);
+  g.add(at(cac, 0.36, 0.72, 0.2));
   g.userData.screen = scr;
+  return g;
+}
+
+// bean bag in front of the TV: a squashed sack with a dent to sit in and a slumped back; he lounges in it to watch
+export const BAG = { seat: 0.35 };
+function beanBag() {
+  const geo = new THREE.SphereGeometry(0.48, 32, 20), p = geo.attributes.position;
+  for (let i = 0; i < p.count; i++) {
+    const x = p.getX(i), z = p.getZ(i); let y = p.getY(i);
+    y = y > 0 ? y * 0.62 : y * 0.25;
+    if (z < 0 && y > 0) y += (z / 0.48) ** 2 * 0.2 * (y / 0.3);              // the back slumps up behind him
+    if (y > 0) y -= 0.09 * Math.exp(-(x * x + (z - 0.06) ** 2) / 0.035);      // the seat dent
+    p.setXYZ(i, x * (1 + 0.04 * Math.sin(z * 9)), y, z);                         // a few lumps
+  }
+  geo.computeVertexNormals();
+  const g = new THREE.Group(); g.name = 'bean bag';
+  g.add(at(soft(mesh(geo, PAL.mag, { ink: 0.012, mat: 'fabric' }), 'bean bag'), 0, 0.12, 0));
   return g;
 }
 
@@ -176,19 +216,22 @@ export function furnish({ room, walls, solid, W, D }) {
   const ch = at(chair(), -0.65, 0, D / 2 - 0.87, 0); room.add(ch);
   const CHAIR = { x: -0.65, z: D / 2 - 0.87, heading: 0, act: 'desk', out: [-0.65, D / 2 - 1.45] };
 
-  const bd = at(bed(), -W / 2 + 0.72, 0, -D / 2 + 1.06, 0); room.add(bd);
-  solid(-W / 2, -D / 2, -W / 2 + 1.4, -D / 2 + 2.1);
-  const BED = { x: -W / 2 + 0.72, z: -D / 2 + 1.95, heading: 0, act: 'bed', lying: true, out: [-W / 2 + 1.75, -D / 2 + 1.3], enter: () => bd.userData.sleep(true), leave: () => bd.userData.sleep(false) };
+  const bd = at(bed(), -W / 2 + 0.72, 0, -D / 2 + 1.12, 0); room.add(bd);
+  solid(-W / 2, -D / 2, -W / 2 + 1.4, -D / 2 + 2.16);
+  const BED = { x: -W / 2 + 0.72, z: -D / 2 + 2.01, heading: 0, act: 'bed', lying: true, out: [-W / 2 + 1.75, -D / 2 + 1.3], enter: () => bd.userData.sleep(true), leave: () => bd.userData.sleep(false) };
 
   const bs = at(bookshelf(), -W / 2 + 0.22, 0, 1.25, Math.PI / 2); room.add(bs);
   solid(-W / 2, 0.62, -W / 2 + 0.4, 1.88);
 
-  const t = tv(); at(t.g, 2.05, 0, D / 2 - 0.3, 0); room.add(t.g);
+  const t = tv(); at(t.g, 2.05, 0, D / 2 - 0.33, 0); room.add(t.g);
   solid(1.48, D / 2 - 0.55, 2.62, D / 2);
+
+  const bb = at(beanBag(), 2.05, 0, 1.12, 0); room.add(bb);                       // telly.TV sits him in it
+  solid(1.72, 0.82, 2.38, 1.42);
 
   const pb = hang(left, pinboard(), -W / 2 + 0.07, 1.65, -0.35, Math.PI / 2);
 
   const rg = rug(); rg.position.set(0.3, 0.004, 0.45); room.add(rg);
 
-  return { desk: dk, chair: ch, CHAIR, bed: bd, BED, bookshelf: bs, tv: t.g, tvNoise: t.noise, tvScreen: t.scr, pinboard: pb };
+  return { beanBag: bb, desk: dk, chair: ch, CHAIR, bed: bd, BED, bookshelf: bs, tv: t.g, tvNoise: t.noise, tvScreen: t.scr, pinboard: pb };
 }

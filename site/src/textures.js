@@ -29,21 +29,46 @@ function spiralPath(g, cx, cy, r, turns, n = 300) {
   }
 }
 
-export function skyTex() {
+// the window: the same swirl in four moods, picked by India time (main.js skyPhase). Night keeps the crescent + stars,
+// day a big sun and puffy ink-edged clouds, dawn / dusk a low half sun in warm rings
+const SKY = {
+  night: [PAL.deep, PAL.violet, PAL.indigo, '#6A4BE0', PAL.plum, PAL.blue, PAL.deep],
+  dawn: ['#F6B38A', '#F2643A', '#F7A39F', '#B8B5F0', '#E0368F', '#F6E27A', '#F7A39F'],
+  day: ['#7FC8F8', '#5FB2F0', '#9AD6FA', '#4FA0E8', '#B6E3FB', '#6BBDF4', '#7FC8F8'],
+  dusk: [PAL.plum, PAL.mag, '#F2643A', PAL.violet, '#E0368F', '#F6B38A', PAL.plum],
+};
+export function skyTex(phase = 'night') {
   return canvas(512, 512, (g, w, h) => {
-    const rings = [PAL.deep, PAL.violet, PAL.indigo, '#6A4BE0', PAL.plum, PAL.blue, PAL.deep];
+    const rings = SKY[phase] || SKY.night;
     for (let i = 14; i > 0; i--) {
       g.fillStyle = rings[i % rings.length];
       g.beginPath(); g.ellipse(w * .55, h * .58, i * 40, i * 30, -0.3, 0, Math.PI * 2); g.fill();
     }
-    g.fillStyle = PAL.spiral;                                 // crescent
-    g.beginPath(); g.arc(150, 130, 52, 0, Math.PI * 2); g.fill();
-    g.fillStyle = rings[2]; g.beginPath(); g.arc(178, 112, 48, 0, Math.PI * 2); g.fill();
-    g.fillStyle = PAL.white;
-    for (let i = 0; i < 26; i++) {                            // 4-point stars
-      const x = (i * 197) % w, y = (i * 131 + 40) % h, s = 4 + (i % 3) * 3;
-      g.beginPath(); g.moveTo(x, y - s * 2); g.lineTo(x + s * .5, y); g.lineTo(x, y + s * 2); g.lineTo(x - s * .5, y); g.fill();
-      g.beginPath(); g.moveTo(x - s * 2, y); g.lineTo(x, y + s * .5); g.lineTo(x + s * 2, y); g.lineTo(x, y - s * .5); g.fill();
+    if (phase === 'night') {
+      g.fillStyle = PAL.spiral;                               // crescent
+      g.beginPath(); g.arc(150, 130, 52, 0, Math.PI * 2); g.fill();
+      g.fillStyle = rings[2]; g.beginPath(); g.arc(178, 112, 48, 0, Math.PI * 2); g.fill();
+      g.fillStyle = PAL.white;
+      for (let i = 0; i < 26; i++) {                          // 4-point stars
+        const x = (i * 197) % w, y = (i * 131 + 40) % h, s = 4 + (i % 3) * 3;
+        g.beginPath(); g.moveTo(x, y - s * 2); g.lineTo(x + s * .5, y); g.lineTo(x, y + s * 2); g.lineTo(x - s * .5, y); g.fill();
+        g.beginPath(); g.moveTo(x - s * 2, y); g.lineTo(x, y + s * .5); g.lineTo(x + s * 2, y); g.lineTo(x, y - s * .5); g.fill();
+      }
+      return;
+    }
+    const low = phase !== 'day', sx = phase === 'dusk' ? 360 : 150, sy = low ? 400 : 140, sr = low ? 90 : 62;
+    inkStroke(g, 6);
+    g.fillStyle = PAL.spiral; g.beginPath(); g.arc(sx, sy, sr, 0, Math.PI * 2); g.fill(); g.stroke();   // sun
+    for (let i = 0; i < 12; i++) {                            // chunky rays
+      const a = i / 12 * Math.PI * 2; g.beginPath();
+      g.moveTo(sx + Math.cos(a) * (sr + 14), sy + Math.sin(a) * (sr + 14)); g.lineTo(sx + Math.cos(a) * (sr + 40), sy + Math.sin(a) * (sr + 40)); g.stroke();
+    }
+    if (low) { g.fillStyle = rings[1]; g.fillRect(0, 430, w, h - 430); g.beginPath(); g.moveTo(0, 430); g.lineTo(w, 430); g.stroke(); }   // horizon
+    g.fillStyle = phase === 'day' ? PAL.white : '#F7D3C8';    // clouds: three bumps on a flat base
+    for (const [cx, cy, k] of [[340, 120, 1], [120, 300, .8], [380, 300, .7]]) {
+      g.beginPath(); g.moveTo(cx - 80 * k, cy + 22 * k);
+      g.arc(cx - 45 * k, cy + 2 * k, 30 * k, Math.PI, 0); g.arc(cx + 5 * k, cy - 14 * k, 40 * k, Math.PI, 0); g.arc(cx + 52 * k, cy + 4 * k, 28 * k, Math.PI, 0);
+      g.lineTo(cx + 80 * k, cy + 22 * k); g.closePath(); g.fill(); g.stroke();
     }
   });
 }

@@ -70,6 +70,7 @@ export function makePhysics({ scene, man }) {
     cols = [];
     scene.traverse(o => {
       if (!o.isMesh || o.isSkinnedMesh || !(o.layers.mask & 1) || !shown(o)) return;
+      for (let x = o; x; x = x.parent) if (x === man.root) return;   // what he wears / holds (hat, guitar) is his own
       const mt = o.material; if (!mt || mt.transparent || mt.side === THREE.BackSide) return;
       const c = collider(o); if (c) cols.push(c);
     });
@@ -129,5 +130,5 @@ export function makePhysics({ scene, man }) {
     }
     return [...hits.values()].sort((a, b) => b.depth - a.depth).map(h => ({ ...h, depth: +(h.depth * 1000).toFixed(1) }));
   }
-  return { check, gather, parts: () => body.map(b => b.name) };
+  return { check, gather, bake, parts: () => body.map(b => b.name) };
 }

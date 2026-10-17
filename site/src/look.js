@@ -9,14 +9,14 @@ export const shared = {
   uTime: { value: 0 },
   uBoil: { value: 0 },                                   // re-seeded on twos (12 fps)
   uKeyDir: { value: new THREE.Vector3(-0.55, 0.75, 0.45).normalize() },
-  uLampPos: { value: new THREE.Vector3(3.2, 1.8, -1.0) },  // lamp shade
+  uLampPos: { value: new THREE.Vector3(3.5, 1.8, -1.0) },  // lamp shade
   uLamp: { value: 0 },                                   // shader pool off until the lamp station; floor decal carries it
   uShadeCol: { value: new THREE.Color('#140B52') },
   uWarm: { value: new THREE.Color('#FFD27A') },
 };
 
 // skinning chunks are no-ops on plain meshes (USE_SKINNING is defined only for SkinnedMesh)
-const toonVert = /* glsl */`
+export const toonVert = /* glsl */`
   #include <common>
   #include <skinning_pars_vertex>
   varying vec3 vN; varying vec3 vW; varying vec2 vUv; varying vec3 vRest; varying vec3 vON;
@@ -97,7 +97,7 @@ const matGLSL = /* glsl */`
     return b;
   }`;
 
-const toonFrag = /* glsl */`
+export const toonFrag = /* glsl */`
   uniform vec3 uColor; uniform sampler2D uMap; uniform float uHasMap; uniform float uUnlit;
   uniform vec3 uKeyDir; uniform vec3 uLampPos; uniform float uLamp; uniform vec3 uShadeCol; uniform vec3 uWarm;
   uniform float uShadeAmt; uniform float uRestUV; uniform vec2 uRestScale;
@@ -140,7 +140,7 @@ export function toon(color, { map = null, unlit = false, shade = 0.5, shadeCol =
 }
 
 // inverted hull; width wobbles with a boil seed so lines "re-draw" on twos like the 2D film
-const hullVert = /* glsl */`
+export const hullVert = /* glsl */`
   #include <common>
   #include <skinning_pars_vertex>
   uniform float uW; uniform float uBoil;
@@ -159,7 +159,7 @@ const hullVert = /* glsl */`
     w.xyz += n * uW * j * persp;
     gl_Position = projectionMatrix * viewMatrix * w;
   }`;
-const hullFrag = /* glsl */`void main(){ gl_FragColor = vec4(1.0); }`;
+export const hullFrag = /* glsl */`void main(){ gl_FragColor = vec4(1.0); }`;
 
 // live: share the mesh's own geometry (it must already be seamless with smooth normals), for meshes deformed on the CPU
 export function addInk(mesh, width = 0.012, { live = false } = {}) {
@@ -230,7 +230,7 @@ export function makeCompositor(renderer, { samples = 4 } = {}) {   // phones: 2 
   });
   const quad = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), mat);
   const quadScene = new THREE.Scene(); quadScene.add(quad);
-  const depthOnly = new THREE.MeshBasicMaterial({ colorWrite: false });
+  const depthOnly = new THREE.MeshBasicMaterial({ colorWrite: false, side: THREE.DoubleSide });   // both sides: a curtain seen from behind still hides the ink beyond it
   const black = new THREE.Color(0, 0, 0);
   let inked = null, age = 0;
 

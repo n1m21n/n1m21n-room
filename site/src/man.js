@@ -22,7 +22,7 @@ const faces = {};
 const texLoader = new THREE.TextureLoader();
 export function faceTex(name = 'neutral') {
   if (!faces[name]) {
-    faces[name] = texLoader.load(`/media/man/face-${name}.webp`);
+    faces[name] = texLoader.load(`/media/man/face-${name}.webp`, t => { t.userData.ready = true; });
     faces[name].colorSpace = THREE.SRGBColorSpace;
     faces[name].anisotropy = 4;
     faces[name].flipY = false;                   // glTF UV convention
@@ -30,7 +30,10 @@ export function faceTex(name = 'neutral') {
   return faces[name];
 }
 
+export const FACES = ['neutral', 'calm', 'curious', 'delighted', 'sleep', 'uneasy'];
 export async function loadMan() {
+  // every expression up front: a face loaded on first use draws black until it arrives
+  const ready = Promise.all(FACES.map(n => new Promise(res => { const t = faceTex(n); if (t.userData.ready) res(); else { const k = setInterval(() => { if (t.userData.ready || t.image?.complete) { clearInterval(k); res(); } }, 30); setTimeout(() => { clearInterval(k); res(); }, 8000); } })));
   const gltf = await new GLTFLoader().loadAsync('/media/man/man.glb');
   const root = gltf.scene;
   const tee = T.teeTex(); tee.wrapS = tee.wrapT = THREE.RepeatWrapping;
@@ -39,12 +42,14 @@ export async function loadMan() {
   for (const o of meshes) {
     const [color, opts] = LOOK[o.material.name] || ['#ff00ff', {}];
     const map = o.material.name === 'face' ? faceTex() : o.material.name === 'tee' ? tee : null;
+    o.userData.look = o.material.name;             // outfits.js finds the tee / pants / boots by this
     o.material = toon(color, { ...opts, map });
     if (opts.onTop) Object.assign(o.material, { side: THREE.DoubleSide, polygonOffset: true, polygonOffsetFactor: -6, polygonOffsetUnits: -6 });
     if (opts.twoSided) o.material.side = THREE.DoubleSide;
     o.frustumCulled = false;                       // skinned bounds don't follow the pose
     if (opts.ink !== false) addInk(o, opts.ink);
   }
+  await ready;
   const bones = {};
   root.traverse(o => { if (o.isBone) { bones[o.name] = o; o.userData.rest = o.quaternion.clone(); } });
   const head = meshes.find(o => o.material.uniforms.uMap.value === faces.neutral);

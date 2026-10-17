@@ -6,6 +6,8 @@ import { mesh, toon, addInk } from './look.js';
 import { PAL } from './textures.js';
 
 const N = 44, S = 10, LEN = 1.55, R0 = 0.062;
+// its cushion (owner ref: assets/refs/snake-cushion-ref.webp): a plush donut on the floor it curls up in for a nap
+export const BED = { x: -2.05, z: -0.3, r: 0.36 };
 const LOOP = [[-1.2, -1.4], [0.6, -1.75], [1.9, -0.6], [2.6, 0.6], [2.2, 1.75], [0.9, 1.55], [-0.35, 1.25], [-1.3, 0.9], [-1.4, -0.4]];
 
 export function makeSnake() {
@@ -37,10 +39,28 @@ export function makeSnake() {
   const tongue = mesh(new THREE.BoxGeometry(0.012, 0.004, 0.09), PAL.red, { ink: false });
   tongue.position.set(0, -0.01, 0.17); head.add(tongue);
 
-  const group = new THREE.Group();
-  group.add(body, head);
+  const eyes = head.children.filter(c => c.geometry?.type === 'SphereGeometry' && c !== skull);
 
-  const st = { s: 0, speed: 0, rear: 0, wiggle: 0 };
+  // cushion: base pad + a fat squashed ring, lilac so the cream coil reads on it
+  const bed = new THREE.Group(); bed.name = 'snake cushion';
+  const pad = mesh(new THREE.CylinderGeometry(BED.r - 0.04, BED.r - 0.02, 0.05, 28), PAL.plum, { ink: 0.008, mat: 'fabric' });
+  pad.position.y = 0.025; bed.add(pad);
+  const ring = mesh(new THREE.TorusGeometry(BED.r - 0.09, 0.09, 14, 36).rotateX(Math.PI / 2).scale(1, 1.15, 1), PAL.lav, { ink: 0.012, mat: 'fabric' });
+  ring.position.y = 0.1; bed.add(ring);
+  bed.position.set(BED.x, 0, BED.z);
+  for (const o of bed.children) o.userData.phys = 'soft';
+
+  const group = new THREE.Group();
+  group.add(body, head, bed);
+
+  // naps: every few minutes, once its head passes near the cushion, it slides in and coils up (curl 0 -> 1), sleeps,
+  // then uncoils back onto the loop where it left it
+  const st = { s: 0, speed: 0, rear: 0, wiggle: 0, curl: 0, nap: 0, napAt: 40 + Math.random() * 80, napFor: 0 };
+  const coil = (u, out) => {                                     // head on the outer turn, tail tucked in the middle
+    const a = u * Math.PI * 2 * 1.9 + 0.6, r = 0.15 - u * 0.11;
+    return out.set(BED.x + Math.cos(a) * r, 0.05, BED.z + Math.sin(a) * r);
+  };
+  const C = new THREE.Vector3();
   const P = Array.from({ length: N }, () => new THREE.Vector3());
   const T = new THREE.Vector3(), side = new THREE.Vector3(), up = new THREE.Vector3(), Y = new THREE.Vector3(0, 1, 0);
   const tmp = new THREE.Vector3(), tan = new THREE.Vector3(), look = new THREE.Vector3();
@@ -48,9 +68,14 @@ export function makeSnake() {
   function update(dt, t, manPos) {
     const hp = P[0];
     const near = manPos && hp.lengthSq() ? Math.hypot(manPos.x - hp.x, manPos.z - hp.z) : 9;
-    const want = near < 1.1 ? 0 : 0.32;
+    st.napAt -= dt;
+    if (!st.nap && st.napAt < 0 && Math.hypot(hp.x - BED.x, hp.z - BED.z) < 1.0) { st.nap = 1; st.napFor = 40 + Math.random() * 45; }
+    if (st.nap) { st.napFor -= dt; if (st.napFor < 0) { st.nap = 0; st.napAt = 90 + Math.random() * 150; } }
+    st.curl += ((st.nap ? 1 : 0) - st.curl) * (1 - Math.exp(-(st.nap ? 0.9 : 1.4) * dt));
+    const asleep = st.curl > 0.02;
+    const want = near < 1.1 || asleep ? 0 : 0.32;
     st.speed += (want - st.speed) * (1 - Math.exp(-3 * dt));
-    st.rear += ((near < 1.1 ? 1 : 0) - st.rear) * (1 - Math.exp(-4 * dt));
+    st.rear += ((near < 1.1 && !asleep ? 1 : 0) - st.rear) * (1 - Math.exp(-4 * dt));
     st.wiggle = Math.max(0, st.wiggle - dt);
     st.s = (st.s + st.speed * dt) % total;
     const phase = t * (1.2 + st.speed * 9) + st.wiggle * 18;
@@ -64,6 +89,11 @@ export function makeSnake() {
       P[i].addScaledVector(side, Math.sin(u * 12.5 - phase) * amp);
       const r = R0 * (u < 0.1 ? 0.8 + u * 2 : 1 - Math.pow((u - 0.1) / 0.9, 1.6) * 0.92);
       P[i].y = r + (u < 0.25 ? Math.pow(1 - u / 0.25, 2) * 0.32 * st.rear : 0) + (u < 0.06 ? 0.03 : 0);
+      if (asleep) {                                            // slide toward the coil, head last (it settles in tail first)
+        const k = Math.min(1, Math.max(0, st.curl * 1.6 - (1 - u) * 0.6));
+        coil(u, C); C.y += r + (u < 0.08 ? 0.05 * (1 - u / 0.08) : 0);   // head rests up on its own body
+        P[i].lerp(C, k * k * (3 - 2 * k));
+      }
       P[i].w = r;
     }
     for (let i = 0; i < N; i++) {
@@ -84,10 +114,11 @@ export function makeSnake() {
       T.lerp(look, st.rear * 0.8).normalize();
     }
     head.lookAt(tmp.copy(head.position).add(T));
-    tongue.visible = Math.sin(t * 5) > 0.55 || st.wiggle > 0;
+    for (const e of eyes) e.scale.y = st.curl > 0.8 ? 0.15 : 1;   // eyes shut once it is curled up
+    tongue.visible = !asleep && (Math.sin(t * 5) > 0.55 || st.wiggle > 0);
     tongue.scale.z = 0.6 + Math.abs(Math.sin(t * 20)) * 0.6;
   }
   update(0, 0, null);
 
-  return { group, head, update, pet: () => { st.wiggle = 1.2; } };
+  return { group, head, bed, update, get asleep() { return st.curl > 0.5; }, nap: (on = true) => { st.nap = on ? 1 : 0; st.napFor = on ? 60 : 0; st.napAt = on ? 0 : 120; }, pet: () => { st.wiggle = 1.2; if (st.nap) { st.nap = 0; st.napAt = 120; } } };
 }

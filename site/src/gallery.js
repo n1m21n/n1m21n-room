@@ -4,10 +4,12 @@
 // Frames hang round every wall (two-row salon hang for big eras), reading clockwise from the door you came in by.
 // A bench sits in the middle of every hall. Textures load per hall when the player gets close; videos play only near
 // the player (small pool). Door leaves are made by doors.js from `doorways` (after the nav grid is baked).
+import { batch } from './batch.js';
 import * as THREE from 'three';
 import { mesh, toon } from './look.js';
 import { PAL } from './textures.js';
-import { W as RW, D as RD, DOOR } from './room.js';
+import { W as RW, D as RD, DOOR, floorLamp, monstera } from './room.js';
+import { ANNEX } from './annex.js';
 
 const HALL_H = 4.2, PASS_H = 2.6, WT = 0.12;                    // hall walls, passage walls, wall thickness
 const DW = DOOR.z1 - DOOR.z0, DH = 2.35;                       // every doorway matches the room door: 1.4 wide
@@ -86,13 +88,29 @@ export async function buildGallery(ctx) {
     if (y - h / 2 < 1) ctx.solid(x - w / 2, z - d / 2, x + w / 2, z + d / 2);
     return m;
   };
-  const floor = (x0, x1, z0, z1, c) => { const f = mesh(new THREE.PlaneGeometry(x1 - x0, z1 - z0), c, { ink: false, shade: 0.3, mat: 'wood', matAxis: 'x', matAmt: 0.55 }); f.rotation.x = -Math.PI / 2; f.position.set((x0 + x1) / 2, 0.002, (z0 + z1) / 2); g.add(f); };
+  const floor = (x0, x1, z0, z1, c) => { const f = mesh(new THREE.PlaneGeometry(x1 - x0, z1 - z0), c, { ink: false, shade: 0.3, mat: 'wood', matAxis: 'x', matAmt: 0.55 }); f.rotation.x = -Math.PI / 2; f.userData.floor = true; f.position.set((x0 + x1) / 2, 0.002, (z0 + z1) / 2); g.add(f); };
   // a straight passage from point p heading dir for len, inner width DW, with walls both sides (+ door in the middle)
   const taken = [[-RW / 2 - 0.2, -RD / 2 - 0.2, RW / 2 + 0.2, RD / 2 + 0.2]];   // floor-plan rects already used
-  function passage(p, dir, len, col, withDoor, k) {
-    const [dx, dz] = DIR[dir], ex = p[0] + dx * len, ez = p[1] + dz * len, hw = DW / 2 + WT / 2;
+  // `cuts` ({s, x, w}: side -1/+1, centre x, width): doorways in an E/W passage's side walls (the annex rooms)
+  function passage(p, dir, len, col, withDoor, k, cuts = [], wid = DW) {
+    const [dx, dz] = DIR[dir], ex = p[0] + dx * len, ez = p[1] + dz * len, hw = wid / 2 + WT / 2;
     const x0 = Math.min(p[0], ex), x1 = Math.max(p[0], ex), z0 = Math.min(p[1], ez), z1 = Math.max(p[1], ez);
-    if (dx) { floor(x0, x1, p[1] - DW / 2, p[1] + DW / 2, '#2A1A9E'); for (const s of [-1, 1]) wall(len, PASS_H, WT, col, (x0 + x1) / 2, PASS_H / 2, p[1] + s * hw); }
+    if (dx) {
+      floor(x0, x1, p[1] - wid / 2, p[1] + wid / 2, '#2A1A9E');
+      for (const s of [-1, 1]) {
+        const z = p[1] + s * hw; let a = x0;
+        for (const c of cuts.filter(c => c.s === s).sort((m, n) => m.x - n.x)) {
+          const l = c.x - c.w / 2, r = c.x + c.w / 2;
+          if (l > a) wall(l - a, PASS_H, WT, col, (a + l) / 2, PASS_H / 2, z);
+          wall(c.w, PASS_H - DH, WT, col, c.x, (PASS_H + DH) / 2, z);              // lintel
+          const jamb = (o) => { o.userData.wall = true; o.userData.arm = true; ctx.walls.push(o); g.add(o); return o; };
+          for (const e of [-1, 1]) { const jx = c.x + e * (c.w / 2 - 0.05); jamb(at(box(0.1, DH + 0.06, 0.14, PAL.white, { ink: 0.008, mat: 'paint', matAxis: 'y' }), jx, (DH + 0.06) / 2, z)); ctx.solid(jx - 0.05, z - 0.07, jx + 0.05, z + 0.07); }
+          jamb(at(box(c.w, 0.08, 0.14, PAL.white, { ink: 0.008, mat: 'paint' }), c.x, DH + 0.04, z));
+          a = r;
+        }
+        if (x1 > a) wall(x1 - a, PASS_H, WT, col, (a + x1) / 2, PASS_H / 2, z);
+      }
+    }
     else { floor(p[0] - DW / 2, p[0] + DW / 2, z0, z1, '#2A1A9E'); for (const s of [-1, 1]) wall(WT, PASS_H, len, col, p[0] + s * hw, PASS_H / 2, (z0 + z1) / 2); }
     taken.push(dx ? [x0, p[1] - hw - 0.1, x1, p[1] + hw + 0.1] : [p[0] - hw - 0.1, z0, p[0] + hw + 0.1, z1]);
     if (withDoor) {
@@ -109,9 +127,10 @@ export async function buildGallery(ctx) {
 
   // corridor: room door -> first hall (the room door itself gets a leaf too)
   const cStart = [RW / 2 + 0.05, CZ];
-  let p = passage(cStart, 'E', 3.0, PAL.plum, false, 0);
+  let p = passage(cStart, 'E', ANNEX.foyer.len, PAL.plum, false, 0, [{ s: -1, x: ANNEX.bath.door, w: ANNEX.dw }, { s: 1, x: ANNEX.kitchen.door, w: ANNEX.dw }], ANNEX.foyer.w);
+  taken.push([ANNEX.x0 - WT, ANNEX.bath.z0 - WT, ANNEX.bath.x1 + WT, CZ - ANNEX.foyer.w / 2], [ANNEX.x0 - WT, CZ + ANNEX.foyer.w / 2, ANNEX.kitchen.x1 + WT, ANNEX.kitchen.z1 + WT]);   // the annex rooms
   doorways.push({ x: RW / 2, z: CZ, phi: Math.PI / 2, w: DW - 0.1, h: DOOR.h - 0.02, color: PAL.red, hinge: 1, room: true });   // hinged on the TV side: swings clear of the snake painting
-  zones.push({ name: 'corridor', title: 'to the gallery', x0: cStart[0], x1: p[0], z0: DOOR.z0, z1: DOOR.z1 });
+  zones.push({ name: 'corridor', title: 'to the gallery', x0: cStart[0], x1: p[0], z0: CZ - ANNEX.foyer.w / 2, z1: CZ + ANNEX.foyer.w / 2 });
 
   let inDir = 'E';
   halls.forEach((h, i) => {
@@ -170,6 +189,24 @@ export async function buildGallery(ctx) {
     const heading = faceN ? Math.PI : 0, fz = faceN ? -1 : 1;
     benches.push({ obj: b, seat: { x: cx, z: cz, heading, act: 'bench', out: [cx, cz + fz * 0.62] }, face: [cx, cz + fz * 2] });
 
+    // corners: a standing lamp tucked into each one (its pool spills into the hall), a monstera beside every other one.
+    // Frames keep 0.9 m clear of corners, so neither touches the hang; the solids overlap so no body-width pocket opens.
+    [[x0, z0], [x1, z0], [x1, z1], [x0, z1]].forEach(([qx, qz], k) => {
+      const ix = qx === x0 ? 1 : -1, iz = qz === z0 ? 1 : -1;               // into the hall
+      const lx = qx + ix * 0.42, lz = qz + iz * 0.42;               // shade (r 0.3 x 1.3) clears both walls
+      const lp = at(floorLamp(LEAVES[(i + k) % LEAVES.length], [ix * 0.45, iz * 0.45], [0.6, 0.6]), lx, 0, lz);
+      lp.scale.setScalar(1.3); g.add(lp);                             // halls are 4.2 m tall: a room-sized lamp looks like a toy
+      ctx.solid(lx - 0.27, lz - 0.27, lx + 0.27, lz + 0.27);
+      if ((k + i) % 2) return;
+      const px = qx + ix * 0.85, pz = qz + iz * 0.85;
+      const pt = at(monstera(PAL.orange, 6 + (k % 2)), px, 0, pz, k + i);
+      pt.scale.setScalar(1.15); g.add(pt);
+      // solid right back to both walls: the strips between the pot and the walls are just under a body wide, a dead end
+      // he could still wedge into
+      const ex = px + ix * 0.36, ez = pz + iz * 0.36;
+      ctx.solid(Math.min(qx, ex), Math.min(qz, ez), Math.max(qx, ex), Math.max(qz, ez));
+    });
+
     // entry spot for portals: just inside the way in, facing into the hall
     const ex = sx + Lin.n[0] * 1.1, ez = sz + Lin.n[1] * 1.1;
     const zone = { name: h.id, title: h.title, x0, x1, z0, z1, frames: [], loaded: false, entry: { x: ex, z: ez, heading: Math.atan2(Lin.n[0], Lin.n[1]) } };
@@ -209,6 +246,15 @@ export async function buildGallery(ctx) {
     });
   }
 
+  // halls he has walked away from give their textures back to the GPU (a 1024 px poster is ~5 MB decoded); they reload on return
+  function unloadZone(z) {
+    z.loaded = false;
+    for (const f of z.frames) if (f.poster && !playing.has(f)) {
+      f.poster.dispose(); f.poster = null;
+      const u = f.art.material.uniforms; u.uMap.value = null; u.uHasMap.value = 0; f.art.material.needsUpdate = true;
+    }
+  }
+
   // video pool: the nearest few video works play muted while the player is close
   const POOL = matchMedia('(pointer: coarse)').matches ? 2 : 4;
   const playing = new Map();
@@ -232,7 +278,7 @@ export async function buildGallery(ctx) {
   function update(p) {
     for (const z of zones) {
       if (!z.frames) continue;
-      if (near(z, p, 8)) loadZone(z);
+      if (near(z, p, 8)) loadZone(z); else if (z.loaded && !near(z, p, 16)) unloadZone(z);
       // a hall's art is only drawn while he is in or next to it (halls are walled; saves ~half the draw calls on phones)
       const on = near(z, p, 7);
       if (on !== z.drawn) { z.drawn = on; for (const f of z.frames) f.group.visible = on; }
@@ -241,5 +287,6 @@ export async function buildGallery(ctx) {
   }
   const zoneAt = p => zones.find(z => near(z, p, 0));
 
+  batch(g);   // frame boards and benches: a few hundred draws -> a handful (art, signs, walls and doors keep their own meshes)
   return { group: g, zones, frames, doorways, benches, update, zoneAt };
 }

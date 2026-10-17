@@ -8,6 +8,7 @@ import { mesh } from './look.js';
 import { PAL } from './textures.js';
 
 const T = 0.05;                     // leaf thickness
+const SEG = 4;                      // collision boxes along a leaf
 const PLATE = { r: 0.62, y: 1.28 }; // push plate: metres out from the hinge along the leaf, height
 const STAND = 0.31;                 // his root, back from the leaf's face, while he pushes
 const OPEN = 1.5;                   // radians when fully open (folded back along the passage wall)
@@ -36,9 +37,11 @@ export function makeDoors({ scene, walls, solids, player, man }) {
     const kick = [1, -1].map(s => { const k = mesh(new THREE.BoxGeometry(w - 0.2, 0.2, 0.006), PAL.ink, { ink: false, mat: 'metal' }); k.position.set(w / 2, 0.14, s * (T / 2 + 0.003)); pivot.add(k); return k; });
     scene.add(pivot);
     leaf.userData.arm = true; leaf.userData.door = true; walls.push(leaf);         // the chase camera stops at it
-    const box = [0, 0, 0, 0];                                                     // live collision box while shut
-    solids.push(box);
-    const d = { x, z, phi, w, h, n, u, hinge, pivot, leaf, plates, kick, base, angle: 0, to: 0, side: 1, box, busy: false };
+    // live collision: the leaf as SEG short boxes from hinge to free edge, at whatever angle it stands (shut, mid-swing
+    // or folded back), so he can never walk through it
+    const boxes = Array.from({ length: SEG }, () => [0, 0, 0, 0]);
+    solids.push(...boxes);
+    const d = { x, z, phi, w, h, n, u, hinge, pivot, leaf, plates, kick, base, angle: 0, to: 0, side: 1, box: boxes[0], boxes, busy: false };
     setAngle(d, 0);
     all.push(d);
     return d;
@@ -47,12 +50,12 @@ export function makeDoors({ scene, walls, solids, player, man }) {
   function setAngle(d, a) {
     d.angle = a;
     d.pivot.rotation.y = d.base + a * (d.hinge < 0 ? -1 : 1);
-    // shut (or nearly): a thin solid across the opening; open: nothing (the leaf lies against the passage wall)
-    if (Math.abs(a) < 0.5) {
-      const c = new THREE.Vector3(d.x, 0, d.z), hw = d.w / 2, ht = T / 2 + 0.02;
-      const ax = Math.abs(d.u.x) * hw + Math.abs(d.n.x) * ht, az = Math.abs(d.u.z) * hw + Math.abs(d.n.z) * ht;
-      d.box[0] = c.x - ax; d.box[1] = c.z - az; d.box[2] = c.x + ax; d.box[3] = c.z + az;
-    } else d.box[0] = d.box[1] = d.box[2] = d.box[3] = 1e5;
+    const r = d.pivot.rotation.y, ex = Math.cos(r), ez = -Math.sin(r), hp = d.pivot.position, ht = T / 2 + 0.02;
+    d.boxes.forEach((b, i) => {
+      const t0 = (i / SEG) * (d.w - 0.03), t1 = ((i + 1) / SEG) * (d.w - 0.03);
+      const x0 = hp.x + ex * t0, z0 = hp.z + ez * t0, x1 = hp.x + ex * t1, z1 = hp.z + ez * t1;
+      b[0] = Math.min(x0, x1) - ht; b[1] = Math.min(z0, z1) - ht; b[2] = Math.max(x0, x1) + ht; b[3] = Math.max(z0, z1) + ht;
+    });
   }
   // which side of the leaf a point is on (+1 = the side n points to)
   const sideOf = (d, p) => Math.sign((p.x - d.x) * d.n.x + (p.z - d.z) * d.n.z) || 1;

@@ -159,19 +159,22 @@ def build_body():
     # arms (skin): sleeve covers the upper arm, so the visible skin starts ~ mid upper arm
     for s in "LR":
         sh, el, wr, fi = V(f"sh.{s}"), V(f"el.{s}"), V(f"wr.{s}"), V(f"fi.{s}")
-        pts = [lerp(sh, el, 0.22), lerp(sh, el, 0.55), el, lerp(el, wr, 0.35), wr]
-        objs.append(skin_mesh(f"arm.{s}", pts, [(i, i + 1) for i in range(4)],
-                              [0.062, 0.06, 0.05, 0.055, 0.04], "skin"))
+        # the forearm runs on past the wrist into the palm (weighted to the hand there), so the joint is one piece of
+        # skin however the hand turns: no gap, no ink ring round the wrist
+        _wr, kn, _ = hand_joints(s)
+        pts = [lerp(sh, el, 0.22), lerp(sh, el, 0.55), el, lerp(el, wr, 0.35), wr, lerp(wr, kn, 0.5)]
+        objs.append(skin_mesh(f"arm.{s}", pts, [(i, i + 1) for i in range(5)],
+                              [0.062, 0.06, 0.05, 0.055, 0.042, 0.036], "skin"))
         objs.append(hand(s))
     objs.append(skin_mesh("neck", [V("chest") + Vector((0, 0.005, 0.06)), V("neck"), V("head") + Vector((0, 0.005, 0.05))],
                           [(0, 1), (1, 2)], [0.056, 0.054, 0.052], "skin"))
     # tee: boxy torso lofted from rounded-rect sections, square shoulders (2D tee is a box with straight sides)
-    objs.append(loft("tee", [(0.90, 0.165, 0.112), (0.915, 0.165, 0.112), (1.12, 0.155, 0.106), (1.30, 0.172, 0.112), (1.37, 0.182, 0.108),
-                             (1.405, 0.17, 0.098), (1.425, 0.115, 0.078), (1.434, 0.066, 0.058)], "tee", cap_bottom=True))
+    objs.append(loft("tee", [(0.90, 0.148, 0.098), (0.915, 0.148, 0.098), (1.12, 0.138, 0.092), (1.30, 0.154, 0.098), (1.37, 0.166, 0.096),
+                             (1.405, 0.158, 0.09), (1.425, 0.112, 0.074), (1.434, 0.066, 0.058)], "tee", cap_bottom=True))
     for s, x in (("L", 1), ("R", -1)):                         # short boxy sleeves: open flared tubes, square at the shoulder
         sh, el = V(f"sh.{s}"), V(f"el.{s}")
         a, b = sh + Vector((-x * 0.03, 0, -0.035)), lerp(sh, el, 0.48)
-        objs.append(tube(f"sleeve.{s}", a, b, [(0.0, 0.062, 0.064), (0.2, 0.074, 0.074), (1.0, 0.088, 0.084)], "tee"))
+        objs.append(tube(f"sleeve.{s}", a, b, [(0.0, 0.058, 0.06), (0.2, 0.066, 0.068), (1.0, 0.078, 0.076)], "tee"))
     # collar rib: a torus around the neck base
     bm = bmesh.new()
     bmesh.ops.create_cone(bm, cap_ends=False, segments=24, radius1=0.076, radius2=0.064, depth=0.03)

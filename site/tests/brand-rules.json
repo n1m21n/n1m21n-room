@@ -1,0 +1,18 @@
+{
+  "_note": "Brand guideline as the tests enforce it. Source: brand/brand_book.html, direction B 'sketchbook riso' (owner pick 2026-10-14). Edit here, not in the test code.",
+  "palette": {
+    "paper": "#F1E9D2", "ink": "#0A0618", "riso blue": "#2E3BDB", "riso pink": "#E0368F", "spiral": "#F6E27A",
+    "indigo": "#2A1A9E", "red": "#FF2E4A", "white": "#FBF8E8", "deep": "#140B52", "violet": "#5A22B8", "lav": "#B8B5F0", "volt": "#3D5BFF", "cream": "#F4EFA1"
+  },
+  "fonts": { "display": "Bricolage Grotesque", "meta": "DM Mono", "devanagari": "Tiro Devanagari Hindi" },
+  "allowedFamilies": ["Bricolage Grotesque", "DM Mono", "Tiro Devanagari Hindi", "Tiro Devanagari Sanskrit", "monospace", "sans-serif", "serif", "inherit"],
+  "colourTolerance": { "warn": 14, "fail": 60 },
+  "minFontPx": 10,
+  "minContrast": { "fail": 3, "warn": 4.5 },
+  "control": { "borderPx": 2, "borderColour": "ink", "hardShadowOnly": true, "pillRadius": true },
+  "lowercaseUI": true,
+  "uppercaseOk": ["E", "M", "V", "WASD", "WASD / arrows", "IST", "DM", "YT", "TV", "UI", "ok", "n1m21n", "CRT", "DJ", "MBA", "IIM", "DU", "AAC", "EP", "LP", "ID", "AI", "3D", "2D", "II", "III"],
+  "allowedGlyphs": "♪♫☞↗→←↑↓·…—–•✕×‹›⏸▶❚",
+  "bannedText": ["undefined", "NaN", "null", "[object", "lorem", "TODO", "TBD", "xxx", "{{", "}}", "%s"],
+  "roots": [".chrome", "#prompt", "#stack", "#deck", "#tvp", "#card", "#thought", "#boot", "#joy"]
+}

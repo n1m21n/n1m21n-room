@@ -2,11 +2,12 @@
 // doors, switches and typing, a random take each time; everything else, and anything still loading, is synthesised with
 // Web Audio. A vinyl crackle runs under the room whenever no record is playing; footsteps, bumps, chairs, typing, keys, guitar, pages, doors, the portal, the remote, the snake and
 // the HUD each get a small effect. main.js calls tick() every frame with what is going on and fx(name) for one-offs.
-const KEY = 'n1m21n-sound';
+import { parseMidi } from './midi.js';
 
+const KEY = 'n1m21n-sound';
 export function makeSfx() {
   const AC = window.AudioContext || window.webkitAudioContext;
-  let ctx = null, out = null, amb = null, white = null;
+  let ctx = null, out = null, amb = null, white = null, water = null;
   let muted = false;
   try { muted = localStorage.getItem(KEY) === 'off'; } catch { /* private mode */ }
 
@@ -19,7 +20,7 @@ export function makeSfx() {
     out.connect(comp); comp.connect(ctx.destination);
     white = ctx.createBuffer(1, ctx.sampleRate * 2, ctx.sampleRate);
     const w = white.getChannelData(0); for (let i = 0; i < w.length; i++) w[i] = Math.random() * 2 - 1;
-    amb = crackle();
+    amb = crackle(); water = stream();
     loadTakes();
   }
   const wake = () => { init(); if (ctx?.state === 'suspended' && !document.hidden) ctx.resume(); };
@@ -74,6 +75,13 @@ export function makeSfx() {
     tone({ t, f: f * 3, type: 'triangle', gain: gain * 0.08, a: 0.002, d: 0.12 });
   }
   const hz = m => 440 * 2 ** ((m - 69) / 12);
+  // piano for real pieces: struck sine + bright partials that fade first; rings for the held length (+ a short tail)
+  function piano(f, t, dur, vel) {
+    const g = 0.05 * (0.35 + vel * 0.9), ring = Math.min(4.5, dur * 0.85 + 0.5);
+    tone({ t, f, gain: g, a: 0.004, d: ring, lp: 2600 });
+    tone({ t, f: f * 2, gain: g * 0.3, a: 0.003, d: Math.min(ring, 0.9) });
+    tone({ t, f: f * 3, type: 'triangle', gain: g * 0.06, a: 0.002, d: 0.15 });
+  }
 
   // ---------- the vinyl bed: hiss, dust pops and the once-per-turn tick of a worn groove (33⅓ rpm = 1.8 s)
   function crackle() {
@@ -91,6 +99,20 @@ export function makeSfx() {
     const g = ctx.createGain(); g.gain.value = 0;
     s.connect(hp).connect(lp).connect(g).connect(out); s.start();
     return g;
+  }
+
+  // running water (shower, taps, the kettle pouring): one looped noise through a band, its level and colour set per frame
+  function stream() {
+    const s = ctx.createBufferSource(); s.buffer = white; s.loop = true;
+    const bp = ctx.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = 1800; bp.Q.value = 0.7;
+    const g = ctx.createGain(); g.gain.value = 0;
+    s.connect(bp).connect(g).connect(out); s.start();
+    return { g, bp, want: 0 };
+  }
+  function pour(level, f = 1800, q = 0.7) {
+    if (Math.abs(level - water.want) < 0.005 && Math.abs(f - water.bp.frequency.value) < 1) return;
+    water.want = level; const t = now();
+    water.g.gain.setTargetAtTime(level, t, level ? 0.12 : 0.25); water.bp.frequency.setTargetAtTime(f, t, 0.1); water.bp.Q.setTargetAtTime(q, t, 0.1);
   }
 
   // ---------- one-shot effects
@@ -142,6 +164,15 @@ export function makeSfx() {
       [0, 4, 7, 12].forEach((s, i) => tone({ t: t + 0.35 + i * 0.07, f: hz(76 + s), gain: 0.03, d: 0.5 }));
     },
     chirp() { const t = now(), f = rnd(3000, 4300); for (let i = 0, n = 2 + Math.floor(Math.random() * 3); i < n; i++) tone({ t: t + i * 0.09, f, f2: f * rnd(1.15, 1.4), gain: 0.025, d: 0.06 }); },
+    flush() {                                                                              // the handle, a roar, the cistern refilling
+      const t = now(); tone({ t, f: 300, f2: 180, type: 'triangle', gain: 0.05, d: 0.06 });
+      hiss({ t: t + 0.1, type: 'lowpass', f: 900, f2: 300, q: 0.5, gain: 0.35, a: 0.25, d: 2.2 });
+      hiss({ t: t + 0.2, f: 2400, f2: 900, q: 1.2, gain: 0.12, a: 0.2, d: 1.8 });
+      hiss({ t: t + 2.2, f: 1500, f2: 2600, q: 3, gain: 0.04, a: 0.4, d: 2.5 });
+    },
+    fridge() { const t = now(); hiss({ t, type: 'lowpass', f: 300, gain: 0.12, d: 0.08 }); tone({ t: t + 0.05, f: 62, gain: 0.05, a: 0.3, d: 2.5 }); tone({ t: t + 0.05, f: 124, gain: 0.015, a: 0.3, d: 2.5 }); },
+    whistle() { const t = now(); tone({ t, f: 1900, f2: 2250, gain: 0.04, a: 0.4, d: 1.1 }); tone({ t: t + 0.02, f: 2850, f2: 3300, gain: 0.012, a: 0.4, d: 1.0 }); },
+    clink() { const t = now(); tone({ t, f: 2900, gain: 0.05, d: 0.25 }); tone({ t, f: 4400, gain: 0.02, d: 0.12 }); },
     cricket() { const t = now(); for (let i = 0; i < 3; i++) tone({ t: t + i * 0.05, f: 4600, gain: 0.015, d: 0.03 }); },
   };
 
@@ -191,6 +222,11 @@ export function makeSfx() {
   // ---------- music made at the stations (keys and guitar follow the act's clock so hands and sound agree)
   const CHORDS = [[57, 60, 64], [53, 57, 60, 64], [48, 52, 55, 60], [55, 59, 62]];          // Am  Fmaj7  C  G
   const GUITAR = [[40, 47, 52, 55, 59, 64], [48, 52, 55, 60, 64], [43, 47, 50, 55, 59, 67], [50, 57, 62, 66]];   // Em C G D
+  let song = null;                                                   // { notes, length } once fetched
+  function loadSong() {
+    if (song) return; song = {};
+    fetch('/media/midi/clair-de-lune.mid').then(r => r.arrayBuffer()).then(b => { song = parseMidi(b); }).catch(() => {});
+  }
   function strum(i, down) {
     heard.push('strum');
     const t = now(), notes = GUITAR[i % 4], ord = down ? notes : [...notes].reverse().slice(0, 4);
@@ -207,7 +243,15 @@ export function makeSfx() {
     if (s.musicPlaying && !seen.music && !muted) FX.needle();               // needle drops into the lead-in groove
     seen.music = s.musicPlaying;
     if (want !== seen.ambT) { seen.ambT = want; amb.gain.setTargetAtTime(want, t, want ? 0.8 : 0.25); }
-    if (muted) return;
+    if (muted) { if (water) pour(0); return; }
+
+    // water: whichever act has it running (the act's clock; acts.js)
+    const wu = sp?.t || 0;
+    if (sp?.act === 'shower') pour(wu > 0.3 ? 0.32 : 0, 1400, 0.5);
+    else if (sp?.act === 'wash') pour(st.spec?.tap ? 0.14 : 0, 2600, 0.9);
+    else if (sp?.act === 'loo') pour(wu > 1.5 && wu < 6 ? 0.05 : 0, 3200, 2.5);
+    else if (sp?.act === 'tea') pour(st.spec?.pour ? 0.1 : wu > 0.5 && wu < 3 ? 0.035 : 0, st.spec?.pour ? 2100 : 260, st.spec?.pour ? 1.6 : 0.6);   // pouring, else the boil's rumble
+    else pour(0);
 
     // feet: one step per half walk cycle
     const n = Math.floor(st.phase / Math.PI);
@@ -216,12 +260,13 @@ export function makeSfx() {
 
     // sitting down / getting up, and what each station sounds like while he's at it
     if (sp !== seen.seat) {
-      const was = seen.seat; seen.seat = sp; seen.next = t + 0.4; seen.chord = seen.strum = -1; seen.flip = 0; seen.opened = false;
+      const was = seen.seat; seen.seat = sp; seen.next = t + 0.4; seen.chord = seen.strum = -1; seen.loop = -1; seen.mi = 0; seen.since = t; seen.flip = 0; seen.opened = false;
       if (sp) {
         const a = sp.act;
         if (a === 'bed') FX.bed(); else if (['desk', 'stool', 'bench'].includes(a)) FX.sit();
         else if (a === 'guitar') { FX.rustle(); pluck(hz(40), t + 0.1, 0.05); }
         else if (a === 'tv') FX.click(); else if (a === 'pin') FX.rustle(0.05);
+        else if (['wash', 'shower', 'tea'].includes(a)) FX.click();
       } else if (was && was.act !== 'door') FX.stand();
     }
     if (sp) {
@@ -230,7 +275,17 @@ export function makeSfx() {
         case 'desk':                                               // typing in bursts, now and then a space
           if (t > seen.next && u > 0.5) { const sp_ = Math.random() < 0.12; FX.key(sp_); seen.next = t + (Math.random() < 0.08 ? rnd(0.5, 1.2) : rnd(0.07, 0.17)); }
           break;
-        case 'keys': {                                             // acts.js changes chord 1.6 times a second
+        case 'keys': {                                             // a real piece from midi (Clair de Lune), chords until it loads
+          if (song?.notes) {                                       // on the audio clock: right tempo even when frames drop
+            const L = song.length + 3, at = t - seen.since - 0.6, loop = Math.floor(Math.max(0, at) / L), pos = at - loop * L;
+            if (loop !== seen.loop) { seen.loop = loop; seen.mi = song.notes.findIndex(o => o.t >= pos); if (seen.mi < 0) seen.mi = song.notes.length; }
+            const N = song.notes;
+            while (at >= 0 && seen.mi < N.length && N[seen.mi].t < pos + 0.25) {   // schedule a quarter second ahead
+              const o = N[seen.mi++]; piano(hz(o.n), t + Math.max(0, o.t - pos), o.d, o.v); heard.push('piano');
+            }
+            break;
+          }
+          loadSong();
           const c = Math.floor(u * 1.6);
           if (c !== seen.chord && u > 0.3) { seen.chord = c; heard.push('piano'); const ch = CHORDS[Math.floor(c / 2) % 4]; ch.forEach((m, k) => epiano(hz(m), t + k * 0.01, 0.04)); if (c % 2) epiano(hz(ch[ch.length - 1] + 12 + [0, 2, -3][c % 3]), t + 0.2, 0.05); }
           break;
@@ -253,6 +308,13 @@ export function makeSfx() {
         case 'bed':                                                // asleep: slow breaths in step with the chest (acts.js, 1.1 rad/s)
           if (t > seen.next && u > 1) { FX.breath(); seen.next = t + 2 * Math.PI / 1.1; }
           break;
+        case 'tea':                                                // the kettle whistles as it comes to the boil; a clink as he takes the mug
+          if (!seen.opened && u > 3) { seen.opened = true; FX.whistle(); }
+          if (!seen.flip && u > 7.4) { seen.flip = 1; FX.clink(); }
+          break;
+        case 'shower':                                             // he hums under the water
+          if (t > seen.next && u > 2) { const f = hz([60, 62, 64, 67, 64, 62][Math.floor(t * 1.7) % 6]); tone({ f, gain: 0.025, a: 0.08, d: 0.45, lp: 900 }); seen.next = t + rnd(0.45, 0.8); }
+          break;
         case 'pin':
           if (t > seen.next) { FX.rustle(0.025); seen.next = t + rnd(1.5, 3); }
           break;
@@ -273,5 +335,5 @@ export function makeSfx() {
     muted = m; try { localStorage.setItem(KEY, m ? 'off' : 'on'); } catch { /* private mode */ }
     if (ctx) out.gain.setTargetAtTime(m ? 0 : 0.9, now(), 0.05);
   }
-  return { tick, fx, setMuted, heard, takes, get muted() { return muted; }, get state() { return ctx?.state; } };
+  return { tick, fx, setMuted, heard, takes, get song() { return song; }, get muted() { return muted; }, get state() { return ctx?.state; } };
 }

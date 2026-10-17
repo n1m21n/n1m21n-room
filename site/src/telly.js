@@ -30,7 +30,7 @@ export async function makeTelly({ man, player, screen, noise, zones, goHall }) {
   const led = mesh(new THREE.BoxGeometry(0.014, 0.008, 0.014), PAL.red, { ink: false, unlit: true }); led.position.set(0, 0.012, 0.06); remote.add(led);
   remote.visible = false; man.root.add(remote);
 
-  const TV = { x: 2.05, z: 1.75, heading: 0, act: 'tv', out: [2.05, 1.4], pressed: 0,
+  const TV = { x: 2.05, z: 1.12, heading: 0, act: 'tv', out: [2.05, 0.5], pressed: 0,   // in the bean bag (furniture.js)
     enter: () => { on = true; ch = 0; slide = 0; last = performance.now(); ui(true); }, leave: () => { on = false; remote.visible = false; u.uMap.value = staticTex; ui(false); } };
 
   let on = false, ch = 0, slide = 0, last = 0, paused = false;
@@ -96,7 +96,7 @@ export async function makeTelly({ man, player, screen, noise, zones, goHall }) {
     if (k === 'up' || k === 'dn') tune((ch + (k === 'up' ? 1 : n - 1)) % n);
     if (k === 'prev' || k === 'next') { on = true; slide = (slide + (k === 'next' ? 1 : len - 1)) % len; last = performance.now(); }
     if (k === 'play') { on = true; paused = !paused; last = performance.now(); }
-    if (k === 'go') { const z = chans[ch].zone; player.stand(); goHall(z); }
+    if (k === 'go') { const z = chans[ch].zone; if (!z) return; player.stand(); goHall(z); }
     paint();
   };
   addEventListener('keydown', ev => {
