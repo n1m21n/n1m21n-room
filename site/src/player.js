@@ -175,6 +175,10 @@ export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onT
   const ARM_PAD = 0.3, LENS_AX = [[1, 0, 0], [-1, 0, 0], [0, 1, 0], [0, -1, 0], [0, 0, 1], [0, 0, -1]].map(a => new THREE.Vector3(...a));
   const orb = { init: false, yaw: 0, pitch: 0, d: 0 }, focus = new THREE.Vector3(), dir = new THREE.Vector3();
   function cam(dt) {
+    // every camera test (spring arm, cut-away rays) sees sunk walls at full height: a wall that has sunk no longer stops
+    // the arm, so the camera slid through, the wall rose, blocked again and sank again (the wall bobbing up and down).
+    // stepCuts() at the end puts the sunk pose back before anything is drawn
+    for (const [w, c] of cuts) { w.scale.y = c.sy; w.position.y = c.py; w.updateMatrixWorld(true); }
     const f = new THREE.Vector3(-Math.sin(st.yaw), 0, -Math.cos(st.yaw));
     for (const o of headParts) o.visible = st.view !== 'first' && !o.userData.underHat;   // outfits.js hides the hair shine under a hat
     for (const o of man.bones.head.children) if (o.name === 'hat') o.visible = st.view !== 'first';   // outfits.js hats
@@ -257,16 +261,14 @@ export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onT
       tgt.set(pos.x, 1.0, pos.z);
       const v = tgt.clone().sub(camera.position), L = v.length();
       ray.set(camera.position, v.normalize()); ray.far = L;
-      // test sunk walls at full height, or they rise, block the ray again and sink again (the wall bobbing up and down)
-      for (const [w, c] of cuts) { w.scale.y = c.sy; w.position.y = c.py; w.updateMatrixWorld(true); }
       const rayHits = ray.intersectObjects(walls, false);
-      for (const [w, c] of cuts) { const sy = c.sy * (1 - 0.985 * c.k); w.scale.y = sy; w.position.y = c.py + c.minY * c.sy - c.minY * sy; w.updateMatrixWorld(true); }
       for (const h of rayHits) {
         if (st.view === 'third' && (h.object.userData.door || orb.d > 0.62) && (h.object.userData.arm || (h.object.userData.armOut && !inBox(h.object.userData.armOut)))) continue;   // those stop the camera instead (a door must never blink out mid-push), unless the arm is fully in and one is still between
         cutWall(h.object);
       }
     }
     clock += dt; stepCuts(dt);
+    for (const w of cuts.keys()) w.updateMatrixWorld(true);
   }
 
   // --- tap-to-walk: follow nav waypoints; any stick / key input takes back control

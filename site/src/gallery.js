@@ -219,6 +219,7 @@ export async function buildGallery(ctx) {
       const fr = new THREE.Group();
       fr.add(box(fw + 0.1, fh + 0.1, 0.05, PAL.ink, { ink: 0.006, mat: 'wood', matAmt: 0.5 }));
       const art = new THREE.Mesh(new THREE.PlaneGeometry(fw, fh), toon(PAL.paper, { unlit: true }));
+      art.userData.art = true;   // keeps batch() off it: its texture is swapped in later
       art.position.z = 0.03; fr.add(art);
       const fx = s.x + s.n[0] * 0.03, fz2 = s.z + s.n[1] * 0.03;
       at(fr, fx, fy, fz2, Math.atan2(s.n[0], s.n[1]));
