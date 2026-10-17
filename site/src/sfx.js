@@ -219,18 +219,87 @@ export function makeSfx() {
   const heard = [];                                                  // dev: the last effects played, by name
   for (const [k, f] of Object.entries(FX)) FX[k] = (...a) => { heard.push(k); if (heard.length > 60) heard.shift(); return REAL[k]?.(...a) || f(...a); };
 
-  // ---------- music made at the stations (keys and guitar follow the act's clock so hands and sound agree)
-  const CHORDS = [[57, 60, 64], [53, 57, 60, 64], [48, 52, 55, 60], [55, 59, 62]];          // Am  Fmaj7  C  G
-  const GUITAR = [[40, 47, 52, 55, 59, 64], [48, 52, 55, 60, 64], [43, 47, 50, 55, 59, 67], [50, 57, 62, 66]];   // Em C G D
-  let song = null;                                                   // { notes, length } once fetched
-  function loadSong() {
-    if (song) return; song = {};
-    fetch('/media/midi/clair-de-lune.mid').then(r => r.arrayBuffer()).then(b => { song = parseMidi(b); }).catch(() => {});
+  // ---------- emotion-mapped music at the stations (expandable MIDI banks + chord & guitar voicings per affective state)
+  const EMOTION_MUSIC = {
+    delighted: {
+      midi: ['/media/midi/happy-prelude.mid', '/media/midi/clair-de-lune.mid'],
+      tempo: 1.22, vel: 1.15,
+      keys: [[60, 64, 67, 71, 74], [55, 59, 62, 66, 69], [53, 57, 60, 64, 67], [55, 59, 62, 64, 67]], // Cmaj9 - Gmaj7 - Fmaj7 - G6
+      guitar: [[43, 47, 50, 55, 62, 67], [50, 57, 62, 66, 69], [48, 52, 55, 62, 67], [43, 47, 50, 55, 59, 67]], // G - Dadd9 - Cadd9 - G
+    },
+    curious: {
+      midi: ['/media/midi/curious-etude.mid', '/media/midi/clair-de-lune.mid'],
+      tempo: 1.08, vel: 1.0,
+      keys: [[50, 53, 57, 60, 64], [55, 59, 62, 64, 69], [48, 52, 55, 59, 62], [57, 62, 64, 69]], // Dm9 - G13 - Cmaj9 - A7sus4
+      guitar: [[40, 47, 52, 55, 59, 66], [48, 52, 55, 59, 64], [45, 52, 57, 60, 64], [50, 57, 62, 64]], // Em9 - Cmaj7 - Am - Dsus2
+    },
+    calm: {
+      midi: ['/media/midi/clair-de-lune.mid'],
+      tempo: 1.0, vel: 0.92,
+      keys: [[57, 60, 64], [53, 57, 60, 64], [48, 52, 55, 60], [55, 59, 62]], // Am - Fmaj7 - C - G
+      guitar: [[40, 47, 52, 55, 59, 64], [48, 52, 55, 60, 64], [43, 47, 50, 55, 59, 67], [50, 57, 62, 66]], // Em - C - G - D
+    },
+    neutral: {
+      midi: ['/media/midi/clair-de-lune.mid'],
+      tempo: 1.0, vel: 0.9,
+      keys: [[57, 60, 64], [53, 57, 60, 64], [48, 52, 55, 60], [55, 59, 62]],
+      guitar: [[40, 47, 52, 55, 59, 64], [48, 52, 55, 60, 64], [43, 47, 50, 55, 59, 67], [50, 57, 62, 66]],
+    },
+    uneasy: {
+      midi: ['/media/midi/uneasy-nocturne.mid'],
+      tempo: 0.92, vel: 0.85,
+      keys: [[53, 56, 60, 64], [52, 56, 59, 62, 65], [57, 60, 64, 68], [50, 54, 56, 60]], // Fm(maj7) - E7b9 - Am(maj7) - D7b5
+      guitar: [[40, 47, 52, 55, 59, 64], [41, 48, 53, 57, 60, 64], [45, 52, 57, 60, 64], [47, 54, 57, 59, 63]], // Em - Fmaj7 - Am - B7
+    },
+    dazed: {
+      midi: ['/media/midi/dazed-drift.mid'],
+      tempo: 0.76, vel: 0.72,
+      keys: [[52, 55, 59, 62, 66], [48, 52, 55, 59], [45, 52, 55, 59, 60], [47, 52, 54, 59]], // Em9 - Cmaj7 - Am9 - B7sus4
+      guitar: [[45, 52, 55, 60, 64], [50, 57, 60, 65], [40, 47, 52, 55, 59], [45, 52, 57, 60]], // Am7 - Dm7 - Em7 - Am
+    },
+    given_up: {
+      midi: ['/media/midi/tired-lullaby.mid'],
+      tempo: 0.68, vel: 0.65,
+      keys: [[45, 52, 57, 60], [41, 48, 53, 57], [50, 53, 57, 60], [40, 47, 52, 56]], // Am - F - Dm7 - E
+      guitar: [[45, 52, 57, 60], [50, 57, 62, 65], [40, 47, 52, 55], [45, 52, 57, 60]], // Am - Dm - Em - Am
+    },
+  };
+  const midiCache = new Map();
+  let song = null, activeMidiUrl = null;
+  function loadSong(emotionName = 'calm') {
+    const bank = EMOTION_MUSIC[emotionName] || EMOTION_MUSIC.calm;
+    const urls = bank.midi || ['/media/midi/clair-de-lune.mid'];
+    const targetUrl = urls[0];
+    if (midiCache.has(targetUrl)) { song = midiCache.get(targetUrl); activeMidiUrl = targetUrl; return; }
+    if (activeMidiUrl === targetUrl) return;
+    activeMidiUrl = targetUrl;
+    fetch(targetUrl).then(r => { if (!r.ok) throw new Error('missing'); return r.arrayBuffer(); }).then(b => {
+      const parsed = parseMidi(b);
+      midiCache.set(targetUrl, parsed);
+      song = parsed;
+    }).catch(() => {
+      // Fallback to clair-de-lune.mid if custom emotion midi file is not yet on disk
+      const fb = '/media/midi/clair-de-lune.mid';
+      if (midiCache.has(fb)) { song = midiCache.get(fb); return; }
+      fetch(fb).then(r => r.arrayBuffer()).then(b => {
+        const parsed = parseMidi(b);
+        midiCache.set(fb, parsed);
+        if (!song?.notes) song = parsed;
+      }).catch(() => {});
+    });
   }
-  function strum(i, down) {
+  function registerMidi(emotionName, url) {
+    if (!EMOTION_MUSIC[emotionName]) EMOTION_MUSIC[emotionName] = { ...EMOTION_MUSIC.calm, midi: [] };
+    EMOTION_MUSIC[emotionName].midi = [url, ...(EMOTION_MUSIC[emotionName].midi || [])];
+  }
+  function strum(i, down, emotionName = 'calm') {
     heard.push('strum');
-    const t = now(), notes = GUITAR[i % 4], ord = down ? notes : [...notes].reverse().slice(0, 4);
-    ord.forEach((m, k) => pluck(hz(m), t + k * 0.014, down ? 0.16 : 0.09));
+    const bank = EMOTION_MUSIC[emotionName] || EMOTION_MUSIC.calm;
+    const gChords = bank.guitar || EMOTION_MUSIC.calm.guitar;
+    const vel = bank.vel || 1.0;
+    const t = now(), notes = gChords[i % gChords.length], ord = down ? notes : [...notes].reverse().slice(0, 4);
+    const spread = 0.014 / (bank.tempo || 1.0);
+    ord.forEach((m, k) => pluck(hz(m), t + k * spread, (down ? 0.16 : 0.09) * vel));
   }
 
   // ---------- per frame
@@ -271,28 +340,38 @@ export function makeSfx() {
     }
     if (sp) {
       const u = sp.t || 0;
+      const emoFace = s.emotion?.face || st.faceNow || 'calm';
+      const bank = EMOTION_MUSIC[emoFace] || EMOTION_MUSIC.calm;
       switch (sp.act) {
         case 'desk':                                               // typing in bursts, now and then a space
           if (t > seen.next && u > 0.5) { const sp_ = Math.random() < 0.12; FX.key(sp_); seen.next = t + (Math.random() < 0.08 ? rnd(0.5, 1.2) : rnd(0.07, 0.17)); }
           break;
-        case 'keys': {                                             // a real piece from midi (Clair de Lune), chords until it loads
-          if (song?.notes) {                                       // on the audio clock: right tempo even when frames drop
-            const L = song.length + 3, at = t - seen.since - 0.6, loop = Math.floor(Math.max(0, at) / L), pos = at - loop * L;
+        case 'keys': {                                             // emotion-mapped MIDI piece or affective chord progression
+          loadSong(emoFace);
+          const useMidi = song?.notes && (emoFace === 'calm' || emoFace === 'neutral' || midiCache.has(bank.midi?.[0]));
+          if (useMidi) {                                           // on the audio clock, scaled by emotional tempo & velocity
+            const tempo = bank.tempo || 1.0, velScale = bank.vel || 1.0;
+            const L = song.length + 3, at = (t - seen.since - 0.6) * tempo, loop = Math.floor(Math.max(0, at) / L), pos = at - loop * L;
             if (loop !== seen.loop) { seen.loop = loop; seen.mi = song.notes.findIndex(o => o.t >= pos); if (seen.mi < 0) seen.mi = song.notes.length; }
             const N = song.notes;
-            while (at >= 0 && seen.mi < N.length && N[seen.mi].t < pos + 0.25) {   // schedule a quarter second ahead
-              const o = N[seen.mi++]; piano(hz(o.n), t + Math.max(0, o.t - pos), o.d, o.v); heard.push('piano');
+            while (at >= 0 && seen.mi < N.length && N[seen.mi].t < pos + 0.25) {
+              const o = N[seen.mi++]; piano(hz(o.n), t + Math.max(0, (o.t - pos) / tempo), o.d / tempo, Math.min(1, o.v * velScale)); heard.push('piano');
             }
             break;
           }
-          loadSong();
-          const c = Math.floor(u * 1.6);
-          if (c !== seen.chord && u > 0.3) { seen.chord = c; heard.push('piano'); const ch = CHORDS[Math.floor(c / 2) % 4]; ch.forEach((m, k) => epiano(hz(m), t + k * 0.01, 0.04)); if (c % 2) epiano(hz(ch[ch.length - 1] + 12 + [0, 2, -3][c % 3]), t + 0.2, 0.05); }
+          const rate = 1.6 * (bank.tempo || 1.0), c = Math.floor(u * rate);
+          const kChords = bank.keys || EMOTION_MUSIC.calm.keys;
+          if (c !== seen.chord && u > 0.3) {
+            seen.chord = c; heard.push('piano');
+            const ch = kChords[Math.floor(c / 2) % kChords.length], v = 0.04 * (bank.vel || 1.0);
+            ch.forEach((m, k) => epiano(hz(m), t + k * 0.012, v));
+            if (c % 2) epiano(hz(ch[ch.length - 1] + 12 + [0, 2, -3][c % 3]), t + 0.2 / (bank.tempo || 1.0), v * 1.2);
+          }
           break;
         }
-        case 'guitar': {                                           // down-up strums, a chord every two beats
-          const k = Math.floor(u * 2.6);
-          if (k !== seen.strum && u > 0.5) { seen.strum = k; strum(Math.floor(k / 4), k % 2 === 0); }
+        case 'guitar': {                                           // down-up strums, chord progression & tempo matched to emotion
+          const k = Math.floor(u * 2.6 * (bank.tempo || 1.0));
+          if (k !== seen.strum && u > 0.5) { seen.strum = k; strum(Math.floor(k / 4), k % 2 === 0, emoFace); }
           break;
         }
         case 'read': {                                             // acts.js: book in hand at u 0.9 (x0.6), a page every ~5 s
@@ -335,5 +414,5 @@ export function makeSfx() {
     muted = m; try { localStorage.setItem(KEY, m ? 'off' : 'on'); } catch { /* private mode */ }
     if (ctx) out.gain.setTargetAtTime(m ? 0 : 0.9, now(), 0.05);
   }
-  return { tick, fx, setMuted, heard, takes, get song() { return song; }, get muted() { return muted; }, get state() { return ctx?.state; } };
+  return { tick, fx, setMuted, heard, takes, EMOTION_MUSIC, registerMidi, get song() { return song; }, get muted() { return muted; }, get state() { return ctx?.state; } };
 }

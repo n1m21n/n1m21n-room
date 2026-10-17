@@ -12,17 +12,19 @@ export const clock = { skew: 0, at(hm) { const [h, m] = hm.split(':').map(Number
 export const istNow = () => { const n = Date.now() + clock.skew + IST, d = new Date(n); return { h: d.getUTCHours(), m: d.getUTCMinutes(), day: Math.floor(n / 864e5), min: d.getUTCHours() * 60 + d.getUTCMinutes() }; };
 export const istClock = () => { const { h, m } = istNow(); return `${(h % 12) || 12}:${String(m).padStart(2, '0')} ${h < 12 ? 'am' : 'pm'}`; };
 
+import { makeUtilityAI } from './sim/utility.js';
+
 const SAY = {
   sleep: 'he’s asleep', window: 'he’s looking out of the window', read: 'he’s reading', guitar: 'he’s playing guitar', keys: 'he’s making music',
   work: 'he’s at work', bench: 'he’s in the gallery', tv: 'he’s watching tv', dress: 'he’s getting dressed', loo: 'he’s in the loo',
   wash: 'he’s washing his face', brush: 'he’s brushing his teeth', shower: 'he’s in the shower', tea: 'he’s making tea', fridge: 'he’s at the fridge',
-  cook: 'he’s cooking', eat: 'he’s eating',
+  cook: 'he’s cooking', eat: 'he’s eating', snake: 'he’s petting the snake', records: 'he’s browsing records',
 };
 const GO = {
   sleep: 'off to bed', window: 'over to the window', read: 'picking up a book', guitar: 'picking up the guitar', keys: 'back to the keys',
   work: 'back to work', bench: 'off to the gallery', tv: 'putting the tv on', dress: 'getting dressed', loo: 'off to the loo',
   wash: 'washing his face', brush: 'brushing his teeth', shower: 'into the shower', tea: 'making tea', fridge: 'something from the fridge',
-  cook: 'off to cook', eat: 'sitting down to eat',
+  cook: 'off to cook', eat: 'sitting down to eat', snake: 'over to the snake', records: 'flipping through the records',
 };
 // a small fast PRNG, seeded per day
 const rng = seed => () => { seed = (seed + 0x6d2b79f5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
@@ -76,8 +78,11 @@ export function mood() {
   return min >= w && min < w + 40 ? 'groggy' : min >= 22 * 60 + 30 ? 'tired' : 'fresh';
 }
 
-export function makeRoutine({ player, spots, toast, idleAfter = 120 }) {
+export function makeRoutine({ player, spots, toast, idleAfter = 120, utility = null }) {
   // spots: name -> { seat, at: [x, z] (where he walks to), face, start() (sit down and begin) }
+  const ai = utility || makeUtilityAI();
+  ai.registerSpots(spots);
+
   let plans = {};
   const planFor = day => { if (!plans[day]) plans = { [day]: dayPlan(day) }; return plans[day]; };
   function now() {
@@ -93,24 +98,37 @@ export function makeRoutine({ player, spots, toast, idleAfter = 120 }) {
   function begin(what, { walk }) {
     const s = spots[what]; if (!s) return;
     doing = what;
+    ai.setDoing(what);
+    const target = typeof s.at === 'function' ? s.at() : s.at;
+    const face = typeof s.face === 'function' ? s.face() : s.face;
     if (!walk) { if (player.st.seated) player.stand(); s.start(); return; }
     going = true;
-    player.goTo(s.at[0], s.at[1], { face: s.face, done: () => { if (going) { going = false; s.start(); } } });
+    player.goTo(target[0], target[1], { face, done: () => { if (going) { going = false; s.start(); } } });
   }
   // arriving: he's already at it, no walk
   function arrive() { const w = planned(); begin(w, { walk: false }); return `${istClock()} in india · ${SAY[w]}`; }
 
-  // every few seconds: idle long enough (or never touched) and he isn't doing what the minute says -> go do it
+  // Pure Utility AI loop: continuously decay/restore motives; when idle, evaluate affordances every 3-4 seconds
   let acc = 0;
   function update(dt, { busy }) {
-    if ((acc += dt) < 3) return; acc = 0;
-    if (busy || going) return;
+    const activeDoing = going ? null : (player.st.seated ? doing : (doing === 'snake' || doing === 'records' ? doing : null));
+    ai.stepMotives(dt, { doing: activeDoing, idle: !activeDoing && !going });
+    if ((acc += dt) < 3.5) return; acc = 0;
+    if (busy || going || player.auto?.pts) return;
     if (!mine && performance.now() - lastInput < idleAfter * 1000) return;
-    const w = planned(), s = spots[w];
-    if (!s || (doing === w && player.st.seated === s.seat)) return;
     mine = true;
-    toast(`${istClock()} in india · ${GO[w]}`);
+    const decision = ai.evaluate(player.pos, { current: activeDoing, available: spots });
+    const w = decision.shouldSwitch && decision.best ? decision.best : null;
+    if (!w) return;
+    const s = spots[w];
+    if (!s || (doing === w && s.seat && player.st.seated === s.seat)) return;
+    toast(`${istClock()} in india · ${GO[w] || w}`);
     begin(w, { walk: true });
   }
-  return { arrive, update, planned, now, dayPlan, clock, get mine() { return mine; }, get doing() { return doing; } };
+  return {
+    arrive, update, planned, now, dayPlan, clock, ai,
+    get motives() { return ai.motives; },
+    get mine() { return mine; },
+    get doing() { return doing; },
+  };
 }

@@ -167,15 +167,15 @@ const now = (t, rate, at) => S(t * rate) > at;                  // a beat that c
 
 export const ACTS = {
   // desk chair: seat top 0.485, keyboard top 0.745 spanning z 0.30-0.46 in front of him
-  desk: (u, t) => {
-    const tap = s => Math.max(0, S(t * 13 + s)) ** 3 * 0.012;
+  desk: (u, t, sp) => {
+    const tp = sp?.tempo || 1.0, tap = s => Math.max(0, S(t * 13 * tp + s)) ** 3 * 0.012;
     return {
       y: -0.34, face: mood() === 'tired' ? 'given_up' : now(t, 0.21, 0.93) ? 'uneasy' : now(t, 0.37, 0.6) ? 'curious' : 'neutral',
       fk: { ...SIT_FK, spine: [0.12, 0, 0], chest: [0.04, 0, 0], neck: [0.06, 0, 0], head: [0.1, S(t * 0.6) * 0.06, 0] },
       ik: {
         ...sitLegs(0.42),
-        handL: [0.11 + S(t * 2.1) * 0.02, 0.778 + tap(0), 0.37 + S(t * 1.3) * 0.01],
-        handR: [-0.11 + S(t * 1.7 + 1) * 0.025, 0.778 + tap(2.1), 0.37 + S(t * 1.1) * 0.01],
+        handL: [0.11 + S(t * 2.1 * tp) * 0.02, 0.778 + tap(0), 0.37 + S(t * 1.3 * tp) * 0.01],
+        handR: [-0.11 + S(t * 1.7 * tp + 1) * 0.025, 0.778 + tap(2.1), 0.37 + S(t * 1.1 * tp) * 0.01],
       },
       hand: { handL: TYPE(1), handR: TYPE(-1) },
       pole: { handL: [0.4, -0.5, -0.2], handR: [-0.4, -0.5, -0.2] },
@@ -210,11 +210,11 @@ export const ACTS = {
     pole: { handR: [0.05, -0.6, 0.8], handL: [0.5, -0.6, 0.2] },
   }),
   // standing at the keyboard: keys top 1.032 spanning z 0.35-0.53; chords move up and down
-  keys: (u, t) => {
-    const ch = Math.floor(t * 1.6), pos = [0, 0.06, -0.04, 0.1][ch % 4], hit = s => Math.max(0, S(t * 10 + s)) ** 4 * 0.01;
+  keys: (u, t, sp) => {
+    const tp = sp?.tempo || 1.0, ch = Math.floor(t * 1.6 * tp), pos = [0, 0.06, -0.04, 0.1][ch % 4], hit = s => Math.max(0, S(t * 10 * tp + s)) ** 4 * 0.01;
     return {
       face: now(t, 0.33, 0.7) ? 'delighted' : 'calm',
-      fk: { spine: [0.1, 0, 0], chest: [0.04, 0, 0], neck: [0.1, 0, 0], head: [0.18, S(t * 0.8) * 0.1, S(t * 1.6) * 0.04] },
+      fk: { spine: [0.1, 0, 0], chest: [0.04, 0, 0], neck: [0.1, 0, 0], head: [0.18, S(t * 0.8 * tp) * 0.1, S(t * 1.6 * tp) * 0.04] },
       ik: { handL: [0.15 + pos, 1.078 - hit(0), 0.43], handR: [-0.15 + pos * 0.5, 1.078 - hit(1.8), 0.43] },
       hand: { handL: KEYS(1), handR: KEYS(-1) },      // ref: pianist from above, palms level, fingers arched onto the keys
       pole: { handL: [0.45, -0.4, -0.3], handR: [-0.45, -0.4, -0.3] },
@@ -222,11 +222,11 @@ export const ACTS = {
   },
   // guitar on: strumming hand hangs over the top of the lower bout in front of the strings, fretting hand
   // behind the neck (fingers up past it, never through it)
-  guitar: (u, t) => {
-    const s = 0.64 + Math.floor(t * 0.8) % 3 * 0.06, strum = S(t * 9) * 0.03;
+  guitar: (u, t, sp) => {
+    const tp = sp?.tempo || 1.0, s = 0.64 + Math.floor(t * 0.8 * tp) % 3 * 0.06, strum = S(t * 9 * tp) * 0.03;
     return {
       face: now(t, 0.29, 0.7) ? 'delighted' : 'calm',
-      fk: { neck: [0.12, 0, 0], head: [0.22, 0.35, 0.05], hips: [0, S(t * 2) * 0.03, 0] },
+      fk: { neck: [0.12, 0, 0], head: [0.22, 0.35, 0.05], hips: [0, S(t * 2 * tp) * 0.03, 0] },
       ik: { handR: guitarAt(-0.05 + strum * 0.4, 0.12 + strum, 0.086), handL: guitarAt(0.02, s, -0.022) },
       hand: { handR: [[0.45, -0.85, 0.05], [0, 0, -1]], handL: [GUP, [0, 0, 1]] },
       grip: { handR: 'relax', handL: 'relax' },
@@ -426,7 +426,7 @@ export const ACTS = {
     return {
       y, face: k > 0.8 ? 'delighted' : worn('calm'), spoon: c,
       fk: { ...SIT_FK, spine: [0.12 + 0.06 * k, 0, 0], chest: [0.02, 0, 0], neck: [0.02 + 0.04 * k + chew, 0, 0], head: [0.02 + chew, (1 - k) * S(t * 0.35) * 0.2, 0] },
-      ik: { ...sitLegs(0.4, 0.123), handL: EAT.left, handR: B => lerp3(onKnee('R', -0.005)(B), add(tip(B), H.at), settle) },
+      ik: { ...sitLegs(0.34, 0.142), handL: EAT.left, handR: B => lerp3(onKnee('R', -0.005)(B), add(tip(B), H.at), settle) },
       hand: { handL: [[0.2, 0, 1], [0, -1, 0]], handR: mixH(KNEE_HAND, H.hand, settle) },
       grip: { handL: 'flat', handR: settle > 0.5 ? 'hold' : 'relax' },
       pole: { handL: [0.5, -0.3, -0.3], handR: [-0.55, -0.4, -0.2] },
@@ -459,7 +459,7 @@ export function cookProps(u, t) {
   return { shake, dy, tip: [px + Math.cos(w) * 0.05, py + 0.015 + dy, pz + Math.sin(w) * 0.04], handle: [px + Math.cos(COOK.ry) * h, py + 0.03 + dy, pz - Math.sin(COOK.ry) * h], w };
 }
 // kitchen chair (seat top 0.47) at the table (top 0.85, edge 0.28 ahead): his bowl just ahead and to his left
-export const EAT = { y: -0.38, P: 4.2, bowl: [0.04, 0.865, 0.46], left: [0.2, 0.855, 0.36], bowlH: [[0.25, -0.8, 0.55], [1, 0, 0]], mouthH: [[0.4, 0.25, -1], [0, 1, 0.2]] };
+export const EAT = { y: -0.38, P: 4.2, bowl: [0.04, 0.88, 0.46], left: [0.2, 0.885, 0.36], bowlH: [[0.25, -0.8, 0.55], [1, 0, 0]], mouthH: [[0.4, 0.25, -1], [0, 1, 0.2]] };
 
 // guitar held on the body: lower bout centre, neck toward his left and up 25 deg, face out (+z). Body: lower bout r 0.23,
 // 0.074 deep each side; neck 0.07 wide x 0.04 deep from 0.37 to 1.07 along it

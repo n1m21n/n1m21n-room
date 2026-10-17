@@ -14,9 +14,9 @@ const e = new THREE.Euler(), q = new THREE.Quaternion();
 const damp = (a, b, k, dt) => a + (b - a) * (1 - Math.exp(-k * dt));
 const wrap = a => Math.atan2(Math.sin(a), Math.cos(a));
 
-export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onTap, rooms = [] }) {
+export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onTap, rooms = [], posture = null }) {
   const pos = new THREE.Vector3(-0.6, 0, 1.2);
-  const st = { turnTo: null, heading: Math.PI, speed: 0, phase: 0, yaw: 0.25, pitch: 0.38, dist: 3.8, view: 'third', seated: null, frozen: false, bumps: 0, blocked: false };
+  const st = { turnTo: null, heading: Math.PI, speed: 0, phase: 0, yaw: 0.25, pitch: 0.38, dist: 3.8, view: 'third', seated: null, frozen: false, bumps: 0, blocked: false, faceNow: 'neutral' };
   const keys = new Set();
   const move = new THREE.Vector2();                 // touch joystick (x right, y forward)
   addEventListener('keydown', ev => { if (!ev.metaKey && !ev.ctrlKey) keys.add(ev.code); });
@@ -97,7 +97,9 @@ export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onT
       const sp = st.seated, act = ACTS[sp.act];
       if (!act) { man.pose(sp.pose || 'seated'); relaxHands(B); return; }
       sp.t = (sp.t || 0) + dt;
-      const spec = st.spec = applyAct(man, act(sp.t, t, sp));
+      const rawSpec = act(sp.t, t, sp);
+      if (posture) posture.applyToSpec(rawSpec, { dt, t, pos, heading: st.heading, speed: 0, seated: sp });
+      const spec = st.spec = applyAct(man, rawSpec);
       if (spec.face && spec.face !== sp.faceNow) { man.face(spec.face); sp.faceNow = spec.face; }
       const k = Math.min(1, sp.t / 0.4), kk = k * k * (3 - 2 * k);           // ease in from the pose he walked up in
       if (kk < 1 && sp.from) {
@@ -119,12 +121,19 @@ export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onT
       set('forearm' + side, 0.15 + (0.25 + 0.9 * run) * a + Math.max(0, -ss) * 0.2 * a);
       set('hand' + side, -0.1);
     }
-    const breathe = Math.sin(t * 1.6) * 0.02 * (1 - a);
-    set('hips', 0, s * 0.08 * a);
-    set('spine', 0.04 + run * 0.12 + breathe, -s * 0.06 * a);
-    set('chest', 0.02 + run * 0.08 - breathe, -s * 0.08 * a);
-    set('neck', -run * 0.1);
-    set('head', -run * 0.08 + Math.sin(t * 0.7) * 0.02 * (1 - a), Math.sin(t * 0.37) * 0.08 * (1 - a));
+    const pState = posture ? posture.step(dt, t, { pos, heading: st.heading, speed: sp, seated: null }) : null;
+    const breathe = pState ? 0 : Math.sin(t * 1.6) * 0.02 * (1 - a);
+    const dHips  = pState ? pState.deltas.hips  : [0, 0, 0];
+    const dSpine = pState ? pState.deltas.spine : [breathe, 0, 0];
+    const dChest = pState ? pState.deltas.chest : [-breathe, 0, 0];
+    const dNeck  = pState ? pState.deltas.neck  : [0, 0, 0];
+    const dHead  = pState ? pState.deltas.head  : [0, 0, 0];
+    set('hips', dHips[0] * (1 - a), s * 0.08 * a + dHips[1] * (1 - a), dHips[2] * (1 - a));
+    set('spine', 0.04 + run * 0.12 + dSpine[0] * (1 - a * 0.5), -s * 0.06 * a + dSpine[1] * (1 - a), dSpine[2] * (1 - a));
+    set('chest', 0.02 + run * 0.08 + dChest[0] * (1 - a * 0.5), -s * 0.08 * a + dChest[1] * (1 - a), dChest[2] * (1 - a));
+    set('neck', -run * 0.1 + dNeck[0] * (1 - a * 0.5), dNeck[1] * (1 - a), dNeck[2] * (1 - a));
+    set('head', -run * 0.08 + Math.sin(t * 0.7) * 0.02 * (1 - a) + dHead[0] * (1 - a), Math.sin(t * 0.37) * 0.08 * (1 - a) + dHead[1] * (1 - a), dHead[2] * (1 - a));
+    if (pState?.face && pState.face !== st.faceNow) { man.face(pState.face); st.faceNow = pState.face; }
     man.root.position.y = -Math.abs(c) * 0.025 * a * (1 + run);
     relaxHands(B, run > 0.5 ? 'fist' : 'relax');
     plant();

@@ -20,6 +20,8 @@ import { makePortals } from './portal.js';
 import { makeDoors } from './doors.js';
 import { makeSfx } from './sfx.js';
 import { makeRoutine, istNow, istClock } from './routine.js';
+import { makeUtilityAI } from './sim/utility.js';
+import { makePosture } from './sim/posture.js';
 import { PAL, skyTex } from './textures.js';
 
 const sfx = makeSfx();
@@ -73,10 +75,12 @@ scene.add(man.root);
 const fits = makeOutfits(man);                                   // today's look (weekday, or what he picked today)
 window.man = man;
 
+const utility = makeUtilityAI();
+const posture = makePosture({ getMotives: () => utility.motives, getSnakePos: () => snk.head.position });
 const nav = makeNav(solids, 0.26);
 // rooms whose walls are cut away Sims-style (the ones facing the camera); the gallery's halls keep the spring arm
 const rooms = [{ name: 'room', box: [-RW / 2, -RD / 2, RW / 2, RD / 2] }, ...Object.entries(ANNEX.rooms).map(([name, box]) => ({ name, box }))];
-const player = makePlayer({ man, scene, camera, canvas, solids, walls, nav, onTap, rooms });
+const player = makePlayer({ man, scene, camera, canvas, solids, walls, nav, onTap, rooms, posture });
 window.player = player;                                         // dev
 // doors go in after the nav grid is baked: routes run through them, he stops and pushes them open on the way
 const doors = makeDoors({ scene, walls, solids, player, man });
@@ -241,13 +245,15 @@ const atA = s => ({ ...at(s, [s.x + Math.sin(s.heading), s.z + Math.cos(s.headin
 const bench = gallery.benches[istNow().day % gallery.benches.length];
 const AS = annex.spots;
 const routine = makeRoutine({
-  player, toast: (...a) => toast(...a), spots: {
+  player, utility, toast: (...a) => toast(...a), spots: {
     sleep: at(F.BED), work: at(F.CHAIR), keys: at(KEYS), guitar: at(GUITAR),
     window: { ...at(WINDOW), start: lookOut },
     read: { ...at(reading.READ), start: () => reading.read() },
     ...(bench && { bench: at(bench.seat) }),
     tv: { ...at(telly.TV), start: () => { telly.TV.quiet = true; player.sit(telly.TV); telly.TV.quiet = false; } },   // the set on, no remote panel
     dress: { ...at(WARD), start: () => { WARD.twirlAt = performance.now(); player.sit(WARD); } },
+    snake: { at: () => [snk.head.position.x, snk.head.position.z], face: () => [snk.head.position.x, snk.head.position.z], start: () => { snk.pet(); sfx.fx('hiss'); toast('sss…'); man.face('delighted'); } },
+    records: { at: [1.3, -2.05], face: [1.3, -2.8], start: () => { sfx.fx('crate'); man.face('delighted'); } },
     loo: atA(AS.LOO), wash: atA(AS.WASH), brush: atA(AS.BRUSH), shower: atA(AS.SHOWER),
     tea: atA(AS.TEA), fridge: atA(AS.FRIDGE), cook: atA(AS.COOK), eat: atA(AS.EAT),
   },
@@ -301,7 +307,8 @@ async function verifyActs({ only, times = [0.8, 2, 3.5, 6] } = {}) {
     for (const r of rows) { const k = r.part + ' x ' + r.what; if (!worst[k] || worst[k].depth < r.depth) worst[k] = r; }
     report[spot.act] = Object.values(worst).sort((a, b) => b.depth - a.depth);
   }
-  // standing idle and mid-stride (arms swing past the thighs)
+  // standing idle and mid-stride (arms swing past the thighs) on open floor
+  player.pos.set(0.3, 0, 1.2); man.root.position.set(0.3, 0, 1.2);
   for (const [k, sp] of [['idle', 0], ['walk', 1.4], ['run', 3.2]]) {
     const rows = [];
     for (let i = 0; i < 24; i++) { player.st.speed = sp; player.update(1 / 30, i / 30); player.st.speed = sp; rows.push(...phys.check()); }
@@ -327,7 +334,46 @@ async function shoot(act, { t = 2.5, off = [1.2, 0.4, 2.4], look = 'chest', fov 
   await fetch('/__still?name=' + name, { method: 'POST', body: renderer.domElement.toDataURL('image/png') });
   return name;
 }
-window.dev = { THREE, rooms, fits, ward, openWardrobe, snake: snk, routine, sfx, get dpr() { return dpr; }, doors, gallery, annex, portals, stations, walkTo, nav, solids, man, player, scene, camera, room, phys, verifyActs, ACTS, GUITAR_AT, render: () => comp.render(scene, camera), renderer, reading, telly, shoot, sky: ph => { lastSky = ph; win.userData.sky.material.uniforms.uMap.value = skies[ph] ||= skyTex(ph); } };                              // dev
+const sim = {
+  utility,
+  posture,
+  get motives() { return utility.motives; },
+  get emotion() { return posture.state; },
+  get matrix() { return posture.matrix; },
+  evaluate: () => utility.evaluate(player.pos, { current: routine.doing }),
+  rank: () => utility.rankActions(player.pos),
+  homeostasis: () => utility.homeostasis(),
+  spatial: {
+    get agentXYZ() { return [+man.root.position.x.toFixed(3), +man.root.position.y.toFixed(3), +man.root.position.z.toFixed(3)]; },
+    clearance(p = player.pos) {
+      let best = Infinity, box = null;
+      for (const b of solids) {
+        const dx = p.x - Math.max(b[0], Math.min(p.x, b[2])), dz = p.z - Math.max(b[1], Math.min(p.z, b[3]));
+        const d = Math.hypot(dx, dz);
+        if (d < best) { best = d; box = b; }
+      }
+      return { distanceMeters: +best.toFixed(3), bodyClearanceMeters: +(best - 0.26).toFixed(3), nearestSolidAABB: box, bumps: player.st.bumps };
+    },
+    nearestStations(k = 5, p = player.pos) {
+      return stations.map(s => {
+        const q = s.live ? [s.live().x, s.live().z] : s.p;
+        const d = Math.hypot(q[0] - p.x, q[1] - p.z);
+        return { label: s.label, act: s.seat?.act || null, xz: [+q[0].toFixed(2), +q[1].toFixed(2)], distanceMeters: +d.toFixed(2) };
+      }).sort((a, b) => a.distanceMeters - b.distanceMeters).slice(0, k);
+    },
+    pathTo(stationName) {
+      const entry = utility.registry.get(stationName);
+      if (!entry) return null;
+      const at = typeof entry.at === 'function' ? entry.at() : entry.at;
+      const pts = nav.path(player.pos.x, player.pos.z, at[0], at[1]);
+      if (!pts) return null;
+      let dist = pts.length ? Math.hypot(pts[0][0] - player.pos.x, pts[0][1] - player.pos.z) : 0;
+      for (let i = 1; i < pts.length; i++) dist += Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]);
+      return { station: stationName, waypointsXZ: pts.map(([x, z]) => [+x.toFixed(2), +z.toFixed(2)]), totalWalkMeters: +dist.toFixed(2) };
+    },
+  },
+};
+window.dev = { THREE, rooms, fits, ward, openWardrobe, snake: snk, routine, motives: utility.motives, sim, sfx, get dpr() { return dpr; }, doors, gallery, annex, portals, stations, walkTo, nav, solids, man, player, scene, camera, room, phys, verifyActs, ACTS, GUITAR_AT, render: () => comp.render(scene, camera), renderer, reading, telly, shoot, sky: ph => { lastSky = ph; win.userData.sky.material.uniforms.uMap.value = skies[ph] ||= skyTex(ph); } };                              // dev
 let near = null;
 function pickStation() {
   const p = player.pos, h = player.st.heading;
@@ -530,6 +576,6 @@ renderer.setAnimationLoop(() => {
   const w = whereAmI(player.pos);
   if (w !== lastWhere) { lastWhere = w; hudPlace(w); }
   hudClock(); hudSky();
-  sfx.tick(dt, { player, musicPlaying: !audio.paused, hard: w !== 'the room', night: night(), pressed: telly.TV.pressed, tvOn: telly.on, portal: portals.busy, doors: doors.all });
+  sfx.tick(dt, { player, emotion: posture.state, musicPlaying: !audio.paused, hard: w !== 'the room', night: night(), pressed: telly.TV.pressed, tvOn: telly.on, portal: portals.busy, doors: doors.all });
   comp.render(scene, camera);
 });
