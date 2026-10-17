@@ -1,5 +1,5 @@
 // The Ek Pinjare Mai room (r11 layout) built from simple shapes. Units: metres; floor y = 0.
-// A closed 8 x 6 room; the right wall has the doorway to the gallery. Walls between camera and player are cut away.
+// A closed 8 x 6 room; the right wall has the doorway to the gallery. Walls facing the camera are cut away (player.js).
 import * as THREE from 'three';
 import { mesh, toon, addInk, CUT_LAYER } from './look.js';
 import * as T from './textures.js';
@@ -37,8 +37,8 @@ export function buildRoom() {
   room.add(wall(W, H, 0.1, PAL.indigo, 0, H / 2, -D / 2));                       // back
   room.add(wall(W, H, 0.1, PAL.indigo, 0, H / 2, D / 2));                        // front (cut away when the camera is outside)
   room.add(wall(0.1, H, D, PAL.plum, -W / 2, H / 2, 0));                         // left
-  // right wall: two pieces + lintel around the doorway. The chase camera stops at these (`arm`) rather than cutting
-  // them away: passing through the doorway used to blink the whole wall off and on
+  // right wall: two pieces + lintel around the doorway. Seen from the foyer they stop the chase camera (`arm`); with him
+  // in the room they are cut away like the other three when they face the camera (player.js)
   const r0 = DOOR.z0 + D / 2, r1 = D / 2 - DOOR.z1, arm = m => { m.userData.arm = true; return m; };
   room.add(arm(wall(0.1, H, r0, PAL.plum, W / 2, H / 2, -D / 2 + r0 / 2)));
   room.add(arm(wall(0.1, H, r1, PAL.plum, W / 2, H / 2, D / 2 - r1 / 2)));

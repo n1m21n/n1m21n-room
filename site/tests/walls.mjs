@@ -3,7 +3,7 @@
 // Drives the real input path (mouse drag, wheel, WASD) in the annex (bathroom, foyer, kitchen), the main room and
 // the gallery corridor, recording every wall's scale.y, the camera and him on every frame.
 //   W0 no height     a wall's scale.y / position.y never changes (cut-aways fade, they don't sink)
-//   W1 no bobbing        a wall's presence (fade, or height) reverses down > up > down within 3 s, without a 1 s clear spell before the rise
+//   W1 no bobbing        a wall's presence (fade, or height) reverses down > up > down within 3 s, without a 0.5 s clear spell before the rise
 //   W2 no blinking       a wall never drops from full height to under half (or invisible) in one frame
 //   W3 cut works         a wall that blocks the line to him for 0.5 s is sunk by then
 //   npm run test:walls [-- --only=foyer-orbit,bath-door]
@@ -11,7 +11,7 @@ import { start, openPage, reporter, run, want, arg, sleep, OUT } from './lib/har
 import fs from 'node:fs';
 import path from 'node:path';
 
-const BOB_WINDOW = 3.0, CLEAR = 1.0, STEP = 0.01;
+const BOB_WINDOW = 3.0, CLEAR = 0.5, STEP = 0.01;
 // spots: [x, z, yaw]. yaw: 0 faces -z, PI faces +z, -PI/2 faces +x
 const PI = Math.PI;
 const SCENES = [

@@ -64,15 +64,16 @@ export const SLOTS = {
 };
 export const SLOT_NAMES = { hat: 'hat', upper: 'upper', lower: 'lower', shoes: 'shoes' };
 
-// a look for each day of the week (0 = Sunday): Sunday is the signature look from the film
+// a look for each day of the week (0 = Sunday): Sunday is the signature look from the film. No hats: he only wears
+// one when a visitor puts it on him at the wardrobe
 export const WEEK = [
   { hat: 'none', upper: 'liquid', lower: 'indigo', shoes: 'boots' },
-  { hat: 'beanie-red', upper: 'ink', lower: 'black', shoes: 'boots' },
+  { hat: 'none', upper: 'ink', lower: 'black', shoes: 'boots' },
   { hat: 'none', upper: 'breton', lower: 'cream', shoes: 'white' },
-  { hat: 'cap-teal', upper: 'spiral', lower: 'indigo', shoes: 'red' },
-  { hat: 'beanie-mustard', upper: 'flannel', lower: 'black', shoes: 'brown' },
-  { hat: 'bucket-cream', upper: 'mustard', lower: 'olive', shoes: 'white' },
-  { hat: 'cap-ink', upper: 'teal', lower: 'lav', shoes: 'lav' },
+  { hat: 'none', upper: 'spiral', lower: 'indigo', shoes: 'red' },
+  { hat: 'none', upper: 'flannel', lower: 'black', shoes: 'brown' },
+  { hat: 'none', upper: 'mustard', lower: 'olive', shoes: 'white' },
+  { hat: 'none', upper: 'teal', lower: 'lav', shoes: 'lav' },
 ];
 export const DAYS = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 const KEY = 'n1m21n-fit';
@@ -174,7 +175,7 @@ export function makeOutfits(man) {
   const weekday = (day = today().day) => ({ ...WEEK[day] });
   function save() { try { localStorage.setItem(KEY, JSON.stringify({ day: today().key, fit: now })); } catch { /* private mode */ } }
   function saved() { try { const s = JSON.parse(localStorage.getItem(KEY) || 'null'); return s && s.day === today().key ? s.fit : null; } catch { return null; } }
-  function random() { const pick = a => a[Math.floor(Math.random() * a.length)].id; return { hat: Math.random() < 0.4 ? 'none' : pick(SLOTS.hat), upper: pick(SLOTS.upper), lower: pick(SLOTS.lower), shoes: pick(SLOTS.shoes) }; }
+  function random() { const pick = a => a[Math.floor(Math.random() * a.length)].id; return { hat: 'none', upper: pick(SLOTS.upper), lower: pick(SLOTS.lower), shoes: pick(SLOTS.shoes) }; }
   apply(saved() || weekday());
   return { apply, save, weekday, random, today, get now() { return { ...now }; }, get hat() { return hat; }, fit };
 }

@@ -10,7 +10,7 @@ import { makeSnake, BED as SNAKE_BED } from './snake.js';
 import { wardrobe as makeWardrobe, WARD as WD } from './wardrobe.js';
 import { makeNav } from './nav.js';
 import { buildGallery } from './gallery.js';
-import { buildAnnex } from './annex.js';
+import { buildAnnex, ANNEX } from './annex.js';
 import { loadMan } from './man.js';
 import { makePlayer, VIEW_LABEL } from './player.js';
 import { GUITAR_AT, ACTS } from './acts.js';
@@ -74,7 +74,9 @@ const fits = makeOutfits(man);                                   // today's look
 window.man = man;
 
 const nav = makeNav(solids, 0.26);
-const player = makePlayer({ man, scene, camera, canvas, solids, walls, nav, onTap });
+// rooms whose walls are cut away Sims-style (the ones facing the camera); the gallery's halls keep the spring arm
+const rooms = [{ name: 'room', box: [-RW / 2, -RD / 2, RW / 2, RD / 2] }, ...Object.entries(ANNEX.rooms).map(([name, box]) => ({ name, box }))];
+const player = makePlayer({ man, scene, camera, canvas, solids, walls, nav, onTap, rooms });
 window.player = player;                                         // dev
 // doors go in after the nav grid is baked: routes run through them, he stops and pushes them open on the way
 const doors = makeDoors({ scene, walls, solids, player, man });
@@ -316,7 +318,7 @@ async function shoot(act, { t = 2.5, off = [1.2, 0.4, 2.4], look = 'chest', fov 
   await fetch('/__still?name=' + name, { method: 'POST', body: renderer.domElement.toDataURL('image/png') });
   return name;
 }
-window.dev = { THREE, fits, ward, openWardrobe, snake: snk, routine, sfx, get dpr() { return dpr; }, doors, gallery, annex, portals, stations, walkTo, nav, solids, man, player, scene, camera, room, phys, verifyActs, ACTS, GUITAR_AT, render: () => comp.render(scene, camera), renderer, reading, telly, shoot, sky: ph => { lastSky = ph; win.userData.sky.material.uniforms.uMap.value = skies[ph] ||= skyTex(ph); } };                              // dev
+window.dev = { THREE, rooms, fits, ward, openWardrobe, snake: snk, routine, sfx, get dpr() { return dpr; }, doors, gallery, annex, portals, stations, walkTo, nav, solids, man, player, scene, camera, room, phys, verifyActs, ACTS, GUITAR_AT, render: () => comp.render(scene, camera), renderer, reading, telly, shoot, sky: ph => { lastSky = ph; win.userData.sky.material.uniforms.uMap.value = skies[ph] ||= skyTex(ph); } };                              // dev
 let near = null;
 function pickStation() {
   const p = player.pos, h = player.st.heading;

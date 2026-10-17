@@ -22,6 +22,12 @@ export const ANNEX = {
   bath: { x1: X0 + 3.3, z0: FZ0 - WT - 2.6, z1: FZ0 - WT, door: X0 + 1.45 },        // its south wall is the foyer's north wall
   kitchen: { x1: X0 + 4.3, z0: FZ1 + WT, z1: FZ1 + WT + 4.0, door: X0 + 2.75 },
 };
+// floor rects [x0, z0, x1, z1] of the rooms whose walls are cut away Sims-style (player.js): the foyer and both rooms
+ANNEX.rooms = {
+  foyer: [RW / 2 + 0.05, FZ0, RW / 2 + 0.05 + FOYER.len, FZ1],
+  bath: [X0, ANNEX.bath.z0, ANNEX.bath.x1, ANNEX.bath.z1],
+  kitchen: [X0, ANNEX.kitchen.z0, ANNEX.kitchen.x1, ANNEX.kitchen.z1],
+};
 const box = (w, h, d, c, o = {}) => mesh(new THREE.BoxGeometry(w, h, d), c, { ink: 0.008, ...o });
 const cyl = (rt, rb, h, c, o = {}, seg = 16) => mesh(new THREE.CylinderGeometry(rt, rb, h, seg), c, { ink: 0.006, ...o });
 const at = (o, x, y, z, ry = 0) => { o.position.set(x, y, z); o.rotation.y = ry; return o; };
@@ -71,15 +77,18 @@ export function buildAnnex({ walls, solid }) {
     }
     solid(x0, z0, x1, z1);
   }
-  // the corridor wall's face on the room side, in this room's colours (around the doorway)
+  // the corridor wall's face on the room side, in this room's colours (around the doorway). `skin`: it leaves with the
+  // wall it lines when that is cut away, though it stands on the floor (player.js attached())
+  const skin = o => { o.userData.skin = true; return o; };
   function lining(z, lo, hi) {
     for (const [a, b] of [[X0, dx - hw], [dx + hw, X1]]) for (const [y0, y1, c, mat] of [[0, 1.2, lo, 'glaze'], [1.2, H, hi, 'plaster']])
-      g.add(at(box(b - a, y1 - y0, 0.012, c, { mat, shade: 0.35, ink: false }), (a + b) / 2, (y0 + y1) / 2, z));
-    g.add(at(box(2 * hw, H - DH, 0.012, hi, { mat: 'plaster', shade: 0.35, ink: false }), dx, (H + DH) / 2, z));
+      g.add(skin(at(box(b - a, y1 - y0, 0.012, c, { mat, shade: 0.35, ink: false }), (a + b) / 2, (y0 + y1) / 2, z)));
+    g.add(skin(at(box(2 * hw, H - DH, 0.012, hi, { mat: 'plaster', shade: 0.35, ink: false }), dx, (H + DH) / 2, z)));
   }
   // door curtain: two halves on a rod, parted when he's near the doorway
   const curtains = [];
   function parda(z, col, band) {
+    // (rod and cloth leave with the doorway's wall when it is cut away, like a door frame in the Sims)
     const rod = cyl(0.012, 0.012, 2 * hw - 0.2, PAL.spiral, { mat: 'metal' }); rod.rotation.z = Math.PI / 2; rod.position.set(dx, DH - 0.06, z); g.add(rod);
     const halves = [-1, 1].map(s => {
       const piv = new THREE.Group(); piv.position.set(dx + s * (hw - 0.1), DH - 0.06, z);   // inside the white jambs piv.rotation.y = s > 0 ? Math.PI : 0; g.add(piv);
@@ -146,16 +155,16 @@ export function buildAnnex({ walls, solid }) {
   const S = SPOTS.SHOWER, sx0 = X1 - 1.3, sz1 = B.z0 + 1.4;
   const tray = flat(X1 - sx0, sz1 - B.z0, '#E9F3EC', { mat: 'glaze' }); tray.position.set((sx0 + X1) / 2, 0.004, (B.z0 + sz1) / 2); g.add(tray);
   const drain = glow(new THREE.CircleGeometry(0.04, 12).rotateX(-Math.PI / 2), PAL.lav); drain.position.set(S.x, 0.006, S.z - 0.1); g.add(drain);
-  const knee = at(box(0.08, 1.1, sz1 - B.z0, TILE, { mat: 'glaze' }), sx0 + 0.04, 0.55, (B.z0 + sz1) / 2); knee.userData.wall = true; walls.push(knee); g.add(knee);
+  const knee = at(box(0.08, 1.1, sz1 - B.z0, TILE, { mat: 'glaze' }), sx0 + 0.04, 0.55, (B.z0 + sz1) / 2); knee.userData.wall = true; knee.userData.low = true; walls.push(knee); g.add(knee);   // low: never cut (a half wall, as in the Sims)
   solid(sx0, B.z0, sx0 + 0.08, sz1);
   const pipe = cyl(0.014, 0.014, 0.95, PAL.lav, { mat: 'metal' }); pipe.position.set(S.x, 1.58, B.z0 + 0.03); g.add(pipe);
   const armP = cyl(0.014, 0.014, 0.2, PAL.lav, { mat: 'metal' }); armP.rotation.x = Math.PI / 2; armP.position.set(S.x, 2.05, B.z0 + 0.12); g.add(armP);
   const head = cyl(0.075, 0.05, 0.04, PAL.lav, { mat: 'metal' }); head.position.set(S.x, 2.03, B.z0 + 0.22); head.rotation.x = 0.3; g.add(head);
   g.add(at(cyl(0.035, 0.035, 0.04, PAL.white, { mat: 'glaze' }).rotateX(Math.PI / 2), S.x, 1.1, B.z0 + 0.03));
-  const rod = cyl(0.012, 0.012, X1 - sx0, PAL.lav, { mat: 'metal' }); rod.rotation.z = Math.PI / 2; rod.position.set((sx0 + X1) / 2, 2.02, sz1); g.add(rod);
+  const rod = cyl(0.012, 0.012, X1 - sx0, PAL.lav, { mat: 'metal' }); rod.rotation.z = Math.PI / 2; rod.position.set((sx0 + X1) / 2, 2.02, sz1); rod.userData.stays = true; g.add(rod);   // (spans the shower: stays with the knee wall)
   const curtain = new THREE.Group(); curtain.position.set(X1, 2.0, sz1); curtain.rotation.y = Math.PI; g.add(curtain);
-  const cMain = cloth(X1 - sx0, 1.68, PAL.lav, 9, 0.03); curtain.add(cMain);
-  const cDots = cloth(X1 - sx0, 0.12, PAL.mag, 9, 0.031); cDots.position.y = -1.3; curtain.add(cDots);
+  const cMain = cloth(X1 - sx0, 1.68, PAL.lav, 9, 0.03); cMain.userData.stays = true; curtain.add(cMain);
+  const cDots = cloth(X1 - sx0, 0.12, PAL.mag, 9, 0.031); cDots.userData.stays = true; cDots.position.y = -1.3; curtain.add(cDots);
   // water: falling streaks under the head (and from the basin tap), steam puffs over the curtain
   const streaks = (n, r) => {
     const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.Float32BufferAttribute(new Float32Array(n * 6), 3));

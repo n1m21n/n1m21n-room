@@ -171,7 +171,7 @@ export async function buildGallery(ctx) {
       const piece = (a, b, y0, y1) => {
         if (b - a < 0.01) return;
         const m = (a + b) / 2 + off, px = L.a[0] + dirv[0] * m, pz = L.a[1] + dirv[1] * m;
-        if (horiz) wall(b - a, y1 - y0, WT, col, px, (y0 + y1) / 2, fixed); else wall(WT, y1 - y0, b - a, col, fixed, (y0 + y1) / 2, pz);
+        (horiz ? wall(b - a, y1 - y0, WT, col, px, (y0 + y1) / 2, fixed) : wall(WT, y1 - y0, b - a, col, fixed, (y0 + y1) / 2, pz)).userData.hall = true;   // a hall's: never cut away (player.js)
       };
       for (const gp of gaps) { piece(s0, gp - DW / 2, 0, HALL_H); piece(gp - DW / 2, gp + DW / 2, PASS_H, HALL_H); s0 = gp + DW / 2; }   // passage walls butt onto the gap's edges
       piece(s0, len, 0, HALL_H);

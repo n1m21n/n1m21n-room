@@ -14,7 +14,7 @@ const e = new THREE.Euler(), q = new THREE.Quaternion();
 const damp = (a, b, k, dt) => a + (b - a) * (1 - Math.exp(-k * dt));
 const wrap = a => Math.atan2(Math.sin(a), Math.cos(a));
 
-export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onTap }) {
+export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onTap, rooms = [] }) {
   const pos = new THREE.Vector3(-0.6, 0, 1.2);
   const st = { turnTo: null, heading: Math.PI, speed: 0, phase: 0, yaw: 0.25, pitch: 0.38, dist: 3.8, view: 'third', seated: null, frozen: false, bumps: 0, blocked: false };
   const keys = new Set();
@@ -140,8 +140,50 @@ export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onT
   //   stay   while it blocks, or while a FATTER test (wider pad, the wall grown by FAT) still says it is close
   //   leave  only after HOLD s with nothing in the way; while it fades back in only a real block (enter) re-cuts it
   // No test reads the fade, so the camera and the cut state never feed back into each other.
+  // Sims-style cutaway (rooms: main.js). Every wall on the edge of a room's floor rect belongs to that room, with its
+  // normal pointing in (a wall between two rooms belongs to both). Of the room HE is in, the walls the camera looks in
+  // through (their normal along its heading past FACE_IN) are cut away and the camera may pass them; the rest (behind
+  // him, side-on) stand and stop the camera like the gallery's. It reads only the camera's heading, with hysteresis
+  // (cut past FACE_IN, back below FACE_OUT) and which room he is in (switching once he is INSET into the next one), so
+  // it can't flutter: no ray, no distance, no timer. The ray / box / lens cuts below now only cover walls of other rooms
+  const FACE_IN = 0.35, FACE_OUT = 0.15, EDGE = 0.25, INSET = 0.25;
+  const facing = new Set(); let sides = null, mine = new Map(), here = null;
+  function classify() {
+    sides = new Map(); mine = new Map(rooms.map(r => [r, []]));
+    const b = new THREE.Box3(), c = new THREE.Vector3(), sz = new THREE.Vector3();
+    const over = (a0, a1, b0, b1) => Math.min(a1, b1) - Math.max(a0, b0) > 0.05;
+    for (const w of walls) {
+      if (w.userData.door || w.userData.low || w.userData.hall) continue;   // doors, half walls, the gallery's halls: never cut
+      b.setFromObject(w); b.getCenter(c); b.getSize(sz);
+      for (const r of rooms) {
+        const [x0, z0, x1, z1] = r.box, ns = [];
+        if (sz.x < 0.4 && over(b.min.z, b.max.z, z0, z1)) { if (Math.abs(c.x - x0) < EDGE) ns.push([1, 0]); if (Math.abs(c.x - x1) < EDGE) ns.push([-1, 0]); }
+        if (sz.z < 0.4 && over(b.min.x, b.max.x, x0, x1)) { if (Math.abs(c.z - z0) < EDGE) ns.push([0, 1]); if (Math.abs(c.z - z1) < EDGE) ns.push([0, -1]); }
+        for (const n of ns) { if (!sides.has(w)) sides.set(w, []); sides.get(w).push({ room: r, n }); if (!mine.get(r).includes(w)) mine.get(r).push(w); }
+      }
+    }
+  }
+  const inRoom = (r, m) => pos.x > r.box[0] + m && pos.x < r.box[2] - m && pos.z > r.box[1] + m && pos.z < r.box[3] - m;
+  function roomNow() {
+    if (here && inRoom(here, -0.2)) here = rooms.find(r => r !== here && inRoom(r, INSET)) || here;   // a doorway: still the old one
+    else here = rooms.find(r => inRoom(r, INSET)) || rooms.find(r => inRoom(r, 0)) || null;
+    return here;
+  }
+  // vx, vz: the camera's heading on the floor plan (from the lens toward him)
+  function face(vx, vz) {
+    if (!sides) classify();
+    const R = st.view === 'first' ? null : roomNow();
+    for (const w of facing) if (!R || !mine.get(R).includes(w)) facing.delete(w);
+    if (R) for (const w of mine.get(R)) {
+      let s = -1; for (const x of sides.get(w)) if (x.room === R) s = Math.max(s, x.n[0] * vx + x.n[1] * vz);
+      if (s > FACE_IN) facing.add(w); else if (s < FACE_OUT) facing.delete(w);
+    }
+    for (const w of facing) cutWall(w, 'face');
+    return R;
+  }
+  const ofHere = w => !!here && st.view !== 'first' && mine.get(here)?.includes(w);
   const cuts = new Map(); let clock = 0;
-  const HOLD = 2.0, FAT = 0.2, PAD_OUT = 0.6, FADE_OUT = 0.2, FADE_IN = 0.5;
+  const HOLD = 0.6, FAT = 0.2, PAD_OUT = 0.6, FADE_OUT = 0.2, FADE_IN = 0.35;
   const live = o => o.visible || hidden.has(o) || cuts.has(o);
   // a per-object copy of a toon / hull material whose uCut is its own (the other uniforms stay shared, never cloned)
   function own(o, c) {
@@ -179,6 +221,7 @@ export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onT
   function stepCuts(dt) {
     for (const [w, c] of cuts) {
       if (c.hit) c.clear = 0;
+      else if (c.why === 'face') c.clear = HOLD;                 // no longer facing: back at once (the heading has hysteresis)
       else if (c.clear < HOLD && near(w)) c.clear = 0;           // still close: the hold restarts
       else c.clear += dt;
       c.hit = false;
@@ -198,21 +241,32 @@ export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onT
   }
   let boxes = null, arm = null, armOut = null, props = null, lens = null; const occl = [], OCCL = 1.2;
   const stuck = new Map();                                // things hung on a wall (window, frames, lamp) leave with it when it is cut away
+  // a prop's whole object: the biggest group above it that is still small (a framed poster, the window, the mirror; the
+  // record shelf with its spines; the wardrobe with its doors), short of the room / annex / gallery group itself
+  const unitBox = new Map(), boxOf = o => { if (!unitBox.has(o)) unitBox.set(o, new THREE.Box3().setFromObject(o)); return unitBox.get(o); };
+  const small = (b, sz) => { b.getSize(sz); return sz.x < 2.5 && sz.y < 2.5 && sz.z < 2.5; };
+  function unitOf(o) {
+    const sz = new THREE.Vector3(); let u = o;
+    for (let p = o.parent; p && p !== scene && p.parent && p.parent !== scene && small(boxOf(p), sz); p = p.parent) u = p;
+    return u;
+  }
   function attached(w) {
     if (!stuck.has(w)) {
-      const wb = new THREE.Box3().setFromObject(w).expandByScalar(0.3), out = [], seen = new Set();
-      // only things hung ON the wall: off the floor, small, centred inside the wall's slab. Never floors / ceilings
-      // (cutting those away left the room standing on black)
+      const wb = new THREE.Box3().setFromObject(w).expandByScalar(0.3), out = [];
+      // only things hung ON the wall: the whole object off the floor, small, centred inside the wall's slab (a shelf's
+      // spines or the wardrobe's back stay with the furniture they belong to). Never floors. `skin`: a facing on the
+      // wall (annex.js linings) goes with it though it stands on the floor
       const sz = new THREE.Vector3(), c = new THREE.Vector3();
-      if (props) for (const o of props) {
-        if (o === w || seen.has(o) || o.userData.floor) continue;
-        const ob = new THREE.Box3().setFromObject(o); ob.getSize(sz); ob.getCenter(c);
-        if (ob.min.y > 0.05 && sz.x < 2.5 && sz.z < 2.5 && sz.y < 2.5 && wb.containsPoint(c)) { seen.add(o); out.push(o); }
+      for (const o of getProps()) {
+        if (o === w || o.userData.floor || o.userData.stays) continue;
+        const ub = o.userData.skin ? boxOf(o) : boxOf(unitOf(o)); ub.getCenter(c);
+        if ((ub.min.y > 0.05 || o.userData.skin) && small(ub, sz) && wb.containsPoint(c)) out.push(o);
       }
       stuck.set(w, out);
     }
     return stuck.get(w);
   }
+  function getProps() { if (!props) { props = []; scene.traverse(o => { if (o.isMesh && !o.userData.arm && !o.isSkinnedMesh && o.geometry && !walls.includes(o) && o.material?.side !== THREE.BackSide && !o.userData.door && !isMan(o)) props.push(o); }); } return props; }
   const inBox = b => pos.x > b[0] && pos.x < b[2] && pos.z > b[1] && pos.z < b[3];
   const isMan = o => { for (let p = o; p; p = p.parent) if (p === man.root) return true; return false; };                         // wall bounds, built on first use (walls are static)
   const ARM_PAD = 0.3, LENS_AX = [[1, 0, 0], [-1, 0, 0], [0, 1, 0], [0, -1, 0], [0, 0, 1], [0, 0, -1]].map(a => new THREE.Vector3(...a));
@@ -226,11 +280,13 @@ export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onT
       camera.position.set(headW.x, headW.y + 0.12, headW.z).addScaledVector(f, 0.12);
       camera.rotation.set(st.pitch, st.yaw, 0, "YXZ");
       camera.fov = 70;
+      face(0, 0);
     } else if (st.view === 'top') {
       tgt.set(pos.x, 0.8, pos.z);
       want.copy(tgt).addScaledVector(f, -st.dist * 1.4).setY(tgt.y + 5.5 + st.dist);
       camera.position.lerp(want, 1 - Math.exp(-6 * dt));
       camera.lookAt(tgt); camera.fov = 45;
+      face(f.x, f.z);
     } else {
       tgt.set(pos.x, (st.seated && (st.spec ? (st.spec.y || 0) < -0.1 || st.spec.lie : true) ? 1.05 : 1.45), pos.z);
       const tall = innerHeight > innerWidth;
@@ -245,12 +301,16 @@ export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onT
       orb.pitch = damp(orb.pitch, st.pitch, 22, dt);
       const cp = Math.cos(orb.pitch);
       dir.set(Math.sin(orb.yaw) * cp, Math.sin(orb.pitch), Math.cos(orb.yaw) * cp);
-      // spring arm: gallery walls, doors and the room's doorway wall (`arm`) stop the camera instead of being cut away
+      const R = face(-Math.sin(orb.yaw), -Math.cos(orb.yaw));
+      // spring arm: gallery walls, doors and the room's doorway wall (`arm`) stop the camera instead of being cut away (his own room: see face())
       arm ||= walls.filter(w => w.userData.arm); armOut ||= walls.filter(w => w.userData.armOut);
-      const armNow = armOut.length ? arm.concat(armOut.filter(w => !inBox(w.userData.armOut))) : arm;   // a small room's walls stop the arm from outside it
+      let armNow = armOut.length ? arm.concat(armOut.filter(w => !inBox(w.userData.armOut))) : arm;   // a small room's walls stop the arm from outside it
+      // his room's walls: the ones cut away (facing) let the camera through, the standing ones stop it
+      const up = R ? mine.get(R).filter(w => !facing.has(w)) : [];
+      if (R) armNow = armNow.filter(w => !facing.has(w)).concat(up.filter(w => !armNow.includes(w)));
       ray.set(focus, dir); ray.far = d + ARM_PAD;
       const h = ray.intersectObjects(armNow, false).find(h => live(h.object));   // (one we cut away last frame still stops it)
-      if (!props) { props = []; scene.traverse(o => { if (o.isMesh && !o.userData.arm && !o.isSkinnedMesh && o.geometry && !walls.includes(o) && o.material?.side !== THREE.BackSide && !o.userData.door && !isMan(o)) props.push(o); }); }
+      getProps();
       // props right by him (the chair back behind him, the seat he is in) are cut away like walls; further ones stop the arm
       occl.length = 0;
       const hp = ray.intersectObjects(props, false).find(h => { if (!h.object.visible && !hidden.has(h.object)) return false;   // (last frame's cut-aways still count)
@@ -262,7 +322,7 @@ export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onT
       lens ||= props.concat(scene.children.flatMap(function f(o) { return [o, ...o.children.flatMap(f)]; }).filter(o => o.isMesh && o.userData.door && !walls.includes(o)), arm);
       for (let k = 0; k < 8 && free > 0.6; k++) {
         const c = focus.clone().addScaledVector(dir, free); let near = false;
-        for (const a of LENS_AX) { ray.set(c, a); ray.far = 0.16; if (ray.intersectObjects(props, false).some(q => q.object.visible && !occl.includes(q.object))) { near = true; break; } }
+        for (const a of LENS_AX) { ray.set(c, a); ray.far = 0.16; if (ray.intersectObjects(props, false).some(q => q.object.visible && !occl.includes(q.object)) || ray.intersectObjects(up, false).length) { near = true; break; } }
         if (!near) break; free -= 0.12;
       }
       ray.set(focus, dir); ray.far = d + ARM_PAD;
@@ -287,7 +347,7 @@ export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onT
       camera.lookAt(focus.x, focus.y - drop, focus.z); camera.fov = tall ? 66 : 50;
       // the arm can't pull in any further (0.6 m) and a prop still hugs the lens (the tees inside the wardrobe, a corner
       // plant's leaves, an open wardrobe door): cut it away like the ones right by him
-      for (const a of LENS_AX) { ray.set(camera.position, a); ray.far = 0.14; for (const q of ray.intersectObjects(lens, false)) if (walls.includes(q.object)) cutWall(q.object, 'lens'); else if ((q.object.visible || hidden.has(q.object)) && !occl.includes(q.object)) occl.push(q.object); }
+      for (const a of LENS_AX) { ray.set(camera.position, a); ray.far = 0.14; for (const q of ray.intersectObjects(lens, false)) if (walls.includes(q.object)) { if (!ofHere(q.object)) cutWall(q.object, 'lens'); } else if ((q.object.visible || hidden.has(q.object)) && !occl.includes(q.object)) occl.push(q.object); }
     }
     camera.updateProjectionMatrix();
     // cut away any wall still between camera and player (top-down, tight corners)
@@ -295,8 +355,9 @@ export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onT
     if (st.view === 'third') for (const o of occl) { o.visible = false; hidden.add(o); }
     if (st.view !== 'first') {
       // camera parked inside a wall: its back-face ink hull would fill the screen black
-      if (!boxes) boxes = walls.filter(w => !w.userData.door).map(w => [w, new THREE.Box3().setFromObject(w).expandByScalar(w.userData.arm ? 0.02 : 0.3)]);
-      for (const [w, b] of boxes) if (b.containsPoint(camera.position)) cutWall(w, 'box');
+      // (his room's walls: only when the lens is truly inside one; the cutaway decides the rest)
+      if (!boxes) boxes = walls.filter(w => !w.userData.door).map(w => [w, new THREE.Box3().setFromObject(w).expandByScalar(w.userData.arm ? 0.02 : 0.3), new THREE.Box3().setFromObject(w).expandByScalar(0.02)]);
+      for (const [w, b, tight] of boxes) if ((ofHere(w) ? tight : b).containsPoint(camera.position)) cutWall(w, 'box');
       // three rays (centre, and 0.35 m to either side of him) so a wall grazing the line of sight stays cut instead of flickering
       const side = new THREE.Vector3(Math.cos(orb.yaw), 0, -Math.sin(orb.yaw));
       for (const off of [0, -0.35, 0.35]) {
@@ -304,6 +365,7 @@ export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onT
         const v = tgt.clone().sub(camera.position), L = v.length();
         ray.set(camera.position, v.normalize()); ray.far = L;
         for (const h of ray.intersectObjects(walls, false)) {
+          if (ofHere(h.object) || h.object.userData.low) continue;   // his room: the cutaway's call. Half walls stay
           if (st.view === 'third' && (h.object.userData.door || orb.d > 0.62) && (h.object.userData.arm || (h.object.userData.armOut && !inBox(h.object.userData.armOut)))) continue;   // those stop the camera instead (a door must never blink out mid-push), unless the arm is fully in and one is still between
           cutWall(h.object, 'ray' + off);
         }
@@ -413,5 +475,5 @@ export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onT
   }
   function cycleView() { st.view = VIEWS[(VIEWS.indexOf(st.view) + 1) % VIEWS.length]; if (st.view === 'first') st.pitch = 0; else st.pitch = 0.38; return st.view; }
 
-  return { pos, st, keys, update, sit, stand, goTo, cancelAuto, auto, cycleView, POSES, dbg: { cuts, orb } };   // dbg: tests/walls.mjs
+  return { pos, st, keys, update, sit, stand, goTo, cancelAuto, auto, cycleView, POSES, dbg: { cuts, orb, facing, room: () => here, sides: () => sides, attached, unitOf } };   // dbg: tests/walls.mjs
 }
