@@ -2,11 +2,12 @@
 import { defineConfig } from 'vite';
 import fs from 'node:fs';
 import path from 'node:path';
+import { seo } from './seo.js';
 
 const OUT = path.resolve(import.meta.dirname, '../build-cache/review/stills');
 export default defineConfig({
   build: { target: 'es2022' },
-  plugins: [{
+  plugins: [seo(), {
     name: 'stills',
     configureServer(server) {
       server.middlewares.use('/__still', (req, res) => {
