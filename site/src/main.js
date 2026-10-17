@@ -222,25 +222,34 @@ for (const f of gallery.frames) stations.push({
 });
 for (const b of gallery.benches) stations.push({ label: 'sit on the bench', seat: b.seat, obj: b.obj, p: b.seat.out, face: b.face, r: 1.1, act: () => (player.st.seated ? player.stand() : player.sit(b.seat)) });
 stations.push(...doors.stations());
-// annex: bathroom (wash, loo, shower) and kitchen (tea, fridge). The camera swings behind him for the private ones
+// annex: bathroom (wash, brush, loo, shower) and kitchen (tea, cook, fridge, eat at the table). The camera swings behind him for the private ones
 {
   const A = annex.spots, O = annex.objs, behind = s => () => { player.st.yaw = s.heading + Math.PI; };
   Object.assign(A.LOO, { enter: behind(A.LOO), leave: () => sfx.fx('flush') });
+  Object.assign(A.BRUSH, { enter: behind(A.BRUSH) });
   Object.assign(A.SHOWER, { enter: behind(A.SHOWER) });
   Object.assign(A.FRIDGE, { enter: () => sfx.fx('fridge') });
   const use = (label, s, obj) => stations.push({ label, seat: s, obj, p: [s.x, s.z], face: [s.x + Math.sin(s.heading), s.z + Math.cos(s.heading)], r: 1.1, act: () => (player.st.seated ? player.stand() : player.sit(s)) });
   use('wash face', A.WASH, [O.sink, O.mirror]); use('use the loo', A.LOO, O.loo); use('shower', A.SHOWER, O.shower);
   use('make tea', A.TEA, O.hob); use('open the fridge', A.FRIDGE, O.fridge);
+  use('cook', A.COOK, O.pan); use('brush teeth', A.BRUSH, O.toothbrush);
+  stations.push({ label: 'eat', seat: A.EAT, obj: O.table, p: A.EAT.out, face: [A.EAT.x - 1, A.EAT.z], r: 1.2, act: () => (player.st.seated ? player.stand() : player.sit(A.EAT)) });
 }
 // his day on India time (routine.js): where he walks to and how he starts each thing
 const at = (seat, face) => ({ seat, at: seat.out || [seat.x, seat.z], face, start: () => player.sit(seat) });
+const atA = s => ({ ...at(s, [s.x + Math.sin(s.heading), s.z + Math.cos(s.heading)]), at: s.act === 'eat' ? s.out : [s.x, s.z] });   // annex: walks right up to it (the chair: beside it)
 const bench = gallery.benches[istNow().day % gallery.benches.length];
+const AS = annex.spots;
 const routine = makeRoutine({
   player, toast: (...a) => toast(...a), spots: {
     sleep: at(F.BED), work: at(F.CHAIR), keys: at(KEYS), guitar: at(GUITAR),
     window: { ...at(WINDOW), start: lookOut },
     read: { ...at(reading.READ), start: () => reading.read() },
     ...(bench && { bench: at(bench.seat) }),
+    tv: { ...at(telly.TV), start: () => { telly.TV.quiet = true; player.sit(telly.TV); telly.TV.quiet = false; } },   // the set on, no remote panel
+    dress: { ...at(WARD), start: () => { WARD.twirlAt = performance.now(); player.sit(WARD); } },
+    loo: atA(AS.LOO), wash: atA(AS.WASH), brush: atA(AS.BRUSH), shower: atA(AS.SHOWER),
+    tea: atA(AS.TEA), fridge: atA(AS.FRIDGE), cook: atA(AS.COOK), eat: atA(AS.EAT),
   },
 });
 const byObj = new Map();
@@ -284,7 +293,7 @@ async function verifyActs({ only, times = [0.8, 2, 3.5, 6] } = {}) {
     player.sit(spot);
     let t = 0; const rows = [];
     for (const at of times) {
-      while (t < at) { player.update(1 / 30, performance.now() / 1000 + t); reading.update(); telly.update(false); annex.update(1 / 30, t, player); t += 1 / 30; }
+      while (t < at) { player.update(1 / 30, performance.now() / 1000 + t); reading.update(); telly.update(false); annex.update(1 / 30, t, player, man); t += 1 / 30; }
       for (const h of phys.check()) rows.push({ t: at, ...h });
     }
     player.stand();
@@ -307,7 +316,7 @@ async function verifyActs({ only, times = [0.8, 2, 3.5, 6] } = {}) {
 async function shoot(act, { t = 2.5, off = [1.2, 0.4, 2.4], look = 'chest', fov = 40, name = act } = {}) {
   const s = stations.find(s => s.seat?.act === act);
   if (s && player.st.seated !== s.seat) { if (player.st.seated) player.stand(); if (s.seat === reading.READ) reading.READ.book ||= { title: 'test' }; player.sit(s.seat); }
-  for (let k = 0; k < t; k += 1 / 30) { player.update(1 / 30, k); reading.update(); telly.update(false); annex.update(1 / 30, k, player); }
+  for (let k = 0; k < t; k += 1 / 30) { player.update(1 / 30, k); reading.update(); telly.update(false); annex.update(1 / 30, k, player, man); }
   man.root.updateMatrixWorld(true);
   const V = THREE.Vector3, B = n => man.bones[n].getWorldPosition(new V());
   const tgt = look === 'hands' ? B('handL').add(B('handR')).multiplyScalar(0.5) : B(look);
@@ -510,12 +519,12 @@ renderer.setAnimationLoop(() => {
   framePanels(dt);
   doors.update(dt);
   ward.update(dt, t);
-  annex.update(dt, t, player);
+  annex.update(dt, t, player, man);
   reading.update(); telly.update(boilNow); boilNow = false;
   snk.update(dt, t, player.pos);
   if (marker.visible) { marker.scale.setScalar(1 + Math.sin(t * 6) * 0.12); if (!player.auto.pts) marker.visible = false; }
   gallery.update(player.pos);
-  routine.update(dt, { busy: !$('card').hidden || player.st.seated === telly.TV || portals.busy });
+  routine.update(dt, { busy: !$('card').hidden || (player.st.seated === telly.TV && !routine.mine) || portals.busy });
   pickStation();
   thought();
   const w = whereAmI(player.pos);

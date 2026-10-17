@@ -26,6 +26,9 @@ FACES = dict(                                    # name -> (expression, eyes_ope
     delighted=("delighted", 1.0, (0.0, 0.1)),
     uneasy=("uneasy", 1.0, (-0.3, 0.1)),
     sleep=("calm", 0.0, (0.0, 0.0)),
+    alarm=("alarm", 1.0, (0.0, 0.0)),
+    dazed=("dazed", 0.75, (0.2, 0.2)),
+    given_up=("given_up", 0.6, (0.0, 0.3)),
 )
 
 

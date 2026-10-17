@@ -13,6 +13,7 @@
 //   grip   handL / handR -> a hand shape from GRIPS (fingers curl toward the palm; default 'relax')
 // IK puts hands and feet ON things (keys, neck, book, chin, floor) so limbs don't sink into furniture.
 import * as THREE from 'three';
+import { mood } from './routine.js';
 
 const e = new THREE.Euler(), q = new THREE.Quaternion(), qa = new THREE.Quaternion(), qp = new THREE.Quaternion();
 const A = new THREE.Vector3(), B = new THREE.Vector3(), C = new THREE.Vector3(), T = new THREE.Vector3(), P = new THREE.Vector3();
@@ -159,12 +160,17 @@ const KEYS = s => [[-0.1 * s, -0.1, 1], [0, -1, 0]];     // keyboard: palm near 
 
 // palm contact = a point the palm surface touches (see applyAct); thighs are 0.075 thick, the torso front is z 0.11,
 // the head is 0.24 wide at the chin (y 1.48) and 0.34 at the cheeks
+// faces from the design sheet (r11_expr): neutral, calm (groove), curious, uneasy, delighted, alarm, dazed, given up,
+// plus sleep (calm, eyes shut). Morning and night acts wear how he feels: dazed while groggy, given up when tired.
+const worn = f => { const m = mood(); return m === 'groggy' ? 'dazed' : m === 'tired' ? 'given_up' : f; };
+const now = (t, rate, at) => S(t * rate) > at;                  // a beat that comes round now and then
+
 export const ACTS = {
   // desk chair: seat top 0.485, keyboard top 0.745 spanning z 0.30-0.46 in front of him
   desk: (u, t) => {
     const tap = s => Math.max(0, S(t * 13 + s)) ** 3 * 0.012;
     return {
-      y: -0.34, face: 'calm',
+      y: -0.34, face: mood() === 'tired' ? 'given_up' : now(t, 0.21, 0.93) ? 'uneasy' : now(t, 0.37, 0.6) ? 'curious' : 'neutral',
       fk: { ...SIT_FK, spine: [0.12, 0, 0], chest: [0.04, 0, 0], neck: [0.06, 0, 0], head: [0.1, S(t * 0.6) * 0.06, 0] },
       ik: {
         ...sitLegs(0.42),
@@ -195,7 +201,7 @@ export const ACTS = {
   // window: right palm on his cheek (fingers up to the temple, follows the head), left hand cupping under the right
   // forearm near the elbow, looking up at the sky
   think: (u, t) => ({
-    face: 'curious',
+    face: now(t, 0.15, -0.2) ? 'curious' : 'calm',
     fk: { hips: [0, 0, 0.03], spine: [-0.02, 0, 0], neck: [-0.05, 0, 0], head: [-0.08, 0.15 + S(t * 0.3) * 0.06, 0.1] },
     ik: { handR: [-0.16, 0.05, 0.06], handL: B => add(lerp3(B('forearmR'), B('handR'), 0.1), [0, -0.05, 0.03]) },
     follow: { handR: 'head' },
@@ -207,7 +213,7 @@ export const ACTS = {
   keys: (u, t) => {
     const ch = Math.floor(t * 1.6), pos = [0, 0.06, -0.04, 0.1][ch % 4], hit = s => Math.max(0, S(t * 10 + s)) ** 4 * 0.01;
     return {
-      face: 'delighted',
+      face: now(t, 0.33, 0.7) ? 'delighted' : 'calm',
       fk: { spine: [0.1, 0, 0], chest: [0.04, 0, 0], neck: [0.1, 0, 0], head: [0.18, S(t * 0.8) * 0.1, S(t * 1.6) * 0.04] },
       ik: { handL: [0.15 + pos, 1.078 - hit(0), 0.43], handR: [-0.15 + pos * 0.5, 1.078 - hit(1.8), 0.43] },
       hand: { handL: KEYS(1), handR: KEYS(-1) },      // ref: pianist from above, palms level, fingers arched onto the keys
@@ -219,7 +225,7 @@ export const ACTS = {
   guitar: (u, t) => {
     const s = 0.64 + Math.floor(t * 0.8) % 3 * 0.06, strum = S(t * 9) * 0.03;
     return {
-      face: 'delighted',
+      face: now(t, 0.29, 0.7) ? 'delighted' : 'calm',
       fk: { neck: [0.12, 0, 0], head: [0.22, 0.35, 0.05], hips: [0, S(t * 2) * 0.03, 0] },
       ik: { handR: guitarAt(-0.05 + strum * 0.4, 0.12 + strum, 0.086), handL: guitarAt(0.02, s, -0.022) },
       hand: { handR: [[0.45, -0.85, 0.05], [0, 0, -1]], handL: [GUP, [0, 0, 1]] },
@@ -243,7 +249,7 @@ export const ACTS = {
     const hR = u < 0.9 ? mixH(restH.handR, reachH, k) : mixH(reachH, mixH(BOOK_H(-1), BOOK_P(-1), page), back);
     const hL = mixH(restH.handL, BOOK_H(1), back);
     return {
-      face: 'calm', turn: Math.PI * turn,
+      face: page > 0.3 ? 'curious' : worn('calm') === 'given_up' ? 'given_up' : 'calm', turn: Math.PI * turn,
       fk: { spine: [0.06 * back, 0, 0], neck: [0.28 * back, 0, 0], head: [0.42 * back, S(t * 0.5) * 0.03 * back, 0] },
       ik: { handR, handL }, hand: { handR: hR, handL: hL }, book: u < 0.9 ? (k > 0.95 ? 'hand' : 'shelf') : 'open',
       grip: { handL: back > 0.5 ? 'flat' : 'relax', handR: back > 0.5 && page < 0.5 ? 'flat' : 'relax' },
@@ -256,7 +262,7 @@ export const ACTS = {
     const up = ease(u / 0.6);
     return {
       // lounging in the bean bag (seat dent 0.35): leant back, knees up, left hand on the knee, remote raised at the set
-      y: -0.5, face: 'curious',
+      y: -0.5, face: now(t, 0.13, 0.985) ? 'alarm' : now(t, 0.23, 0.8) ? 'delighted' : 'curious',
       fk: { thighL: [1.25, 0, 0.12], thighR: [1.25, 0, -0.12], spine: [-0.22, 0, 0], chest: [-0.06, 0, 0], neck: [0.14, 0, 0], head: [0.12, S(t * 0.3) * 0.05, 0] },
       ik: { ...sitLegs(0.5, 0.13, 0.16), handL: onKnee('L', 0.01), handR: lerp3([-0.2, 0.5, 0.12], [-0.08, 0.72 - press * 0.02, 0.42], up) },
       hand: { handL: KNEE_HAND, handR: mixH([[0, -1, 0], [1, 0, 0]], [[0, 0.1, 1], [1, 0, 0]], up) },
@@ -273,7 +279,7 @@ export const ACTS = {
   }),
   // gallery bench (top 0.42): hands on the knees, looking at the wall
   bench: (u, t) => ({
-    y: -0.43, face: 'calm',
+    y: -0.43, face: now(t, 0.12, 0.5) ? 'curious' : 'calm',
     fk: { ...SIT_FK, spine: [-0.04 + S(t * 1.6) * 0.01, 0, 0], neck: [-0.04, 0, 0], head: [-0.06, S(t * 0.25) * 0.25, 0] },
     ik: { ...sitLegs(0.46, 0.123), handL: onKnee('L', 0.005), handR: onKnee('R', -0.005) },
     hand: { handL: KNEE_HAND, handR: KNEE_HAND },
@@ -291,7 +297,7 @@ export const ACTS = {
     const hipH = s => [[s * 0.1, -1, 0.35], [-s, 0, 0]];                    // fingers down and forward round the hip, palm in
     const pose = 1 - browse;
     return {
-      face: 'delighted', turn: Math.PI * pose + (spin < 1 ? Math.PI * 2 * spin : 0),
+      face: pose > 0.5 || spin < 1 ? 'delighted' : 'curious', turn: Math.PI * pose + (spin < 1 ? Math.PI * 2 * spin : 0),
       fk: { spine: [0.02 * browse, 0, 0], neck: [-0.08 * browse, 0, 0], head: [-0.1 * browse + 0.04 * pose, (S(t * 0.7) * 0.15) * browse + S(t * 0.5) * 0.08 * pose, 0.06 * pose], hips: [0, 0, 0.04 * pose] },
       ik: { handR: lerp3(reach, hipsR, ease(pose * 1.4 - 0.2)), handL: lerp3(restL, hipsL, ease(pose * 1.4 - 0.2)) },
       hand: { handR: mixH([[0.1, 0.4, 1], [1, 0, 0]], hipH(-1), ease(pose * 1.4 - 0.2)), handL: mixH([[0, -1, 0], [-1, 0, 0]], hipH(1), ease(pose * 1.4 - 0.2)) },
@@ -312,7 +318,7 @@ export const ACTS = {
     const hand = s => B => lerp3(lerp3([s * 0.06, 0.87, 0.47], add(B('head'), [s * 0.05, WASH.y + rub, WASH.face]), k), [s * 0.24, 0.875, 0.36], up);
     const dir = s => mixH(mixH([[-s * 0.15, 0.1, 1], [0, 1, 0]], [[-s * 0.15, 1, 0.1], [-s * 0.25, 0, -1]], k), [[0, 0, 1], [0, -1, 0]], up);
     return {
-      face: washing ? (k > 0.5 ? 'sleep' : 'calm') : u < end + 2.5 ? 'curious' : 'delighted', tap: washing,
+      face: washing ? (k > 0.5 ? 'sleep' : u < WASH.start + WASH.P ? worn('calm') : 'calm') : u < end + 2.5 ? 'curious' : mood() === 'tired' ? 'calm' : 'delighted', tap: washing,
       fk: { spine: [0.42 * bend, 0, 0], chest: [0.1 * bend, 0, 0], neck: [0.12 * bend - 0.06 * up, 0, 0], head: [(0.12 + 0.12 * k) * bend - 0.06 * up, S(t * 0.6) * 0.12 * up, S(t * 0.4) * 0.06 * up] },
       ik: { handL: hand(1), handR: hand(-1) }, hand: { handL: dir(1), handR: dir(-1) },
       grip: { handL: k > 0.3 && bend > 0.5 ? 'cup' : 'flat', handR: k > 0.3 && bend > 0.5 ? 'cup' : 'flat' },
@@ -321,7 +327,7 @@ export const ACTS = {
   },
   // the loo, standing (the camera keeps behind him): hands in front, head tipped back, looking about, whistling
   loo: (u, t) => ({
-    face: 'calm',
+    face: worn('calm'),
     fk: { neck: [-0.08, 0, 0], head: [-0.2 + S(t * 0.6) * 0.04, S(t * 0.45) * 0.35, S(t * 0.3) * 0.05], hips: [0, S(t * 0.9) * 0.02, 0] },
     ik: { handL: [0.07, 0.97, 0.2], handR: [-0.07, 0.97, 0.2] },
     hand: { handL: [[-0.5, -0.6, 0.6], [-0.4, 0, -1]], handR: [[0.5, -0.6, 0.6], [0.4, 0, -1]] },
@@ -333,7 +339,7 @@ export const ACTS = {
     const hand = s => B => lerp3([s * 0.25, 0.86, 0.03], add(B('head'), [s * (SHOWER.hx + Math.abs(sc)), SHOWER.hy + sc * s, SHOWER.hz]), k);
     const dir = s => mixH([[0, -1, 0], [-s, 0, 0]], [[0, 1, 0.15], [-s, -0.15, 0]], k);
     return {
-      face: 'delighted',
+      face: u < 1.2 ? 'alarm' : 'delighted',                 // the first of the water is cold
       fk: { spine: [-0.04 * k, 0, 0], neck: [-0.12 * k, 0, 0], head: [-0.22 * k, S(t * 0.8) * 0.15, S(t * 1.6) * 0.05], hips: [0, S(t * 1.8) * 0.06, 0] },
       ik: { handL: hand(1), handR: hand(-1) }, hand: { handL: dir(1), handR: dir(-1) },
       grip: { handL: 'cup', handR: 'cup' },
@@ -348,7 +354,7 @@ export const ACTS = {
     const hR = u < 7 ? mixH(restH, [[0, 0, 1], [0, -1, 0]], toK) : mixH([[0, 0, 1], [0, -1, 0]], [[0, 0.15, 1], [1, 0, 0]], toM);
     const lean = 1 - ease((u - 7.2) / 0.8);
     return {
-      face: u < TEA.boil ? 'curious' : u > 8 ? (P.sip > 0.5 ? 'sleep' : 'delighted') : 'calm', pour: P.pouring,
+      face: u < TEA.boil ? worn('curious') : u > 8 ? (P.sip > 0.5 ? 'sleep' : 'delighted') : 'calm', pour: P.pouring,
       fk: { spine: [0.08 * lean, 0, 0], neck: [0.1 * lean + 0.12 * P.sip, 0, 0], head: [0.15 * lean - 0.1 * P.sip, (u < TEA.boil ? 0.2 : S(t * 0.5) * 0.08) * lean, 0] },
       ik: { handL: lerp3(rest(1), [0.2, 0.95, 0.22], 1 - lean), handR },
       hand: { handL: mixH(restH, [[0, -1, 0.3], [-1, 0, 0]], 1 - lean), handR: hR },
@@ -374,8 +380,86 @@ export const ACTS = {
       pole: { handL: [0.45, -0.5, -0.3], handR: [-0.45, -0.5, -0.3] },
     };
   },
+  // basin, morning and night: takes his toothbrush off the glass shelf, brushes (left hand on the rim, watching himself
+  // in the mirror), bends to spit with the tap running, puts it back and checks his smile
+  brush: (u, t) => {
+    const { pick, scrub, spit, back } = BRUSH, carry = ease((u - pick) / 0.8), down = ease((u - spit) / 0.6) * (1 - ease((u - back) / 0.5));
+    const home = ease((u - back - 0.4) / 0.8), held = u > pick && u < back + 0.9;
+    const bend = 0.12 * carry * (1 - home) + 0.3 * down, pitch = 0.08 + bend * 0.6;
+    const atMouth = B => add(mouth(B, pitch), [S(t * 14) * 0.018 + S(t * 0.7) * 0.025, S(t * 14 + 1) * 0.006, 0]);
+    const tip = B => lerp3(lerp3(lerp3(BRUSH.shelf, atMouth(B), carry), BRUSH.rinse, down), BRUSH.shelf, home);
+    const F = lerp3(lerp3(lerp3(BRUSH.upF, BRUSH.mouthF, carry), BRUSH.rinseF, down), BRUSH.upF, home);
+    const reachK = ease(u / pick) * (1 - ease((u - back - 1.0) / 0.6));
+    const H = heldAt([0, 0, 0], F, BRUSH.N, TOOLS.brush.reach);
+    const handR = B => lerp3([-0.24, 0.875, 0.36], add(tip(B), H.at), reachK);
+    return {
+      face: down > 0.5 ? 'sleep' : u > back + 1.4 ? 'delighted' : u > pick ? 'calm' : worn('curious'), tap: down > 0.6, brush: held,
+      fk: { spine: [0.1 * carry * (1 - home) + 0.38 * down, 0, 0], chest: [0.04 * carry + 0.1 * down, 0, 0], neck: [0.04 + 0.12 * down, 0, 0], head: [0.04 + 0.1 * down - 0.06 * home, S(t * 0.5) * 0.06 * (1 - down), 0] },
+      ik: { handL: [0.24, 0.875, 0.36], handR },
+      hand: { handL: [[0, 0, 1], [0, -1, 0]], handR: mixH([[0, -1, 0], [1, 0, 0]], H.hand, reachK) },
+      grip: { handL: 'flat', handR: held ? 'hold' : 'relax' },
+      pole: { handL: [0.45, -0.5, -0.15], handR: [-0.55, -0.4, -0.1] },
+    };
+  },
+  // hob (the ring on his left): a pan of something, left hand on its handle giving it the odd shake, stirring with a
+  // wooden spatula and peering in
+  cook: (u, t) => {
+    const P = cookProps(u, t), k = ease(u / 0.8), H = heldAt(P.tip, COOK.F, COOK.N, TOOLS.spatula.reach);
+    return {
+      face: P.shake > 0.8 ? 'alarm' : P.shake > 0.2 ? 'delighted' : 'curious',     // it spits when he shakes it
+      fk: { spine: [0.2 * k, 0, 0], chest: [0.05 * k, 0, 0], neck: [0.1 * k, 0, 0], head: [0.16 * k, 0.15 * k + S(t * 0.4) * 0.1, 0] },
+      ik: { handL: lerp3([0.25, 0.905, 0.43], P.handle, k), handR: lerp3([-0.25, 0.905, 0.43], H.at, k) },
+      hand: { handL: mixH([[0, 0, 1], [0, -1, 0]], COOK.handleH, k), handR: mixH([[0, 0, 1], [0, -1, 0]], H.hand, k) },
+      grip: { handL: k > 0.6 ? 'hold' : 'flat', handR: k > 0.6 ? 'hold' : 'flat' },
+      pole: { handL: [0.5, -0.4, -0.3], handR: [-0.5, -0.5, -0.2] },
+    };
+  },
+  // kitchen table, on the chair: left hand by the bowl, spoons it up, leans in to meet it, chews looking about
+  eat: (u, t) => {
+    const { y, P } = EAT, c = u < 0.8 ? 0 : (u - 0.8) % P / P;
+    const k = c < 0.2 ? 0 : c < 0.42 ? ease((c - 0.2) / 0.22) : c < 0.55 ? 1 : c < 0.75 ? 1 - ease((c - 0.55) / 0.2) : 0;
+    const chew = c > 0.55 ? S((c - 0.55) * 40) * 0.04 : 0, pitch = 0.16 + 0.1 * k;
+    const bowl = [EAT.bowl[0] + Math.cos(c * 30) * 0.03 * (c < 0.2), EAT.bowl[1] + 0.02 - y, EAT.bowl[2] + Math.sin(c * 30) * 0.02 * (c < 0.2)];
+    const tip = B => lerp3(bowl, add(mouth(B, pitch), [0, -0.005, 0.01]), k);
+    const hand = mixH(EAT.bowlH, EAT.mouthH, k), H = heldAt([0, 0, 0], hand[0], hand[1], TOOLS.spoon.reach);
+    const settle = ease(u / 0.6);
+    return {
+      y, face: k > 0.8 ? 'delighted' : worn('calm'), spoon: c,
+      fk: { ...SIT_FK, spine: [0.12 + 0.06 * k, 0, 0], chest: [0.02, 0, 0], neck: [0.02 + 0.04 * k + chew, 0, 0], head: [0.02 + chew, (1 - k) * S(t * 0.35) * 0.2, 0] },
+      ik: { ...sitLegs(0.4, 0.123), handL: EAT.left, handR: B => lerp3(onKnee('R', -0.005)(B), add(tip(B), H.at), settle) },
+      hand: { handL: [[0.2, 0, 1], [0, -1, 0]], handR: mixH(KNEE_HAND, H.hand, settle) },
+      grip: { handL: 'flat', handR: settle > 0.5 ? 'hold' : 'relax' },
+      pole: { handL: [0.5, -0.3, -0.3], handR: [-0.55, -0.4, -0.2] },
+    };
+  },
 };
 function mixH(a, b, k) { return [lerp3(a[0], b[0], k), lerp3(a[1], b[1], k)]; }
+
+// ---- things he holds (toothbrush, spatula, spoon): a stick lying along his fingers, its axis HELD off the palm. `reach`
+// is how far its working end (tip) is past the palm centre; annex.js builds each to the same numbers
+export const HELD = 0.012;
+export const TOOLS = { brush: { reach: 0.12, back: 0.07 }, spatula: { reach: 0.22, back: 0.08 }, spoon: { reach: 0.13, back: 0.05 } };
+const nrm = v => { const l = Math.hypot(...v); return v.map(x => x / l); };
+// fingers F, palm N (N is squared up to F, as applyAct does) -> the palm contact, relative to the tip, and the hand spec
+export function heldAt(tip, F, N, reach) {
+  F = nrm(F); const d = F[0] * N[0] + F[1] * N[1] + F[2] * N[2]; N = nrm(N.map((n, i) => n - d * F[i]));
+  return { at: tip.map((v, i) => v - F[i] * reach - N[i] * HELD), hand: [F, N] };
+}
+// his lips: from the head bone with his head upright, turned by how far he's bowed (pitch, the head's whole tilt)
+export const MOUTH = [0, 0.06, 0.17];
+const mouth = (B, pitch) => { const [x, y, z] = MOUTH, c = Math.cos(pitch), s = Math.sin(pitch); return add(B('head'), [x, y * c - z * s, y * s + z * c]); };
+// toothbrush: stands in the mug on the glass shelf over the basin (wash frame), bristles up
+export const BRUSH = { pick: 1.0, spit: 13, back: 15, shelf: [-0.155, 1.34, 0.66], rinse: [-0.1, 0.98, 0.42], upF: [0, 1, 0.05], mouthF: [0.5, 0.15, -1], rinseF: [0.2, -0.6, 0.8], N: [0, 1, 0] };
+// the pan sits on the ring on his left (tea frame), its handle turned ry toward him (out to his left he can't reach it)
+export const COOK = { pan: [0.13, 0.932, 0.63], r: 0.11, handle: 0.17, ry: Math.PI / 4, F: [0.3, -0.85, 0.45], N: [1, 0.3, 0], handleH: [[0.45, -0.7, 0.45], [0, -1, 0]] };
+export function cookProps(u, t) {
+  const shake = Math.max(0, S(t * 0.9)) ** 12, dy = Math.max(0, S(t * 18)) * 0.018 * shake;
+  const w = t * 3.2, [px, py, pz] = COOK.pan;
+  const h = COOK.r + 0.11;                                            // grip: two thirds along the handle
+  return { shake, dy, tip: [px + Math.cos(w) * 0.05, py + 0.015 + dy, pz + Math.sin(w) * 0.04], handle: [px + Math.cos(COOK.ry) * h, py + 0.03 + dy, pz - Math.sin(COOK.ry) * h], w };
+}
+// kitchen chair (seat top 0.47) at the table (top 0.85, edge 0.28 ahead): his bowl just ahead and to his left
+export const EAT = { y: -0.38, P: 4.2, bowl: [0.04, 0.865, 0.46], left: [0.2, 0.855, 0.36], bowlH: [[0.25, -0.8, 0.55], [1, 0, 0]], mouthH: [[0.4, 0.25, -1], [0, 1, 0.2]] };
 
 // guitar held on the body: lower bout centre, neck toward his left and up 25 deg, face out (+z). Body: lower bout r 0.23,
 // 0.074 deep each side; neck 0.07 wide x 0.04 deep from 0.37 to 1.07 along it

@@ -63,6 +63,23 @@ export const SHOTS = {
   'act-tea-sip': { act: 'tea', t: 9.6, look: 'head', off: [-0.8, 0.1, 0.45], fov: 50 },
   'act-fridge-open': { act: 'fridge', t: 1.4, off: [1.0, 0.4, -0.6], fov: 60 },
   'act-fridge-take': { act: 'fridge', t: 3.2, off: [1.0, 0.4, -0.6], fov: 60 },
+  'act-brush-pick': { act: 'brush', t: 0.9, look: 'head', off: [-0.9, 0.1, 0.6], fov: 50 },
+  'act-brush': { act: 'brush', t: 5, look: 'head', off: [-0.7, 0.05, 0.5], fov: 45 },
+  'act-brush-side': { act: 'brush', t: 5, look: 'head', off: [0.8, 0.05, 0.2], fov: 45 },
+  'act-brush-spit': { act: 'brush', t: 13.8, look: 'head', off: [-1.0, 0.3, 0.7], fov: 55 },
+  'act-brush-done': { act: 'brush', t: 17.5, look: 'head', off: [-0.9, 0.1, 0.6], fov: 50 },
+  'act-cook': { act: 'cook', t: 3, look: 'hands', off: [-0.9, 0.6, -0.5], fov: 50 },
+  'act-cook-front': { act: 'cook', t: 4, off: [0.4, 0.5, 1.6], fov: 55 },
+  'act-eat-bowl': { act: 'eat', t: 1.2, off: [0.9, 0.4, 1.1], fov: 50 },
+  'act-eat-mouth': { act: 'eat', t: 2.9, look: 'head', off: [0.8, 0.1, 0.7], fov: 45 },
+  'act-eat-side': { act: 'eat', t: 2.9, look: 'head', off: [-0.9, 0.1, 0.3], fov: 45 },
+  'face-brush-groggy': { act: 'brush', t: 0.5, look: 'head', off: [-0.5, 0.1, 0.7], fov: 40, mood: 'groggy' },
+  'face-brush-tired': { act: 'brush', t: 0.5, look: 'head', off: [-0.5, 0.1, 0.7], fov: 40, mood: 'tired' },
+  'face-shower-cold': { act: 'shower', t: 0.6, look: 'head', off: [0.3, 0.1, 0.7], fov: 45 },
+  'face-cook-spit': { act: 'cook', t: 1.75, look: 'head', off: [-0.5, 0.1, 0.7], fov: 40 },
+  'face-desk': { act: 'desk', t: 3, look: 'head', off: [0.3, 0.05, 0.6], fov: 40 },
+  'face-keys-peak': { act: 'keys', t: 4.76, look: 'head', off: [0.3, 0.1, 0.7], fov: 40 },
+  'face-tv-alarm': { act: 'tv', t: 12.08, look: 'head', off: [0.3, 0.1, 0.8], fov: 40 },
   'door-room': { pos: [2.2, 1.7, 1.6], look: [4.2, 1.1, 1.6], fov: 60 },
 };
 
@@ -81,6 +98,10 @@ run(async () => {
       if (s.nap != null) { d.snake.nap(s.nap); for (let i = 0; i < 300; i++) d.snake.update(1 / 30, i / 30, null); }
       if (s.gal) { const z = d.gallery.zones.filter(z => z.frames)[s.gal[0]]; const c = s.gal[1]; const qx = c % 3 ? z.x1 : z.x0, qz = c > 1 ? z.z1 : z.z0, ix = qx === z.x0 ? 1 : -1, iz = qz === z.z0 ? 1 : -1;
         s = { ...s, pos: [qx + ix * 3.2, 1.9, qz + iz * 2.6], look: [qx + ix * 0.4, 0.9, qz + iz * 0.4], at: [qx + ix * 3, qz + iz * 3, 0] }; }
+      const R = d.routine; R.clock.skew = 0;                           // mood: set his clock to a groggy or tired minute
+      if (s.mood) { const day = Math.floor((Date.now() + 5.5 * 3600e3) / 864e5), m = s.mood === 'tired' ? 23 * 60 : R.dayPlan(day).find(e => e[1] !== 'sleep')[0] + 5;
+        R.clock.at(`${Math.floor(m / 60)}:${String(m % 60).padStart(2, '0')}`); }
+      if (s.act && P.st.seated?.act === s.act) P.stand();            // each act shot starts its clock afresh
       if (s.act) return d.shoot(s.act, { t: s.t, off: s.off, look: s.look || 'chest', fov: s.fov || 40, name });
       if (P.st.seated) P.stand(); P.cancelAuto(); P.keys.clear();
       const a = s.at || [0.3, 1.2, 0]; P.pos.set(a[0], 0, a[1]); d.man.root.position.set(a[0], 0, a[1]); P.st.heading = a[2] || 0; P.st.speed = 0;

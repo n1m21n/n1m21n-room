@@ -31,7 +31,7 @@ export async function makeTelly({ man, player, screen, noise, zones, goHall }) {
   remote.visible = false; man.root.add(remote);
 
   const TV = { x: 2.05, z: 1.12, heading: 0, act: 'tv', out: [2.05, 0.5], pressed: 0,   // in the bean bag (furniture.js)
-    enter: () => { on = true; ch = 0; slide = 0; last = performance.now(); ui(true); }, leave: () => { on = false; remote.visible = false; u.uMap.value = staticTex; ui(false); } };
+    enter: () => { on = true; ch = 0; slide = 0; last = performance.now(); ui(!TV.quiet); }, leave: () => { on = false; remote.visible = false; u.uMap.value = staticTex; ui(false); } };
 
   let on = false, ch = 0, slide = 0, last = 0, paused = false;
   const cache = new Map();

@@ -8,7 +8,7 @@ import * as THREE from 'three';
 import { mesh, toon } from './look.js';
 import { PAL, checkerTex, skyTex } from './textures.js';
 import { W as RW, DOOR, monstera } from './room.js';
-import { TEA, teaProps, FRIDGE, fridgeProps } from './acts.js';
+import { TEA, teaProps, FRIDGE, fridgeProps, BRUSH, COOK, cookProps, EAT, TOOLS, HELD, palmFrame } from './acts.js';
 
 const WT = 0.12, H = 2.6, DH = 2.35;
 // The foyer (the corridor to the gallery) is a 5 x 2.2 m hall that the two rooms open off. Sized like a small flat:
@@ -50,6 +50,14 @@ SPOTS.LOO.out = [SPOTS.LOO.x + 0.25, SPOTS.LOO.z];
 SPOTS.SHOWER.out = [SPOTS.SHOWER.x - 0.23, SPOTS.SHOWER.z + 0.97];
 SPOTS.TEA.out = [SPOTS.TEA.x, SPOTS.TEA.z - 0.5];
 SPOTS.FRIDGE.out = [X0 + 1.45, SPOTS.FRIDGE.z];
+// his day (routine.js) adds: brushing at the basin, cooking at the hob (same places as wash / tea), eating at the table
+// from the chair on its east side
+export const TABLE = { x: X0 + 1.05, z: KI.z0 + 1.75 };
+Object.assign(SPOTS, {
+  BRUSH: { ...SPOTS.WASH, act: 'brush' },
+  COOK: { ...SPOTS.TEA, act: 'cook' },
+  EAT: { x: TABLE.x + 0.72, z: TABLE.z, heading: -Math.PI / 2, act: 'eat', out: [TABLE.x + 1.22, TABLE.z] },
+});
 // a group in a spot's frame: children placed in his man-local coordinates
 const frame = s => { const g = new THREE.Group(); g.position.set(s.x, 0, s.z); g.rotation.y = s.heading; return g; };
 
@@ -130,7 +138,8 @@ export function buildAnnex({ walls, solid }) {
   const tube = cyl(0.022, 0.022, 0.14, PAL.mag, { mat: 'plastic' }); tube.rotation.z = 0.18; tube.position.set(-0.15, 0.08, 0); shelfG.add(tube);
   shelfG.add(at(cyl(0.012, 0.016, 0.02, PAL.white, { mat: 'plastic', ink: 0.003 }), -0.163, 0.165, 0));
   shelfG.add(at(cyl(0.03, 0.026, 0.09, PAL.teal, { mat: 'glaze' }), 0.14, 0.054, 0));
-  for (const [c, r] of [[PAL.spiral, 0.15], [PAL.red, -0.12]]) { const br = cyl(0.006, 0.006, 0.18, c, { ink: 0.002, mat: 'plastic' }); br.position.set(0.14 + r * 0.1, 0.13, 0); br.rotation.z = r; shelfG.add(br); }
+  let mine = null;                                                   // the spiral one is his: it goes in his hand (BRUSH)
+  for (const [c, r] of [[PAL.spiral, 0.15], [PAL.red, -0.12]]) { const br = cyl(0.006, 0.006, 0.18, c, { ink: 0.002, mat: 'plastic' }); br.position.set(0.14 + r * 0.1, 0.13, 0); br.rotation.z = r; shelfG.add(br); mine ||= br; }
   g.add(at(shelfG, bx, 1.12, B.z0 + 0.06));
   // the loo, against the west wall
   const L = SPOTS.LOO, lz = L.z, loo = new THREE.Group(); loo.name = 'loo';
@@ -266,8 +275,31 @@ export function buildAnnex({ walls, solid }) {
   mug.traverse(o => { if (o.isMesh) o.userData.phys = 'none'; });
   kettle.traverse(o => { if (o.isMesh) o.userData.phys = 'none'; });
   tf.add(mug);
+  // cooking: a pan on his left ring with something in it, a wooden spatula, a second flame
+  const pan = new THREE.Group(); pan.name = 'pan';
+  pan.add(at(lathe([[0, 0], [COOK.r - 0.01, 0], [COOK.r, 0.01], [COOK.r + 0.006, 0.05], [COOK.r - 0.002, 0.05], [COOK.r - 0.008, 0.012], [0, 0.008]], PAL.ink, { mat: 'metal' }), 0, 0, 0));
+  const ph = cyl(0.012, 0.014, COOK.handle, '#5A3A1A', { mat: 'wood', ink: 0.003 }); ph.rotation.z = Math.PI / 2; ph.position.set(COOK.r + COOK.handle / 2, 0.035, 0); pan.add(ph);
+  const food = [[PAL.orange, 0.04, 0.02], [PAL.green, -0.03, 0.04], [PAL.red, 0.02, -0.05], [PAL.spiral, -0.05, -0.02], [PAL.orange, -0.01, 0.0], [PAL.green, 0.06, -0.03]].map(([c, x, z]) => {
+    const b = mesh(new THREE.SphereGeometry(0.022, 8, 6).scale(1, 0.55, 1), c, { ink: 0.002, mat: 'glaze' }); b.position.set(x, 0.022, z); pan.add(b); return b; });
+  pan.position.set(...COOK.pan); pan.rotation.y = COOK.ry; tf.add(pan);
+  const flame2 = flame.clone(); flame2.position.x = T.x + COOK.pan[0]; flame2.visible = false; g.add(flame2);
+  const stick = (len, back, col, head) => {                          // along +y, tip at y = len (spot), handle back to -back
+    const s = new THREE.Group(), h = cyl(0.007, 0.007, len + back - head.l, col, { mat: 'wood', ink: 0.002 });
+    h.position.y = (len - head.l - back) / 2; s.add(h); head.m.position.y = len - head.l / 2; s.add(head.m);
+    s.traverse(o => { if (o.isMesh) o.userData.phys = 'none'; }); s.visible = false; g.add(s); return s;
+  };
+  const spatula = stick(TOOLS.spatula.reach, TOOLS.spatula.back, '#B07A3A', { l: 0.07, m: box(0.05, 0.07, 0.008, '#B07A3A', { mat: 'wood', ink: 0.002 }) });
+  const brush = stick(TOOLS.brush.reach, TOOLS.brush.back, PAL.spiral, { l: 0.03, m: box(0.012, 0.03, 0.016, PAL.white, { mat: 'plastic', ink: 0.002 }) });
+  const spoon = stick(TOOLS.spoon.reach, TOOLS.spoon.back, PAL.lav, { l: 0.045, m: mesh(new THREE.SphereGeometry(0.02, 10, 6).scale(1, 1.4, 0.4), PAL.lav, { mat: 'metal', ink: 0.002 }) });
+  // his bowl at the table (eat frame), out only while he's eating
+  const ef = frame(SPOTS.EAT); g.add(ef);
+  const dish = new THREE.Group(); dish.name = 'bowl';
+  dish.add(lathe([[0, 0], [0.04, 0], [0.075, 0.03], [0.085, 0.055], [0.08, 0.055], [0.07, 0.032], [0, 0.012]], PAL.teal, { mat: 'glaze' }));
+  const dal = glow(new THREE.CircleGeometry(0.068, 18).rotateX(-Math.PI / 2), '#E8A93A'); dal.position.y = 0.04; dish.add(dal);
+  dish.traverse(o => { if (o.isMesh) o.userData.phys = 'none'; });
+  dish.position.set(EAT.bowl[0], EAT.bowl[1] - 0.015, EAT.bowl[2]); dish.visible = false; ef.add(dish);
   // table for two under a pendant, fruit in a bowl; a window on the sky over it; a plant in the corner
-  const tx = X0 + 1.05, tz = K.z0 + 1.75, table = new THREE.Group(); table.name = 'table';
+  const tx = TABLE.x, tz = TABLE.z, table = new THREE.Group(); table.name = 'table';
   table.add(at(cyl(0.38, 0.38, 0.04, PAL.white, { mat: 'paint' }, 28), 0, 0.74, 0));
   table.add(at(cyl(0.03, 0.03, 0.72, PAL.ink, { mat: 'metal' }), 0, 0.36, 0));
   table.add(at(cyl(0.2, 0.22, 0.03, PAL.ink, { mat: 'metal' }), 0, 0.015, 0));
@@ -327,7 +359,15 @@ export function buildAnnex({ walls, solid }) {
     });
     p.needsUpdate = true; l.visible = true;
   };
-  function update(dt, t, player) {
+  // a held stick on his palm (acts.js heldAt): axis along the fingers, HELD off the palm
+  const pv = new THREE.Vector3(), m4 = new THREE.Matrix4(), xv = new THREE.Vector3();
+  function hold(o, man) {
+    const { pos, F, N, PALM_T } = palmFrame(man, 'handR');
+    o.position.copy(man.root.localToWorld(pv.copy(pos).addScaledVector(N, PALM_T + HELD)));
+    const q = man.root.getWorldQuaternion(new THREE.Quaternion());
+    m4.makeBasis(xv.crossVectors(F, N), F, N); o.quaternion.setFromRotationMatrix(m4).premultiply(q); o.visible = true;
+  }
+  function update(dt, t, player, man) {
     const sp = player.st.seated, u = sp?.t || 0, k = 1 - Math.exp(-6 * dt), pos = player.pos;
     // door curtains part round him
     for (const c of curtains) {
@@ -362,10 +402,22 @@ export function buildAnnex({ walls, solid }) {
     if (brewing && Q.pouring) { tf.localToWorld(v.set(...Q.tip)); fall(pourRun, v.x, v.y, v.z, 0.06, t, 2); } else pourRun.visible = false;
     if (!brewing && st.boil) mug.position.set(...teaProps(0).mug);
     st.boil = brewing;
+    // brushing, cooking, eating: the thing in his hand rides his palm (main.js passes the man; tests may not)
+    const spec = player.st.spec || {}, brushing = sp === SPOTS.BRUSH, cooking = sp === SPOTS.COOK, eating = sp === SPOTS.EAT;
+    if (brushing && spec.tap) fall(tapRun, bx, 0.96, B.z0 + 0.14, 0.05, t, 3);
+    mine.visible = !(brushing && spec.brush && man);
+    if (man && brushing && spec.brush) hold(brush, man); else brush.visible = false;
+    flame2.visible = cooking;
+    const C = cookProps(cooking ? u : 0, t);
+    pan.position.set(COOK.pan[0], COOK.pan[1] + (cooking ? C.dy : 0), COOK.pan[2]);
+    food.forEach((b, i) => { if (cooking) b.position.y = 0.022 + Math.max(0, Math.sin(t * 18 + i)) * C.shake * 0.03; });
+    if (man && cooking && u > 0.5) hold(spatula, man); else spatula.visible = false;
+    dish.visible = eating;
+    if (man && eating && u > 0.3) hold(spoon, man); else spoon.visible = false;
   }
 
   return {
     group: g, update, zones, zoneAt, spots: SPOTS, curtains, sky,
-    objs: { sink, mirror, loo, shower: [tray, head, curtain, knee], fridge: fr, hob: [kettle, mug], table },
+    objs: { sink, mirror, loo, shower: [tray, head, curtain, knee], fridge: fr, hob: [kettle, mug], table, pan, toothbrush: mine },
   };
 }
