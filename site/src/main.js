@@ -21,7 +21,7 @@ import { makeTelly } from './telly.js';
 import { makePortals } from './portal.js';
 import { makeDoors } from './doors.js';
 import { makeSfx } from './sfx.js';
-import { makeRoutine, istNow, istClock } from './routine.js';
+import { makeRoutine, istNow, istClock, mood } from './routine.js';
 import { makeUtilityAI } from './sim/utility.js';
 import { makeSimCore } from './sim/core.js';
 import { ACTIVITIES } from './sim/data/activities.gen.js';
@@ -34,6 +34,7 @@ import { makeThoughts } from './thoughts.js';
 import { makeDirector } from './camera-director.js';
 import { makeErrands } from './errands/playback.js';
 import { makeFeed } from './errands/feed.js';
+import { makeBeats, moodClass, withBreaks, TABLE as BEAT_TABLE } from './beats.js';
 import { PAL, skyTex } from './textures.js';
 
 const sfx = makeSfx();
@@ -110,7 +111,10 @@ const ROUTE_BIAS = { anxious: -0.6, lonely: -0.5, sad: -0.35, given_up: -0.4, un
 for (const b of solids) simCore.grid?.blockRect(b[0], b[1], b[2], b[3]);   // the real furniture in the sim's grid
 // rooms whose walls are cut away Sims-style (the ones facing the camera); the gallery's halls keep the spring arm
 const rooms = [{ name: 'room', box: [-RW / 2, -RD / 2, RW / 2, RD / 2] }, ...Object.entries(ANNEX.rooms).map(([name, box]) => ({ name, box }))];
-const player = makePlayer({ man, scene, camera, canvas, solids, walls, nav, onTap, rooms, posture });
+// short beats over the long acts (beats.js), picked by his mood in the shared life (the IST clock alone without the sim)
+const beatMood = () => { try { const c = SIM_MODE === 'life' ? simLife.at(Date.now()) : SIM_MODE === 'local' ? simCore : null; return moodClass(c ? { emotion: c.emotion.current, affect: c.affect, motives: c.motives, clock: mood() } : { clock: mood() }); } catch { return 'calm'; } };
+const beats = makeBeats({ mood: beatMood });
+const player = makePlayer({ man, scene, camera, canvas, solids, walls, nav, onTap, rooms, posture, beats });
 window.player = player;                                         // dev
 // doors go in after the nav grid is baked: routes run through them, he stops and pushes them open on the way
 const doors = makeDoors({ scene, walls, solids, player, man });
@@ -358,7 +362,7 @@ function stepWalker(dt) {                                         // pace / roam
   player.goTo(p[0], p[1]);
 }
 const routine = makeRoutine({
-  chooser: simChooser,
+  chooser: SIM_MODE === 'life' ? withBreaks(simChooser, { mood: beatMood }) : simChooser,   // every 5-10 min a short trip somewhere and back (beats.js)
   player, utility, toast: (...a) => toast(...a), spots: {
     sleep: at(F.BED), work: at(F.CHAIR), keys: at(KEYS), guitar: at(GUITAR),
     window: { ...at(WINDOW), start: lookOut },
@@ -433,7 +437,7 @@ for (const [k, o] of Object.entries({ ...F, shelf, lamp, win, kb, gt, stool: st0
 const phys = makePhysics({ scene, man });
 // dev: pose every act, step it through time, and list every body part inside anything (mm deep, vertices)
 async function verifyActs({ only, times = [0.8, 2, 3.5, 6] } = {}) {
-  const report = {};
+  const report = {}; beats.force('');                          // the acts' own poses; verifyBeats does the beats
   for (const s of stations) {
     const spot = s.seat; if (!spot?.act || (only && !only.includes(spot.act))) continue;
     if (player.st.seated) player.stand();
@@ -457,13 +461,36 @@ async function verifyActs({ only, times = [0.8, 2, 3.5, 6] } = {}) {
     const worst = {}; for (const r of rows) { const kk = r.part + ' x ' + r.what; if (!worst[kk] || worst[kk].depth < r.depth) worst[kk] = r; }
     report[k] = Object.values(worst).sort((a, b) => b.depth - a.depth);
   }
-  player.st.speed = 0;
+  player.st.speed = 0; beats.force(null);
+  return report;
+}
+// dev: every beat (beats.js) at every station that plays it, posed at its start, peak and end: body parts inside props
+async function verifyBeats({ only } = {}) {
+  const report = {};
+  for (const s of stations) {
+    const spot = s.seat, tab = spot?.act && BEAT_TABLE[spot.act]; if (!tab || (only && !only.includes(spot.act))) continue;
+    for (const id of Object.keys(tab)) {
+      if (player.st.seated) player.stand();
+      if (spot === reading.READ) reading.READ.book ||= { title: 'test' };
+      beats.force(id, 1.5); player.sit(spot);
+      let t = 0; const rows = [], len = id === 'turn_over' ? 10 : 6.5;
+      for (const at of [2.6, 1.5 + len / 2, 1.5 + len - 1.1]) {
+        while (t < at) { player.update(1 / 30, performance.now() / 1000 + t); reading.update(); telly.update(false); annex.update(1 / 30, t, player, man); props.update(1 / 30, t, player, man); t += 1 / 30; }
+        for (const h of phys.check()) rows.push({ t: +at.toFixed(1), ...h });
+      }
+      player.stand();
+      const worst = {}; for (const r of rows) { const k = r.part + ' x ' + r.what; if (!worst[k] || worst[k].depth < r.depth) worst[k] = r; }
+      report[spot.act + '/' + id] = Object.values(worst).sort((a, b) => b.depth - a.depth);
+    }
+  }
+  beats.force(null);
   return report;
 }
 // dev: pose stills for review sheets. Sits at an act's station, runs it `t` seconds, frames a bone from a man-local
 // offset and POSTs the frame to vite (vite.config.js -> build-cache/review/stills/<name>.png)
-async function shoot(act, { t = 2.5, off = [1.2, 0.4, 2.4], look = 'chest', fov = 40, name = act, paint = false } = {}) {
+async function shoot(act, { t = 2.5, off = [1.2, 0.4, 2.4], look = 'chest', fov = 40, name = act, paint = false, beat } = {}) {
   const s = stations.find(s => s.seat?.act === act);
+  beats.force(beat ?? '', 1.5); if (beat !== undefined && player.st.seated) player.stand();       // a beat (beats.js) from 1.5 s in; none unless asked
   if (s && player.st.seated !== s.seat) { if (player.st.seated) player.stand(); if (s.seat === reading.READ) reading.READ.book ||= { title: 'test' }; player.sit(s.seat); }
   for (let k = 0; k < t; k += 1 / 30) { player.update(1 / 30, k); reading.update(); telly.update(false); annex.update(1 / 30, k, player, man); props.update(1 / 30, k, player, man, { paint }); }
   man.root.updateMatrixWorld(true);
@@ -474,6 +501,7 @@ async function shoot(act, { t = 2.5, off = [1.2, 0.4, 2.4], look = 'chest', fov 
   camera.lookAt(tgt); camera.updateMatrixWorld();
   comp.render(scene, camera);
   await fetch('/__still?name=' + name, { method: 'POST', body: renderer.domElement.toDataURL('image/png') });
+  beats.force(null);
   return name;
 }
 const sim = {
@@ -518,7 +546,7 @@ const sim = {
     },
   },
 };
-window.dev = { setLiveAct: a => { lastLiveAct = a; }, props, THREE, rooms, fits, ward, openWardrobe, snake: snk, routine, motives: utility.motives, sim, sfx, get dpr() { return dpr; }, doors, gallery, annex, portals, stations, walkTo, nav, solids, man, player, scene, camera, room, phys, verifyActs, ACTS, GUITAR_AT, render: () => comp.render(scene, camera), renderer, reading, telly, shoot, sky: ph => { lastSky = ph; win.userData.sky.material.uniforms.uMap.value = skies[ph] ||= skyTex(ph); } };                              // dev
+window.dev = { setLiveAct: a => { lastLiveAct = a; }, props, THREE, rooms, fits, ward, openWardrobe, snake: snk, routine, motives: utility.motives, sim, sfx, get dpr() { return dpr; }, doors, gallery, annex, portals, stations, walkTo, nav, solids, man, player, scene, camera, room, phys, verifyActs, verifyBeats, beats, ACTS, GUITAR_AT, render: () => comp.render(scene, camera), renderer, reading, telly, shoot, sky: ph => { lastSky = ph; win.userData.sky.material.uniforms.uMap.value = skies[ph] ||= skyTex(ph); } };                              // dev
 let near = null;
 function pickStation() {
   const p = player.pos, h = player.st.heading;

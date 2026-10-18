@@ -687,3 +687,5 @@ export function fridgeProps(u) {
   const out = ease((u - 2.9) / 0.7), c = lerp3(FRIDGE.bottle, [-0.08, 1.15 + S(u * 1.1) * 0.01 * out, 0.3], out);
   return { a: fridgeDoor(u), bottle: c, palm: add(c, [-0.04, 0, 0]), held: u > 2.6 };
 }
+// shared with beats.js (the short beats layered over a long act)
+export const actKit = { S, ease, lerp3, add, mixH, mouth, onKnee, KNEE_HAND };

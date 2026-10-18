@@ -18,6 +18,13 @@ export const SHOTS = {
   'tv-bag': { act: 'tv', look: 'chest', off: [1.6, 0.5, 1.4], fov: 45 },
   'tv-bag-back': { act: 'tv', look: 'chest', off: [0.5, 0.6, -2.0], fov: 50 },
   'desk-top': { pos: [-0.2, 1.35, 1.6], look: [-0.4, 0.8, 2.8], fov: 55 },
+  // short beats (beats.js), each at its peak: beat-<act>-<beat>
+  ...Object.fromEntries([
+    ...['lean_back', 'sip', 'rub_eyes', 'yawn', 'look_out', 'fidget', 'sigh'].map(b => ['desk', b, [-1.4, 0.4, 0.45]]),
+    ['tv', 'laugh', [1.6, 0.5, 1.4]], ['tv', 'snack', [1.6, 0.5, 1.4]], ['tv', 'shift', [1.6, 0.5, 1.4]], ['tv', 'yawn', [1.6, 0.5, 1.4]],
+    ['read', 'look_up', [1.0, 0.3, 1.4]], ['read', 'weight', [1.2, 0.3, 1.8]], ['keys', 'retry', [1.0, 0.4, 1.4]], ['keys', 'nod', [1.0, 0.4, 1.4]],
+    ['guitar', 'retry', [1.0, 0.3, 1.4]], ['bed', 'turn_over', [0.5, 1.6, 0.3], 6.5], ['think', 'weight', [1.2, 0.3, 1.8]], ['bench', 'glance', [1.2, 0.4, 1.8]],
+  ].map(([act, beat, off = [1.0, 0.35, 1.3], t = 4.8]) => ['beat-' + act + '-' + beat, { act, beat, t, off, fov: 50 }])),
   // the outfits: the weekday looks, front and back (fit: weekday index)
   'fit-sun': { fit: 0, at: [0.3, 0.8, Math.PI], pos: [0.3, 1.35, -1.4], look: [0.3, 0.98, 0.8], fov: 54 },
   'fit-mon': { fit: 1, at: [0.3, 0.8, Math.PI], pos: [0.3, 1.35, -1.4], look: [0.3, 0.98, 0.8], fov: 54 },
@@ -106,7 +113,7 @@ run(async () => {
       if (s.mood) { const day = Math.floor((Date.now() + 5.5 * 3600e3) / 864e5), m = s.mood === 'tired' ? 23 * 60 : R.dayPlan(day).find(e => e[1] !== 'sleep')[0] + 5;
         R.clock.at(`${Math.floor(m / 60)}:${String(m % 60).padStart(2, '0')}`); }
       if (s.act && P.st.seated?.act === s.act) P.stand();            // each act shot starts its clock afresh
-      if (s.act) return d.shoot(s.act, { t: s.t, off: s.off, look: s.look || 'chest', fov: s.fov || 40, name, paint: !!s.paint });
+      if (s.act) return d.shoot(s.act, { t: s.t, off: s.off, look: s.look || 'chest', fov: s.fov || 40, name, paint: !!s.paint, beat: s.beat });
       if (P.st.seated) P.stand(); P.cancelAuto(); P.keys.clear();
       const a = s.at || [0.3, 1.2, 0]; P.pos.set(a[0], 0, a[1]); d.man.root.position.set(a[0], 0, a[1]); P.st.heading = a[2] || 0; P.st.speed = 0;
       for (let i = 0; i < 20; i++) P.update(1 / 30, i / 30);

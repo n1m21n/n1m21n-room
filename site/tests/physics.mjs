@@ -6,6 +6,7 @@
 //   P5 camera arm      - orbit all round him at every spot: camera finite, not inside a solid, not on top of him
 //   P6 his day         - his routine at every half hour: legal pose, not inside a wall, no body clipping
 //   P7 snake           - roams inside the map, never inside a solid
+//   P8 short beats     - every beat at every station that plays it: no body part inside a prop
 //   npm run test:physics [-- --only=P3,P4] [-- --seed=7]
 import { start, openPage, reporter, run, want, arg } from './lib/harness.mjs';
 
@@ -53,6 +54,18 @@ run(async () => {
       if (!worst) { r.ok('P1', `${act}: clean`); continue; }
       const line = `${act}: ${worst.part} inside ${worst.what} by ${worst.depth} mm (t=${worst.t ?? '-'})`;
       if (worst.depth > T.clipFail) r.fail('P1', line); else if (worst.depth > T.clipWarn) r.warn('P1', line); else r.ok('P1', line);
+    }
+  }
+
+  // ------------------------------------------------------------ P8
+  if (on('P8')) {
+    r.section('P8 short beats (beats.js) at every station that plays them: start, peak, end');
+    const rep = await page.evaluate(() => window.dev.verifyBeats());
+    for (const [key, rows] of Object.entries(rep)) {
+      const worst = rows[0];
+      if (!worst) { r.ok('P8', `${key}: clean`); continue; }
+      const line = `${key}: ${worst.part} inside ${worst.what} by ${worst.depth} mm (t=${worst.t})`;
+      if (worst.depth > T.clipFail) r.fail('P8', line); else if (worst.depth > T.clipWarn) r.warn('P8', line); else r.ok('P8', line);
     }
   }
 

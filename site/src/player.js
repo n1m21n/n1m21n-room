@@ -14,7 +14,7 @@ const e = new THREE.Euler(), q = new THREE.Quaternion();
 const damp = (a, b, k, dt) => a + (b - a) * (1 - Math.exp(-k * dt));
 const wrap = a => Math.atan2(Math.sin(a), Math.cos(a));
 
-export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onTap, rooms = [], posture = null }) {
+export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onTap, rooms = [], posture = null, beats = null }) {
   const pos = new THREE.Vector3(-0.6, 0, 1.2);
   const st = { turnTo: null, heading: Math.PI, speed: 0, phase: 0, yaw: 0.25, pitch: 0.38, dist: 3.8, view: 'third', seated: null, frozen: false, bumps: 0, blocked: false, faceNow: 'neutral' };
   const keys = new Set();
@@ -98,7 +98,7 @@ export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onT
       if (!act) { man.pose(sp.pose || 'seated'); relaxHands(B); return; }
       sp.t = (sp.t || 0) + dt;
       sp.tt = (sp.tt || 0) + dt * (sp.tempo || 1);     // act clock at his emotional tempo (acts.js hands, sfx.js strums share it)
-      const rawSpec = act(sp.t, t, sp);
+      const rawSpec = beats ? beats.spec(sp, dt, t, act) : act(sp.t, t, sp);   // beats.js: now and then a small beat on top (a sip, a stretch)
       if (posture) posture.applyToSpec(rawSpec, { dt, t, pos, heading: st.heading, speed: 0, seated: sp });
       const spec = st.spec = applyAct(man, rawSpec);
       if (spec.face) { const sh = posture ? posture.shownFace(spec.face) : spec.face; if (sh !== sp.faceNow) { man.face(sh); sp.faceNow = sh; } }

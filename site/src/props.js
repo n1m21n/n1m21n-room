@@ -200,8 +200,8 @@ export function buildProps({ solid, disc }) {
     sheet.visible = writing;
     if (writing) { sheet.position.set(sp.x + 0.0, WRITE.y - 0.001, sp.z + WRITE.z); sheet.rotation.z = 0.08; }
     if (man && writing && spec.pen) hold(pen, man); else pen.visible = false;
-    // a mug for the sip
-    if (man && sp?.act === 'sip' && spec.mug) hold(mug, man, 'handR', 0.03, [0, 0, 0.0]); else mug.visible = false;
+    // a mug for the sip (the micro act, or a sip beat at the desk)
+    if (man && spec.mug) hold(mug, man, 'handR', 0.03, [0, 0, 0.0]); else mug.visible = false;
   }
 
   return {
