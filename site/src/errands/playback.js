@@ -5,7 +5,7 @@
 import { makeNotes } from './notes.js';
 import { COMMANDS, replyFor, askText, SELF_LINES } from './commands.js';
 
-const MISSED = 30000;                                              // ms late: the moment has passed, the note is just tucked away
+const MISSED = 180000;                                             // ms late: 3 minutes before an unserved note lapses
 
 export function makeErrands({ scene, desk, chair, man, player, routine, bubble, sfx, busy = () => false, music = null, onPlay = null }) {
   const notes = makeNotes({ scene, desk, man });
@@ -13,7 +13,7 @@ export function makeErrands({ scene, desk, chair, man, player, routine, bubble, 
   let state = 'idle', t = 0, gt = 0, lastNow = performance.now(), cur = null;
   const mine = () => routine.mine;                                 // false while a visitor drives him: events wait or lapse
   const sleeping = () => routine.doing === 'sleep';
-  const ready = () => !routine.walking && routine.since > 6000 && !busy() && !sleeping() && mine();
+  const ready = () => !busy() && !sleeping() && (mine() || routine.since > 4000);
 
   function push(ev, at) {                                          // `at`: local clock time to start
     if (pending.some(p => p.ev.seq === ev.seq && ev.seq != null)) return;
@@ -56,7 +56,7 @@ export function makeErrands({ scene, desk, chair, man, player, routine, bubble, 
       if (state === 'idle') {
         pending.sort((a, b) => a.at - b.at);
         const p = pending[0]; if (!p || now < p.at) return;
-        if (now - p.at > MISSED || (!mine() && now - p.at > 2000)) { pending.shift(); notes.tuck(p.note); return; }
+        if (now - p.at > MISSED) { pending.shift(); notes.tuck(p.note); return; }
         if (ready()) { pending.shift(); start(p); }
       } else if (state === 'walk') {
         if (gt > 25 || t > 90) { player.cancelAuto(); notes.tuck(cur.note); end(); }

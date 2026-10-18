@@ -124,8 +124,8 @@ export function makeRoutine({ player, spots, toast, idleAfter = 120, utility = n
     if (busy || going || player.auto?.pts) return;
     if (!mine && performance.now() - lastInput < idleAfter * 1000) return;
     mine = true;
+    if (performance.now() - startedAt < holdFor) return;
     if (chooser) {                                                     // the sim chooses; he stays with an act for its own length
-      if (doing && performance.now() - startedAt < holdFor) return;
       const w = chooser.next(doing, spots);
       if (!w || !spots[w]) return;
       const s = spots[w];

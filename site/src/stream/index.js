@@ -18,7 +18,8 @@ export function startStream({ routine, bubble, errands, director, feed, nudges, 
   bubble.setPace({ every: 9, hold: 5 });                           // musings twice as often as on the regular site
 
   function receive(m) {
-    const r = q.offer(m); if (!r.ok) return r;
+    console.log('[stream] chat received:', m.name, m.text);
+    const r = q.offer(m); if (!r.ok) { console.log('[stream] chat offer not accepted:', r.why); return r; }
     const n = r.note, what = n.cmd ? '!' + n.cmd : 'a question';
     chips.get(n)?.remove(); chips.set(n, hud.chip(n.name, what, n.votes)); quiet = 0; return r;
   }
@@ -31,6 +32,7 @@ export function startStream({ routine, bubble, errands, director, feed, nudges, 
 
   async function announce(n) {                                     // a question is an errand too: he reads the note and answers it
     const cmd = n.ask ? 'ask' : n.cmd, ev = { cmd, name: n.name, arg: n.ask ? String(n.askId) : n.arg || '', votes: n.votes, self: !!n.self, secs: COMMANDS[cmd].secs };
+    console.log('[stream] announcing errand:', ev.cmd, 'by', ev.name);
     sending = true;
     const e = await feed.announce(ev).catch(() => null); sending = false;
     if (e) busyUntil = performance.now() + (e.t0 - Date.now()) + e.secs * 1000 - 6000;
@@ -45,7 +47,7 @@ export function startStream({ routine, bubble, errands, director, feed, nudges, 
       if (sending || now < busyUntil || errands.waiting >= MAX_AHEAD) { quiet = q.size ? 0 : quiet + dt; return; }
       const n = q.next();
       if (n) announce(n);
-      else if ((quiet += dt) > SELF_AFTER) { quiet = 0; announce(selfNote()); }
+      else if (!q.size && (quiet += dt) > SELF_AFTER) { quiet = 0; announce(selfNote()); }
     },
     receive,
     cueSong: () => {},                                             // !play is played by playback's onPlay (main.js hands it the music deck)
