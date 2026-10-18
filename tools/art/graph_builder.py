@@ -65,7 +65,7 @@ def branch(g, family, a, pal, r, tag):
         nt = r.choice(['fBm', 'Ridged', 'Voronoi', 'Simplex fBm', 'Worley Edges'])
         src = g.node('Source', 'Noise', [f'i noiseType {nt}', f'f scale {lerp(2, 14, a["size"]):.2f}',
                                          f'f octaves {round(lerp(2, 6, a["noise"]))}', f'f warp {lerp(0.2, 1.4, a["amount"]):.2f}',
-                                         f'f speed {spd * 0.3:.3f}', f'f contrast {lerp(1.1, 2.6, a["contrast"]):.2f}',
+                                         f'f speed {spd * 0.3:.3f}', f'f contrast {lerp(1.1, 2.0, a["contrast"]):.2f}',
                                          f'f seed {r.uniform(0, 100):.2f}', f'c lowColor {fmt(ground)}', f'c highColor {fmt(main)}'], f'{tag}src')
         warp = r.choice([
             ('Effects', 'liquify', [f'f uAmount {lerp(0.3, 1.2, a["amount"]):.2f}', f'f uScale {lerp(2, 9, a["size"]):.2f}'], 'uSpeed', f'{lerp(0.1, 0.8, a["speed"]):.2f}'),
@@ -121,7 +121,7 @@ def build_graph(axes, seed=0, mood=None):
         steps.append(('Compositing', 'posterize', [f'f uLevels {round(lerp(4, 9, a["contrast"]))}']))
     if stress > 0.6:
         steps.append(('Effects', 'glitch', [f'f uAmount {lerp(0.1, 0.5, stress):.2f}', f'f uSeed {r.uniform(0, 100):.1f}'], 'uSpeed', f'{lerp(0.5, 2, arousal):.2f}'))
-    steps += [('Effects', 'bloom', [f'f uIntensity {lerp(0.3, 1.1, a["brightness"]):.2f}', 'f uThreshold 0.55']),
+    steps += [('Effects', 'bloom', [f'f uIntensity {lerp(0.2, 0.7, a["brightness"]):.2f}', 'f uThreshold 0.55']),
               ('Effects', 'addnoise', [f'f uAmount {lerp(0.05, 0.25, a["noise"]):.2f}']),
               ('Effects', 'vignette', []),
               ('Compositing', 'color adjustments', [f'f uContrast {lerp(-0.1, 0.5, a["contrast"]):.2f}', f'f uBrightness {lerp(-0.2, 0.15, a["brightness"]):.2f}'])]

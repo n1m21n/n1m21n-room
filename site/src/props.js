@@ -140,7 +140,17 @@ export function buildProps({ solid, disc }) {
   // ---- the canvas: white, or the hour's piece as far as he has got with it
   let pieces = null, img = null, imgFor = null, drawn = '';
   fetch('/art/sim/manifest.json').then(r => (r.ok ? r.json() : null)).then(m => { pieces = m; }).catch(() => {});
-  const hourPiece = () => (pieces?.length ? pieces[Math.floor(Date.now() / 36e5) % pieces.length].file : null);
+  // the piece he is making (or last finished), as the nearest banked still over the 9 axes; the hour's pick when there is no vector
+  let vec = null;
+  const hourPiece = () => {
+    if (!pieces?.length) return null;
+    if (vec) {
+      let best = null, bd = Infinity;
+      for (const p of pieces) { if (!p.axes) continue; let d = 0; for (const k in vec) d += (vec[k] - (p.axes[k] ?? 0.5)) ** 2; if (d < bd) { bd = d; best = p; } }
+      if (best) return best.file;
+    }
+    return pieces[Math.floor(Date.now() / 36e5) % pieces.length].file;
+  };
   let doneHour = null;                                          // the hour whose piece he finished: it stays up for the hour
   function paintCanvas(stage, reveal) {
     const want = hourPiece(), hour = Math.floor(Date.now() / 36e5);
@@ -168,7 +178,8 @@ export function buildProps({ solid, disc }) {
   paintCanvas(null, 0);
 
   // ---- per frame: what is in his hands and where the rest lies
-  function update(dt, t, player, man, { stage = null, paint = false } = {}) {
+  function update(dt, t, player, man, { stage = null, paint = false, v = null } = {}) {
+    vec = v;
     const sp = player.st.seated, spec = player.st.spec || {}, u = sp?.t || 0;
     // phone
     const phoning = sp?.act === 'phone', ringing = phoning && spec.ringing;

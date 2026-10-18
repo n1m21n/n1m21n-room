@@ -344,6 +344,7 @@ const moodPanel = SIM_LIVE ? makeMoodPanel({ nudges, bonus: () => (routine.mine 
 // the easel's canvas follows the life: sketch -> refine -> render -> review of the hour's piece (props.js); hands on, he refines
 // paint still on his hands (the sim's `paint` fluent: set by refine/render, cleared by a wash)
 const paintOnHands = () => { if (!SIM_LIVE || !routine.mine) return false; try { const c = SIM_MODE === 'life' ? simLife.at(Date.now()) : simCore; return c.world.val('paint', c.time.tMin) >= 0.5; } catch { return false; } };
+const artVec = () => { if (!SIM_LIVE || !routine.mine) return null; try { const a = (SIM_MODE === 'life' ? simLife.at(Date.now()) : simCore).art.state; return a.cur?.v || a.feed[a.feed.length - 1]?.v || null; } catch { return null; } };
 const artStage = () => { if (!SIM_LIVE || !routine.mine) return null; const a = SIM_MODE === 'life' ? simLife.at(Date.now()).doing : lastLiveAct; return /^art_(sketch|refine|render|review)$/.test(a || '') ? a.slice(4) : null; };
 // spots for the acts that had none: a letter at the desk, a nap on the bench, the door, little things where he stands,
 // pacing the window side and a wander round the room
@@ -768,7 +769,7 @@ renderer.setAnimationLoop(() => {
   doors.update(dt);
   ward.update(dt, t);
   annex.update(dt, t, player, man);
-  props.update(dt, t, player, man, { stage: artStage(), paint: paintOnHands() });
+  props.update(dt, t, player, man, { stage: artStage(), paint: paintOnHands(), v: artVec() });
   stepWalker(dt);
   reading.update(); telly.update(boilNow); boilNow = false;
   snk.update(dt, t, player.pos);
