@@ -688,7 +688,6 @@ function thought(dt = 0.016) {
   man.bones.head.getWorldPosition(headW);
   headW.y += 0.45;
   headW.project(camera);
-  if (headW.z > 1) { el.hidden = true; return; }
   el.style.left = ((headW.x + 1) / 2 * innerWidth) + 'px';
   el.style.top = ((1 - headW.y) / 2 * innerHeight) + 'px';
 }
