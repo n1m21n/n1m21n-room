@@ -2,6 +2,15 @@
 
 Start here. Then read `BLUEPRINT_REVIEW.md` (review of the two Antigravity blueprints), `SIM_DESIGN.md`, `DATA_SOURCES.md`.
 
+## STATUS UPDATE (2026-10-18, her): a second character in the room, toggle off by default: NOT deployed
+
+- Her: same rig and toon style (`site/src/her.js`: hair, round glasses, black sleeveless top, red bracelet; her faces are his textures recoloured, frames drawn on). `site/src/companion.js`: her own player, posture, routine and book; no input, no camera.
+- Her own sim, same algorithm: `tools/emotions/her.json` (tune + neuromodulator baselines + act set), baked by `gen.py` to `site/src/sim/data/her.gen.js`. `makeSimCore({ profile })`; with no profile his life is bit-identical (hash checked). Her-only act `dance` (`only: her` in activities.json) is skipped for him.
+- Her own shared life on the same IST clock: `site/public/sim/life.her.json` (`node tools/sim/make_life.mjs --her`), fetched only when she is first switched on. Visitor nudges stay his.
+- Toggle: `her` button in the top bar (`#herbtn`), per visitor (localStorage `n1m21n.her`, `?her=1` / `?her=0`). Off by default; her code, textures and life file load only on first spawn.
+- v1 limits: she acts where no prop is needed (sleep on the right side of the bed, desk, keys, tv, read, window, records, snake, dance, roam, pace, micro acts). Kitchen / bathroom / wardrobe acts: she steps out through the door and comes back. If he is on a seat she wants she does something else. No sound, no thought bubbles, no camera following her.
+- Next: her thought lines, kitchen props for her, her own TV/music taste, re-tune her tuning with Naman (placeholders: warmer, more social, calmer, less desk work).
+
 ## STATUS UPDATE (2026-10-18, round 7): short beats, breaks, shorter bouts: read `SIM_REVIEW.md` "Round 7"
 
 - `site/src/beats.js`: mood-picked 5-8 s seated beats every 25-55 s, plus `withBreaks`, which sends him on a 40-75 s trip every 5-10 min (wall clock, the same for every viewer). Max gap 9.2 min, enforced by `tests/beats.mjs` (≤ 10).

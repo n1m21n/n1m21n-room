@@ -1041,6 +1041,36 @@
    "durationSource": "hand 4 (watering one pot)",
    "due": 1440,
    "dueNote": "the plant needs water about once a day: appeal scales with time since last watered"
+  },
+  "dance": {
+   "kind": "normal",
+   "trivial": false,
+   "category": "movement",
+   "label": "Dance",
+   "rewards": {
+    "fun": 0.9,
+    "social": 0.1
+   },
+   "drain": {
+    "energy": 0.012
+   },
+   "rate": 0.05,
+   "minDur": 3,
+   "cooldown": 40,
+   "baseMinutes": 4,
+   "spread": 0.5,
+   "intensity": null,
+   "station": false,
+   "requires": [],
+   "emotionPull": {
+    "joyful": 1.8,
+    "delighted": 1.6,
+    "amusement": 1.4,
+    "restless": 1.3,
+    "triumph": 1.4
+   },
+   "only": "her",
+   "note": "her only: a short dance where she stands (core.js skips acts whose `only` is not the character's name)"
   }
  }
 }

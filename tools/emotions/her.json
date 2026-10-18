@@ -1,0 +1,87 @@
+{
+ "doc": "Her: the second character. tune/neuro are overrides on tune.json and neuro.json (her own emotional tuning); actOff/actMul/emotionPull shape her act set. gen.py bakes this into site/src/sim/data/her.gen.js. His life is untouched: acts with `only: her` are skipped for him.",
+ "name": "her",
+ "seed": 4417,
+ "tune": {
+  "decay": {
+   "social": 0.00042,
+   "fun": 0.0016,
+   "focus": 0.00032,
+   "energy": 0.00034,
+   "hunger": 0.0004
+  },
+  "pickExp": 2.2,
+  "moodShift": -0.03,
+  "stressShift": -0.03,
+  "arousalShift": 0.05,
+  "feelPull": 1.2,
+  "workDay": 0.3,
+  "workDuty": 0.05,
+  "workTarget": 120,
+  "erraticBase": 0.18,
+  "planChance": 0.6,
+  "chainGap": 200
+ },
+ "neuro": {
+  "DA": {
+   "base": 0.55
+  },
+  "HT": {
+   "base": 0.6
+  },
+  "NE": {
+   "base": 0.42
+  },
+  "CORT": {
+   "base": 0.15
+  },
+  "OXY": {
+   "base": 0.58,
+   "tau": 1500
+  }
+ },
+ "actOff": [
+  "work_through",
+  "night_work",
+  "night_shower",
+  "build",
+  "gather",
+  "art_sketch",
+  "art_refine",
+  "art_render",
+  "art_review",
+  "answer_phone",
+  "greet_visitor",
+  "run_indoors"
+ ],
+ "actMul": {
+  "water_plant": 2.0,
+  "read": 1.4,
+  "tea": 1.3,
+  "window": 1.4,
+  "bench": 1.2,
+  "snake": 1.4,
+  "records": 1.6,
+  "phone_call": 1.5,
+  "write_letter": 1.3,
+  "dance": 1.6,
+  "keys": 0.5,
+  "guitar": 0.5,
+  "tv": 0.7,
+  "work": 0.35
+ },
+ "emotionPull": {
+  "phone_call": {
+   "lonely": 2.0,
+   "sad": 1.5
+  },
+  "window": {
+   "nostalgia": 1.8,
+   "sad": 1.4
+  },
+  "records": {
+   "nostalgia": 1.5,
+   "joyful": 1.3
+  }
+ }
+}

@@ -81,6 +81,7 @@
   #mood .mgrid { display:grid; grid-template-columns:1fr auto; gap:3px 12px; } #mood .mgrid b { font-weight:500; text-align:right; }
   #liveinfo p { margin:0 0 8px; } #liveinfo button.go { font:inherit; text-transform:lowercase; cursor:pointer; background:var(--ink); color:var(--paper); border:2px solid var(--ink); border-radius:999px; padding:6px 14px; box-shadow:3px 3px 0 var(--pink); }
   #livebtn { gap:7px; padding:0 11px 0 9px; font-weight:500; cursor:pointer; text-transform:lowercase; color:var(--ink); } #livebtn i { width:9px; height:9px; border-radius:50%; background:var(--pink); border:1.6px solid var(--ink); animation:livedot 1.6s ease-in-out infinite; } #livebtn.mine i { background:var(--blue); animation:none; }
+  #herbtn { gap:7px; padding:0 11px 0 9px; font-weight:500; cursor:pointer; text-transform:lowercase; color:var(--ink); } #herbtn i { width:9px; height:9px; border-radius:50%; background:transparent; border:1.6px solid var(--ink); } #herbtn.on i { background:var(--blue); }
   @keyframes livedot { 50% { transform:scale(.55); opacity:.55; } }
   @media (prefers-reduced-motion:reduce) { #livebtn i { animation:none; } }
   #mood .mnote { margin:7px 0 0; opacity:.75; } #mood svg { width:100%; height:auto; display:block; } #mood svg .base { stroke:var(--ink); stroke-width:1; stroke-dasharray:3 4; opacity:.35; } #mood svg circle { fill:var(--pink); stroke:var(--ink); stroke-width:1.6; } #mood svg path { fill:none; stroke:var(--pink); stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }
@@ -264,7 +265,7 @@
   .crate .atracks { max-height:none; }
   @media (max-width:480px) { .crate .ahead { flex-direction:column; align-items:flex-start; } .crate .vinyl.big { width:120px; } }
 
-  @media (max-width:640px) { .chrome .row2 { justify-content:space-between; gap:6px; } .chrome .meta { padding:0 9px; font-size:11px; } .chrome .clock { gap:5px; padding:0 9px 0 6px; } .chrome .clock svg { width:16px; height:16px; } @media (max-width:420px) { .chrome .clock svg { display:none; } .chrome .meta, .chrome .sign { font-size:10.5px; } .chrome .clock { padding:0 7px; } .chrome #livebtn { gap:5px; padding:0 8px 0 7px; } .chrome #moodbtn { gap:4px; padding:0 7px 0 5px; } .chrome .sign { gap:5px; padding:0 8px; } .chrome .row2 { gap:5px; } } .chrome #moodbtn { padding:0 9px 0 6px; } .chrome #moodbtn img { width:16px; height:16px; } .chrome .sign { font-size:11px; padding:0 9px; } }
+  @media (max-width:640px) { .chrome .row2 { justify-content:space-between; gap:6px; } .chrome .meta { padding:0 9px; font-size:11px; } .chrome .clock { gap:5px; padding:0 9px 0 6px; } .chrome .clock svg { width:16px; height:16px; } @media (max-width:420px) { .chrome .clock svg { display:none; } .chrome .meta, .chrome .sign { font-size:10.5px; } .chrome .clock { padding:0 7px; } .chrome #livebtn, .chrome #herbtn { gap:5px; padding:0 8px 0 7px; } .chrome #moodbtn { gap:4px; padding:0 7px 0 5px; } .chrome .sign { gap:5px; padding:0 8px; } .chrome .row2 { gap:5px; } } .chrome #moodbtn { padding:0 9px 0 6px; } .chrome #moodbtn img { width:16px; height:16px; } .chrome .sign { font-size:11px; padding:0 9px; } }
   .left { display:flex; align-items:center; gap:var(--gap); } .left .mark { margin-right:6px; }
   .chrome .round { width:var(--hud); padding:0; font-weight:500; }
   #snd svg { width:16px; height:16px; fill:none; stroke:var(--ink); stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
@@ -442,6 +443,7 @@ window.boot = (() => {
   <div class="row2">
     <div class="status">
     <button class="meta" id="livebtn" aria-haspopup="true" aria-expanded="false" aria-controls="liveinfo" hidden><i></i><span>live</span></button>
+    <button class="meta" id="herbtn" aria-pressed="false" title="bring her into the room" hidden><i></i><span>her</span></button>
     <button class="meta" id="moodbtn" aria-haspopup="true" aria-expanded="false" aria-controls="mood" title="how he feels · tap for the numbers" hidden></button>
     </div>
     <button id="where" class="sign" aria-haspopup="menu" aria-expanded="false" aria-controls="places" title="where you are · go somewhere else"><i class="dot"></i><span id="lbl">the room</span><svg class="car" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3"/></svg></button>

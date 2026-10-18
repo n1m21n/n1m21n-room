@@ -555,6 +555,17 @@ export const ACTS = {
       grip: { handL: 'flat', handR: 'flat' }, pole: { handL: [0.5, 0.2, -0.2], handR: [-0.5, 0.2, -0.2] },
     };
   },
+  // dance (her): a short joyful sway on the spot, knees bouncing on the beat, arms swinging up and out, head following
+  dance: (u, t) => {
+    const b = t * 5.4, c = S(b), k = ease(u / 0.8);
+    return {
+      y: -0.035 * (1 - Math.abs(c)) * k, face: S(t * 0.5) > 0.4 ? 'delighted' : 'joyful',
+      fk: { hips: [0, c * 0.22 * k, c * 0.07 * k], spine: [0.03, -c * 0.16 * k, c * 0.05 * k], chest: [0, -c * 0.1 * k, 0], head: [S(b * 2) * 0.05 * k, c * 0.14 * k, S(b) * 0.09 * k],
+        thighL: [(Math.max(0, c) * 0.45 + 0.1) * k, 0, 0.1 * k], thighR: [(Math.max(0, -c) * 0.45 + 0.1) * k, 0, -0.1 * k], shinL: [-(Math.max(0, c) * 0.6 + 0.1) * k, 0, 0], shinR: [-(Math.max(0, -c) * 0.6 + 0.1) * k, 0, 0] },
+      ik: { handL: lerp3([0.24, 0.88, 0.05], [0.36 + S(b + 0.6) * 0.1, 1.28 + S(b * 2) * 0.14, 0.14], k), handR: lerp3([-0.24, 0.88, 0.05], [-0.36 - S(b - 0.6) * 0.1, 1.3 - S(b * 2) * 0.14, 0.14], k) },
+      grip: { handL: 'relax', handR: 'relax' }, pole: { handL: [0.5, -0.1, -0.3], handR: [-0.5, -0.1, -0.3] },
+    };
+  },
   sigh: (u, t) => {
     const k = ease((u % 6) / 1.2) * (1 - ease(((u % 6) - 2.4) / 1.5));
     return { face: 'given_up', fk: { spine: [0.08 + 0.08 * k, 0, 0], chest: [0.06 * k, 0, 0], neck: [0.12 * k, 0, 0], head: [0.1 + 0.15 * k, S(t * 0.3) * 0.1, 0], upperarmL: [0, 0, -0.04 * k], upperarmR: [0, 0, 0.04 * k] } };

@@ -28,6 +28,7 @@ import { ACTIVITIES } from './sim/data/activities.gen.js';
 import { MIDI_PIECES } from './sim/data/midi.gen.js';
 import { makeStorage } from './sim/persist.js';
 import { makeLife } from './sim/life.js';
+import { SPOT_OF, MICRO } from './spot-of.js';
 import { makeNudges } from './sim/nudges.js';
 import { makePosture } from './sim/posture.js';
 import { makeThoughts } from './thoughts.js';
@@ -314,11 +315,6 @@ const AS = annex.spots;
 const IS_STREAM = new URLSearchParams(location.search).has('stream');
 const SIM_MODE = (() => { try { const q = new URLSearchParams(location.search).get('sim') ?? localStorage.getItem('n1m21n.sim'); return q === '1' ? 'local' : q === 'off' || q === '0' ? null : 'life'; } catch { return null; } })();   // 'life' = the shared canonical life (everyone sees the same him); 'local' = this tab's own core chooses
 const SIM_LIVE = !!SIM_MODE;
-// every act he can live has a spot; build / gather need the sim's open-world grid (not in this room) and stay off-screen
-const SPOT_OF = { nap_bench: 'nap', gallery_view: 'bench', night_shower: 'shower', work_through: 'work', night_work: 'work', phone_call: 'phone', answer_phone: 'answer', write_letter: 'write',
-  art_sketch: 'easel', art_refine: 'easel', art_render: 'easel', art_review: 'easel', water_plant: 'plant', greet_visitor: 'greet', roam: 'roam', run_indoors: 'roam', pace: 'pace',
-  wall_bump: 'stumble', false_start: 'glance', build: 'work', gather: 'records' };
-const MICRO = new Set(['yawn', 'stretch', 'sigh', 'fidget', 'sip', 'glance', 'stumble']);   // done where he stands; a seated him stays put
 const simChooser = SIM_MODE === 'life' ? {
   next(current, spots) {                                              // the canonical life's act right now; one with no spot leaves him where he is
     const a = simLife.at(Date.now()).doing, w = SPOT_OF[a] || a;
@@ -382,6 +378,31 @@ const routine = makeRoutine({
     pace: { at: PACE[0], start: () => { walker.at = 0; } }, roam: { at: ROAM[0], start: () => { walker.at = 0; } },
   },
 });
+// her: the second character. Off by default; the toggle is this visitor's own (localStorage n1m21n.her, or ?her=1 / ?her=0) and loads her code,
+// her face textures and her own life file only when she is first switched on (companion.js)
+let her = null, herBusy = false;
+const herBtn = $('herbtn');
+async function setHer(on) {
+  if (herBusy) return; herBusy = true;
+  try {
+    if (on && !her) {
+      const { makeCompanion } = await import('./companion.js');
+      her = await makeCompanion({ scene, camera, solids, walls, nav, rooms, snake: snk, ROAM, PACE, him: { player, routine },
+        seats: { BED: F.BED, CHAIR: F.CHAIR, KEYS, WINDOW, TV: { x: telly.TV.x, z: telly.TV.z, heading: telly.TV.heading, act: 'tv', out: telly.TV.out, pressed: 0 }, READ: { x: reading.READ.x, z: reading.READ.z, heading: reading.READ.heading, act: 'read', out: reading.READ.out } } });
+      window.dev && (window.dev.her = her);
+    }
+    if (on) her.show(); else her?.hide();
+    try { localStorage.setItem('n1m21n.her', on ? '1' : '0'); } catch {}
+    if (herBtn) { herBtn.setAttribute('aria-pressed', on); herBtn.classList.toggle('on', on); herBtn.title = on ? 'she is here · tap to send her off' : 'bring her into the room'; }
+  } catch (e) { console.warn('her failed', e); herBtn?.classList.remove('on'); } finally { herBusy = false; }
+}
+if (herBtn && SIM_LIVE) {
+  herBtn.hidden = false;
+  herBtn.addEventListener('click', () => setHer(!(her && her.on)));
+  const q = new URLSearchParams(location.search).get('her');
+  let want = false; try { want = q != null ? q === '1' : localStorage.getItem('n1m21n.her') === '1'; } catch {}
+  if (want) setHer(true);
+}
 // live / your room: hands off, he is the shared him everyone sees; take the controls and he is yours until you leave, and the visit is
 // remembered (one short summary to the server, which nudges his shared days)
 const liveBtn = $('livebtn'), liveBox = $('liveinfo'); let liveOpen = false, wasLocal = false, liveAcc = 0;
@@ -762,6 +783,7 @@ renderer.setAnimationLoop(() => {
   if (!audio.paused) shelf.userData.spin.rotation.y = t * 3.5;     // 33⅓-ish; stops where it was when paused
   const arm = shelf.userData.arm; arm.rotation.y += ((audio.paused ? 0 : ARM_PLAY) - arm.rotation.y) * (1 - Math.exp(-2.5 * dt));   // tonearm swings onto the record
   player.update(dt, t);
+  her?.update(dt, t);
   if (routine.mine && !portals.busy) director.update(dt, { doing: routine.doing, walking: routine.walking });
   stream?.update(dt);
   errands.update(dt);

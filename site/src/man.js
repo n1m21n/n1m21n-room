@@ -32,29 +32,33 @@ export function faceTex(name = 'neutral') {
 
 import { FACE_TEXTURES } from './sim/data/emotions.gen.js';
 export const FACES = [...new Set([...FACE_TEXTURES, 'alarm'])];     // generated: every texture that exists on disk
-export async function loadMan() {
+// opts (her.js): look = LOOK overrides, faceTex = another face-texture source, prep(mesh) may edit a mesh before it is dressed, dress(man) adds parts
+export async function loadMan(opts = {}) {
+  const ftex = opts.faceTex || faceTex, LK = opts.look ? { ...LOOK, ...opts.look } : LOOK;
   // every expression up front: a face loaded on first use draws black until it arrives
-  const ready = Promise.all(FACES.map(n => new Promise(res => { const t = faceTex(n); if (t.userData.ready) res(); else { const k = setInterval(() => { if (t.userData.ready || t.image?.complete) { clearInterval(k); res(); } }, 30); setTimeout(() => { clearInterval(k); res(); }, 8000); } })));
+  const ready = Promise.all(FACES.map(n => new Promise(res => { const t = ftex(n); if (t.userData.ready) res(); else { const k = setInterval(() => { if (t.userData.ready || t.image?.complete) { clearInterval(k); res(); } }, 30); setTimeout(() => { clearInterval(k); res(); }, 8000); } })));
   const gltf = await new GLTFLoader().loadAsync('/media/man/man.glb');
   const root = gltf.scene;
   const tee = T.teeTex(); tee.wrapS = tee.wrapT = THREE.RepeatWrapping;
   const meshes = [];
   root.traverse(o => { if (o.isMesh) meshes.push(o); });
   for (const o of meshes) {
-    const [color, opts] = LOOK[o.material.name] || ['#ff00ff', {}];
-    const map = o.material.name === 'face' ? faceTex() : o.material.name === 'tee' ? tee : null;
+    if (opts.prep && opts.prep(o) === false) { o.visible = false; o.userData.look = o.material.name; continue; }
+    const [color, lo] = LK[o.material.name] || ['#ff00ff', {}];
+    const map = o.material.name === 'face' ? ftex() : o.material.name === 'tee' && !color ? tee : null;
     o.userData.look = o.material.name;             // outfits.js finds the tee / pants / boots by this
-    o.material = toon(color, { ...opts, map });
-    if (opts.onTop) Object.assign(o.material, { side: THREE.DoubleSide, polygonOffset: true, polygonOffsetFactor: -6, polygonOffsetUnits: -6 });
-    if (opts.twoSided) o.material.side = THREE.DoubleSide;
+    o.material = toon(color, { ...lo, map });
+    if (lo.onTop) Object.assign(o.material, { side: THREE.DoubleSide, polygonOffset: true, polygonOffsetFactor: -6, polygonOffsetUnits: -6 });
+    if (lo.twoSided) o.material.side = THREE.DoubleSide;
     o.frustumCulled = false;                       // skinned bounds don't follow the pose
-    if (opts.ink !== false) addInk(o, opts.ink);
+    if (lo.ink !== false) addInk(o, lo.ink);
   }
   await ready;
   const bones = {};
   root.traverse(o => { if (o.isBone) { bones[o.name] = o; o.userData.rest = o.quaternion.clone(); } });
-  const head = meshes.find(o => o.material.uniforms.uMap.value === faces.neutral);
-  const man = { root, bones, head, pose: p => pose(man, p), face: n => { head.material.uniforms.uMap.value = faceTex(n); } };
+  const head = meshes.find(o => o.userData.look === 'face');
+  const man = { root, bones, head, pose: p => pose(man, p), face: n => { head.material.uniforms.uMap.value = ftex(n); } };
+  opts.dress?.(man);
   return man;
 }
 

@@ -14,14 +14,16 @@ const e = new THREE.Euler(), q = new THREE.Quaternion();
 const damp = (a, b, k, dt) => a + (b - a) * (1 - Math.exp(-k * dt));
 const wrap = a => Math.atan2(Math.sin(a), Math.cos(a));
 
-export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onTap, rooms = [], posture = null, beats = null }) {
+export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onTap, rooms = [], posture = null, beats = null, companion = false }) {   // companion: a second character (hers): no input, no camera, only walking and acting
   const pos = new THREE.Vector3(-0.6, 0, 1.2);
   const st = { turnTo: null, heading: Math.PI, speed: 0, phase: 0, yaw: 0.25, pitch: 0.38, dist: 3.8, view: 'third', seated: null, frozen: false, bumps: 0, blocked: false, faceNow: 'neutral' };
   const keys = new Set();
   const move = new THREE.Vector2();                 // touch joystick (x right, y forward)
-  addEventListener('keydown', ev => { if (!ev.metaKey && !ev.ctrlKey) keys.add(ev.code); });
-  addEventListener('keyup', ev => keys.delete(ev.code));
-  addEventListener('blur', () => keys.clear());
+  if (!companion) {
+    addEventListener('keydown', ev => { if (!ev.metaKey && !ev.ctrlKey) keys.add(ev.code); });
+    addEventListener('keyup', ev => keys.delete(ev.code));
+    addEventListener('blur', () => keys.clear());
+  }
 
   // --- pointer: drag to look, pinch to zoom, tap to walk / use. On touch the joystick (#joy) is fixed bottom-left
   // under the left thumb: a touch on or near it grabs it and keeps it (sticky) until that finger lifts, wherever the
@@ -480,7 +482,7 @@ export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onT
     man.root.rotation.x = st.seated && (st.seated.pose === 'lying' || (ACTS[st.seated.act] && st.spec?.lie)) ? -Math.PI / 2 : 0;
     anim(dt, t);
     if (st.seated) man.root.position.y += 0;                         // pose() set the seated drop
-    cam(dt);
+    if (!companion) cam(dt);
   }
 
   // feet never sink into the floor: lift the root so the lowest sole point rests on it (checked on the soles'
