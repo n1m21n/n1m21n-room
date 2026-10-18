@@ -84,16 +84,10 @@ export function makeCast({ lead, ctx, ui, storeKey = 'n1m21n.cast' }) {
     if (!b) { b = document.createElement('button'); b.className = 'meta cast'; b.innerHTML = '<i></i><span></span>'; ui.status.insertBefore(b, ui.before); btns.set(id, b); b.addEventListener('click', e => { e.stopPropagation(); b.onclick_?.(); }); }
     b.onclick_ = onclick; b.hidden = false; b.className = 'meta cast ' + cls; b.lastElementChild.textContent = label; b.title = b.ariaLabel = title; return b;
   }
-  const FOLD = 2;                                                // more than this many people (here or to bring in) and the bar shows one "cast" button
   function render() {
     const here = present(), away = [...specs.keys()].filter(id => !here.includes(id));
     for (const b of btns.values()) b.hidden = true;
-    const many = here.length + away.length > FOLD;
-    if (many) { chip('_cast', 'cast', here.length > 1 ? 'on' : 'plus', 'the people in the room', () => toggle('_list')); }
-    else {
-      if (here.length > 1) for (const id of here) { const b = chip(id, nameOf(id), (id === focusId ? 'on' : '') + (id === controlId && id !== lead.id ? ' ctl' : ''), id === focusId ? 'about ' + nameOf(id) : 'follow ' + nameOf(id), () => id === focusId ? toggle(id) : focus(id)); b.setAttribute('aria-pressed', id === focusId); }
-      for (const id of away) chip('+' + id, specs.get(id).label || 'meet ' + nameOf(id), 'plus', 'bring ' + nameOf(id) + ' into the room', async () => { const c = await spawn(id); if (c?.on) { focus(id); toggle(id, true); } });
-    }
+    if (here.length + away.length > 1) chip('_cast', nameOf(focusId), 'who' + (controlId !== lead.id ? ' ctl' : ''), 'choose a character', () => toggle('_list'));
     card();
   }
   function toggle(id, force) { const open = force ?? openId !== id; openId = open ? id : null; if (open) ui.closeOthers?.(); card(); ui.panelTop?.(); }
@@ -102,7 +96,7 @@ export function makeCast({ lead, ctx, ui, storeKey = 'n1m21n.cast' }) {
     box.hidden = false;
     if (openId === '_list') {
       const all = [lead.id, ...specs.keys()];
-      box.innerHTML = '<h3>the room</h3>' + all.map(id => { const here = present().includes(id); return `<p><button class="go${id === focusId ? '' : ' alt'}" data-a="${here ? 'open' : 'spawn'}" data-id="${esc(id)}">${esc(nameOf(id))}${here ? '' : ' +'}</button></p>`; }).join('');
+      box.innerHTML = '<h3>who</h3><div class="pick">' + all.map(id => { const here = present().includes(id); return `<button class="${id === focusId ? 'sel' : ''}" data-a="${here ? 'open' : 'spawn'}" data-id="${esc(id)}"><b></b><span>${esc(nameOf(id))}</span><em>${id === focusId ? 'following' : here ? 'here' : 'bring in'}</em></button>`; }).join('') + '</div>';
       return;
     }
     const id = openId, spec = id === lead.id ? null : specs.get(id), c = comps.get(id);
