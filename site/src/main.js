@@ -338,7 +338,8 @@ const simChooser = SIM_MODE === 'life' ? {
   hold: name => simCore.liveDuration(lastLiveAct && (SPOT_OF[lastLiveAct] || lastLiveAct) === name ? lastLiveAct : name),
 } : null;
 let lastLiveAct = null;
-const moodPanel = SIM_LIVE ? makeMoodPanel({ nudges, bonus: () => (routine.mine ? null : visitBonus), getCore: () => (SIM_MODE === 'life' ? simLife.at(Date.now()) : simCore), getDoing: () => (SIM_MODE === 'life' ? simLife.at(Date.now()).doing : lastLiveAct) }) : null;
+const watchedCast = () => { const f = cast?.focusId; const c = f && f !== 'him' ? cast.comps.get(f) : null; return c?.on ? c : null; };   // the character the camera follows, when it is not him
+const moodPanel = SIM_LIVE ? makeMoodPanel({ nudges, bonus: () => (routine.mine ? null : visitBonus), getCore: () => (watchedCast()?.core || (SIM_MODE === 'life' ? simLife.at(Date.now()) : simCore)), getDoing: () => (watchedCast() ? watchedCast().core?.doing : SIM_MODE === 'life' ? simLife.at(Date.now()).doing : lastLiveAct), other: () => (watchedCast() ? { name: watchedCast().spec.name } : null) }) : null;
 // the easel's canvas follows the life: sketch -> refine -> render -> review of the hour's piece (props.js); hands on, he refines
 // paint still on his hands (the sim's `paint` fluent: set by refine/render, cleared by a wash)
 const paintOnHands = () => { if (!SIM_LIVE || !routine.mine) return false; try { const c = SIM_MODE === 'life' ? simLife.at(Date.now()) : simCore; return c.world.val('paint', c.time.tMin) >= 0.5; } catch { return false; } };
