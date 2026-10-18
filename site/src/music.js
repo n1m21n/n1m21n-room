@@ -119,14 +119,30 @@ export function makeMusic({ data, cardEl, card, closeCard, onTrack = () => {} })
     on = force ?? !on;
     if (on) play(); else pause();
   }
-  function next() {
-    if (T + 1 < album().tracks.length) play(A, T + 1);
-    else play((A + 1) % albums.length, 0);                       // album over: the next record in the crate
-  }
+  // shuffle, not album by album: one fixed shuffled order of every track, the same for everyone on a given day (seeded by the date),
+  // with the same album never twice in a row. Next / prev and the end of a track walk it; picking a track puts you at its place in it.
+  const order = (() => {
+    let s = (Math.floor(Date.now() / 864e5) * 2654435761) >>> 0; const r = () => { s = (s + 0x6d2b79f5) | 0; let t = Math.imul(s ^ (s >>> 15), 1 | s); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+    const all = albums.flatMap((al, a) => al.tracks.map((_, t) => ({ a, t })));
+    for (let i = all.length - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [all[i], all[j]] = [all[j], all[i]]; }
+    for (let i = 1; i < all.length; i++) if (all[i].a === all[i - 1].a) { const j = all.findIndex((x, k) => k > i && x.a !== all[i - 1].a && (k + 1 >= all.length || x.a !== all[k + 1].a)); if (j > 0) [all[i], all[j]] = [all[j], all[i]]; }
+    return all;
+  })();
+  const at = () => Math.max(0, order.findIndex(x => x.a === A && x.t === T));
+  const step = d => { const n = order[(at() + d + order.length) % order.length]; play(n.a, n.t); };
+  function next() { step(1); }
   function prev() {
     if (audio.currentTime > 3) { audio.currentTime = 0; return; }
-    if (T > 0) play(A, T - 1);
-    else { const a = (A - 1 + albums.length) % albums.length; play(a, albums[a].tracks.length - 1); }
+    step(-1);
+  }
+  // a song by (part of) its name, for chat's !play: exact title first, then starts-with, then contains; an album name gives its first track
+  const norm = x => String(x).toLowerCase().normalize('NFKD').replace(/[^\p{L}\p{N} ]/gu, '').replace(/\s+/g, ' ').trim();
+  function find(q) {
+    q = norm(q); if (q.length < 3) return null;
+    const all = albums.flatMap((al, a) => al.tracks.map((tr, t) => ({ a, t, title: tr.title, n: norm(tr.title) })));
+    const hit = all.find(x => x.n === q) || all.find(x => x.n.startsWith(q)) || all.find(x => x.n.includes(q));
+    if (hit) return { a: hit.a, t: hit.t, title: hit.title };
+    const al = albums.findIndex(x => norm(x.title) === q); return al >= 0 ? { a: al, t: 0, title: albums[al].tracks[0].title } : null;
   }
   audio.addEventListener('ended', () => { if (on) next(); });
   audio.addEventListener('play', () => { if (!on) audio.pause(); });   // off means silent, whatever asked it to play
@@ -169,5 +185,5 @@ export function makeMusic({ data, cardEl, card, closeCard, onTrack = () => {} })
 
   load(0, 0);
   paint();
-  return { audio, openCrate, toggle, next, prev, isOn: () => on };
+  return { audio, openCrate, toggle, next, prev, find, playTrack: (a, t) => play(a, t), isOn: () => on };
 }
