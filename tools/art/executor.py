@@ -23,7 +23,7 @@ def clamp(x):
     return max(0.0, min(1.0, x))
 
 
-def build(axes, seed=0):
+def build_legacy(axes, seed=0):
     a = {k: clamp(float(axes.get(k, 0.5))) for k in AXES}
     r = random.Random(seed)
     shape = SHAPES[int(a['amount'] * 3.99)] if 'shape' not in axes else axes['shape']
@@ -54,6 +54,12 @@ def build(axes, seed=0):
     spd = lerp(0.1, 1.6, a['speed'])
     L += [f'expr kal uRotation t * {spd:.3f}']
     return '\n'.join(L) + '\n'
+
+
+def build(axes, seed=0, mood=None):
+    """Graph builder (branches, motion, brand palette, riso finish). build_legacy is the old fixed 8-node chain."""
+    import graph_builder
+    return graph_builder.build_graph(axes, seed, mood)[0]
 
 
 def run(*args):
