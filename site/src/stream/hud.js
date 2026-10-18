@@ -3,6 +3,8 @@ const CSS = `
 #sx { position:fixed; right:16px; bottom:64px; text-align:right; z-index:6; max-width:min(440px,calc(100vw - 32px)); font:500 13px/1.4 'DM Mono',monospace; color:var(--ink,#140B52); pointer-events:none; }
 #sx .tip { background:var(--paper,#FFFDF2); border:2px solid var(--ink,#140B52); border-radius:14px; padding:8px 12px; margin-bottom:8px; }
 #sx .tip b { color:#E8263F; }
+#sx .stat { display:none; background:#FFF3B8; border:2px solid var(--ink,#140B52); border-radius:14px; padding:6px 12px; margin-bottom:8px; }
+#sx .stat.bad { background:#FFD0D0; }
 #sx .feed { display:flex; flex-direction:column; gap:5px; align-items:flex-end; }
 #sx .chip { background:var(--paper,#FFFDF2); border:2px solid var(--ink,#140B52); border-radius:999px; padding:3px 11px; animation:sxin .35s cubic-bezier(.2,1.4,.4,1); }
 #sx .chip.fade { opacity:.0; transition:opacity .8s; }
@@ -12,8 +14,8 @@ const CSS = `
 
 export function makeHud({ hints }) {
   const st = document.createElement('style'); st.textContent = CSS; document.head.appendChild(st);
-  const root = document.createElement('div'); root.id = 'sx'; root.innerHTML = '<div class="tip"></div><div class="feed"></div>'; document.body.appendChild(root);
-  const tip = root.querySelector('.tip'), feed = root.querySelector('.feed');
+  const root = document.createElement('div'); root.id = 'sx'; root.innerHTML = '<div class="stat"></div><div class="tip"></div><div class="feed"></div>'; document.body.appendChild(root);
+  const stat = root.querySelector('.stat'), tip = root.querySelector('.tip'), feed = root.querySelector('.feed');
   let i = 0;
   function tipNow() {
     const a = [0, 1, 2, 3].map(k => '!' + hints[(i + k) % hints.length]); i = (i + 4) % hints.length;
@@ -30,5 +32,11 @@ export function makeHud({ hints }) {
     setTimeout(() => e.classList.add('fade'), 12000); setTimeout(() => e.remove(), 13000);
     return e;
   }
-  return { chip };
+  // a status line for the person running the stream: problems stay on screen, 'connected' shows for a few seconds
+  let statT = 0;
+  function status(good, text) {
+    clearTimeout(statT); stat.textContent = text; stat.classList.toggle('bad', !good); stat.style.display = 'block';
+    if (good) statT = setTimeout(() => { stat.style.display = 'none'; }, 8000);
+  }
+  return { chip, status };
 }

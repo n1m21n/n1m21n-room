@@ -14,7 +14,7 @@ export function startStream({ routine, bubble, errands, director, feed, nudges, 
   let quiet = 0, lastNow = performance.now(), busyUntil = 0, sending = false;
   errands.onAct = ev => { const c = COMMANDS[ev.cmd]; if (c?.nudge && !ev.self) nudges.play(c.nudge); };      // what chat asked for leans the shared days a little (the existing nudge log)
   errands.onRead = () => director.cutTo('face');                  // in on his face as he reads a note
-  let sinceNudge = 0;
+  let sinceNudge = 0, shownOk = false;
   bubble.setPace({ every: 9, hold: 5 });                           // musings twice as often as on the regular site
 
   function receive(m) {
@@ -24,7 +24,10 @@ export function startStream({ routine, bubble, errands, director, feed, nudges, 
   }
   if (params.get('feed') === 'test') { const f = testFeed(receive); window.chat = (text, name = 'you') => f.say(text, name); }
   else window.chat = (text, name = 'you') => receive({ user: 'dev:' + name, name, text });
-  const yt = params.get('yt'); if (/^[\w-]{11}$/.test(yt || '')) youtubeFeed(yt, receive);
+  const yt = params.get('yt');
+  if (/^[\w-]{11}$/.test(yt || '')) youtubeFeed(yt, receive, (good, text) => { if (!good || !shownOk) { hud.status(good, text); shownOk = good; } });
+  else if (params.get('feed') !== 'test') hud.status(false, 'chat: the link has no yt=VIDEO_ID, so YouTube chat is not read');
+  if (!params.get('k') && params.get('feed') !== 'test') setTimeout(() => hud.status(false, 'the link has no k=KEY: chat plays on this stream only, not on the website'), 9000);
 
   async function announce(n) {                                     // a question is an errand too: he reads the note and answers it
     const cmd = n.ask ? 'ask' : n.cmd, ev = { cmd, name: n.name, arg: n.ask ? String(n.askId) : n.arg || '', votes: n.votes, self: !!n.self, secs: COMMANDS[cmd].secs };
@@ -37,6 +40,7 @@ export function startStream({ routine, bubble, errands, director, feed, nudges, 
   return {
     update(frameDt) {
       const now = performance.now(), dt = Math.min(1, (now - lastNow) / 1000); lastNow = now;
+      if (!routine.mine) routine.handBack();                         // nobody drives the stream: a stray click or hover must never take him off the live feed
       if (nudges.playing && (sinceNudge += dt) > 120) { sinceNudge = 0; nudges.end(); }          // one summary every two minutes
       if (sending || now < busyUntil || errands.waiting >= MAX_AHEAD) { quiet = q.size ? 0 : quiet + dt; return; }
       const n = q.next();
