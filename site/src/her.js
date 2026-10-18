@@ -15,7 +15,8 @@ const MOUTH = { joyful: [1, 0.5], delighted: [1, 0.7], amusement: [0.9, 0.3], co
   awe: [0.1, 0.6], nostalgia: [0.25, 0], sleep: [0.1, 0], drowsy: [0, 0], dazed: [0, 0.2], bored: [-0.2, 0], restless: [-0.1, 0], embarrassed: [0.3, 0], sad: [-0.7, 0], lonely: [-0.6, 0], anxious: [-0.4, 0.1], uneasy: [-0.35, 0], frustrated: [-0.6, 0], given_up: [-0.5, 0], alarm: [0, 0.8] };   // [smile (-1 frown .. 1 grin), open]
 
 // her mouth, drawn where his spiral was (texture px, centre (500, 772)); cv = smile (-1 frown .. 1 grin), op = open (0..1)
-const MOUTH_STYLE = (() => { try { return new URLSearchParams(location.search).get('mouth') || 'lips'; } catch { return 'lips'; } })();
+const q = k => { try { return new URLSearchParams(location.search).get(k); } catch { return null; } };
+const MOUTH_STYLE = q('mouth') || 'small', NOSE_K = +q('nose') || 0.74;      // small pursed lips; nose at 74% of his
 function drawMouth(g, style, cv, op) {
   const MX = 500, MY = 772, ink = HER.lipDark, open = op * 56;
   g.lineJoin = g.lineCap = 'round'; g.strokeStyle = ink;
@@ -72,6 +73,11 @@ export function herFaceTex(name = 'neutral') {
       else if (dist(r, gg, b, nose) < 30) { a[i] = to[0] * nk[0]; a[i + 1] = to[1] * nk[1]; a[i + 2] = to[2] * nk[2]; }
     }
     g.putImageData(d, 0, 0);
+    // a smaller nose: lift it out, wipe the spot, draw it back at NOSE_K size from the bridge
+    { const nx = 452, ny = 470, nw = 196, nh = 250, k = NOSE_K, ax = 560, ay = 500, tmp = document.createElement('canvas'); tmp.width = nw; tmp.height = nh;
+      tmp.getContext('2d').drawImage(cv, nx, ny, nw, nh, 0, 0, nw, nh);
+      g.fillStyle = HER.skin; g.fillRect(nx, ny, nw, nh);
+      g.drawImage(tmp, ax + (nx - ax) * k, ay + (ny - ay) * k, nw * k, nh * k); }
     // her mouth: the spiral is wiped and a normal mouth drawn in its place, shaped by the expression
     g.fillStyle = HER.skin; g.fillRect(330, 678, 165, 340); g.fillRect(600, 678, 130, 340); g.fillRect(495, 708, 105, 310);
     drawMouth(g, MOUTH_STYLE, ...(MOUTH[name] || [0, 0]));
