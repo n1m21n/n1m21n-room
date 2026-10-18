@@ -71,13 +71,15 @@ export async function makeCompanion(ctx) {
   const READ = { ...cp(seats.READ), book: null };
   const bookUpdate = herBook(man, player, READ);
   const PACE = ctx.PACE, ROAM = ctx.ROAM, walker = { at: 0, i: 0 }, DOOR = [3.0, 1.6];
-  let away = false;
+  let away = false, meeting = null;                          // meeting: she has gone over to say hi to him { at, arrived }
   const spots = {
     sleep: at(BED), work: at(cp(seats.CHAIR)), keys: at(cp(seats.KEYS)), window: at(cp(seats.WINDOW)), tv: at(cp(seats.TV)), read: at(READ),
     records: { at: [1.3, -2.05], face: [1.3, -2.8], start: () => man.face('delighted') },
     snake: { at: () => [ctx.snake.head.position.x, ctx.snake.head.position.z], face: () => [ctx.snake.head.position.x, ctx.snake.head.position.z], start: () => man.face('delighted') },
     yawn: here('yawn'), stretch: here('stretch'), sigh: here('sigh'), fidget: here('fidget'), sip: here('sip'), glance: here('glance'), stumble: here('stumble'), dance: here('dance'),
     away: { at: DOOR, start: () => { away = true; if (player.st.seated) player.stand(); man.root.visible = false; } },
+    meet: { at: () => { const hp = him.player.pos, dx = player.pos.x - hp.x, dz = player.pos.z - hp.z, d = Math.hypot(dx, dz) || 1; return [hp.x + dx / d * 1.15, hp.z + dz / d * 1.15]; }, face: () => [him.player.pos.x, him.player.pos.z],
+      start: () => { meeting.arrived = true; meeting.arrivedAt = Date.now(); here('greet').start(); const hp = him.player; if (!hp.st.seated && !him.routine.walking) hp.st.turnTo = Math.atan2(player.pos.x - hp.pos.x, player.pos.z - hp.pos.z); } },
     pace: { at: PACE[0], start: () => { walker.at = 0; } }, roam: { at: ROAM[0], start: () => { walker.at = 0; } },
   };
 
@@ -99,6 +101,12 @@ export async function makeCompanion(ctx) {
     hold: () => 0,
   }, { now: () => Date.now() + OFFSET, mood: herMood });
   const routine = makeRoutine({ chooser, player, utility: ai, toast: () => {}, spots, solo: true });
+
+  // she walks over to him and waves (the card's "say hi", and now and then on her own when both are about)
+  function sayHi() { if (!on || away || meeting || him.routine.walking) return false; meeting = { at: Date.now(), arrived: false }; if (player.st.seated) player.stand(); routine.override('meet', 60); return true; }
+  function endMeeting() { if (!meeting) return; const m = meeting; meeting = null; routine.hold(0); routine.handBack(); }
+  let hiAt = 0;
+  function maybeHi(dt) { if ((hiAt += dt) < 30) return; hiAt = 0; if (Math.floor(Date.now() / 600e3) % 2 === 0 && Math.random() < 0.08 && !player.st.seated && routine.doing !== 'away') sayHi(); }
 
   function stepWalker(dt) {
     const w = routine.doing; if ((w !== 'pace' && w !== 'roam') || player.st.seated || player.auto.pts) { walker.at = 0; return; }
@@ -124,10 +132,12 @@ export async function makeCompanion(ctx) {
     herPosture.setSimEmotion(core?.emotion.current);
     player.update(dt, t);
     routine.update(dt, { busy: false });
-    stepWalker(dt); bookUpdate();
+    stepWalker(dt); bookUpdate(); maybeHi(dt);
+    if (meeting?.arrived && player.st.seated && Date.now() - meeting.arrivedAt > 6e3) player.stand();      // the wave has had its moment
+    if (meeting && ((meeting.arrived && !player.st.seated) || Date.now() - meeting.at > 45e3)) endMeeting();
     // never through him: if they meet on the floor she steps aside
     const dx = player.pos.x - him.player.pos.x, dz = player.pos.z - him.player.pos.z, d = Math.hypot(dx, dz);
     if (d < 0.55 && !player.st.seated && d > 1e-3) { const k = (0.55 - d) / d * 0.5; player.pos.x += dx * k; player.pos.z += dz * k; }
   }
-  return { man, player, routine, show, hide, update, get on() { return on; }, get core() { return life.at(Date.now()); }, life: () => life };
+  return { man, player, routine, show, hide, update, sayHi, get meeting() { return !!meeting; }, get on() { return on; }, get core() { return life.at(Date.now()); }, life: () => life };
 }

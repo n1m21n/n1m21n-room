@@ -38,7 +38,7 @@
   .chrome .right button, .chrome .status button { border:0; border-radius:0; background:none; height:100%; box-shadow:none; }
   .chrome .right button + button, .chrome .status button:not([hidden]) ~ button:not([hidden]) { border-left:2px solid var(--ink); }
   .chrome .right button:active, .chrome .status button:active { transform:none; background:var(--spiral); }
-  @media (max-width:640px) { #mood, #liveinfo { left:calc(var(--edge) + env(safe-area-inset-left)) !important; right:calc(var(--edge) + env(safe-area-inset-right)) !important; width:auto !important; box-sizing:border-box; } }   /* phones: the dialog spans the bar's width, equal margins, right under the pills */
+  @media (max-width:640px) { #mood, #liveinfo, #herinfo { left:calc(var(--edge) + env(safe-area-inset-left)) !important; right:calc(var(--edge) + env(safe-area-inset-right)) !important; width:auto !important; box-sizing:border-box; } }   /* phones: the dialog spans the bar's width, equal margins, right under the pills */
   .chrome .status:not(:has(button:not([hidden]))) { display:none; }
   .chrome .row2 { justify-content:space-between; } .chrome .right { justify-self:end; } .chrome .right button { width:var(--hud); padding:0; } .chrome .right, .chrome .status, .chrome .sign { box-shadow:none; } .chrome .status button { padding:0 12px 0 10px; }
   .clock { position:fixed; right:calc(var(--edge) + env(safe-area-inset-right)); bottom:calc(var(--edge) + env(safe-area-inset-bottom)); z-index:2; height:auto; padding:3px 8px; font:500 10px/1 'DM Mono',monospace; opacity:.8; pointer-events:none; border-width:1.5px; }
@@ -68,8 +68,8 @@
   /* mood chip + panel: sketchbook card, ink border, hard shadow only */
   #moodbtn { gap:6px; padding:0 12px 0 7px; font-weight:500; cursor:pointer; text-transform:lowercase; color:var(--ink); }
   #moodbtn img { width:18px; height:18px; border-radius:50%; border:1.6px solid var(--ink); background:var(--spiral); object-fit:cover; }
-  #mood, #liveinfo { position:fixed; right:calc(var(--edge) + env(safe-area-inset-right)); top:var(--ppanel, var(--ptop, calc(var(--edge) + env(safe-area-inset-top) + var(--hud) + var(--row2) + 14px))); width:min(300px, calc(100vw - 32px)); max-height:calc(100vh - 150px); overflow:auto; z-index:6; background:var(--paper); border:2px solid var(--ink); border-radius:22px; box-shadow:4px 4px 0 var(--ink); padding:14px 16px 12px; font:400 12px/1.4 'DM Mono',monospace; text-transform:lowercase; touch-action:pan-y; }
-  #mood h3, #liveinfo h3 { margin:12px 0 5px; font:800 15px/1 'Bricolage Grotesque',sans-serif; font-stretch:75%; letter-spacing:-0.01em; color:var(--blue); }
+  #mood, #liveinfo, #herinfo { position:fixed; right:calc(var(--edge) + env(safe-area-inset-right)); top:var(--ppanel, var(--ptop, calc(var(--edge) + env(safe-area-inset-top) + var(--hud) + var(--row2) + 14px))); width:min(300px, calc(100vw - 32px)); max-height:calc(100vh - 150px); overflow:auto; z-index:6; background:var(--paper); border:2px solid var(--ink); border-radius:22px; box-shadow:4px 4px 0 var(--ink); padding:14px 16px 12px; font:400 12px/1.4 'DM Mono',monospace; text-transform:lowercase; touch-action:pan-y; }
+  #mood h3, #liveinfo h3, #herinfo h3 { margin:12px 0 5px; font:800 15px/1 'Bricolage Grotesque',sans-serif; font-stretch:75%; letter-spacing:-0.01em; color:var(--blue); }
   #mood .mhead { display:flex; gap:12px; align-items:center; margin-bottom:6px; } #mood .mhead img { width:46px; height:46px; border-radius:50%; border:2px solid var(--ink); background:var(--spiral); object-fit:cover; }
   #mood .mhead b { display:block; font:800 24px/1 'Bricolage Grotesque',sans-serif; font-stretch:75%; color:var(--pink); margin-bottom:3px; } #mood .mhead span { color:var(--ink); }
   #mood .mnow { margin:0 0 10px; display:inline-block; font-weight:500; background:var(--spiral); padding:2px 9px; border-radius:999px; border:1.6px solid var(--ink); } #mood .mnow b { font-weight:500; background:var(--spiral); padding:1px 6px; border-radius:999px; border:1.6px solid var(--ink); }
@@ -79,9 +79,9 @@
   #mood .mbody { min-height:84px; } #mood .mlab { margin:0 0 5px; font-size:11px; opacity:.7; } #mood .mbody .mwins + .mlab { margin-top:10px; } #mood .mrow em { font-style:normal; text-align:right; }
   #mood .mbar { display:block; height:8px; border:1.6px solid var(--ink); border-radius:999px; background:var(--paper); overflow:hidden; } #mood .mbar i { display:block; height:100%; background:var(--blue); } #mood .mbar.bad i { background:var(--pink); }
   #mood .mgrid { display:grid; grid-template-columns:1fr auto; gap:3px 12px; } #mood .mgrid b { font-weight:500; text-align:right; }
-  #liveinfo p { margin:0 0 8px; } #liveinfo button.go { font:inherit; text-transform:lowercase; cursor:pointer; background:var(--ink); color:var(--paper); border:2px solid var(--ink); border-radius:999px; padding:6px 14px; box-shadow:3px 3px 0 var(--pink); }
+  #liveinfo p, #herinfo p { margin:0 0 8px; } #herinfo .row { display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; } #herinfo button.go.alt { background:var(--paper); color:var(--ink); box-shadow:3px 3px 0 var(--ink); } #herinfo button.go, #liveinfo button.go { font:inherit; text-transform:lowercase; cursor:pointer; background:var(--ink); color:var(--paper); border:2px solid var(--ink); border-radius:999px; padding:6px 14px; box-shadow:3px 3px 0 var(--pink); }
   #livebtn { gap:7px; padding:0 11px 0 9px; font-weight:500; cursor:pointer; text-transform:lowercase; color:var(--ink); } #livebtn i { width:9px; height:9px; border-radius:50%; background:var(--pink); border:1.6px solid var(--ink); animation:livedot 1.6s ease-in-out infinite; } #livebtn.mine i { background:var(--blue); animation:none; }
-  #herbtn { gap:7px; padding:0 11px 0 9px; font-weight:500; cursor:pointer; text-transform:lowercase; color:var(--ink); } #herbtn i { width:9px; height:9px; border-radius:50%; background:transparent; border:1.6px solid var(--ink); } #herbtn.on i { background:var(--blue); }
+  #himbtn, #herbtn { gap:7px; padding:0 11px 0 9px; font-weight:500; cursor:pointer; text-transform:lowercase; color:var(--ink); } #himbtn i, #herbtn i { width:9px; height:9px; border-radius:50%; background:transparent; border:1.6px solid var(--ink); } #himbtn.on i, #herbtn.on i { background:var(--blue); } #herbtn.plus i { border:0; width:11px; height:11px; background:none; position:relative; } #herbtn.plus i::before, #herbtn.plus i::after { content:''; position:absolute; background:var(--ink); border-radius:1px; } #herbtn.plus i::before { left:0; right:0; top:4.5px; height:2px; } #herbtn.plus i::after { top:0; bottom:0; left:4.5px; width:2px; }
   @keyframes livedot { 50% { transform:scale(.55); opacity:.55; } }
   @media (prefers-reduced-motion:reduce) { #livebtn i { animation:none; } }
   #mood .mnote { margin:7px 0 0; opacity:.75; } #mood svg { width:100%; height:auto; display:block; } #mood svg .base { stroke:var(--ink); stroke-width:1; stroke-dasharray:3 4; opacity:.35; } #mood svg circle { fill:var(--pink); stroke:var(--ink); stroke-width:1.6; } #mood svg path { fill:none; stroke:var(--pink); stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }
@@ -90,7 +90,7 @@
   #moodfloat .up { background:var(--spiral); color:var(--ink); } #moodfloat .down { background:var(--pink); color:var(--paper); }
   @keyframes mfloat { 0% { opacity:0; transform:translate(var(--dx),0); } 12% { opacity:1; } 100% { opacity:0; transform:translate(var(--dx),70px); } }
   @media (prefers-reduced-motion:reduce) { #moodfloat span { animation:mfade 2.5s forwards; } @keyframes mfade { 0%,70% { opacity:1; } 100% { opacity:0; } } }
-  body:has(#card:not([hidden])) :is(#mood, #moodfloat, #liveinfo) { display:none; }
+  body:has(#card:not([hidden])) :is(#mood, #moodfloat, #liveinfo, #herinfo) { display:none; }
   #thought { position:fixed; transform:translate(-30%,-100%); max-width:min(300px, calc(100vw - 32px)); pointer-events:none; z-index:5; }
   #thought p { margin:0; font:400 13px/1.45 'DM Mono',monospace; background:var(--paper); border:2px solid var(--ink); border-radius:22px; padding:12px 16px; animation:bob 3s ease-in-out infinite; }
   #thought i { position:absolute; border:2px solid var(--ink); background:var(--paper); border-radius:50%; }
@@ -265,7 +265,7 @@
   .crate .atracks { max-height:none; }
   @media (max-width:480px) { .crate .ahead { flex-direction:column; align-items:flex-start; } .crate .vinyl.big { width:120px; } }
 
-  @media (max-width:640px) { .chrome .row2 { justify-content:space-between; gap:6px; } .chrome .meta { padding:0 9px; font-size:11px; } .chrome .clock { gap:5px; padding:0 9px 0 6px; } .chrome .clock svg { width:16px; height:16px; } @media (max-width:420px) { .chrome .clock svg { display:none; } .chrome .meta, .chrome .sign { font-size:10.5px; } .chrome .clock { padding:0 7px; } .chrome #livebtn, .chrome #herbtn { gap:5px; padding:0 8px 0 7px; } .chrome #moodbtn { gap:4px; padding:0 7px 0 5px; } .chrome .sign { gap:5px; padding:0 8px; } .chrome .row2 { gap:5px; } } .chrome #moodbtn { padding:0 9px 0 6px; } .chrome #moodbtn img { width:16px; height:16px; } .chrome .sign { font-size:11px; padding:0 9px; } }
+  @media (max-width:640px) { .chrome .row2 { justify-content:space-between; gap:6px; } .chrome .meta { padding:0 9px; font-size:11px; } .chrome .clock { gap:5px; padding:0 9px 0 6px; } .chrome .clock svg { width:16px; height:16px; } @media (max-width:420px) { .chrome .clock svg { display:none; } .chrome .meta, .chrome .sign { font-size:10.5px; } .chrome .clock { padding:0 7px; } .chrome #livebtn, .chrome #himbtn, .chrome #herbtn { gap:5px; padding:0 8px 0 7px; } .chrome #moodbtn { gap:4px; padding:0 7px 0 5px; } .chrome .sign { gap:5px; padding:0 8px; } .chrome .row2 { gap:5px; } } .chrome #moodbtn { padding:0 9px 0 6px; } .chrome #moodbtn img { width:16px; height:16px; } .chrome .sign { font-size:11px; padding:0 9px; } }
   .left { display:flex; align-items:center; gap:var(--gap); } .left .mark { margin-right:6px; }
   .chrome .round { width:var(--hud); padding:0; font-weight:500; }
   #snd svg { width:16px; height:16px; fill:none; stroke:var(--ink); stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
@@ -443,7 +443,8 @@ window.boot = (() => {
   <div class="row2">
     <div class="status">
     <button class="meta" id="livebtn" aria-haspopup="true" aria-expanded="false" aria-controls="liveinfo" hidden><i></i><span>live</span></button>
-    <button class="meta" id="herbtn" aria-pressed="false" title="bring her into the room" hidden><i></i><span>her</span></button>
+    <button class="meta" id="himbtn" aria-pressed="true" title="follow him" hidden><i></i><span>him</span></button>
+    <button class="meta" id="herbtn" aria-pressed="false" aria-haspopup="true" aria-expanded="false" aria-controls="herinfo" title="bring her into the room" hidden><i></i><span>meet her</span></button>
     <button class="meta" id="moodbtn" aria-haspopup="true" aria-expanded="false" aria-controls="mood" title="how he feels · tap for the numbers" hidden></button>
     </div>
     <button id="where" class="sign" aria-haspopup="menu" aria-expanded="false" aria-controls="places" title="where you are · go somewhere else"><i class="dot"></i><span id="lbl">the room</span><svg class="car" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3"/></svg></button>
@@ -456,6 +457,7 @@ window.boot = (() => {
 <div id="moodfloat" aria-hidden="true"></div>
 <div id="mood" role="region" aria-label="how he feels" hidden></div>
 <div id="liveinfo" role="region" aria-label="what live means" hidden></div>
+<div id="herinfo" role="region" aria-label="her" hidden></div>
 <div id="thought" hidden><p></p><i></i><i></i></div>
 <div id="card" hidden></div>
 <div id="joy" aria-hidden="true"><i></i></div>

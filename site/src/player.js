@@ -311,6 +311,7 @@ export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onT
   const isMan = o => { for (let p = o; p; p = p.parent) if (p === man.root) return true; return false; };                         // wall bounds, built on first use (walls are static)
   const ARM_PAD = 0.3, LENS_AX = [[1, 0, 0], [-1, 0, 0], [0, 1, 0], [0, -1, 0], [0, 0, 1], [0, 0, -1]].map(a => new THREE.Vector3(...a));
   const orb = { init: false, yaw: 0, pitch: 0, d: 0 }, focus = new THREE.Vector3(), dir = new THREE.Vector3();
+  let camFocus = null;
   function cam(dt) {
     const f = new THREE.Vector3(-Math.sin(st.yaw), 0, -Math.cos(st.yaw));
     for (const o of headParts) o.visible = st.view !== 'first' && !o.userData.underHat;   // outfits.js hides the hair shine under a hat
@@ -328,7 +329,8 @@ export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onT
       camera.lookAt(tgt); camera.fov = 45;
       face(f.x, f.z);
     } else {
-      tgt.set(pos.x, (st.seated && (st.spec ? (st.spec.y || 0) < -0.1 || st.spec.lie : true) ? 1.05 : 1.45), pos.z);
+      const cf = camFocus?.();                                             // the camera can follow someone else (her): { x, z, low }
+      tgt.set(cf ? cf.x : pos.x, ((cf ? cf.low : st.seated && (st.spec ? (st.spec.y || 0) < -0.1 || st.spec.lie : true)) ? 1.05 : 1.45), cf ? cf.z : pos.z);
       const tall = innerHeight > innerWidth;
       st.intro = Math.min(1, (st.intro ?? 0) + (st.frozen ? 0 : dt / 5)); const ik = 0.55 + 0.45 * (1 - Math.pow(1 - st.intro, 3));   // first look: in close on him and what he is doing, then draws back
       const d = st.dist * (tall ? 1.3 : 1) * ik;                            // portrait phones: pull back so he is not the whole screen
@@ -518,5 +520,5 @@ export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onT
   }
   function cycleView() { st.view = VIEWS[(VIEWS.indexOf(st.view) + 1) % VIEWS.length]; if (st.view === 'first') st.pitch = 0; else st.pitch = 0.38; return st.view; }
 
-  return { pos, st, keys, update, sit, stand, goTo, cancelAuto, auto, cycleView, POSES, dbg: { cuts, orb, facing, room: () => here, sides: () => sides, attached, unitOf } };   // dbg: tests/walls.mjs
+  return { pos, st, keys, update, setCamFocus: fn => { camFocus = fn; }, sit, stand, goTo, cancelAuto, auto, cycleView, POSES, dbg: { cuts, orb, facing, room: () => here, sides: () => sides, attached, unitOf } };   // dbg: tests/walls.mjs
 }

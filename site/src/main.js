@@ -380,8 +380,30 @@ const routine = makeRoutine({
 });
 // her: the second character. Off by default; the toggle is this visitor's own (localStorage n1m21n.her, or ?her=1 / ?her=0) and loads her code,
 // her face textures and her own life file only when she is first switched on (companion.js)
-let her = null, herBusy = false;
-const herBtn = $('herbtn');
+let her = null, herBusy = false, focusHer = false, herOpen = false;
+const herBtn = $('herbtn'), himBtn = $('himbtn'), herBox = $('herinfo');
+function herUi() {
+  const on = !!(her && her.on);
+  herBtn.classList.toggle('plus', !on); herBtn.classList.toggle('on', on && focusHer); herBtn.setAttribute('aria-pressed', on && focusHer);
+  herBtn.lastElementChild.textContent = on ? 'her' : 'meet her'; herBtn.title = on ? (focusHer ? 'about her' : 'follow her') : 'bring her into the room';
+  himBtn.hidden = !on; himBtn.classList.toggle('on', !focusHer); himBtn.setAttribute('aria-pressed', !focusHer);
+  if (!on && herOpen) herPanel(false);
+}
+function herPanel(open) {
+  herOpen = open; herBox.hidden = !open; herBtn.setAttribute('aria-expanded', open); if (!open) return;
+  if ($('mood') && !$('mood').hidden) $('moodbtn').click();
+  if (liveOpen) liveBtn.click();
+  herBox.innerHTML = `<h3>her</h3><p>she lives her own day in the same room, on the same india clock for everyone. calmer than him: more reading, more window, less desk.</p><p>${focusHer ? 'the camera is following her. tap “him” to go back.' : 'tap “her” to follow her with the camera.'}</p><div class="row"><button class="go" data-a="hi">say hi to him</button><button class="go alt" data-a="off">send her off</button></div>`;
+  setTimeout(panelTop, 0);
+}
+let himCam = null;
+function follow(h) {
+  if (h && !focusHer) himCam = { yaw: player.st.yaw, dist: player.st.dist, pitch: player.st.pitch };
+  if (!h && focusHer && himCam) { Object.assign(player.st, himCam); himCam = null; }
+  if (h && her?.on) { const hp = her.player.pos; player.st.yaw = Math.atan2(-hp.x, -hp.z); player.st.dist = 3.4; player.st.pitch = 0.36; }   // from the room's middle, so walls and furniture are not between the lens and her
+  focusHer = h && !!(her && her.on); player.setCamFocus(focusHer ? () => ({ x: her.player.pos.x, z: her.player.pos.z, low: !!her.player.st.seated && (her.player.st.spec ? (her.player.st.spec.y || 0) < -0.1 || !!her.player.st.spec.lie : true) }) : null);
+  herUi();
+}
 async function setHer(on) {
   if (herBusy) return; herBusy = true;
   try {
@@ -391,14 +413,24 @@ async function setHer(on) {
         seats: { BED: F.BED, CHAIR: F.CHAIR, KEYS, WINDOW, TV: { x: telly.TV.x, z: telly.TV.z, heading: telly.TV.heading, act: 'tv', out: telly.TV.out, pressed: 0 }, READ: { x: reading.READ.x, z: reading.READ.z, heading: reading.READ.heading, act: 'read', out: reading.READ.out } } });
       window.dev && (window.dev.her = her);
     }
-    if (on) her.show(); else her?.hide();
+    if (on) her.show(); else { her?.hide(); follow(false); }
     try { localStorage.setItem('n1m21n.her', on ? '1' : '0'); } catch {}
-    if (herBtn) { herBtn.setAttribute('aria-pressed', on); herBtn.classList.toggle('on', on); herBtn.title = on ? 'she is here · tap to send her off' : 'bring her into the room'; }
+    herUi();
   } catch (e) { console.warn('her failed', e); herBtn?.classList.remove('on'); } finally { herBusy = false; }
 }
 if (herBtn && SIM_LIVE) {
   herBtn.hidden = false;
-  herBtn.addEventListener('click', () => setHer(!(her && her.on)));
+  herBtn.addEventListener('click', async e => {
+    e.stopPropagation();
+    if (!(her && her.on)) { await setHer(true); if (her?.on) { follow(true); herPanel(true); } return; }    // first tap: she walks in, the camera goes to her, a card says who she is
+    if (!focusHer) { follow(true); return; }
+    herPanel(!herOpen);
+  });
+  himBtn.addEventListener('click', e => { e.stopPropagation(); follow(false); if (herOpen) herPanel(true); });
+  herBox.addEventListener('click', e => {
+    const a = e.target.dataset?.a; if (!a) return;
+    if (a === 'off') { herPanel(false); setHer(false); } else if (a === 'hi') { if (her?.sayHi()) herPanel(false); else toast('he’s on the move · try again in a moment'); }
+  });
   const q = new URLSearchParams(location.search).get('her');
   let want = false; try { want = q != null ? q === '1' : localStorage.getItem('n1m21n.her') === '1'; } catch {}
   if (want) setHer(true);
@@ -422,8 +454,8 @@ function liveUpdate(dt) {
   if (local !== wasLocal) { wasLocal = local; if (!local) for (const k in visitBonus) delete visitBonus[k]; if (local) nudges.start(); else nudges.end(); if (liveOpen) liveBox.innerHTML = liveText(); }
   liveBtn.hidden = !SIM_LIVE; liveBtn.classList.toggle('mine', local); const t = liveBtn.lastElementChild; const label = local ? 'hands on' : 'live'; if (t.textContent !== label) t.textContent = label; liveBtn.title = liveBtn.ariaLabel = label === 'live' ? 'live · he is living his shared day' : 'hands on · you are driving';
 }
-liveBtn.addEventListener('click', e => { e.stopPropagation(); if (!liveOpen && !$('mood').hidden) $('moodbtn').click(); liveOpen = !liveOpen; liveBox.hidden = !liveOpen; liveBtn.setAttribute('aria-expanded', liveOpen); if (liveOpen) { liveBox.innerHTML = liveText(); panelTop(); } });
-$('moodbtn').addEventListener('click', () => { if (!$('mood').hidden && liveOpen) { liveOpen = false; liveBox.hidden = true; liveBtn.setAttribute('aria-expanded', false); } setTimeout(panelTop, 0); });
+liveBtn.addEventListener('click', e => { e.stopPropagation(); if (herOpen) herPanel(false); if (!liveOpen && !$('mood').hidden) $('moodbtn').click(); liveOpen = !liveOpen; liveBox.hidden = !liveOpen; liveBtn.setAttribute('aria-expanded', liveOpen); if (liveOpen) { liveBox.innerHTML = liveText(); panelTop(); } });
+$('moodbtn').addEventListener('click', () => { if (herOpen && $('mood').hidden) herPanel(false); if (!$('mood').hidden && liveOpen) { liveOpen = false; liveBox.hidden = true; liveBtn.setAttribute('aria-expanded', false); } setTimeout(panelTop, 0); });
 liveBox.addEventListener('click', e => { if (e.target.id === 'golive') { nudges.end(); routine.handBack(); liveOpen = false; liveBox.hidden = true; liveBtn.setAttribute('aria-expanded', false); } });
 for (const ev of ['pagehide', 'visibilitychange']) addEventListener(ev, () => { if (ev === 'pagehide' || document.visibilityState === 'hidden') nudges.end(); });
 const byObj = new Map();

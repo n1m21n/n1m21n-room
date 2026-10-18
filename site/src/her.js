@@ -2,10 +2,10 @@
 // hair with a centre parting, big tortoiseshell glasses, a pale pink tee, a red beaded bracelet. Her face is HIS face textures
 // recoloured to her skin, with her frames and lashes drawn on, so every expression he has she has too.
 import * as THREE from 'three';
-import { mesh } from './look.js';
+import { mesh, toon, addInk } from './look.js';
 import { loadMan, FACES } from './man.js';
 
-export const HER = { skin: '#F9CDBA', skinShade: '#C98AA6', ink: '#1A1438', top: '#F0D3DA', topShade: '#A87FA2', pants: '#4D66CF', pantsShade: '#26358F', frame: '#4A2616', speck: '#C0722C', lip: '#CF6A77', lipDark: '#6E2436', hair: '#33205F', hairShade: '#120C2C', hi: '#5A3CD0', bead: '#E8263F' };
+export const HER = { skin: '#F9CDBA', skinShade: '#C98AA6', ink: '#1A1438', top: '#1C1733', topShade: '#0A0719', jacket: '#C8303F', jacketShade: '#6E1424', pants: '#4D66CF', pantsShade: '#26358F', frame: '#4A2616', speck: '#C0722C', lip: '#CF6A77', lipDark: '#6E2436', hair: '#33205F', hairShade: '#120C2C', hi: '#5A3CD0', bead: '#E8263F' };
 const HIS_SKIN = [247, 163, 159];
 const rgb = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16));
 
@@ -141,6 +141,30 @@ function bracelet(man) {
   return g;
 }
 
+// jacket: shells cloned from his tee body, sleeves and arms, pushed out along the normals; the front is cut open to show the tank
+const JACKET_COLOURS = { red: ['#C8303F', '#6E1424'], camel: ['#D9A066', '#8A5A2A'], cream: ['#EFE6C8', '#A99A6E'], denim: ['#6E86D8', '#2E3E8C'] };
+function jacket(man) {
+  const [col, shc] = JACKET_COLOURS[q('jacket')] || JACKET_COLOURS.red;
+  const src = {}; man.root.traverse(o => { if (o.isSkinnedMesh && ['tee', 'sleeveL', 'sleeveR', 'armL', 'armR'].includes(o.name)) src[o.name] = o; });
+  const grow = { tee: 0.016, sleeveL: 0.014, sleeveR: 0.014, armL: 0.011, armR: 0.011 };
+  for (const [name, o] of Object.entries(src)) {
+    const g = o.geometry, pos = g.attributes.position, nor = g.attributes.normal, si = g.attributes.skinIndex, sw = g.attributes.skinWeight, names = o.skeleton.bones.map(b => b.name);
+    const dom = i => { let bi = 0, bw = 0; for (let k = 0; k < 4; k++) if (sw.getComponent(i, k) > bw) { bw = sw.getComponent(i, k); bi = si.getComponent(i, k); } return names[bi]; };
+    const idx = g.index ? Array.from(g.index.array) : Array.from({ length: pos.count }, (_, i) => i), keep = [];
+    for (let t = 0; t < idx.length; t += 3) {
+      const a = idx[t], b = idx[t + 1], c = idx[t + 2];
+      if (name.startsWith('arm') && [a, b, c].some(v => /^hand/.test(dom(v)))) continue;                         // sleeves end at the wrist
+      const cx = (pos.getX(a) + pos.getX(b) + pos.getX(c)) / 3, cz = (pos.getZ(a) + pos.getZ(b) + pos.getZ(c)) / 3;
+      if (name === 'tee' && cz > 0.01 && Math.abs(cx) < 0.05) continue;                                         // open down the front
+      keep.push(a, b, c);
+    }
+    const ng = g.clone(); ng.setIndex(keep);
+    const p = ng.attributes.position, n = ng.attributes.normal; for (let i = 0; i < p.count; i++) p.setXYZ(i, p.getX(i) + n.getX(i) * grow[name], p.getY(i) + n.getY(i) * grow[name], p.getZ(i) + n.getZ(i) * grow[name]);
+    const m = new THREE.SkinnedMesh(ng, toon(col, { shadeCol: shc, shade: 0.55 })); m.bind(o.skeleton, o.bindMatrix); m.frustumCulled = false; m.userData.look = 'jacket';
+    m.position.copy(o.position); m.quaternion.copy(o.quaternion); m.scale.copy(o.scale); o.parent.add(m); addInk(m, 0.012);
+  }
+}
+
 export async function loadHer() {
   return loadMan({
     faceTex: herFaceTex,
@@ -157,10 +181,12 @@ export async function loadHer() {
     prep(o) {
       const n = o.material.name;
       if (n === 'hair' || n === 'hair_hi') return false;                      // his hair stays out of her
+      if (n === 'tee' && o.name !== 'tee') { o.userData.sleeve = true; return false; }   // a tank top: no sleeves
     },
     dress(man) {
       man.bones.head.scale.set(0.92, 1.07, 0.95);                         // a longer, softer face than his round one; the hair rides on the head bone
       man.bones.head.add(makeHerHair());
+      jacket(man);
       const b = bracelet(man); (man.bones.handL || man.bones.forearmL).add(b); man.bracelet = b;
     },
   });
