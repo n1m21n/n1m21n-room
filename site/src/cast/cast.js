@@ -147,6 +147,13 @@ export function makeCast({ lead, ctx, ui, storeKey = 'n1m21n.cast' }) {
   // talking is decided by closeness: when two of them are within a few metres, whoever is free (not under the visitor's hands) walks over and greets,
   // or only nods if the other is absorbed; someone asleep or washing is left alone. A pair does not greet again for two minutes.
   const NEAR = 2.2, again = new Map(); let nearAt = 0;
+  // a short thought in the bubble about the other, in the speaker's own voice (lines files: MEET_LINES)
+  function speak(id, kind, toId) {
+    const L = id === lead.id ? lead.meetLines : comps.get(id)?.meetLines, pool = L?.[kind]; if (!pool?.length) return;
+    if (id !== lead.id && !comps.get(id)?.on) return;
+    const t = pool[Math.floor(Math.random() * pool.length)].replace('{n}', nameOf(toId));
+    (id === lead.id ? lead.say : comps.get(id)?.say)?.(t, 4.5);
+  }
   function nearby(dt) {
     if ((nearAt += dt) < 0.5) return; nearAt = 0;
     const ms = aware.members.filter(m => m.visible());
@@ -154,10 +161,16 @@ export function makeCast({ lead, ctx, ui, storeKey = 'n1m21n.cast' }) {
       const a = ms[i], b = ms[j], key = a.id + '|' + b.id;
       if (aware.distance(a, b) > NEAR || (again.get(key) || 0) > Date.now()) continue;
       const g = [a, b].map(m => comps.get(m.id)).find(c => c && !c.controlled && !c.meeting);
-      if (g) { const r = g.greet(g.id === a.id ? b.id : a.id); again.set(key, Date.now() + (r.ok ? 120e3 : 20e3)); }
+      if (g) {
+        const oid = g.id === a.id ? b.id : a.id, r = g.greet(oid); again.set(key, Date.now() + (r.ok ? 120e3 : 20e3));
+        const kind = r.ok ? (r.how === 'wave' ? 'hi' : 'nod') : r.why === 'busy' ? 'busy' : null;
+        if (kind) speak(g.id, kind, oid);
+        if (kind === 'hi') setTimeout(() => speak(oid, 'back', g.id), 2600);                 // the one who was greeted answers
+      }
       else {                                                    // the visitor is walking one of them up to the lead: the lead turns round to them
         const l = [a, b].find(m => m.lead), o = l === a ? b : a;
         if (l && o && manners(l.doing()) === 'free' && !lead.player.st.seated && !lead.routine.walking) lead.player.st.turnTo = Math.atan2(o.player.pos.x - lead.player.pos.x, o.player.pos.z - lead.player.pos.z);
+        if (l && o && manners(l.doing()) === 'free') setTimeout(() => speak(l.id, 'back', o.id), 1500);
         again.set(key, Date.now() + 60e3);
       }
     }

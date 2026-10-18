@@ -1,4 +1,4 @@
-import { grow, MORE, MORE2, RANDOM as RAND } from './thought-lines.more.js';
+import { grow, MORE, MORE2, RANDOM as RAND, MEET } from './thought-lines.more.js';
 // Naman's own voice for the thought bubble (English only). Same exports as site/src/thought-lines.js, plus DAY_THOUGHTS,
 // ACT_LINES (current act, any act) and TIME_LINES (hour of day). Written from the patterns in his Instagram export:
 // lowercase, short, no end punctuation, "im / dont / thats", "abt / rn / js / idk / ur", rare emoji, stretched "yeaah".
@@ -108,3 +108,4 @@ export const SELF_LINES = ["im trynna be better abt this", "i feel like i outgre
 grow({ NEED_LINES, EMOTION_LINES, DAY_THOUGHTS, ACT_LINES, TIME_LINES, SCROLL_LINES, SELF_LINES }, MORE);
 grow({ DAY_THOUGHTS, ACT_LINES }, MORE2);
 export const RANDOM_LINES = RAND;
+export const MEET_LINES = MEET;

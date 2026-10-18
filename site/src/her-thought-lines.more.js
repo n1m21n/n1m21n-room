@@ -100,3 +100,12 @@ export const MORE2 = {
   DAY_THOUGHTS: { tea: ["adrak chai, yes please", "waiting for the boil is meditation"], cook: ["jeera first, always", "i'll add a bit more masala"], easel: ["hmmm maybe a softer blue", "colours are my comfort"], work: ["too many tabs, too little brain", "reply later, finish this now", "ok no more meetings after this"], keys: ["i like how soft this note is", "ok one more try with a different mood"], guitar: ["my fingertips hurt, worth it", "play it slow first"], records: ["this song is a hug", "play the other side next"] },
   ACT_LINES: { tv: ["i know the ending and im still watching", "pause, snack, play"], read: ["i read the same line twice, ok again", "this one is going to stay with me"], window: ["the street is so calm now", "there is a tiny bird outside"], roam: ["i came here for smthn. what was it"], pace: ["i think better walking, ok"] },
 };
+
+// when two of them come close ({n} = the other's name): hi to someone free, nod to someone absorbed, busy for someone asleep or washing, back = the answer
+export const MEET = {
+  hi: ["heyyy {n}", "oh hi {n}, whatcha doing", "{n}! hmmm are u busy", "hi {n}, i came to say hi", "hey {n}, all good?"],
+  nod: ["i'll stay quiet, {n} is in the zone", "hmmm {n} looks so focused", "not disturbing {n} rn", "carry on {n}, i'm just passing"],
+  busy: ["shh, {n} is busy", "ok not now, {n} needs a minute", "i'll catch {n} later", "better let {n} be"],
+  back: ["oh hi {n}!", "hey {n}, so good timing", "heyyy {n}, i was just thinking abt u", "hi {n}, one sec", "achaaa hi {n}"],
+  near: ["oh {n} is here, nice", "good to have company", "hi {n}, hmmm"],
+};

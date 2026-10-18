@@ -100,3 +100,13 @@ export const MORE2 = {
   DAY_THOUGHTS: { tea: ["cardamom this time", "tea tastes better when nobody is waiting on me"], cook: ["a pinch more spice never hurt", "chopping is oddly calming"], easel: ["maybe the sky should be louder", "brush is getting dry, keep going"], work: ["commit message says fix. it was not a fix", "refactor it or leave it, thats the question", "console is finally quiet"], keys: ["the minor chord is where the story is", "loop it and let it breathe"], guitar: ["string buzz, thats the fret", "bar chords are a workout"], records: ["dust on the sleeve, love it", "side b is always the secret"] },
   ACT_LINES: { tv: ["this plot makes no sense and i like it", "ok who is the bad guy"], read: ["underlining things i will forget", "this author gets it"], window: ["lights are coming on across the street", "a cat on the opposite roof, nice"], roam: ["looking for what i walked in for"], pace: ["the floor is my whiteboard"] },
 };
+
+// when two of them come close: said by the one who walks over ({n} = the other's name). hi: to someone free; nod: to someone absorbed; busy: to someone asleep or washing;
+// back: the answer of the one who was greeted
+export const MEET = {
+  hi: ["hey {n}", "oh hey {n}, u up", "{n}! all good?", "hi {n}, what are u up to", "hey hey {n}"],
+  nod: ["dont mind me {n}", "carry on {n}, i'll stay quiet", "looks like {n} is deep in it", "ill leave {n} to it"],
+  busy: ["shh. {n} is busy", "not now, {n} is in the middle of something", "better not bother {n} rn", "{n} needs a minute. later"],
+  back: ["oh hey {n}", "hey {n}, one sec", "hi {n}. good timing", "{n}! was just thinking abt something", "hey. all good, u?"],
+  near: ["theres {n}", "{n} is around, nice", "company. good"],
+};

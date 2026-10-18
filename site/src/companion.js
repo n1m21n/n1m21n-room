@@ -109,7 +109,8 @@ export async function makeCompanion(ctx, spec) {
   const core = () => { try { return life.at(Date.now()); } catch { return null; } };
   const bubbleEl = ctx.bubbleEl(spec);
   let bubble = null;
-  spec.lines().then(L => { bubble = makeThoughts({ el: bubbleEl, man, camera: ctx.camera, player, routine: { get doing() { return routine.doing; } }, window: null, core, lines: L, doingOf: () => core()?.doing, phone: false }); bubble.setPace(spec.bubble || { every: 28, hold: 6.5 }); });
+  let meetLines = null;
+  spec.lines().then(L => { meetLines = L.MEET_LINES; bubble = makeThoughts({ el: bubbleEl, man, camera: ctx.camera, player, routine: { get doing() { return routine.doing; } }, window: null, core, lines: L, doingOf: () => core()?.doing, phone: false }); bubble.setPace(spec.bubble || { every: 28, hold: 6.5 }); });
 
   function stepWalker(dt) {
     const w = routine.doing; if ((w !== 'pace' && w !== 'roam') || player.st.seated || player.auto.pts) { walker.at = 0; return; }
@@ -163,10 +164,11 @@ export async function makeCompanion(ctx, spec) {
       if (meeting && ((meeting.arrived && !player.st.seated) || Date.now() - meeting.at > 45e3)) endMeeting();
     }
     propUpdate();
-    if (bubble && man.root.visible && !meeting && !controlled) bubble.update(dt); else bubbleEl.hidden = true;
+    if (bubble && man.root.visible && ((!meeting && !controlled) || bubble.saying)) bubble.update(dt); else bubbleEl.hidden = true;
   }
   return {
     id, spec, man, player, routine, self, show, hide, update, greet, setControlled, nearSpot,
+    say: (t, secs) => bubble?.say(t, secs), get meetLines() { return meetLines; },
     get bubble() { return bubble; }, get on() { return on; }, get meeting() { return !!meeting; }, get controlled() { return controlled; },
     get core() { return life.at(Date.now()); }, life: () => life,
     get doing() { return routine.doing; },
