@@ -638,7 +638,7 @@ snd.onclick = () => { sfx.setMuted(!sfx.muted); paintSnd(); }; paintSnd();
 document.addEventListener('click', ev => { if (ev.target.closest('.chrome button, #deck button, #prompt, .crate button, .x')) sfx.fx('tick'); }, true);
 
 // thought / speech bubbles over his head (src/thoughts.js)
-const bubble = makeThoughts({ el: $('thought'), man, camera, player, routine: { get doing() { return routine.doing; } }, window: WINDOW });
+const bubble = makeThoughts({ el: $('thought'), man, camera, player, routine: { get doing() { return routine.doing; } }, window: WINDOW, core: () => (SIM_LIVE && routine.mine ? (SIM_MODE === 'life' ? simLife.at(Date.now()) : simCore) : null) });
 const thought = dt => bubble.update(dt);
 
 let toastT = 0;

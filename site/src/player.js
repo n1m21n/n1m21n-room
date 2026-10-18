@@ -195,7 +195,7 @@ export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onT
   }
   const ofHere = w => !!here && st.view !== 'first' && mine.get(here)?.includes(w);
   const cuts = new Map(); let clock = 0;
-  const HOLD = 0.6, FAT = 0.2, PAD_OUT = 0.6, FADE_OUT = 0.2, FADE_IN = 0.35;
+  const STUB = 0.45, HOLD = 0.6, FAT = 0.2, PAD_OUT = 0.6, FADE_OUT = 0.2, FADE_IN = 0.35;
   const live = o => o.visible || hidden.has(o) || cuts.has(o);
   // a per-object copy of a toon / hull material whose uCut is its own (the other uniforms stay shared, never cloned)
   function own(o, c) {
@@ -203,7 +203,7 @@ export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onT
     const n = new THREE.ShaderMaterial({ vertexShader: m.vertexShader, fragmentShader: m.fragmentShader, defines: m.defines, side: m.side,
       transparent: m.transparent, depthWrite: m.depthWrite, depthTest: m.depthTest, blending: m.blending, toneMapped: m.toneMapped,
       polygonOffset: m.polygonOffset, polygonOffsetFactor: m.polygonOffsetFactor, polygonOffsetUnits: m.polygonOffsetUnits,
-      uniforms: { ...m.uniforms, uCut: { value: 0 } } });
+      uniforms: { ...m.uniforms, uCut: { value: 0 }, uStub: { value: 0 } } });
     n.name = m.name; c.mats.push([o, m, n]); o.material = n; return true;
   }
   function cutWall(w, why) {
@@ -246,10 +246,35 @@ export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onT
         for (const q of attached(w)) { q.visible = true; q.userData.fadeK = 0; fading.delete(q); }
         w.visible = true; w.userData.fadeK = 0; fading.delete(w); cuts.delete(w); continue;
       }
-      for (const [, , n] of c.mats) n.uniforms.uCut.value = c.k;
-      w.visible = c.k < 1; w.userData.fadeK = c.k;
+      const stub = c.why === 'face' ? STUB : 0;                    // the room's cutaway walls drop to a low stub (Sims "walls down"); others go whole
+      for (const [, , n] of c.mats) { n.uniforms.uCut.value = c.k; n.uniforms.uStub.value = stub; }
+      w.visible = stub > 0 || c.k < 1; w.userData.fadeK = stub > 0 ? 0 : c.k;
       for (const q of attached(w)) { q.userData.fadeK = c.k; if (!c.pop.includes(q)) q.visible = c.k < 1; }
       for (const q of c.pop) q.visible = c.k < 0.5;              // hung things that can't fade (sprites) go at half way
+    }
+  }
+  // props in the way (a monitor, the easel's canvas) thin out with the same dither instead of popping off, and never
+  // fully: they keep PMAX of the fade short of gone so they still read as the object. They come back after P_HOLD s
+  const pf = new Map(), noFade = new Set(), hugs = [], PMAX = 0.7, P_HOLD = 0.5;
+  function fadeProp(o) {
+    if (noFade.has(o)) return false;
+    let c = pf.get(o);
+    if (!c) {
+      c = { k: 0, clear: 0, mats: [] };
+      if (!own(o, c)) { noFade.add(o); return false; }
+      for (const h of o.children) own(h, c);
+      pf.set(o, c); fading.add(o);
+    }
+    c.clear = 0; return true;
+  }
+  function stepProps(dt) {
+    for (const [o, c] of pf) {
+      c.clear += dt;
+      const on = c.clear < P_HOLD;
+      c.k = on ? Math.min(PMAX, c.k + dt * PMAX / 0.25) : Math.max(0, c.k - dt / 0.4);
+      if (!on && c.k === 0) { for (const [q, m, n] of c.mats) { q.material = m; n.dispose(); } o.userData.fadeK = 0; fading.delete(o); pf.delete(o); continue; }
+      for (const [, , n] of c.mats) n.uniforms.uCut.value = c.k;
+      o.userData.fadeK = c.k;
     }
   }
   let boxes = null, arm = null, armOut = null, props = null, lens = null; const occl = [], OCCL = 1.2;
@@ -325,7 +350,7 @@ export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onT
       const h = ray.intersectObjects(armNow, false).find(h => live(h.object));   // (one we cut away last frame still stops it)
       getProps();
       // props right by him (the chair back behind him, the seat he is in) are cut away like walls; further ones stop the arm
-      occl.length = 0;
+      occl.length = 0; hugs.length = 0;
       const hp = ray.intersectObjects(props, false).find(h => { if (!h.object.visible && !hidden.has(h.object)) return false;   // (last frame's cut-aways still count)
  if (h.distance < OCCL) { occl.push(h.object); return false; } return true; });
       let free = hp && (!h || hp.distance < h.distance) ? Math.max(0.6, hp.distance - 0.35) : null;
@@ -360,12 +385,15 @@ export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onT
       camera.lookAt(focus.x, focus.y - drop, focus.z); camera.fov = tall ? 66 : 50;
       // the arm can't pull in any further (0.6 m) and a prop still hugs the lens (the tees inside the wardrobe, a corner
       // plant's leaves, an open wardrobe door): cut it away like the ones right by him
-      for (const a of LENS_AX) { ray.set(camera.position, a); ray.far = 0.14; for (const q of ray.intersectObjects(lens, false)) if (walls.includes(q.object)) { if (!ofHere(q.object) && !q.object.userData.door && !q.object.userData.low && !q.object.userData.hall) cutWall(q.object, 'lens'); } else if ((q.object.visible || hidden.has(q.object)) && !occl.includes(q.object)) occl.push(q.object); }
+      for (const a of LENS_AX) { ray.set(camera.position, a); ray.far = 0.14; for (const q of ray.intersectObjects(lens, false)) if (walls.includes(q.object)) { if (!ofHere(q.object) && !q.object.userData.door && !q.object.userData.low && !q.object.userData.hall) cutWall(q.object, 'lens'); } else if ((q.object.visible || hidden.has(q.object)) && !occl.includes(q.object)) hugs.push(q.object); }
     }
     camera.updateProjectionMatrix();
     // cut away any wall still between camera and player (top-down, tight corners)
     for (const w of hidden) w.visible = true; hidden.clear();
-    if (st.view === 'third') for (const o of occl) { o.visible = false; hidden.add(o); }
+    if (st.view === 'third') {
+      for (const o of occl) if (!fadeProp(o)) { o.visible = false; hidden.add(o); }   // (no fade-able material: pops as before)
+      for (const o of hugs) { o.visible = false; hidden.add(o); }                      // hugging the lens: gone at once
+    }
     if (st.view !== 'first') {
       // camera parked inside a wall: its back-face ink hull would fill the screen black
       // (his room's walls: only when the lens is truly inside one; the cutaway decides the rest)
@@ -384,7 +412,7 @@ export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onT
         }
       }
     }
-    clock += dt; stepCuts(dt);
+    clock += dt; stepCuts(dt); stepProps(dt);
   }
 
   // --- tap-to-walk: follow nav waypoints; any stick / key input takes back control

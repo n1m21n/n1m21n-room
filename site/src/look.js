@@ -19,7 +19,7 @@ export const shared = {
 export const toonVert = /* glsl */`
   #include <common>
   #include <skinning_pars_vertex>
-  varying vec3 vN; varying vec3 vW; varying vec2 vUv; varying vec3 vRest; varying vec3 vON;
+  varying vec3 vN; varying vec3 vW; varying vec2 vUv; varying vec3 vRest; varying vec3 vON; varying float vCy;
   void main(){
     vUv = uv; vRest = position; vON = normal;          // rest-pose position: cloth patterns stick to the body
     #include <beginnormal_vertex>
@@ -28,7 +28,7 @@ export const toonVert = /* glsl */`
     #include <begin_vertex>
     #include <skinning_vertex>
     vec4 w = modelMatrix * vec4(transformed,1.0);
-    vW = w.xyz; vN = normalize(mat3(modelMatrix) * objectNormal);
+    vW = w.xyz; vCy = w.y; vN = normalize(mat3(modelMatrix) * objectNormal);
     gl_Position = projectionMatrix * viewMatrix * w;
   }`;
 
@@ -101,9 +101,9 @@ const matGLSL = /* glsl */`
 // wall thins out as one piece and never changes height. Every material that runs these shaders must carry uCut (a shared
 // program keeps the last value it was given)
 const cutGLSL = /* glsl */`
-  uniform float uCut;
+  uniform float uCut; uniform float uStub; varying float vCy;   // uStub: a cut wall keeps its lowest part (below this height) as a stub; 0 = the whole thing goes (a missing uniform reads 0)
   float bayer2(vec2 a){ a = floor(a); return fract(dot(a, vec2(0.5, a.y * 0.75))); }
-  bool cut(){ if (uCut <= 0.0) return false; vec2 p = gl_FragCoord.xy;   // 8x8 ordered dither, thresholds 0 .. 63/64
+  bool cut(){ if (uCut <= 0.0 || vCy <= uStub) return false; vec2 p = gl_FragCoord.xy;   // 8x8 ordered dither, thresholds 0 .. 63/64
     return bayer2(p * 0.25) * 0.0625 + bayer2(p * 0.5) * 0.25 + bayer2(p) < uCut; }`;
 // objects mid-fade: the ink plate's depth-only pass skips them once they are mostly gone, so his ink shows through
 export const fading = new Set();
@@ -157,7 +157,7 @@ export function toon(color, { map = null, unlit = false, shade = 0.5, shadeCol =
 export const hullVert = /* glsl */`
   #include <common>
   #include <skinning_pars_vertex>
-  uniform float uW; uniform float uBoil;
+  uniform float uW; uniform float uBoil; varying float vCy;
   float h(vec3 p){ return fract(sin(dot(p, vec3(12.9898,78.233,37.719)) + uBoil*17.13) * 43758.5453); }
   void main(){
     #include <beginnormal_vertex>
@@ -166,6 +166,7 @@ export const hullVert = /* glsl */`
     #include <begin_vertex>
     #include <skinning_vertex>
     vec4 w = modelMatrix * vec4(transformed,1.0);
+    vCy = w.y;
     vec3 n = normalize(mat3(modelMatrix) * objectNormal);
     float j = 0.65 + 0.7 * h(floor(position * 9.0));               // seeded in rest space so the boil doesn't crawl as he moves
     vec4 v = viewMatrix * w;
