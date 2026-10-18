@@ -44,6 +44,8 @@ export function makeCast({ lead, ctx, ui, storeKey = 'n1m21n.cast' }) {
     if (id === lead.id) lead.routine.handBack();
     focus(id);
   }
+  // what E does for whoever is under control (null while it is the lead: main.js has his own stations)
+  const interactable = () => controlId === lead.id ? null : comps.get(controlId)?.nearSpot() || null;
   // a tap on the floor walks whoever is under control; true = handled here (main.js then skips its own tap)
   function tap(x, z) {
     if (controlId === lead.id) return false;
@@ -153,5 +155,5 @@ export function makeCast({ lead, ctx, ui, storeKey = 'n1m21n.cast' }) {
     }
   }
   function update(dt, t) { for (const c of comps.values()) c.update(dt, t); nearby(dt); }
-  return { init, update, spawn, dismiss, focus, control, tap, greet, aware, render, present, get focusId() { return focusId; }, get controlId() { return controlId; }, comps, specs };
+  return { init, update, interactable, spawn, dismiss, focus, control, tap, greet, aware, render, present, get focusId() { return focusId; }, get controlId() { return controlId; }, comps, specs };
 }

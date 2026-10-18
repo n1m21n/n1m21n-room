@@ -60,6 +60,7 @@ export function makeThoughts({ el, man, camera, player, routine, window: win, co
   let phoneLineIdx = 0, phoneLineT = 0, currentPhoneLine = '';
   let casualT = 0, currentCasual = '', casualHold = 0;
   let pace = { every: 20, hold: 6 }, forced = null;
+  const recent = [];                                                    // the last few lines shown: a line is not said again until others have had a turn
 
   function update(dt = 0.016) {
     const isWindow = !!win && player.st.seated === win && win.t > 0.8;
@@ -90,8 +91,10 @@ export function makeThoughts({ el, man, camera, player, routine, window: win, co
       } else if (casualT > pace.every) {
         casualT = 0;
         const pool = DAY[doing] || lines.ACT_LINES?.[doing];
-        let c = null; try { const k = core(); if (k && doing) c = simThought(k, doing, Math.floor(Date.now() / (pace.every * 1000)), lines); } catch { /* sim still loading: fall back */ }
-        currentCasual = c || (pool ? pool[Math.floor(Math.random() * pool.length)] : '');
+        let c = null; try { const k = core(); if (k && doing) { const seed = Math.floor(Date.now() / (pace.every * 1000)); for (let i = 0; i < 6 && !c; i++) { const t = simThought(k, doing, seed + i * 7919, lines); if (t && !recent.includes(t)) c = t; } } } catch { /* sim still loading: fall back */ }
+        if (!c && pool) { const fresh = pool.filter(t => !recent.includes(t)); c = (fresh.length ? fresh : pool)[Math.floor(Math.random() * (fresh.length || pool.length))]; }
+        currentCasual = c || '';
+        if (c) { recent.push(c); if (recent.length > 8) recent.shift(); }
         if (!currentCasual) return void (el.hidden = true);
         casualHold = pace.hold;
         text = currentCasual;

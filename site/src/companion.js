@@ -135,6 +135,22 @@ export async function makeCompanion(ctx, spec) {
     player.setInputFrom(on_ ? source : null); player.setInput(on_);
     if (on_) { player.cancelAuto(); if (player.st.seated) player.stand(); } else routine.handBack();
   }
+  // under the visitor's hands: what E does here. Standing near one of the spots (a seat, the records, the snake) she walks the last bit and does it; seated, E gets up;
+  // with nothing near she does a small thing of her own (stretch, sip, a yawn, a dance). Any move input ends it.
+  const NEAR_R = 1.9, LABEL = { sleep: 'lie down', work: 'work', keys: 'keys', window: 'look out', tv: 'tv', read: 'read', records: 'records', snake: 'pet the snake' }, FREE = ['stretch', 'sip', 'sigh', 'yawn', 'dance'];
+  let freeI = 0;
+  function nearSpot() {
+    if (player.st.seated) return { label: 'get up', act: () => player.stand() };
+    let best = null, bd = NEAR_R;
+    for (const k in LABEL) {
+      const sp = spots[k]; if (!sp || heldByOther(k)) continue;
+      const at = typeof sp.at === 'function' ? sp.at() : sp.at, d = Math.hypot(at[0] - player.pos.x, at[1] - player.pos.z);
+      if (d < bd) { bd = d; best = { label: LABEL[k], act: () => { const f = typeof sp.face === 'function' ? sp.face() : sp.face; player.goTo(at[0], at[1], { done: () => sp.start(), face: f }); } }; }
+    }
+    if (best) return best;
+    const a = FREE[freeI % FREE.length];
+    return { label: a, act: () => { here(a).start(); freeI++; } };
+  }
   function update(dt, t) {
     if (!on) return;
     const c = core();
@@ -150,7 +166,7 @@ export async function makeCompanion(ctx, spec) {
     if (bubble && man.root.visible && !meeting && !controlled) bubble.update(dt); else bubbleEl.hidden = true;
   }
   return {
-    id, spec, man, player, routine, self, show, hide, update, greet, setControlled,
+    id, spec, man, player, routine, self, show, hide, update, greet, setControlled, nearSpot,
     get bubble() { return bubble; }, get on() { return on; }, get meeting() { return !!meeting; }, get controlled() { return controlled; },
     get core() { return life.at(Date.now()); }, life: () => life,
     get doing() { return routine.doing; },

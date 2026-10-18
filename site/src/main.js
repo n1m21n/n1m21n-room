@@ -415,8 +415,8 @@ function liveUpdate(dt) {
   if (local !== wasLocal) { wasLocal = local; if (!local) for (const k in visitBonus) delete visitBonus[k]; if (local) nudges.start(); else nudges.end(); if (liveOpen) liveBox.innerHTML = liveText(); }
   liveBtn.hidden = !SIM_LIVE; liveBtn.classList.toggle('mine', local); const t = liveBtn.lastElementChild; const label = local ? 'hands on' : 'live'; if (t.textContent !== label) t.textContent = label; liveBtn.title = liveBtn.ariaLabel = label === 'live' ? 'live · he is living his shared day' : 'hands on · you are driving';
 }
-liveBtn.addEventListener('click', e => { e.stopPropagation(); if (herOpen) herPanel(false); if (!liveOpen && !$('mood').hidden) $('moodbtn').click(); liveOpen = !liveOpen; liveBox.hidden = !liveOpen; liveBtn.setAttribute('aria-expanded', liveOpen); if (liveOpen) { liveBox.innerHTML = liveText(); panelTop(); } });
-$('moodbtn').addEventListener('click', () => { if (herOpen && $('mood').hidden) herPanel(false); if (!$('mood').hidden && liveOpen) { liveOpen = false; liveBox.hidden = true; liveBtn.setAttribute('aria-expanded', false); } setTimeout(panelTop, 0); });
+liveBtn.addEventListener('click', e => { e.stopPropagation(); if (!liveOpen && !$('mood').hidden) $('moodbtn').click(); liveOpen = !liveOpen; liveBox.hidden = !liveOpen; if (liveOpen) $('castinfo').hidden = true; liveBtn.setAttribute('aria-expanded', liveOpen); if (liveOpen) { liveBox.innerHTML = liveText(); panelTop(); } });
+$('moodbtn').addEventListener('click', () => { if (!$('mood').hidden && liveOpen) { liveOpen = false; liveBox.hidden = true; liveBtn.setAttribute('aria-expanded', false); } setTimeout(panelTop, 0); });
 liveBox.addEventListener('click', e => { if (e.target.id === 'golive') { nudges.end(); routine.handBack(); liveOpen = false; liveBox.hidden = true; liveBtn.setAttribute('aria-expanded', false); } });
 for (const ev of ['pagehide', 'visibilitychange']) addEventListener(ev, () => { if (ev === 'pagehide' || document.visibilityState === 'hidden') nudges.end(); });
 const byObj = new Map();
@@ -565,6 +565,8 @@ const sim = {
 window.dev = { get cast() { return cast; }, get her() { return cast?.comps.get('her'); }, get director() { return director; }, setLiveAct: a => { lastLiveAct = a; }, props, THREE, rooms, fits, ward, openWardrobe, snake: snk, routine, motives: utility.motives, sim, sfx, get dpr() { return dpr; }, doors, gallery, annex, portals, stations, walkTo, nav, solids, man, player, scene, camera, room, phys, verifyActs, verifyBeats, beats, ACTS, GUITAR_AT, render: () => comp.render(scene, camera), renderer, reading, telly, shoot, sky: ph => { lastSky = ph; win.userData.sky.material.uniforms.uMap.value = skies[ph] ||= skyTex(ph); } };                              // dev
 let near = null;
 function pickStation() {
+  const cn = cast?.interactable();                                     // someone else is under control: E is theirs
+  if (cn) { near = cn; $('prompt').hidden = false; $('plabel').textContent = cn.label; return; }
   const p = player.pos, h = player.st.heading;
   let best = null, bd = 1e9;
   for (const s of stations) {

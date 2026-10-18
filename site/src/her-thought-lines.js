@@ -1,3 +1,5 @@
+import { grow } from './thought-lines.more.js';
+import { MORE } from './her-thought-lines.more.js';
 // Thought bubble lines for the second character ("her"), English only. Same exports as the voice file made for Naman
 // (thought-lines.voice.js). Original lines in her habits: lowercase, short, u/ur/v/alr/smthn/bec/abt, one 😭 now and then,
 // stretched hmmm/ohhh/achaaa. Not quotes from anyone's messages. Emoji appear in about 1 line in 8.
@@ -99,3 +101,5 @@ export const hourBucket = h => h < 5 ? 'late_night' : h < 11 ? 'morning' : h < 1
 
 export const SCROLL_LINES = ["omg i have to send this to someone", "ok one more reel", "why is my feed so accurate", "saving this for later", "phone down. ok phone down"];
 export const SELF_LINES = ["starting things is the hard part", "im v bad at doing nothing", "i think im more of an introvert than i admit", "i need to be nicer to myself", "okay i'll deal with it tomorrow"];
+
+grow({ NEED_LINES, EMOTION_LINES, DAY_THOUGHTS, ACT_LINES, TIME_LINES, SCROLL_LINES, SELF_LINES }, MORE);
