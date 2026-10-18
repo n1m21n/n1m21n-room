@@ -778,7 +778,7 @@ renderer.setAnimationLoop(() => {
   const arm = shelf.userData.arm; arm.rotation.y += ((audio.paused ? 0 : ARM_PLAY) - arm.rotation.y) * (1 - Math.exp(-2.5 * dt));   // tonearm swings onto the record
   player.update(dt, t);
   cast?.update(dt, t);
-  if (routine.mine && !portals.busy) director.update(dt, { doing: routine.doing, walking: routine.walking });
+  if (routine.mine && !portals.busy && (!cast || cast.focusId === 'him')) director.update(dt, { doing: routine.doing, walking: routine.walking });
   stream?.update(dt);
   errands.update(dt);
   framePanels(dt);

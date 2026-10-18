@@ -106,12 +106,6 @@ function hairGeo() {
     const az = u * Math.PI * 2, f = Math.abs(Math.atan2(Math.sin(az), Math.cos(az))), th = rad(62 - 9 * Math.exp(-((f / 0.14) ** 2)) + 40 * smooth((f - 0.35) / 0.9)) * v;
     return [C[0] + Math.sin(th) * Math.sin(az) * RX * 1.03, C[1] + Math.cos(th) * RY * 1.04, C[2] + Math.sin(th) * Math.cos(az) * RZ * 1.04];
   });
-  // curtain bangs: parted in the middle, each side sweeps off the forehead toward the temple and ends near the cheekbone
-  for (const sg of [1, -1]) grid(6, 14, (v, u) => {
-    const rootTh = rad(54 + 22 * u), rootAz = sg * (0.05 + 0.95 * u), tipTh = rad(80 + 20 * u * u), tipAz = sg * (0.12 + 0.95 * u);
-    const th = rootTh + (tipTh - rootTh) * v, az = rootAz + (tipAz - rootAz) * v, gr = 1.05 + 0.02 * Math.sin(v * Math.PI) + 0.012 * u, gz = 1.22 - 0.14 * u;
-    return [C[0] + Math.sin(th) * Math.sin(az) * RX * gr, C[1] + Math.cos(th) * RY * gr - 0.004 * u, C[2] + Math.sin(th) * Math.cos(az) * RZ * gr * gz];
-  });
   // curtain: wavy locks from the cap's edge down to the shoulders, open at the front
   const A0 = 1.2, A1 = Math.PI * 2 - 1.2, Y = [0.165, 0.13, 0.09, 0.05, 0.01, -0.025, -0.06];
   grid(Y.length - 1, 44, (v, u) => {
