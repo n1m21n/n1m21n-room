@@ -6,7 +6,7 @@ import { makeHud } from './hud.js';
 import { COMMANDS, HINTS, makeQueue, selfNote } from '../errands/commands.js';
 import { testFeed, youtubeFeed } from './bridge.js';
 
-const SELF_AFTER = 60, MAX_AHEAD = 2;      // seconds of quiet chat before a note to himself; events announced ahead of the one playing
+const SELF_AFTER = 180, MAX_AHEAD = 4;      // seconds of quiet chat before a note to himself; events announced ahead of the one playing
 
 export function startStream({ routine, bubble, errands, director, feed, nudges, params }) {
   const q = makeQueue(), hud = makeHud({ hints: HINTS });
@@ -34,9 +34,13 @@ export function startStream({ routine, bubble, errands, director, feed, nudges, 
     const cmd = n.ask ? 'ask' : n.cmd, ev = { cmd, name: n.name, arg: n.ask ? String(n.askId) : n.arg || '', votes: n.votes, self: !!n.self, secs: COMMANDS[cmd].secs };
     console.log('[stream] announcing errand:', ev.cmd, 'by', ev.name);
     sending = true;
-    const e = await feed.announce(ev).catch(() => null); sending = false;
-    if (e) busyUntil = performance.now() + (e.t0 - Date.now()) + e.secs * 1000 - 6000;
-    chips.get(n)?.remove(); chips.delete(n);
+    try {
+      const e = await feed.announce(ev).catch(() => null);
+      if (e) busyUntil = performance.now() + Math.max(0, e.t0 - Date.now()) + (e.secs || 30) * 1000 - 4000;
+    } finally {
+      sending = false;
+      chips.get(n)?.remove(); chips.delete(n);
+    }
   }
 
   return {

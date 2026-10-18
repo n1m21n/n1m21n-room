@@ -19,7 +19,7 @@ export async function onRequestPost({ env, request }) {
   let b; try { b = await request.json(); } catch { return json({ ok: false, why: 'bad json' }, 400); }
   const c = COMMANDS[b?.cmd]; if (!c?.spot) return json({ ok: false, why: 'unknown command' }, 400);
   const now = Date.now(), name = b.self ? 'me' : cleanName(b.name), arg = String(b.arg || '').replace(/[^\p{L}\p{N} '&?!.,-]/gu, '').slice(0, 40), votes = Math.min(99, Math.max(1, Math.round(+b.votes || 1)));
-  const last = await env.DB.prepare('SELECT MAX(t0 + secs * 1000) v FROM chatq').first();
+  const last = await env.DB.prepare('SELECT MAX(t0 + secs * 1000) v FROM chatq WHERE t0 > ?').bind(now - 120000).first();
   const t0 = Math.max(now + LEAD, (last?.v || 0) + GAP);
   const row = await env.DB.prepare('INSERT INTO chatq (t, t0, secs, cmd, name, arg, votes, self) VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING seq').bind(now, t0, c.secs, b.cmd, name, arg, votes, b.self ? 1 : 0).first();
   return json({ ok: true, event: { seq: row.seq, t: now, t0, secs: c.secs, cmd: b.cmd, name, arg, votes, self: !!b.self } });

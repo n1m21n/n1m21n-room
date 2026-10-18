@@ -63,7 +63,8 @@ export function makeErrands({ scene, desk, chair, man, player, routine, bubble, 
       } else if (state === 'read') {
         routine.hold(8); if (t > 5.5) act();
       } else if (state === 'do') {
-        if (t > 1.5 && routine.since > (COMMANDS[cur.ev.cmd].secs + 2) * 1000) end();
+        const dur = (COMMANDS[cur.ev?.cmd]?.secs || 30) + 1;
+        if (t >= dur || (t > 1.5 && routine.since > (dur + 2) * 1000)) end();
       }
     },
     get busy() { return state !== 'idle'; },
