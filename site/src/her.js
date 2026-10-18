@@ -13,6 +13,47 @@ const rgb = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16));
 const EYE = [[352, 462], [683, 451]];
 const MOUTH = { joyful: [1, 0.5], delighted: [1, 0.7], amusement: [0.9, 0.3], content: [0.5, 0], proud: [0.6, 0], triumph: [1, 0.4], relieved: [0.4, 0], calm: [0.15, 0], curious: [0.1, 0], absorbed: [-0.05, 0], aesthetic_appreciation: [0.4, 0],
   awe: [0.1, 0.6], nostalgia: [0.25, 0], sleep: [0.1, 0], drowsy: [0, 0], dazed: [0, 0.2], bored: [-0.2, 0], restless: [-0.1, 0], embarrassed: [0.3, 0], sad: [-0.7, 0], lonely: [-0.6, 0], anxious: [-0.4, 0.1], uneasy: [-0.35, 0], frustrated: [-0.6, 0], given_up: [-0.5, 0], alarm: [0, 0.8] };   // [smile (-1 frown .. 1 grin), open]
+
+// her mouth, drawn where his spiral was (texture px, centre (500, 772)); cv = smile (-1 frown .. 1 grin), op = open (0..1)
+const MOUTH_STYLE = (() => { try { return new URLSearchParams(location.search).get('mouth') || 'lips'; } catch { return 'lips'; } })();
+function drawMouth(g, style, cv, op) {
+  const MX = 500, MY = 772, ink = HER.lipDark, open = op * 56;
+  g.lineJoin = g.lineCap = 'round'; g.strokeStyle = ink;
+  const lipsPath = (w, cy, mid, drop, bow) => {              // closed mouth shape: cupid's bow on top, fuller lower lip
+    g.beginPath(); g.moveTo(MX - w, cy);
+    g.bezierCurveTo(MX - w * 0.55, cy - bow, MX - w * 0.2, cy - bow, MX, cy - bow * 0.45 + mid);
+    g.bezierCurveTo(MX + w * 0.2, cy - bow, MX + w * 0.55, cy - bow, MX + w, cy);
+    g.bezierCurveTo(MX + w * 0.5, cy + drop + open, MX - w * 0.5, cy + drop + open, MX - w, cy); g.closePath();
+  };
+  if (style === 'line') {                                      // a plain drawn line, curling up or down, small dimples
+    const w = 78 + 14 * Math.max(0, cv) + 12 * op, cy = MY - 26 * cv;
+    g.lineWidth = 15; g.beginPath(); g.moveTo(MX - w, cy); g.quadraticCurveTo(MX, MY + 30 * cv + 6 + open * 0.9, MX + w, cy); g.stroke();
+    if (open > 8) { g.fillStyle = ink; g.beginPath(); g.moveTo(MX - w * 0.8, cy + 4); g.quadraticCurveTo(MX, MY + 30 * cv + 6 + open * 1.8, MX + w * 0.8, cy + 4); g.quadraticCurveTo(MX, MY + 30 * cv + 12 + open * 0.9, MX - w * 0.8, cy + 4); g.fill(); }
+    if (cv > 0.3) { g.lineWidth = 9; for (const sx of [-1, 1]) { g.beginPath(); g.moveTo(MX + sx * (w + 18), cy - 20); g.quadraticCurveTo(MX + sx * (w + 30), cy, MX + sx * (w + 18), cy + 20); g.stroke(); } }
+    return;
+  }
+  if (style === 'small') {                                     // small pursed rosy lips
+    const w = 44 + 10 * Math.max(0, cv) + 10 * op, cy = MY - 12 * cv;
+    lipsPath(w, cy, 6, 30 + 8 * Math.max(0, cv), 20); g.fillStyle = open > 8 ? HER.lipDark : HER.lip; g.fill(); g.lineWidth = 10; g.stroke();
+    return;
+  }
+  if (style === 'grin') {                                      // open when happy (teeth), a soft closed line when not
+    const w = 74 + 16 * Math.max(0, cv), cy = MY - 22 * cv;
+    if (cv > 0.35 || op > 0.2) {
+      const dep = 40 + 70 * Math.max(op, cv * 0.7);
+      g.beginPath(); g.moveTo(MX - w, cy); g.quadraticCurveTo(MX, cy + 16, MX + w, cy); g.quadraticCurveTo(MX + w * 0.7, cy + dep + 18, MX, cy + dep + 22); g.quadraticCurveTo(MX - w * 0.7, cy + dep + 18, MX - w, cy); g.closePath();
+      g.fillStyle = '#FBF3E6'; g.fill(); g.lineWidth = 12; g.stroke();
+      g.save(); g.clip(); g.fillStyle = HER.lip; g.beginPath(); g.ellipse(MX, cy + dep + 24, w * 0.55, dep * 0.45, 0, 0, Math.PI * 2); g.fill(); g.restore();
+      g.lineWidth = 12; g.beginPath(); g.moveTo(MX - w, cy); g.quadraticCurveTo(MX, cy + 16, MX + w, cy); g.quadraticCurveTo(MX + w * 0.7, cy + dep + 18, MX, cy + dep + 22); g.quadraticCurveTo(MX - w * 0.7, cy + dep + 18, MX - w, cy); g.closePath(); g.stroke();
+    } else { g.lineWidth = 14; g.beginPath(); g.moveTo(MX - w, cy); g.quadraticCurveTo(MX, MY + 34 * cv + 8, MX + w, cy); g.stroke(); }
+    return;
+  }
+  const w = 76 + 14 * Math.max(0, cv) + 12 * op, cy = MY - 22 * cv;      // 'lips' (default): full lips with a cupid's bow, parted when open
+  lipsPath(w, cy, 8 + 14 * cv, 44 + 12 * Math.max(0, cv), 26);
+  g.fillStyle = open > 8 ? HER.lipDark : HER.lip; g.fill(); g.lineWidth = 11; g.stroke();
+  if (open > 8) { g.fillStyle = '#FBF3E6'; g.beginPath(); g.moveTo(MX - w * 0.7, cy + 8); g.quadraticCurveTo(MX, cy + 14, MX + w * 0.7, cy + 8); g.lineTo(MX + w * 0.55, cy + 26 + open * 0.25); g.quadraticCurveTo(MX, cy + 32 + open * 0.25, MX - w * 0.55, cy + 26 + open * 0.25); g.closePath(); g.fill(); }
+  else { g.lineWidth = 8; g.beginPath(); g.moveTo(MX - w, cy); g.quadraticCurveTo(MX, cy + 14 + 10 * cv, MX + w, cy); g.stroke(); }   // the parting between the lips
+}
 const faceCache = {};
 export function herFaceTex(name = 'neutral') {
   if (faceCache[name]) return faceCache[name];
@@ -32,14 +73,8 @@ export function herFaceTex(name = 'neutral') {
     }
     g.putImageData(d, 0, 0);
     // her mouth: the spiral is wiped and a normal mouth drawn in its place, shaped by the expression
-    const m = MOUTH[name] || [0, 0], [cv_, op] = m, MX = 500, MY = 772;
     g.fillStyle = HER.skin; g.fillRect(330, 678, 165, 340); g.fillRect(600, 678, 130, 340); g.fillRect(495, 708, 105, 310);
-    const w = 70 + 12 * Math.max(0, cv_) + 14 * op, cy = MY - 26 * cv_, my = MY + 44 * cv_ + 8, open = op * 62;
-    g.lineJoin = g.lineCap = 'round';
-    g.beginPath(); g.moveTo(MX - w, cy); g.quadraticCurveTo(MX, my, MX + w, cy);
-    g.quadraticCurveTo(MX, my + 26 + open * 1.3 + 10 * Math.max(0, cv_), MX - w, cy); g.closePath();
-    g.fillStyle = open > 8 ? HER.lipDark : HER.lip; g.fill(); g.strokeStyle = HER.lipDark; g.lineWidth = 12; g.stroke();
-    if (open > 8) { g.fillStyle = '#FBF3E6'; g.beginPath(); g.moveTo(MX - w * 0.7, cy + 8); g.quadraticCurveTo(MX, my + 4, MX + w * 0.7, cy + 8); g.lineTo(MX + w * 0.6, cy + 24 + open * 0.3); g.quadraticCurveTo(MX, my + 18 + open * 0.3, MX - w * 0.6, cy + 24 + open * 0.3); g.closePath(); g.fill(); }
+    drawMouth(g, MOUTH_STYLE, ...(MOUTH[name] || [0, 0]));
     // her glasses: big tortoiseshell rounded frames
     const frame = (x, y) => { g.beginPath(); for (let i = 0; i < 40; i++) { const a = i / 40 * Math.PI * 2, c = Math.cos(a), sn = Math.sin(a), e = 2.6, px = x + Math.sign(c) * Math.abs(c) ** (2 / e) * 148, py = y + 6 + Math.sign(sn) * Math.abs(sn) ** (2 / e) * 116; i ? g.lineTo(px, py) : g.moveTo(px, py); } g.closePath(); };
     g.lineJoin = 'round'; g.fillStyle = 'rgba(255,255,255,0.10)';
