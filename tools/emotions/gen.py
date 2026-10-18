@@ -239,6 +239,8 @@ for _a, _r in _wm["acts"].items():
         for _f in (_r.get(_k) or {}):
             if _f not in _wm["fluents"]:
                 err(f"world_model.json: {_a}.{_k} uses unknown fluent {_f}")
+    if "softKeep" in _r and not (isinstance(_r["softKeep"], (int, float)) and 0 <= _r["softKeep"] <= 1.5):
+        err(f"world_model.json: {_a}.softKeep must be a number in 0..1.5")
 js("world.gen.js", [("WORLD_MODEL", _wm), ("NEURO", NEU), ("LEDGER", LED), ("CHAINS", CH["chains"]), ("CHAIN_DEFAULTS", CH.get("defaults", {})), ("STABILITY", STAB), ("OUTCOMES", OUT), ("HAZARDS", HAZ["events"]), ("INVENTORY", INV)])
 
 tune_path = os.path.join(HERE, "tune.json")

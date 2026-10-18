@@ -36,6 +36,20 @@ export const WORLD_MODEL = {
    "init": 0,
    "halfLife": 300,
    "label": "caffeine level (cups)"
+  },
+  "inspired": {
+   "init": 0,
+   "ttl": 150,
+   "label": "an idea or a feeling to work from (a record, a book, the gallery); fades in about 2.5 h"
+  },
+  "news": {
+   "init": 0,
+   "ttl": 1440,
+   "label": "something to tell someone (a piece finished, something played or read); stale after a day"
+  },
+  "paint": {
+   "init": 0,
+   "label": "paint on his hands"
   }
  },
  "acts": {
@@ -54,11 +68,15 @@ export const WORLD_MODEL = {
     },
     {
      "dishes": 1
+    },
+    {
+     "paint": 1
     }
    ],
    "eff": {
     "face": 1,
-    "dishes": 0
+    "dishes": 0,
+    "paint": 0
    }
   },
   "dress": {
@@ -94,7 +112,8 @@ export const WORLD_MODEL = {
     "ingredients": 1
    },
    "soft": {
-    "dishes": 0
+    "dishes": 0,
+    "paint": 0
    },
    "eff": {
     "food": "+2",
@@ -123,7 +142,10 @@ export const WORLD_MODEL = {
    "pay_any": [
     1,
     0.6
-   ]
+   ],
+   "soft": {
+    "paint": 0
+   }
   },
   "tea": {
    "eff": {
@@ -170,15 +192,86 @@ export const WORLD_MODEL = {
     "dressed": 1
    }
   },
-  "phone_call": {},
+  "phone_call": {
+   "soft": {
+    "news": 1
+   },
+   "softKeep": 0.8,
+   "eff": {
+    "news": 0
+   }
+  },
   "art_sketch": {
    "soft": {
-    "dressed": 1
+    "dressed": 1,
+    "inspired": 1
    },
    "softAt": [
     6,
     21
-   ]
+   ],
+   "eff": {
+    "inspired": 0
+   }
+  },
+  "records": {
+   "eff": {
+    "inspired": 1
+   }
+  },
+  "read": {
+   "eff": {
+    "inspired": 1,
+    "news": 1
+   }
+  },
+  "gallery_view": {
+   "eff": {
+    "inspired": 1
+   }
+  },
+  "guitar": {
+   "soft": {
+    "inspired": 1,
+    "paint": 0
+   },
+   "softKeep": 0.9,
+   "eff": {
+    "news": 1
+   }
+  },
+  "keys": {
+   "soft": {
+    "inspired": 1,
+    "paint": 0
+   },
+   "softKeep": 0.9,
+   "eff": {
+    "news": 1
+   }
+  },
+  "art_refine": {
+   "eff": {
+    "paint": 1
+   }
+  },
+  "art_render": {
+   "eff": {
+    "paint": 1
+   }
+  },
+  "art_review": {
+   "eff": {
+    "news": 1
+   }
+  },
+  "write_letter": {
+   "pre": {
+    "news": 1
+   },
+   "eff": {
+    "news": 0
+   }
   }
  },
  "needs": [
@@ -243,6 +336,16 @@ export const WORLD_MODEL = {
    "growMin": 60,
    "max": 2,
    "why": "just woke up"
+  },
+  {
+   "when": {
+    "paint": 1
+   },
+   "act": "wash",
+   "afterMin": 10,
+   "growMin": 60,
+   "max": 2,
+   "why": "paint drying on his hands"
   }
  ],
  "caffeine": {

@@ -112,7 +112,7 @@ lazy), `~tv>~greet_visitor>tv` (knock mid-show, back to the show), `dress>~showe
 
 1. **Work.** (fixed in round 4) Ordinary `work` lasted 9–27 min/day: the boredom_quit hazard (fun < 0.22) cuts it almost always;
    `work_through` is effectively his day job (~3 h, 10:00–15:00). Work drains fun too fast; needs tuning.
-2. **Goals are mostly one step.** 274 multi-step sequences, but the top goals are single acts. Only hygiene,
+2. **Goals are mostly one step.** (partly addressed in round 5) 274 multi-step sequences, but the top goals are single acts. Only hygiene,
    food and dressing have preconditions; art, music, social and errands have none yet.
 3. **No day-scale intentions.** He plans one goal ahead, never "finish the piece today" or "call mum tonight".
 4. **No other agents.** Visitors and calls are hazards, not people with their own schedules or memory of him.
@@ -162,6 +162,41 @@ Monte Carlo (200 seeds × 7 days; `work` block added to `montecarlo.mjs`):
 Still open after round 4: total desk time is ~3.7 h/day with no weekday/weekend difference (no calendar yet); work
 has no deadlines or output (nothing gets finished); `work_through` still fires on ~half the days; eat 4.2/day and
 fridge 3.3/day are still high.
+
+## Round 5 (same day): art, music and social acts get steps of their own
+
+Only hygiene, food and dressing had preconditions, so art, music and social goals were one step. Three new fluents in
+`tools/emotions/world_model.json` (no new acts; every provider already has a spot in `main.js` SPOT_OF):
+
+| fluent | made true by | wanted by |
+|---|---|---|
+| `inspired` (ttl 150 min) | records, read, gallery_view | guitar, keys, art_sketch (soft); art_sketch uses it up |
+| `news` (ttl 1 day) | read, guitar, keys, art_review | phone_call (soft), write_letter (hard: a letter needs something to say); both use it up |
+| `paint` (on his hands) | art_refine, art_render | guitar, keys, eat, cook want it off (soft); wash removes it; a `needs` entry pulls wash while it dries |
+
+Engine (small, general): `softKeep` per act scales how often he keeps that act's soft steps (guitar/keys 0.9, phone_call
+0.8; validated in gen.py), and the planner only inserts a step he could choose right now (no art stage when no piece
+is on the easel). Emergent examples: `read>phone_call` (read something, rings someone about it), `gallery_view>art_sketch`,
+`records>keys>phone_call` cut short to `records>phone_call`, `read>~phone_call>art_sketch`, `fridge>~tea>wash>cook`.
+
+Monte Carlo (200 seeds × 7 days; `goals`, `art_pieces_per_day`, `music_min`, `social_min` added to `montecarlo.mjs`):
+
+| metric | round 4 | round 5 |
+|---|---|---|
+| verdict | PASS | PASS |
+| done goals with 2+ steps | 8.7 % | 12.2 % |
+| art / music / social goals with 2+ steps | 4.4 % / 0 % / 0 % | 27.3 % / 36.6 % / 21.1 % |
+| distinct multi-step sequences / all goal sequences | 249 / 612 | 524 / 965 |
+| art pieces per day | 0.232 | 0.231 |
+| music / social minutes per day | 17.4 / 68.1 | 19.1 / 67.4 |
+| mood / stress | 0.612 / 0.254 | 0.619 / 0.246 |
+| chains done / broken / dropped | 3.10 / 2.80 / 1.16 | 2.87 / 2.68 / 1.09 |
+| plain work min/day | 153 | 157 |
+| eat / fridge / phone per day | 4.17 / 3.25 / 2.95 | 4.13 / 3.20 / 2.88 |
+
+Still open after round 5: most goals are still single acts (window, eat, tv, read have no preconditions and make up
+most of the day); time spent on music (19 min) and art (0.23 pieces/day) did not grow, since steps were added in front
+of those acts, not reasons to do them more; paint on his hands has no visual yet; phone 2.9 calls/day is still high.
 
 ## Still open
 

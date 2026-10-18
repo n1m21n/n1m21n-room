@@ -61,8 +61,8 @@ export function makeWorld({ rng }) {
   for (const [act, r] of Object.entries(M.acts)) for (const [f, v] of Object.entries(r.eff || {})) if (typeof v === 'number') (providers[f + '=' + v] ||= []).push(act);
   const pairW = (a, b, t) => { const p = pairs[a + '>' + b]; return p ? p[0] * Math.exp(-(t - p[1]) / M.planner.habitTau) : 0; };
   function keepP(act, f, ctx) {
-    const k = M.soft, h = keep[act + '.' + f] ?? 0.5;
-    return clamp(k.base + k.energy * (ctx.energy ?? 0.6) + k.stress * (ctx.stress ?? 0.2) + k.habit * h, 0.1, 0.98);
+    const k = M.soft, h = keep[act + '.' + f] ?? 0.5;   // softKeep (per act): how much he cares about its soft steps (1 = as usual)
+    return clamp((k.base + k.energy * (ctx.energy ?? 0.6) + k.stress * (ctx.stress ?? 0.2) + k.habit * h) * (M.acts[act]?.softKeep ?? 1), 0.05, 0.98);
   }
 
   // plan a goal from the current state. ctx: { t, w0 (act appeal now), follow(a,b), last, energy, stress }.
@@ -86,7 +86,7 @@ export function makeWorld({ rng }) {
         left.forEach((c, i) => {
           if (c.opts.some(([f, v]) => holds(f, v, t, s, a))) { choices.push({ i, act: null, w: 1e9 }); return; }
           c.opts.forEach(([f, v], j) => { for (const p of providers[f + '=' + v] || []) {
-            if (p === act || seen.has(p) || !guardOk(p, t, s, a)) continue;
+            if (p === act || seen.has(p) || !guardOk(p, t, s, a) || (ctx.w0 && !(p in ctx.w0))) continue;   // only steps he could choose now (no art stage without a piece on the easel)
             const w = Math.max(1e-4, ctx.w0[p] ?? 1e-3) * (ctx.follow(prev, p) || 1) * (1 + M.planner.habitW * pairW(prev, p, t)) * (c.pay?.[j] ?? 1) ** 2;
             choices.push({ i, act: p, w });
           } });

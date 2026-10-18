@@ -8,7 +8,7 @@ const mean = a => a.reduce((x, y) => x + y, 0) / (a.length || 1);
 const sd = a => { const m = mean(a); return Math.sqrt(mean(a.map(x => (x - m) ** 2))); };
 const q = (a, p) => { const s = [...a].sort((x, y) => x - y); return s[Math.floor(p * (s.length - 1))]; };
 const lambda = L > 0 ? Object.fromEntries(['drives', 'motives', 'desire', 'chain', 'action', 'outcome', 'ledger', 'emotion'].map(k => [k, L])) : {};
-const days = [], perSeed = [], mixes = {}, acts = [], mins = {}, seqs = new Map(), goals = {}; let t0 = Date.now();
+const eps = [], days = [], perSeed = [], mixes = {}, acts = [], mins = {}, seqs = new Map(), goals = {}; let t0 = Date.now();
 for (let s = 1; s <= N; s++) {
   const c = makeSimCore({ seed: s, withGrid: false, instability: L > 0 ? { enabled: true, lambda } : {} });
   let lastSeq = 0;
@@ -19,7 +19,7 @@ for (let s = 1; s <= N; s++) {
   for (const d of ds) for (const [a, m] of Object.entries(d.actMin || {})) mins[a] = (mins[a] || 0) + m;
   // sequences he actually lived: free chains (any run closed by sleep or a length cap) and goal episodes from the planner
   for (const f of c.freeChains) if (f.day >= 1) seqs.set(f.seq, (seqs.get(f.seq) || 0) + 1);
-  for (const g of c.episodes || []) if (g.day >= 1) { const k = g.goal + ':' + g.seq; goals[k] = (goals[k] || 0) + 1; }
+  for (const g of c.episodes || []) if (g.day >= 1) { const k = g.goal + ':' + g.seq; goals[k] = (goals[k] || 0) + 1; eps.push(g); }
 }
 const col = f => days.map(f);
 const total = Object.values(mixes).reduce((a, b) => a + b, 0);
@@ -43,6 +43,16 @@ const rep = {
   work: { work_min: +mean(col(d => d.actMin?.work || 0)).toFixed(1), work_through_min: +mean(col(d => d.actMin?.work_through || 0)).toFixed(1),
     stints: +mean(col(d => d.acts.work || 0)).toFixed(2), min_per_stint: +(mean(col(d => d.actMin?.work || 0)) / (mean(col(d => d.acts.work || 0)) || 1)).toFixed(1),
     boredom_quit: +mean(col(d => d.events.filter(e => e === 'boredom_quit').length)).toFixed(2), p10: +q(col(d => d.actMin?.work || 0), 0.1).toFixed(0), p90: +q(col(d => d.actMin?.work || 0), 0.9).toFixed(0) },
+  // planned goals: share that took 2+ steps, per family; art pieces and time on music / social acts
+  goals: (() => { const fam = { art: /^art_/, music: /^(guitar|keys|records)$/, social: /^(phone_call|write_letter|greet_visitor|answer_phone)$/ };
+    const steps = g => g.seq.split('>').filter(x => x && x[0] !== '~').length, done = eps.filter(g => g.how === 'done'), multi = done.filter(g => steps(g) >= 2);
+    const o = { done: done.length, multi_share: +(multi.length / (done.length || 1)).toFixed(3), multi_distinct: new Set(multi.map(g => g.goal + ':' + g.seq)).size };
+    for (const [f, re] of Object.entries(fam)) { const d = done.filter(g => re.test(g.goal)); o[f + '_multi'] = +(d.filter(g => steps(g) >= 2).length / (d.length || 1)).toFixed(3); }
+    o.top_multi = Object.entries(multi.reduce((m, g) => (m[g.seq] = (m[g.seq] || 0) + 1, m), {})).sort((x, y) => y[1] - x[1]).slice(0, 10).map(([k, n]) => `${k} ×${n}`);
+    return o; })(),
+  art_pieces_per_day: +mean(col(d => d.art?.pieces || 0)).toFixed(3),
+  music_min: +mean(col(d => ['guitar', 'keys', 'records'].reduce((t, a) => t + (d.actMin?.[a] || 0), 0))).toFixed(1),
+  social_min: +mean(col(d => ['phone_call', 'write_letter', 'greet_visitor', 'answer_phone'].reduce((t, a) => t + (d.actMin?.[a] || 0), 0))).toFixed(1),
   repeat_3h: +(acts.filter((e, i) => acts.slice(Math.max(0, i - 12), i).some(p => p.act === e.act && p.day === e.day && e.t - p.t < 180 && e.t > p.t)).length / acts.length).toFixed(3),
   night_acts_per_day: +(acts.filter(e => { const h = (e.t % 1440) / 60; return h >= 1 && h < 5 && e.actKind === 'normal' && !['sleep', 'loo'].includes(e.act); }).length / days.length).toFixed(2),
   pinned_days: col(d => d.v).filter(v => v < 0.05 || v > 0.95).length,

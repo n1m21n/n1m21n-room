@@ -2,6 +2,13 @@
 
 Start here. Then read `BLUEPRINT_REVIEW.md` (review of the two Antigravity blueprints), `SIM_DESIGN.md`, `DATA_SOURCES.md`.
 
+## STATUS UPDATE (2026-10-18, round 5): art / music / social preconditions: read `SIM_REVIEW.md` "Round 5"
+
+- New fluents `inspired`, `news`, `paint` in `world_model.json`; `softKeep` per act; planner only inserts steps he could choose now (`world.js`).
+- Art / music / social goals with 2+ steps: 4 % / 0 % / 0 % -> 27 % / 37 % / 21 %; distinct multi-step sequences 249 -> 524. Mood 0.619, stress 0.246.
+- Gates pass (build, tests 48/0, physics 100/0 fail, Monte Carlo PASS); `life.json` regenerated. NOT pushed, NOT deployed.
+- Next: day-scale intentions; reasons to do art/music more (not just steps before them); a paint-on-hands visual; weekday/weekend calendar; ATUS re-validation.
+
 ## STATUS UPDATE (2026-10-18, round 4): work vs boredom: read `SIM_REVIEW.md` "Round 4"
 
 - Bug fixed: during an act, hazards and mood saw the end-of-act motives from minute one (boredom quit every work stint at once). Motives are now interpolated per chunk.
