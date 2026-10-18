@@ -2,7 +2,7 @@
 // cast/characters/ (picked up automatically) that a visitor can bring in, follow with the camera, take control of, or send off. One place for what they
 // share: who is where (awareness.js), which one the camera follows, which one the keys and the stick drive, the buttons in the top bar and the card.
 // Adding a character adds nothing here: drop a spec file in cast/characters/ (see .claude/skills/add-room-character/SKILL.md).
-import { makeAwareness } from './awareness.js';
+import { makeAwareness, manners } from './awareness.js';
 
 const SPECS = import.meta.glob('./characters/*.js', { eager: false });     // id -> () => import(spec); the spec file itself is light
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -100,14 +100,12 @@ export function makeCast({ lead, ctx, ui, storeKey = 'n1m21n.cast' }) {
       return;
     }
     const id = openId, spec = id === lead.id ? null : specs.get(id), c = comps.get(id);
-    const others = present().filter(o => o !== id);
     const btn = (a, label, alt, extra = '') => `<button class="go${alt ? ' alt' : ''}" data-a="${a}" data-id="${esc(id)}"${extra}>${label}</button>`;
-    box.innerHTML = `<h3>${esc(nameOf(id))}</h3><p>${esc(spec?.intro || 'the one who lives here. everyone who visits sees him doing the same thing, right now.')}</p>`
+    box.innerHTML = `<h3>${esc(nameOf(id))}</h3><p>${esc(spec?.intro || 'the one who lives here. everyone who visits sees n1m21n doing the same thing, right now.')}</p>`
       + `<p>${id === focusId ? 'the camera is following ' + esc(nameOf(id)) + '.' : ''}${controlId === id ? ' you have the controls: move with the keys or the stick, tap the floor to walk.' : ''}</p>`
       + '<div class="row">'
       + (id === focusId ? '' : btn('focus', 'follow', true))
       + (id === controlId ? btn('release', 'let go', true) : btn('control', 'take control', false))
-      + others.map(o => `<button class="go alt" data-a="hi" data-id="${esc(id)}" data-to="${esc(o)}">say hi to ${esc(nameOf(o))}</button>`).join('')
       + (spec ? btn('off', 'send off', true) : '') + '</div>';
   }
   ui.box.addEventListener('click', e => {
@@ -118,7 +116,6 @@ export function makeCast({ lead, ctx, ui, storeKey = 'n1m21n.cast' }) {
     else if (a === 'off') dismiss(id);
     else if (a === 'open') { present().includes(id) && (focus(id), toggle(id, true)); }
     else if (a === 'spawn') spawn(id).then(c => { if (c?.on) { focus(id); toggle(id, true); } });
-    else if (a === 'hi') greet(id, to);
   });
   // `id` says hi to `to`: walks over and waves (or only nods if they are absorbed); someone doing something private is left alone
   function greet(id, to) {
@@ -137,6 +134,24 @@ export function makeCast({ lead, ctx, ui, storeKey = 'n1m21n.cast' }) {
     render();
     for (const id of want) if (specs.has(id)) await spawn(id);
   }
-  function update(dt, t) { for (const c of comps.values()) c.update(dt, t); }
+  // talking is decided by closeness: when two of them are within a few metres, whoever is free (not under the visitor's hands) walks over and greets,
+  // or only nods if the other is absorbed; someone asleep or washing is left alone. A pair does not greet again for two minutes.
+  const NEAR = 2.2, again = new Map(); let nearAt = 0;
+  function nearby(dt) {
+    if ((nearAt += dt) < 0.5) return; nearAt = 0;
+    const ms = aware.members.filter(m => m.visible());
+    for (let i = 0; i < ms.length; i++) for (let j = i + 1; j < ms.length; j++) {
+      const a = ms[i], b = ms[j], key = a.id + '|' + b.id;
+      if (aware.distance(a, b) > NEAR || (again.get(key) || 0) > Date.now()) continue;
+      const g = [a, b].map(m => comps.get(m.id)).find(c => c && !c.controlled && !c.meeting);
+      if (g) { const r = g.greet(g.id === a.id ? b.id : a.id); again.set(key, Date.now() + (r.ok ? 120e3 : 20e3)); }
+      else {                                                    // the visitor is walking one of them up to the lead: the lead turns round to them
+        const l = [a, b].find(m => m.lead), o = l === a ? b : a;
+        if (l && o && manners(l.doing()) === 'free' && !lead.player.st.seated && !lead.routine.walking) lead.player.st.turnTo = Math.atan2(o.player.pos.x - lead.player.pos.x, o.player.pos.z - lead.player.pos.z);
+        again.set(key, Date.now() + 60e3);
+      }
+    }
+  }
+  function update(dt, t) { for (const c of comps.values()) c.update(dt, t); nearby(dt); }
   return { init, update, spawn, dismiss, focus, control, tap, greet, aware, render, present, get focusId() { return focusId; }, get controlId() { return controlId; }, comps, specs };
 }

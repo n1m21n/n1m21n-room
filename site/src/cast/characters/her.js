@@ -5,8 +5,8 @@ import { CHARACTERS } from '../../sim/data/characters.gen.js';
 
 export default {
   id: 'her',
-  name: 'her',
-  label: 'meet her',
+  name: 'd1v1',
+  label: 'meet d1v1',
   profile: CHARACTERS.her,                                       // seed, emotional baselines, act set and motion (the rhythm of her body)
   look: async () => (await import('../../her.js')).loadHer(),    // -> the puppet (man.js loadMan, dressed)
   lines: () => import('../../her-thought-lines.js'),             // her voice for thought bubbles
@@ -18,5 +18,5 @@ export default {
   away: ['eat', 'cook', 'tea', 'fridge', 'shower', 'brush', 'wash', 'loo', 'dress', 'night_shower'],                                     // she steps out of the room for these (no props for them yet)
   standIn: ['window', 'roam', 'pace', 'dance', 'records'],       // what she does when he holds the seat she wants
   bubble: { every: 28, hold: 6.5, tint: '#E0368F' },             // a line every ~28 s (his is 20), a pink shadow
-  intro: 'she lives her own day in the same room, on the same india clock for everyone. calmer than him: more reading, more window, less desk.',
+  intro: 'she lives her own day in the same room, on the same india clock for everyone. calmer than n1m21n: more reading, more window, less desk.',
 };

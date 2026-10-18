@@ -385,7 +385,7 @@ let cast = null;
 const castBox = $('castinfo');
 if (SIM_LIVE) {
   cast = makeCast({
-    lead: { id: 'him', name: 'him', player, routine, man },
+    lead: { id: 'him', name: 'n1m21n', player, routine, man },
     ctx: { scene, camera, solids, walls, nav, rooms, snake: snk, ROAM, PACE,
       seats: { BED: F.BED, CHAIR: F.CHAIR, KEYS, WINDOW, TV: { x: telly.TV.x, z: telly.TV.z, heading: telly.TV.heading, act: 'tv', out: telly.TV.out, pressed: 0 }, READ: { x: reading.READ.x, z: reading.READ.z, heading: reading.READ.heading, act: 'read', out: reading.READ.out } } },
     ui: { status: document.querySelector('.chrome .status'), before: $('moodbtn'), box: castBox, toast: s => toast(s), panelTop: () => setTimeout(panelTop, 0),
