@@ -801,7 +801,7 @@ renderer.setAnimationLoop(() => {
   if (!audio.paused) shelf.userData.spin.rotation.y = t * 3.5;     // 33⅓-ish; stops where it was when paused
   const arm = shelf.userData.arm; arm.rotation.y += ((audio.paused ? 0 : ARM_PLAY) - arm.rotation.y) * (1 - Math.exp(-2.5 * dt));   // tonearm swings onto the record
   player.update(dt, t);
-  if (player.st.view === 'third' && (!player.keys.size || IS_STREAM)) {
+  if (IS_STREAM && player.st.view === 'third') {
     player.st.yaw += dt * 0.035;                                 // gentle, aesthetic 360 orbit
     const cycle = Math.sin(t * 0.06);                            // ~100s breathing cycle
     player.st.dist = 3.8 + cycle * 0.55;                         // smooth dolly in/out (3.25m - 4.35m)
