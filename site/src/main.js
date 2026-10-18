@@ -602,37 +602,37 @@ const paintSnd = () => { snd.classList.toggle('off', sfx.muted); snd.setAttribut
 snd.onclick = () => { sfx.setMuted(!sfx.muted); paintSnd(); }; paintSnd();
 document.addEventListener('click', ev => { if (ev.target.closest('.chrome button, #deck button, #prompt, .crate button, .x')) sfx.fx('tick'); }, true);
 
-// thought / speech bubbles: phone calls, window gazing, and daily musings
+// thought / speech bubbles: phone calls, window gazing, and daily musings (100% English)
 const PHONE_LINES = [
-  "haan bhai bol, sun raha hoon",
-  "bas room mein baitha hoon, track ki arrangement dekh raha tha",
-  "paranoia wala master sunna? kick drum hits so clean now",
-  "infinite daw ka ek naya update push kiya subah",
-  "wait, let me send you the export link right after this",
-  "delhi traffic was crazy today honestly",
-  "chai pee li tune? meri abhi bani hai",
-  "ek nayi patch sound mili synth pe, shaam ko sunata hoon",
-  "swiggy se mangwa raha hoon kuch, bata kya khana hai?",
-  "kal studio chalein? shaam ko milte hain pakka",
-  "listening to the mix on different speakers to check the low-end",
-  "aaj dhoop bohot tez hai bahar yaar",
-  "haan haan, 5 minute mein call back karta hoon!",
-  "redhand album ka vinyl sleeve dekh raha tha, looks dope",
-  "nahi nahi so nahi raha, record sun raha hoon bas",
-  "chal theek hai, thodi der mein call karta hoon"
+  "hey, yeah i'm listening.",
+  "just in the room, looking over the arrangement on this new track.",
+  "did you listen to the paranoia master? the kick drum hits so clean now.",
+  "pushed a fresh update to infinite this morning.",
+  "wait, let me send you the export link right after this call.",
+  "traffic was wild outside today honestly.",
+  "just brewed a fresh cup of tea, it's finally quiet.",
+  "found a really wild synth patch earlier, let me play it for you later.",
+  "thinking of ordering some food, what are you having?",
+  "want to hit the studio tomorrow? let's link up in the evening.",
+  "testing the mix on different speakers to check the low end.",
+  "sun is so bright outside today.",
+  "looking at the redhand vinyl sleeve right now, turned out great.",
+  "no no i'm not asleep, just spinning a record.",
+  "yeah definitely, let's lock that in.",
+  "cool, let me call you right back in a bit."
 ];
 
 const DAY_THOUGHTS = {
-  tea: ["chai bina din shuru nahi hota.", "thodi adrak zyada honi chahiye thi.", "steep it for two more minutes.", "warm cup, quiet room."],
-  cook: ["let's make something quick.", "swiggy would've been faster but whatever.", "salt seems just right.", "simple khana is the best khana."],
-  eat: ["quiet meals are the best.", "dal chawal is undefeated honestly.", "finally some food."],
+  tea: ["can't start the day without a hot cup.", "steep it for two more minutes.", "warm mug, quiet room.", "ginger and black tea hit just right."],
+  cook: ["let's make something quick and simple.", "ordering food would've been faster, but cooking is nice.", "salt seems just right.", "simple meals are the best."],
+  eat: ["quiet meals are the best.", "comfort food never fails.", "taking ten minutes to just sit and eat."],
   plant: ["monstera is finally getting a new leaf.", "don't overwater it, naman.", "a bit of green in the studio."],
-  easel: ["needs a bit more magenta in the shadows.", "doodling is pure therapy.", "two hues blending... that's it.", "pixels, paint, synths: same thing different speed."],
-  work: ["one more commit and then break.", "fixing node graph connections in infinite.", "music videos folder is getting huge.", "code compiles on the first try? suspicious."],
-  keys: ["what if the tempo drops to 110 here?", "that chord progression gives goosebumps.", "analog warmth just hits different.", "let's lay down a bassline."],
+  easel: ["needs a bit more magenta in the shadows.", "doodling is pure therapy.", "two hues blending... that's it.", "pixels, paint, synths: same thing, different speed."],
+  work: ["one more commit and then a break.", "fixing node graph connections in infinite.", "music videos folder is getting huge.", "code compiles on the first try? suspicious."],
+  keys: ["what if the tempo drops to 110 here?", "that chord progression gives goosebumps.", "analog warmth just hits different.", "let's lay down a sub bassline."],
   guitar: ["fingers getting calloused again.", "this riff has been stuck in my head all week.", "acoustic resonates nicely in this room."],
-  records: ["andhera on vinyl still sounds so warm.", "which record next?", "vinyl crackle is comforting."],
-  fridge: ["kuch meetha bacha hai kya?", "need to restock groceries soon.", "cold water hits different."],
+  records: ["andhera on vinyl still sounds so warm.", "which record to play next?", "vinyl crackle is comforting."],
+  fridge: ["anything sweet left in here?", "need to restock groceries soon.", "cold water hits different."],
   snake: ["gentle, quiet, zero thoughts in that head.", "who keeps who?", "curled up in the spiral again."]
 };
 
