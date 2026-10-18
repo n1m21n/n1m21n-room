@@ -241,7 +241,20 @@ for _a, _r in _wm["acts"].items():
                 err(f"world_model.json: {_a}.{_k} uses unknown fluent {_f}")
     if "softKeep" in _r and not (isinstance(_r["softKeep"], (int, float)) and 0 <= _r["softKeep"] <= 1.5):
         err(f"world_model.json: {_a}.softKeep must be a number in 0..1.5")
-js("world.gen.js", [("WORLD_MODEL", _wm), ("NEURO", NEU), ("LEDGER", LED), ("CHAINS", CH["chains"]), ("CHAIN_DEFAULTS", CH.get("defaults", {})), ("STABILITY", STAB), ("OUTCOMES", OUT), ("HAZARDS", HAZ["events"]), ("INVENTORY", INV)])
+_in = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "intentions.json")))
+_in.pop("doc", None)
+for _i, _r in _in["intentions"].items():
+    for _a in _r["acts"] + _r.get("done", []):
+        if _a not in acts:
+            err(f"intentions.json: {_i} uses unknown act {_a}")
+    if _r.get("on") and _r["on"]["fluent"] not in _wm["fluents"]:
+        err(f"intentions.json: {_i}.on uses unknown fluent {_r['on']['fluent']}")
+    if not (len(_r.get("window", [])) == 2 and 0 <= _r["window"][0] < _r["window"][1] <= 24):
+        err(f"intentions.json: {_i}.window must be [from, to] hours within one day")
+for _e in ("intention_kept", "intention_broken"):
+    if _e not in LED["events"]:
+        err(f"intentions: ledger event {_e} missing from ledger_events.json")
+js("world.gen.js", [("WORLD_MODEL", _wm), ("INTENTIONS", _in), ("NEURO", NEU), ("LEDGER", LED), ("CHAINS", CH["chains"]), ("CHAIN_DEFAULTS", CH.get("defaults", {})), ("STABILITY", STAB), ("OUTCOMES", OUT), ("HAZARDS", HAZ["events"]), ("INVENTORY", INV)])
 
 tune_path = os.path.join(HERE, "tune.json")
 tune = {k: v for k, v in json.load(open(tune_path)).items() if k != "doc"} if os.path.exists(tune_path) else {}

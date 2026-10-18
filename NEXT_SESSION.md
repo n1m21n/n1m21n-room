@@ -2,6 +2,15 @@
 
 Start here. Then read `BLUEPRINT_REVIEW.md` (review of the two Antigravity blueprints), `SIM_DESIGN.md`, `DATA_SOURCES.md`.
 
+## STATUS UPDATE (2026-10-18, round 6): day plans: read `SIM_REVIEW.md` "Round 6"
+
+- Day-scale intentions (`tools/emotions/intentions.json`, `site/src/sim/intent.js`, `TUNE.intentPull` 1): formed in the morning or by `news`, a target window, pull on matching acts, kept / missed / carried, ledger `intention_kept` / `intention_broken`; in the snapshot.
+- 1.89 formed, 1.25 kept, 0.63 missed per day. Art pieces 0.23 -> 0.35/day, music 19 -> 26 min, mood 0.619 -> 0.629, stress 0.246 -> 0.266, work 157 -> 147 min.
+- Paint smudges on his hands while `paint` is set (stills `hands-paint*`, `act-paint-hands`). New `tools/sim/resume_probe.mjs`: 40/40.
+- Gates pass (build, tests 48/0, physics 0 fail most runs, Monte Carlo PASS); `life.json` regenerated. NOT pushed, NOT deployed.
+- Physics P1 `paint` flakes (hand into tee 16-22 mm at about 1 in 5 wall-clock phases, round 5 too): fix the pose and seed the clock in `verifyActs`.
+- Next: dinner intention misses (fridge before window); weekday/weekend calendar; ATUS re-validation.
+
 ## STATUS UPDATE (2026-10-18, round 5): art / music / social preconditions: read `SIM_REVIEW.md` "Round 5"
 
 - New fluents `inspired`, `news`, `paint` in `world_model.json`; `softKeep` per act; planner only inserts steps he could choose now (`world.js`).

@@ -368,6 +368,105 @@ export const WORLD_MODEL = {
   "doc": "means-ends planning to depth maxDepth; the order of independent steps is drawn from act-to-act affinity times (1 + habitW * learned pair habit), habits fade over habitTau minutes"
  }
 };
+export const INTENTIONS = {
+ "formFrom": 5,
+ "before": 0.35,
+ "carryPull": 1.3,
+ "intentions": {
+  "finish_piece": {
+   "label": "finish the piece today",
+   "acts": [
+    "art_sketch",
+    "art_refine",
+    "art_render",
+    "art_review"
+   ],
+   "done": [
+    "art_review"
+   ],
+   "p": 0.18,
+   "p_if": {
+    "artActive": 0.65
+   },
+   "kValence": 1.0,
+   "kEnergy": 0.8,
+   "window": [
+    10,
+    22
+   ],
+   "pull": 2.2,
+   "carry": 0.5
+  },
+  "play_music": {
+   "label": "play something tonight",
+   "acts": [
+    "guitar",
+    "keys"
+   ],
+   "p": 0.3,
+   "kValence": -0.8,
+   "kEnergy": 0.4,
+   "window": [
+    16,
+    23
+   ],
+   "pull": 2.0,
+   "carry": 0.3
+  },
+  "call_someone": {
+   "label": "call someone tonight",
+   "acts": [
+    "phone_call"
+   ],
+   "p": 0.15,
+   "kValence": 0.4,
+   "window": [
+    17,
+    22
+   ],
+   "on": {
+    "fluent": "news",
+    "p": 0.3,
+    "within": 300
+   },
+   "pull": 2.0,
+   "carry": 0.4
+  },
+  "cook_dinner": {
+   "label": "cook a proper dinner",
+   "acts": [
+    "cook"
+   ],
+   "p": 0.35,
+   "kEnergy": 1.0,
+   "window": [
+    17.5,
+    21.5
+   ],
+   "pull": 1.8,
+   "carry": 0,
+   "early": 1
+  },
+  "write_letter": {
+   "label": "write that letter",
+   "acts": [
+    "write_letter"
+   ],
+   "p": 0.03,
+   "window": [
+    10,
+    21
+   ],
+   "on": {
+    "fluent": "news",
+    "p": 0.06,
+    "within": 1440
+   },
+   "pull": 2.5,
+   "carry": 0.6
+  }
+ }
+};
 export const NEURO = {
  "doc": "Six slow chemical-style variables in 0..1 (sim seconds). Not literal neurochemistry: game-grade abstraction (Doya 2002, Lovheim 2012, Panksepp). Event deltas live in ledger_events.json under `neuro`.",
  "vars": {
@@ -1070,6 +1169,30 @@ export const LEDGER = {
     "CORT": 0.005
    },
    "doc": "a goal he had started on was given up (scaled by steps done)"
+  },
+  "intention_kept": {
+   "kind": "normal",
+   "deltas": {
+    "valence": 0.03,
+    "pride": 0.03,
+    "stress": -0.01
+   },
+   "neuro": {
+    "DA": 0.02
+   },
+   "doc": "he did what he meant to do today (scaled: 1 on time, 0.6 late, 1.3 after carrying it a day)"
+  },
+  "intention_broken": {
+   "kind": "erratic",
+   "deltas": {
+    "frustration": 0.015,
+    "pride": -0.015,
+    "valence": -0.01
+   },
+   "neuro": {
+    "CORT": 0.005
+   },
+   "doc": "the day ran out on something he meant to do (smaller if he still means to, tomorrow)"
   }
  }
 };

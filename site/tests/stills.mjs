@@ -10,6 +10,10 @@ export const SHOTS = {
   'hands-idle': { at: [0.3, 1.2, 0], bone: 'handR', off: [-0.25, 0.05, 0.35], fov: 35 },
   'hands-idle-back': { at: [0.3, 1.2, 0], bone: 'handR', off: [-0.3, 0.05, -0.3], fov: 35 },
   'hands-keys': { act: 'keys', look: 'hands', off: [0.2, 0.5, 0.7], fov: 35 },
+  'hands-paint': { at: [0.3, 1.2, 0], bone: 'handR', off: [-0.25, 0.05, 0.35], fov: 35, paint: true },       // paint left on his hands after the easel
+  'hands-paint-back': { at: [0.3, 1.2, 0], bone: 'handR', off: [-0.3, 0.05, -0.3], fov: 35, paint: true },
+  'hands-paint-wide': { at: [0.3, 1.2, 0], bone: 'handR', off: [-0.9, 0.3, 1.1], fov: 40, paint: true },
+  'act-paint-hands': { act: 'paint', t: 30, look: 'hands', off: [0.5, 0.25, 0.6], fov: 38, paint: true },
   'hands-read': { act: 'read', look: 'hands', off: [0.6, 0.3, 0.6], fov: 35 },
   'tv-bag': { act: 'tv', look: 'chest', off: [1.6, 0.5, 1.4], fov: 45 },
   'tv-bag-back': { act: 'tv', look: 'chest', off: [0.5, 0.6, -2.0], fov: 50 },
@@ -102,11 +106,12 @@ run(async () => {
       if (s.mood) { const day = Math.floor((Date.now() + 5.5 * 3600e3) / 864e5), m = s.mood === 'tired' ? 23 * 60 : R.dayPlan(day).find(e => e[1] !== 'sleep')[0] + 5;
         R.clock.at(`${Math.floor(m / 60)}:${String(m % 60).padStart(2, '0')}`); }
       if (s.act && P.st.seated?.act === s.act) P.stand();            // each act shot starts its clock afresh
-      if (s.act) return d.shoot(s.act, { t: s.t, off: s.off, look: s.look || 'chest', fov: s.fov || 40, name });
+      if (s.act) return d.shoot(s.act, { t: s.t, off: s.off, look: s.look || 'chest', fov: s.fov || 40, name, paint: !!s.paint });
       if (P.st.seated) P.stand(); P.cancelAuto(); P.keys.clear();
       const a = s.at || [0.3, 1.2, 0]; P.pos.set(a[0], 0, a[1]); d.man.root.position.set(a[0], 0, a[1]); P.st.heading = a[2] || 0; P.st.speed = 0;
       for (let i = 0; i < 20; i++) P.update(1 / 30, i / 30);
-      const cam = d.camera; d.man.root.updateMatrixWorld(true);
+      d.man.root.updateMatrixWorld(true); d.props.showPaint(d.man, !!s.paint);
+      const cam = d.camera;
       if (s.bone) {
         const tgt = d.man.bones[s.bone].getWorldPosition(new THREE.Vector3());
         cam.position.copy(new THREE.Vector3(...s.off).applyQuaternion(d.man.root.getWorldQuaternion(new THREE.Quaternion())).add(tgt)); cam.lookAt(tgt);

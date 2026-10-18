@@ -1,0 +1,100 @@
+{
+ "doc": "Day-scale intentions: things he means to do today ('finish the piece', 'call someone tonight'). Formed once each morning (first act after formFrom h) with chance p * (1 + kValence * (valence - 0.5)) * (1 + kEnergy * (energy - 0.5)), or p_if when its condition holds (artActive: a piece is on the easel); or by an event: when the fluent in `on` turns true he may form it then (on.p), due within on.within minutes. While held, the acts in `acts` weigh more: score * (1 + pull * TUNE.intentPull * urgency), urgency = before (before the window), rising from 0.6 to 1.6 across the window. Doing an act in `done` (default: any of `acts`) keeps it, if no more than `early` hours (default any) before the window (ledger intention_kept); still open at the window's end it is missed (intention_broken) and carried to tomorrow with chance carry, where it is held again with pull * carryPull. Acts named here must exist in activities.json; fluents in world_model.json.",
+ "formFrom": 5,
+ "before": 0.35,
+ "carryPull": 1.3,
+ "intentions": {
+  "finish_piece": {
+   "label": "finish the piece today",
+   "acts": [
+    "art_sketch",
+    "art_refine",
+    "art_render",
+    "art_review"
+   ],
+   "done": [
+    "art_review"
+   ],
+   "p": 0.18,
+   "p_if": {
+    "artActive": 0.65
+   },
+   "kValence": 1.0,
+   "kEnergy": 0.8,
+   "window": [
+    10,
+    22
+   ],
+   "pull": 2.2,
+   "carry": 0.5
+  },
+  "play_music": {
+   "label": "play something tonight",
+   "acts": [
+    "guitar",
+    "keys"
+   ],
+   "p": 0.3,
+   "kValence": -0.8,
+   "kEnergy": 0.4,
+   "window": [
+    16,
+    23
+   ],
+   "pull": 2.0,
+   "carry": 0.3
+  },
+  "call_someone": {
+   "label": "call someone tonight",
+   "acts": [
+    "phone_call"
+   ],
+   "p": 0.15,
+   "kValence": 0.4,
+   "window": [
+    17,
+    22
+   ],
+   "on": {
+    "fluent": "news",
+    "p": 0.3,
+    "within": 300
+   },
+   "pull": 2.0,
+   "carry": 0.4
+  },
+  "cook_dinner": {
+   "label": "cook a proper dinner",
+   "acts": [
+    "cook"
+   ],
+   "p": 0.35,
+   "kEnergy": 1.0,
+   "window": [
+    17.5,
+    21.5
+   ],
+   "pull": 1.8,
+   "carry": 0,
+   "early": 1
+  },
+  "write_letter": {
+   "label": "write that letter",
+   "acts": [
+    "write_letter"
+   ],
+   "p": 0.03,
+   "window": [
+    10,
+    21
+   ],
+   "on": {
+    "fluent": "news",
+    "p": 0.06,
+    "within": 1440
+   },
+   "pull": 2.5,
+   "carry": 0.6
+  }
+ }
+}

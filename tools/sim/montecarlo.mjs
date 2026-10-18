@@ -50,6 +50,14 @@ const rep = {
     for (const [f, re] of Object.entries(fam)) { const d = done.filter(g => re.test(g.goal)); o[f + '_multi'] = +(d.filter(g => steps(g) >= 2).length / (d.length || 1)).toFixed(3); }
     o.top_multi = Object.entries(multi.reduce((m, g) => (m[g.seq] = (m[g.seq] || 0) + 1, m), {})).sort((x, y) => y[1] - x[1]).slice(0, 10).map(([k, n]) => `${k} ×${n}`);
     return o; })(),
+  intentions: (() => {
+    const by = {}; for (const d of days) for (const [k, n] of Object.entries(d.intent?.by || {})) by[k] = (by[k] || 0) + n;
+    const ids = [...new Set(Object.keys(by).map(k => k.split(':')[1]))].sort();
+    const pd = k => +((by[k] || 0) / days.length).toFixed(3);
+    return { formed: +mean(col(d => d.intent?.formed || 0)).toFixed(2), kept: +mean(col(d => d.intent?.kept || 0)).toFixed(2),
+      missed: +mean(col(d => d.intent?.missed || 0)).toFixed(2), carried: +mean(col(d => d.intent?.carried || 0)).toFixed(2),
+      by_id: Object.fromEntries(ids.map(id => [id, { formed: pd('formed:' + id), kept: pd('kept:' + id), missed: pd('missed:' + id) }])) };
+  })(),
   art_pieces_per_day: +mean(col(d => d.art?.pieces || 0)).toFixed(3),
   music_min: +mean(col(d => ['guitar', 'keys', 'records'].reduce((t, a) => t + (d.actMin?.[a] || 0), 0))).toFixed(1),
   social_min: +mean(col(d => ['phone_call', 'write_letter', 'greet_visitor', 'answer_phone'].reduce((t, a) => t + (d.actMin?.[a] || 0), 0))).toFixed(1),

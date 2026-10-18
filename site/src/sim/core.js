@@ -18,6 +18,7 @@ import { makeHazards } from './hazard.js';
 import { makePlanAdjust } from './plan.js';
 import { makeGrid } from './grid.js';
 import { makeWorld } from './world.js';
+import { makeIntentions } from './intent.js';
 import { duration } from './profile.js';
 import { EMOTIONS } from './data/emotions.gen.js';
 import { TUNE } from './tune.js';
@@ -46,6 +47,7 @@ export function makeSimCore({ seed = 1, storage = null, instability = {}, awaySc
   const hazards = makeHazards({ seed, inst });
   const planAdj = makePlanAdjust({ seed, neuro });
   const world = makeWorld({ rng });                              // fluents (teeth, food, dishes, caffeine...) + the goal planner
+  const intents = makeIntentions({ rng });                       // what he means to do today (finish the piece, call someone tonight)
   const grid = withGrid ? makeGrid({ rng, ...(gridBounds ? { bounds: gridBounds } : {}) }) : null;
   if (grid && solids) for (const b of solids) grid.blockRect(b[0], b[1], b[2], b[3]);          // the real room's footprints, so clutter / openness / roaming see the furniture
 
@@ -193,7 +195,7 @@ export function makeSimCore({ seed = 1, storage = null, instability = {}, awaySc
       if (hShape != null && TUNE.circadianPull > 0 && name !== 'sleep') score *= Math.max(0.15, hShape) ** (deadNight ? TUNE.nightPull : TUNE.circadianPull);
       else if (deadNight && name !== 'sleep' && !a.artStage) score *= TUNE.nightQuiet;
       if (name === 'nap_bench' && motives.energy > 0.42) score *= 0.08;
-      score *= world.needMul(name, tMin) * world.caffeineMul(name, tMin) * world.pay(name, tMin);
+      score *= world.needMul(name, tMin) * world.caffeineMul(name, tMin) * world.pay(name, tMin) * intents.mul(name, tMin, TUNE.intentPull);
       if (goal && plan.length && world.clobbers(name, plan, tMin)) score *= TUNE.clobberMul;      // would undo what his plan relies on                      // the world asks (dishes in the sink, pyjamas at noon); caffeine already in him
       if (a.due) score *= Math.min(2.5, Math.max(0.05, (tMin - (lastDoneAt[name] ?? tMin - a.due)) / a.due)) ** 2;   // a thing in the world that needs doing again (the plant's thirst), not one of his motives
       // habituation: the same act again soon pays less (a decaying count of recent repeats; replaces the old per-day caps)
@@ -308,6 +310,14 @@ export function makeSimCore({ seed = 1, storage = null, instability = {}, awaySc
   // after an act: effects on the world, and where the goal stands
   function afterAct(act, ok, done) {
     if (done) world.apply(act, tMin, ok);
+    for (const e of intents.after({ act, done, t: tMin, day, valence: affect.valence, energy: motives.energy, artActive: !!art.active, fluent: f => world.val(f, tMin) })) {
+      const ci = cur.intent ||= { formed: 0, kept: 0, missed: 0, carried: 0 };
+      const k = e.type + ':' + e.id; (ci.by ||= {})[k] = (ci.by[k] || 0) + 1;
+      if (e.type === 'formed') ci.formed++;
+      else if (e.type === 'kept') { ci.kept++; ledger.write('intention_kept', { scale: e.carried ? 1.3 : e.late ? 0.6 : 1, note: 'intent:' + e.id }); }
+      else { ci.missed++; if (e.carried) ci.carried++; ledger.write('intention_broken', { scale: e.carried ? 0.5 : 1, note: 'intent:' + e.id }); }
+      log('intent', e);
+    }
     if (!goal || !TUNE.goalPlan) return;
     if (act === goal.act && done) { goal.seq.push(act); endGoal('done'); return; }   // got there (maybe early, skipping steps)
     const i = plan.indexOf(act);
@@ -433,13 +443,13 @@ export function makeSimCore({ seed = 1, storage = null, instability = {}, awaySc
 
   // -------- persistence + away --------
   function snapshot() {
-    return { v: 1, seed, tMin, day, doing, motives: { ...motives }, rng: rng.state(), neuro: neuro.snapshot(), inst: inst.snapshot(), ledger: ledger.snapshot(), emotion: emotion.snapshot(), chains: chains.snapshot(), outcomes: outcomes.snapshot(), hazards: hazards.snapshot(), planAdj: planAdj.snapshot(), art: art.snapshot(), savouring, plan: [...plan], world: world.snapshot(), goal: goal && JSON.parse(JSON.stringify(goal)), seg: [...seg], segFlow, segM0, grid: grid?.snapshot(), lastAct, lastDoneAt: { ...lastDoneAt }, habit: JSON.parse(JSON.stringify(habit)), cancelledKey, forced, lean: { ...lean }, leanAt, recent: [...recent], affect: { ...affect }, journal: journal.slice(-200), days: days.slice(-60), cur, lastSeen: Date.now() };
+    return { v: 1, seed, tMin, day, doing, motives: { ...motives }, rng: rng.state(), neuro: neuro.snapshot(), inst: inst.snapshot(), ledger: ledger.snapshot(), emotion: emotion.snapshot(), chains: chains.snapshot(), outcomes: outcomes.snapshot(), hazards: hazards.snapshot(), planAdj: planAdj.snapshot(), art: art.snapshot(), savouring, plan: [...plan], world: world.snapshot(), intents: intents.snapshot(), goal: goal && JSON.parse(JSON.stringify(goal)), seg: [...seg], segFlow, segM0, grid: grid?.snapshot(), lastAct, lastDoneAt: { ...lastDoneAt }, habit: JSON.parse(JSON.stringify(habit)), cancelledKey, forced, lean: { ...lean }, leanAt, recent: [...recent], affect: { ...affect }, journal: journal.slice(-200), days: days.slice(-60), cur, lastSeen: Date.now() };
   }
   function restore(s) {
     if (!s || s.v !== 1) return false;
     nudgeQ.length = 0; tMin = s.tMin; day = s.day; doing = s.doing || 'idle'; Object.assign(motives, s.motives); rng.setState(s.rng);
     neuro.restore(s.neuro); inst.restore(s.inst); ledger.restore(s.ledger); emotion.restore(s.emotion); chains.restore(s.chains); if (s.affect) affect = { ...s.affect }; lastAct = s.lastAct ?? null; lastDoneAt = { ...(s.lastDoneAt || {}) }; habit = JSON.parse(JSON.stringify(s.habit || {})); cancelledKey = s.cancelledKey || ''; lean = { ...(s.lean || {}) }; leanAt = s.leanAt ?? 0; forced = s.forced ?? null; recent.length = 0; recent.push(...(s.recent || []));
-    outcomes.restore(s.outcomes); hazards.restore(s.hazards); planAdj.restore(s.planAdj); art.restore(s.art); savouring = !!s.savouring; plan = Array.isArray(s.plan) ? [...s.plan] : []; world.restore(s.world); goal = s.goal ? JSON.parse(JSON.stringify(s.goal)) : null; seg = s.seg || []; segFlow = s.segFlow || 0; segM0 = s.segM0 ?? null; grid?.restore(s.grid);
+    outcomes.restore(s.outcomes); hazards.restore(s.hazards); planAdj.restore(s.planAdj); art.restore(s.art); savouring = !!s.savouring; plan = Array.isArray(s.plan) ? [...s.plan] : []; world.restore(s.world); intents.restore(s.intents); goal = s.goal ? JSON.parse(JSON.stringify(s.goal)) : null; seg = s.seg || []; segFlow = s.segFlow || 0; segM0 = s.segM0 ?? null; grid?.restore(s.grid);
     journal.length = 0; journal.push(...(s.journal || [])); seq = journal.reduce((m, e) => Math.max(m, e.seq || 0), 0); days.length = 0; days.push(...(s.days || [])); cur = s.cur || newDay(day);
     return true;
   }
@@ -471,7 +481,7 @@ export function makeSimCore({ seed = 1, storage = null, instability = {}, awaySc
   }
 
   return {
-    rng, neuro, inst, ledger, emotion, chains, outcomes, hazards, planAdj, grid, motives, world, episodes, get goal() { return goal && { ...goal, plan: [...plan] }; },
+    rng, neuro, inst, ledger, emotion, chains, outcomes, hazards, planAdj, grid, motives, world, intents, episodes, get goal() { return goal && { ...goal, plan: [...plan] }; },
     tick, onActStart, onActEnd, noteLive, liveDuration, advance, recompute, pickAct, actWeights, follow, chainProb, freeChains, runAct, snapshot, restore, save, catchUp, boot,
     cue,
     suggestPiece, get piece() { return nowPiece; },

@@ -38,5 +38,6 @@ export const TUNE_DEFAULTS = {
  "workDay": 1.671,
  "workDuty": 0.25,
  "workTarget": 300,
- "workThroughDone": 0.25
+ "workThroughDone": 0.25,
+ "intentPull": 1
 };

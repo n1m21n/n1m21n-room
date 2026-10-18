@@ -198,6 +198,61 @@ Still open after round 5: most goals are still single acts (window, eat, tv, rea
 most of the day); time spent on music (19 min) and art (0.23 pieces/day) did not grow, since steps were added in front
 of those acts, not reasons to do them more; paint on his hands has no visual yet; phone 2.9 calls/day is still high.
 
+## Round 6 (same day): day plans
+
+He now holds day-scale intentions: "finish the piece today", "play something tonight", "call someone tonight", "cook a
+proper dinner", "write that letter". Data in `tools/emotions/intentions.json` (validated and baked by gen.py into
+`world.gen.js` as `INTENTIONS`), engine in `site/src/sim/intent.js`, wired in `core.js` (one multiplier in
+`actWeights`, one call in `afterAct`, snapshot/restore).
+
+- Formed on the first waking act after 05:00, with odds shaped by mood and energy (a piece on the easel makes
+  "finish it" likely, 0.65; a low mood makes "play something" more likely), or by an event: `news` can turn into
+  "call someone" within 5 h, or rarely a letter within a day.
+- Each has a window (dinner 17:30-21:30, call 17-22, finish 10-22). While held it raises the matching acts by
+  1 + pull × `TUNE.intentPull` × urgency (0.35 before the window, 0.6 rising to 1.6 across it). It is a reason to do
+  art and music, not one more step in front of them.
+- Kept: ledger `intention_kept` (valence, pride, DA up; 0.6 if late, 1.3 for a carried-over one). Missed when the
+  window closes: `intention_broken` (small frustration, pride down, a little CORT; half for one already carried), and
+  carried to tomorrow with chance `carry` (finish 0.5, letter 0.6, cook 0), held again with pull × 1.3.
+- Visual: paint smudges on both hands while the world fluent `paint` is set (after refine/render, until a wash), and
+  late in a painting sitting (`props.js` `showPaint`, `main.js` `paintOnHands`). Stills: `hands-paint`,
+  `hands-paint-back`, `hands-paint-wide`, `act-paint-hands` in `tests/stills.mjs`.
+- New `tools/sim/resume_probe.mjs`: snapshot at an odd time, restore into a fresh core from the snapshot's seed,
+  advance 3 days, and compare every event after the snapshot with a straight-through run. 40/40 seeds equal (15-21
+  snapshots were holding intentions). Restoring into a core built with another seed diverges, because hazards and
+  plan draws are keyed on the construction seed; `life.js` always rebuilds from the same seed, so that is fine.
+
+Monte Carlo (200 seeds × 7 days; `intentions` block added to `montecarlo.mjs`):
+
+| metric | round 5 | round 6 |
+|---|---|---|
+| verdict | PASS | PASS |
+| intentions formed / kept / missed / carried per day | - | 1.89 / 1.25 / 0.63 / 0.19 |
+| kept share of formed | - | 66 % |
+| art pieces per day | 0.231 | 0.352 |
+| music / social minutes per day | 19.1 / 67.4 | 26.4 / 68.7 |
+| done goals with 2+ steps | 12.2 % | 13.5 % |
+| art / music / social goals with 2+ steps | 27.3 % / 36.6 % / 21.1 % | 30.2 % / 49.2 % / 19.8 % |
+| distinct multi-step sequences | 524 | 570 |
+| mood / stress | 0.619 / 0.246 | 0.629 / 0.266 |
+| plain work / work_through min/day | 157 / 67 | 147 / 71 |
+| chains done / broken | 2.87 / 2.68 | 2.80 / 2.92 |
+| cook / phone per day | 1.54 / 2.88 | 1.70 / 2.90 |
+| top acts | eat 9.0, window 7.8, wash 7.5, read 7.4 % | eat 9.0, wash 7.6, window 7.6, read 7.0 % |
+
+By intention (per day): finish_piece formed 0.45 / kept 0.29 / missed 0.16; play_music 0.34 / 0.26 / 0.08;
+call_someone 0.46 / 0.39 / 0.07; cook_dinner 0.51 / 0.28 / 0.23; write_letter 0.13 / 0.03 / 0.10.
+
+Pull checked at 0 / 0.6 / 1. At 0 they form but change nothing (kept 0.82, missed 1.22, art 0.205). At 1, kept 66 %
+of formed. Stress +0.02 follows the extra art (+50 % pieces) and is not from the broken-intention events, since at
+pull 0 (twice the misses) stress was 0.248. Kept `intentPull` at 1.
+
+Still open after round 6: cook_dinner is missed 45 % of the time (dinner is often eaten from the fridge before 17:30;
+`early` 1 h may be too strict); write_letter is mostly carried and dropped; chains broken rose 2.68 to 2.92
+(intentions pull him off routines); no weekday/weekend difference in what he intends. Physics P1 `paint` clips the
+right hand 16-22 mm into the tee at about 1 in 5 clock phases (`verifyActs` reads `performance.now()`, so a run
+passes or fails by chance). Same on round 5 code; fix the paint pose, and seed the clock in `verifyActs`.
+
 ## Still open
 
 - Music suits values like "allegro suits sad 0.89" are a mood-repair rule; state it or replace with

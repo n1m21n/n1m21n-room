@@ -107,6 +107,36 @@ export function buildProps({ solid, disc }) {
   const onTable = () => { phone.position.set(CP.x + PHONE.on[0], PHONE.table + 0.0045, CP.z + PHONE.on[2]); phone.rotation.set(-Math.PI / 2, 0, 0.3); phone.visible = true; };   // CP heading 0
   const glowCol = new THREE.Color();
 
+  // ---- paint on his hands after a painting stage, until he washes (sim world fluent `paint`): a few flat smudges stuck
+  // to each hand bone. Each one is snapped once to the hand's skin: among the hand's vertices in a band along the bone
+  // (y, metres from the wrist), the one furthest out in direction (dx, dz) of the bone's frame.
+  const DABS = { handR: [[0.05, 1, 0, '#D2483C'], [0.08, 0.6, 0.8, '#3E7FC9'], [0.035, -1, 0, '#E8B83A'], [0.095, 0, -1, '#D2483C'], [0.06, 0, 1, '#2E9C86']],
+    handL: [[0.045, -1, 0, '#3E7FC9'], [0.075, -0.6, 0.8, '#E8B83A'], [0.06, 1, 0, '#2E9C86'], [0.09, 0, -1, '#D2483C']] };
+  let smudges = null;
+  function stick(man) {
+    smudges = [];
+    man.root.updateMatrixWorld(true);
+    for (const [h, ds] of Object.entries(DABS)) {
+      const bone = man.bones[h]; if (!bone) continue;
+      const inv = new THREE.Matrix4().copy(bone.matrixWorld).invert(), pts = [];
+      man.root.traverse(o => { if (o.isSkinnedMesh && (o.name === h + '_1' || o.parent?.name === h + '_1')) {
+        const pa = o.geometry.attributes.position; for (let i = 0; i < pa.count; i++) { const v = new THREE.Vector3(); o.getVertexPosition(i, v); pts.push(o.localToWorld(v).applyMatrix4(inv)); } } });
+      if (!pts.length) continue;
+      for (const [y, dx, dz, c] of ds) {
+        const dir = new THREE.Vector3(dx, 0, dz).normalize(), band = pts.filter(p => Math.abs(p.y - y) < 0.012);
+        const sp = (band.length ? band : pts).reduce((a, p) => (p.dot(dir) > a.dot(dir) ? p : a));
+        const k = smudges.length, m = new THREE.Mesh(new THREE.SphereGeometry(0.01, 10, 6), toon(c)); m.scale.set(1.5 - (k % 3) * 0.2, 0.6 + (k % 2) * 0.2, 0.1);   // a smear, not a dot
+        m.position.copy(sp).addScaledVector(dir, 0.0008); m.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), dir); m.rotateZ(0.5 + k * 1.3);
+        m.visible = false; bone.add(m); smudges.push(m);
+      }
+    }
+  }
+  function showPaint(man, on) {
+    if (!man) return;
+    if (!smudges) { if (!on) return; stick(man); }
+    for (const m of smudges) m.visible = on;
+  }
+
   // ---- the canvas: white, or the hour's piece as far as he has got with it
   let pieces = null, img = null, imgFor = null, drawn = '';
   fetch('/art/sim/manifest.json').then(r => (r.ok ? r.json() : null)).then(m => { pieces = m; }).catch(() => {});
@@ -138,7 +168,7 @@ export function buildProps({ solid, disc }) {
   paintCanvas(null, 0);
 
   // ---- per frame: what is in his hands and where the rest lies
-  function update(dt, t, player, man, { stage = null } = {}) {
+  function update(dt, t, player, man, { stage = null, paint = false } = {}) {
     const sp = player.st.seated, spec = player.st.spec || {}, u = sp?.t || 0;
     // phone
     const phoning = sp?.act === 'phone', ringing = phoning && spec.ringing;
@@ -164,6 +194,7 @@ export function buildProps({ solid, disc }) {
     if (man && painting && spec.palette) hold(palette, man, 'handL', 0.002, [0.07, 0.03, 0]); else rest(palette, restPal);
     if (man && painting && spec.paint) hold(brush, man); else rest(brush, restBr);
     paintCanvas(painting ? (stage || sp.stage || 'refine') : null, painting ? Math.min(1, u / 90) : 0);
+    showPaint(man, paint || (painting && u > 20));
     // letters at the desk
     const writing = sp?.act === 'write';
     sheet.visible = writing;
@@ -174,7 +205,7 @@ export function buildProps({ solid, disc }) {
   }
 
   return {
-    group: g, update, spots: SPOTS, paintCanvas,
+    group: g, update, spots: SPOTS, paintCanvas, showPaint,
     objs: { phone: [phone, table], plant: [can, st], easel: [easel, cg] },
   };
 }

@@ -565,6 +565,30 @@
     "CORT": 0.005
    },
    "doc": "a goal he had started on was given up (scaled by steps done)"
+  },
+  "intention_kept": {
+   "kind": "normal",
+   "deltas": {
+    "valence": 0.03,
+    "pride": 0.03,
+    "stress": -0.01
+   },
+   "neuro": {
+    "DA": 0.02
+   },
+   "doc": "he did what he meant to do today (scaled: 1 on time, 0.6 late, 1.3 after carrying it a day)"
+  },
+  "intention_broken": {
+   "kind": "erratic",
+   "deltas": {
+    "frustration": 0.015,
+    "pride": -0.015,
+    "valence": -0.01
+   },
+   "neuro": {
+    "CORT": 0.005
+   },
+   "doc": "the day ran out on something he meant to do (smaller if he still means to, tomorrow)"
   }
  }
 }

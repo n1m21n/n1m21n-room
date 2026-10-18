@@ -332,6 +332,8 @@ const simChooser = SIM_MODE === 'life' ? {
 let lastLiveAct = null;
 const moodPanel = SIM_LIVE ? makeMoodPanel({ nudges, bonus: () => (routine.mine ? null : visitBonus), getCore: () => (SIM_MODE === 'life' ? simLife.at(Date.now()) : simCore), getDoing: () => (SIM_MODE === 'life' ? simLife.at(Date.now()).doing : lastLiveAct) }) : null;
 // the easel's canvas follows the life: sketch -> refine -> render -> review of the hour's piece (props.js); hands on, he refines
+// paint still on his hands (the sim's `paint` fluent: set by refine/render, cleared by a wash)
+const paintOnHands = () => { if (!SIM_LIVE || !routine.mine) return false; try { const c = SIM_MODE === 'life' ? simLife.at(Date.now()) : simCore; return c.world.val('paint', c.time.tMin) >= 0.5; } catch { return false; } };
 const artStage = () => { if (!SIM_LIVE || !routine.mine) return null; const a = SIM_MODE === 'life' ? simLife.at(Date.now()).doing : lastLiveAct; return /^art_(sketch|refine|render|review)$/.test(a || '') ? a.slice(4) : null; };
 // spots for the acts that had none: a letter at the desk, a nap on the bench, the door, little things where he stands,
 // pacing the window side and a wander round the room
@@ -454,10 +456,10 @@ async function verifyActs({ only, times = [0.8, 2, 3.5, 6] } = {}) {
 }
 // dev: pose stills for review sheets. Sits at an act's station, runs it `t` seconds, frames a bone from a man-local
 // offset and POSTs the frame to vite (vite.config.js -> build-cache/review/stills/<name>.png)
-async function shoot(act, { t = 2.5, off = [1.2, 0.4, 2.4], look = 'chest', fov = 40, name = act } = {}) {
+async function shoot(act, { t = 2.5, off = [1.2, 0.4, 2.4], look = 'chest', fov = 40, name = act, paint = false } = {}) {
   const s = stations.find(s => s.seat?.act === act);
   if (s && player.st.seated !== s.seat) { if (player.st.seated) player.stand(); if (s.seat === reading.READ) reading.READ.book ||= { title: 'test' }; player.sit(s.seat); }
-  for (let k = 0; k < t; k += 1 / 30) { player.update(1 / 30, k); reading.update(); telly.update(false); annex.update(1 / 30, k, player, man); props.update(1 / 30, k, player, man); }
+  for (let k = 0; k < t; k += 1 / 30) { player.update(1 / 30, k); reading.update(); telly.update(false); annex.update(1 / 30, k, player, man); props.update(1 / 30, k, player, man, { paint }); }
   man.root.updateMatrixWorld(true);
   const V = THREE.Vector3, B = n => man.bones[n].getWorldPosition(new V());
   const tgt = look === 'hands' ? B('handL').add(B('handR')).multiplyScalar(0.5) : B(look);
@@ -712,7 +714,7 @@ renderer.setAnimationLoop(() => {
   doors.update(dt);
   ward.update(dt, t);
   annex.update(dt, t, player, man);
-  props.update(dt, t, player, man, { stage: artStage() });
+  props.update(dt, t, player, man, { stage: artStage(), paint: paintOnHands() });
   stepWalker(dt);
   reading.update(); telly.update(boilNow); boilNow = false;
   snk.update(dt, t, player.pos);
