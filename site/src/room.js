@@ -66,7 +66,7 @@ export function buildRoom() {
   const film = s => img(`/media/films/${s}.webp`), band = s => img(`/media/artists/${s}.webp`);
   const hang = new THREE.Group(); hang.name = 'poster wall';
   for (const [kind, s, x, y] of [
-    ['f', 'her-2013', 3.05, 2.2], ['a', 'radiohead', 2.45, 2.5], ['a', 'jeff-buckley', 2.45, 1.95], ['f', 'eternal-sunshine-of-the-spotless-mind-2004', 1.85, 2.25],
+    ['f', 'hamnet-2025', 3.65, 2.2], ['f', 'her-2013', 3.05, 2.2], ['a', 'radiohead', 2.45, 2.5], ['a', 'jeff-buckley', 2.45, 1.95], ['f', 'eternal-sunshine-of-the-spotless-mind-2004', 1.85, 2.25],
     ['a', 'pink-floyd', 1.25, 2.55], ['f', 'spirited-away-2001', 0.75, 2.15], ['a', 'beach-house', 0.2, 2.5], ['a', 'mac-demarco', 0.2, 1.95],
     ['f', 'before-sunset-2004', -0.35, 2.25], ['a', 'tame-impala', -0.95, 2.5], ['a', 'lifafa', -0.95, 1.95], ['f', 'the-truman-show-1998', -1.55, 2.2],
     ['a', 'the-smiths', -2.15, 2.5], ['f', 'good-will-hunting-1997', -2.7, 2.15], ['a', 'peter-cat-recording-co', -3.3, 2.45],

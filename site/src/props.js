@@ -13,26 +13,131 @@ const frame = s => { const g = new THREE.Group(); g.position.set(s.x, 0, s.z); g
 const noPhys = o => { o.traverse(m => { if (m.isMesh) m.userData.phys = 'none'; }); return o; };
 
 export const SPOTS = {
-  PHONE: { x: 1.25, z: 0.72, heading: 0, act: 'phone', out: [1.25, 0.6] },
-  ANSWER: { x: 1.25, z: 0.72, heading: 0, act: 'phone', ring: true, out: [1.25, 0.6] },
+  PHONE: { x: -0.15, z: 2.15, heading: 0, act: 'phone', out: [-0.15, 1.8] },
+  ANSWER: { x: -0.15, z: 2.15, heading: 0, act: 'phone', ring: true, out: [-0.15, 1.8] },
   PLANT: { x: -2.786, z: 1.876, heading: -0.871, act: 'water', out: [-2.55, 1.6] },
-  EASEL: { x: 0.9, z: 1.78, heading: 0, act: 'paint', out: [0.9, 1.4] },
+  EASEL: { x: 0.3, z: 0.0, heading: 0, act: 'paint', out: [0.3, -0.35] },
 };
-const TABLE = { x: 1.25, z: 1.2, r: 0.2 }, EZ = { x: 0.9, z: 2.42 };
+const EZ = { x: 0.3, z: 0.64 };
+
+function rrect(g, x, y, w, h, r) {
+  g.beginPath(); g.moveTo(x + r, y); g.lineTo(x + w - r, y); g.quadraticCurveTo(x + w, y, x + w, y + r);
+  g.lineTo(x + w, y + h - r); g.quadraticCurveTo(x + w, y + h, x + w - r, y + h); g.lineTo(x + r, y + h);
+  g.quadraticCurveTo(x, y + h, x, y + h - r); g.lineTo(x, y + r); g.quadraticCurveTo(x, y, x + r, y); g.closePath();
+}
+
+function drawPhoneScreen(g, w, h, state, t) {
+  g.clearRect(0, 0, w, h);
+  if (state === 'ring') {
+    const pulse = 0.5 + 0.5 * Math.sin(t * 8);
+    const grad = g.createLinearGradient(0, 0, 0, h);
+    grad.addColorStop(0, '#0E2824'); grad.addColorStop(1, '#081614');
+    g.fillStyle = grad; g.fillRect(0, 0, w, h);
+    g.fillStyle = '#7FE0C8'; g.font = "600 12px sans-serif"; g.textAlign = 'center';
+    g.fillText('INCOMING CALL', w / 2, 75);
+    g.fillStyle = '#FFFFFF'; g.font = "800 20px 'Bricolage Grotesque', sans-serif";
+    g.fillText('✦ Infinite', w / 2, 110);
+    g.strokeStyle = `rgba(127, 224, 200, ${0.4 + 0.6 * pulse})`; g.lineWidth = 3;
+    g.beginPath(); g.arc(w / 2, 165, 30 + pulse * 6, 0, Math.PI * 2); g.stroke();
+    g.fillStyle = '#2B5C55'; g.beginPath(); g.arc(w / 2, 165, 26, 0, Math.PI * 2); g.fill();
+    g.fillStyle = '#7FE0C8'; g.font = "800 20px sans-serif"; g.fillText('∞', w / 2, 172);
+    // Decline button
+    g.fillStyle = '#E0364F'; g.beginPath(); g.arc(w * 0.28, 255, 20, 0, Math.PI * 2); g.fill();
+    g.strokeStyle = '#FFFFFF'; g.lineWidth = 3;
+    g.beginPath(); g.moveTo(w * 0.28 - 6, 255 - 6); g.lineTo(w * 0.28 + 6, 255 + 6); g.stroke();
+    g.beginPath(); g.moveTo(w * 0.28 + 6, 255 - 6); g.lineTo(w * 0.28 - 6, 255 + 6); g.stroke();
+    // Accept button
+    g.fillStyle = '#2BC980'; g.beginPath(); g.arc(w * 0.72, 255, 20 + pulse * 2, 0, Math.PI * 2); g.fill();
+    g.fillStyle = '#FFFFFF'; g.font = "16px sans-serif"; g.fillText('📞', w * 0.72, 261);
+  } else if (state === 'call') {
+    g.fillStyle = '#0F1526'; g.fillRect(0, 0, w, h);
+    g.fillStyle = '#7B9FE8'; g.font = "600 11px sans-serif"; g.textAlign = 'center';
+    g.fillText('ON CALL', w / 2, 70);
+    g.fillStyle = '#FFFFFF'; g.font = "800 20px 'Bricolage Grotesque', sans-serif";
+    g.fillText('✦ Infinite', w / 2, 100);
+    const secs = Math.floor(t % 60), mins = Math.floor((t / 60) % 60);
+    g.fillStyle = '#8E99B8'; g.font = "500 13px monospace";
+    g.fillText(`${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`, w / 2, 125);
+    g.fillStyle = '#5A7FD0';
+    for (let i = 0; i < 9; i++) {
+      const bh = 8 + Math.abs(Math.sin(t * 8 + i * 0.9)) * 24;
+      g.fillRect(w / 2 - 36 + i * 9, 180 - bh / 2, 5, bh);
+    }
+    g.fillStyle = '#E0364F'; g.beginPath(); g.arc(w / 2, 255, 22, 0, Math.PI * 2); g.fill();
+    g.fillStyle = '#FFFFFF'; g.font = "16px sans-serif"; g.fillText('📵', w / 2, 261);
+  } else {
+    const grad = g.createLinearGradient(0, 0, w, h);
+    grad.addColorStop(0, '#100E24'); grad.addColorStop(0.5, '#281742'); grad.addColorStop(1, '#0D1A2D');
+    g.fillStyle = grad; g.fillRect(0, 0, w, h);
+    g.save();
+    g.strokeStyle = 'rgba(224, 54, 143, 0.35)'; g.lineWidth = 14; g.beginPath(); g.arc(w / 2 + 10, h / 2 + 20, 50, 0, Math.PI * 1.5); g.stroke();
+    g.strokeStyle = 'rgba(46, 59, 219, 0.4)'; g.lineWidth = 10; g.beginPath(); g.arc(w / 2 - 15, h / 2 + 35, 38, Math.PI * 0.5, Math.PI * 2); g.stroke();
+    g.restore();
+    g.fillStyle = '#E8E6F0'; g.font = "600 10px sans-serif"; g.textAlign = 'left'; g.fillText('21:21', 14, 22);
+    g.textAlign = 'right'; g.fillText('5G 100%', w - 14, 22);
+    g.textAlign = 'center'; g.fillStyle = '#F4F1EA'; g.font = "800 36px 'Bricolage Grotesque', sans-serif"; g.fillText('21:21', w / 2, 85);
+    g.fillStyle = '#B8B5CE'; g.font = "600 10px sans-serif"; g.fillText('SUN, OCT 18', w / 2, 102);
+    g.fillStyle = 'rgba(255, 255, 255, 0.08)'; rrect(g, 14, 210, w - 28, 46, 10); g.fill();
+    g.strokeStyle = 'rgba(255, 255, 255, 0.12)'; g.lineWidth = 1; rrect(g, 14, 210, w - 28, 46, 10); g.stroke();
+    g.fillStyle = '#7FE0C8'; g.font = "700 11px sans-serif"; g.textAlign = 'left'; g.fillText('✦ Infinite Devices', 24, 228);
+    g.fillStyle = '#D2CFE2'; g.font = "400 10px sans-serif"; g.fillText('Everything is connected.', 24, 244);
+    g.fillStyle = 'rgba(255, 255, 255, 0.5)'; rrect(g, w / 2 - 24, h - 14, 48, 4, 2); g.fill();
+  }
+}
 
 export function buildProps({ solid, disc }) {
   const g = new THREE.Group(); g.name = 'props';
-  disc(TABLE.x, TABLE.z, TABLE.r);
-  solid(EZ.x - 0.3, EZ.z - 0.12, EZ.x + 0.3, EZ.z + 0.43);
-  // ---- side table + phone (flat on it, screen up; it lights while it rings and while he talks)
-  const table = new THREE.Group(); table.name = 'side table';
-  table.add(at(cyl(TABLE.r, TABLE.r, 0.03, PAL.wood, { mat: 'wood', ink: 0.006 }, 22), 0, PHONE.table - 0.015, 0));
-  table.add(at(cyl(0.025, 0.025, PHONE.table - 0.03, PAL.ink, { mat: 'metal', ink: false }), 0, (PHONE.table - 0.03) / 2, 0));
-  table.add(at(cyl(0.15, 0.17, 0.02, PAL.ink, { mat: 'metal', ink: 0.004 }, 20), 0, 0.01, 0));
-  at(table, TABLE.x, 0, TABLE.z); g.add(table);
+  solid(EZ.x - 0.32, EZ.z - 0.1, EZ.x + 0.32, EZ.z + 0.36);
+  // ---- phone on the desk table: sleek rounded chassis, triple camera array, dynamic screen
   const phone = new THREE.Group(); phone.name = 'phone';
-  phone.add(box(0.07, 0.15, 0.009, PAL.ink, { mat: 'plastic', ink: 0.002 }));
-  const scr = new THREE.Mesh(new THREE.PlaneGeometry(0.06, 0.13), toon('#1B1530', { unlit: true })); scr.position.z = 0.0047; phone.add(scr);                       // screen on +z: up on the table, to his cheek in his hand
+  const pw = 0.072, ph = 0.148, pr = 0.012, pd = 0.008;
+  const phoneShape = new THREE.Shape();
+  phoneShape.moveTo(-pw / 2 + pr, -ph / 2);
+  phoneShape.lineTo(pw / 2 - pr, -ph / 2);
+  phoneShape.absarc(pw / 2 - pr, -ph / 2 + pr, pr, -Math.PI / 2, 0, false);
+  phoneShape.lineTo(pw / 2, ph / 2 - pr);
+  phoneShape.absarc(pw / 2 - pr, ph / 2 - pr, pr, 0, Math.PI / 2, false);
+  phoneShape.lineTo(-pw / 2 + pr, ph / 2);
+  phoneShape.absarc(-pw / 2 + pr, ph / 2 - pr, pr, Math.PI / 2, Math.PI, false);
+  phoneShape.lineTo(-pw / 2, -ph / 2 + pr);
+  phoneShape.absarc(-pw / 2 + pr, -ph / 2 + pr, pr, Math.PI, Math.PI * 1.5, false);
+
+  const bodyGeo = new THREE.ExtrudeGeometry(phoneShape, { depth: pd, bevelEnabled: false });
+  bodyGeo.center();
+  const phoneBody = mesh(bodyGeo, '#1C1E24', { mat: 'metal', ink: 0.003 });
+  phone.add(phoneBody);
+
+  // Side buttons
+  phone.add(at(box(0.002, 0.022, 0.003, '#353942', { ink: 0.001 }), -pw / 2 - 0.001, 0.02, 0));
+  phone.add(at(box(0.002, 0.022, 0.003, '#353942', { ink: 0.001 }), -pw / 2 - 0.001, -0.01, 0));
+  phone.add(at(box(0.002, 0.026, 0.003, '#353942', { ink: 0.001 }), pw / 2 + 0.001, 0.015, 0));
+
+  // Back camera plateau (-z)
+  const camPlate = at(box(0.03, 0.032, 0.002, '#252932', { ink: 0.002, mat: 'metal' }), -pw / 2 + 0.021, ph / 2 - 0.023, -pd / 2 - 0.001);
+  phone.add(camPlate);
+  for (const [lx, ly] of [[-pw / 2 + 0.015, ph / 2 - 0.016], [-pw / 2 + 0.015, ph / 2 - 0.03], [-pw / 2 + 0.027, ph / 2 - 0.023]]) {
+    const ring = at(cyl(0.0048, 0.0048, 0.0015, '#0C0D10', { ink: 0.001 }), lx, ly, -pd / 2 - 0.0022); ring.rotation.x = Math.PI / 2; phone.add(ring);
+    const pupil = at(cyl(0.0032, 0.0032, 0.0016, '#182438', { ink: false }), lx, ly, -pd / 2 - 0.0023); pupil.rotation.x = Math.PI / 2; phone.add(pupil);
+  }
+  const flash = at(cyl(0.0024, 0.0024, 0.001, '#FFF5D0', { ink: false, unlit: true }), -pw / 2 + 0.027, ph / 2 - 0.013, -pd / 2 - 0.002);
+  flash.rotation.x = Math.PI / 2; phone.add(flash);
+
+  // Front screen canvas (+z)
+  const phoneCnv = document.createElement('canvas'); phoneCnv.width = 160; phoneCnv.height = 320;
+  const phoneCtx = phoneCnv.getContext('2d');
+  const phoneTex = new THREE.CanvasTexture(phoneCnv); phoneTex.colorSpace = THREE.SRGBColorSpace; phoneTex.anisotropy = 4;
+  drawPhoneScreen(phoneCtx, 160, 320, 'idle', 0);
+  phoneTex.needsUpdate = true;
+
+  const scr = new THREE.Mesh(new THREE.PlaneGeometry(0.066, 0.142), toon(null, { map: phoneTex, unlit: true }));
+  scr.position.z = pd / 2 + 0.0003; phone.add(scr);
+
+  // Dynamic island pill & speaker
+  const pill = at(mesh(new THREE.CapsuleGeometry(0.0022, 0.009, 4, 8), '#050505', { ink: false, unlit: true }), 0, ph / 2 - 0.009, pd / 2 + 0.0005);
+  pill.rotation.z = Math.PI / 2; phone.add(pill);
+  const speaker = at(box(0.012, 0.0012, 0.0006, '#0A0A0A', { ink: false }), 0, ph / 2 - 0.003, pd / 2 + 0.0005);
+  phone.add(speaker);
+
   noPhys(phone); g.add(phone);
   // ---- watering can on a low stool at his right (plant frame); built in the hand's frame: grip at the origin, x = the
   // spout's way, y = down along the fingers, z = out of the palm
@@ -104,8 +209,8 @@ export function buildProps({ solid, disc }) {
   }
   const rest = (o, r) => { r.updateMatrixWorld(true); r.matrixWorld.decompose(o.position, o.quaternion, new THREE.Vector3()); o.visible = true; };
   const tw = new THREE.Vector3(), CP = SPOTS.PHONE;
-  const onTable = () => { phone.position.set(CP.x + PHONE.on[0], PHONE.table + 0.0045, CP.z + PHONE.on[2]); phone.rotation.set(-Math.PI / 2, 0, 0.3); phone.visible = true; };   // CP heading 0
-  const glowCol = new THREE.Color();
+  const onTable = () => { phone.position.set(CP.x + PHONE.on[0], PHONE.table + 0.0055, CP.z + PHONE.on[2]); phone.rotation.set(-Math.PI / 2, 0, 0.25); phone.visible = true; };   // CP heading 0
+  let lastPhoneState = null, lastPhoneStep = -1;
 
   // ---- paint on his hands after a painting stage, until he washes (sim world fluent `paint`): a few flat smudges stuck
   // to each hand bone. Each one is snapped once to the hand's skin: among the hand's vertices in a band along the bone
@@ -183,10 +288,17 @@ export function buildProps({ solid, disc }) {
     const sp = player.st.seated, spec = player.st.spec || {}, u = sp?.t || 0;
     // phone
     const phoning = sp?.act === 'phone', ringing = phoning && spec.ringing;
-    if (man && phoning && spec.phone) hold(phone, man, 'handR', 0.0045); else onTable();
+    const calling = phoning && spec.phone;
+    if (man && calling) hold(phone, man, 'handR', 0.0045); else onTable();
     if (ringing) phone.position.y += Math.max(0, Math.sin(t * 70)) * 0.002;
-    glowCol.set(ringing ? (Math.sin(t * 8) > 0 ? '#7FE0C8' : '#2B5C55') : phoning && spec.phone ? '#5A7FD0' : '#1B1530');
-    scr.material.uniforms.uColor.value.copy(glowCol);
+    const pState = ringing ? 'ring' : calling ? 'call' : 'idle';
+    const cStep = Math.floor(t * 4);
+    if (pState !== lastPhoneState || ((pState === 'ring' || pState === 'call') && cStep !== lastPhoneStep)) {
+      lastPhoneState = pState;
+      lastPhoneStep = cStep;
+      drawPhoneScreen(phoneCtx, 160, 320, pState, t);
+      phoneTex.needsUpdate = true;
+    }
     // watering can
     const watering = sp?.act === 'water';
     if (man && watering && spec.can) hold(can, man); else rest(can, canRest);
@@ -217,6 +329,6 @@ export function buildProps({ solid, disc }) {
 
   return {
     group: g, update, spots: SPOTS, paintCanvas, showPaint,
-    objs: { phone: [phone, table], plant: [can, st], easel: [easel, cg] },
+    objs: { phone: [phone], plant: [can, st], easel: [easel, cg] },
   };
 }

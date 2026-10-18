@@ -475,9 +475,10 @@ export const ACTS = {
   paint: (u, t, sp) => {
     const stage = sp?.stage || 'refine', pal = stage !== 'sketch', k = ease(u / 0.8);
     if (stage === 'review') return {
+      y: -0.12,
       face: now(t, 0.2, 0.3) ? 'curious' : 'calm', palette: true,
-      fk: { spine: [-0.06, 0, 0], neck: [-0.04, 0, 0], head: [-0.05, S(t * 0.3) * 0.12, 0.08 + S(t * 0.21) * 0.05] },
-      ik: { handR: [-0.03, -0.1, 0.13], handL: lerp3([0.24, 0.88, 0.05], [0.26, 0.95, 0.12], k) },
+      fk: { spine: [-0.06, 0, 0], neck: [-0.04, 0, 0], head: [-0.05, S(t * 0.3) * 0.12, 0.08 + S(t * 0.21) * 0.05], thighL: [1.3, 0, 0.08], thighR: [1.3, 0, -0.08] },
+      ik: { ...sitLegs(0.1, 0.445, 0.11), handR: [-0.03, -0.1, 0.13], handL: lerp3([0.24, 0.88, 0.05], [0.26, 0.95, 0.12], k) },
       follow: { handR: 'head' },
       hand: { handR: [[0.1, 1, 0.3], [0, 0.4, -1]], handL: [[0.2, 0, 1], [0, 1, 0]] },
       grip: { handR: 'cup', handL: 'flat' },
@@ -490,9 +491,10 @@ export const ACTS = {
     const tipAt = lerp3(onC, EASEL.dab, dip), F = lerp3(EASEL.F, EASEL.dabF, dip);
     const H = heldAt(tipAt, F, EASEL.N, TOOLS.paint.reach);
     return {
+      y: -0.12,
       face: dip > 0.5 ? 'curious' : now(t, 0.17, 0.75) ? 'delighted' : 'calm', paint: k > 0.5, palette: pal,
-      fk: { spine: [0.05 + 0.06 * dip, 0, 0], neck: [0.04, 0, 0], head: [0.06 + (ty - C.y) * -0.3 + 0.2 * dip, tx * -0.6 + 0.25 * dip, 0] },
-      ik: { handR: lerp3([-0.24, 0.88, 0.05], H.at, k), handL: pal ? lerp3([0.24, 0.88, 0.05], EASEL.palette, k) : [0.22, 0.88, 0.04] },
+      fk: { thighL: [1.3, 0, 0.08], thighR: [1.3, 0, -0.08], spine: [0.05 + 0.06 * dip, 0, 0], neck: [0.04, 0, 0], head: [0.06 + (ty - C.y) * -0.3 + 0.2 * dip, tx * -0.6 + 0.25 * dip, 0] },
+      ik: { ...sitLegs(0.1, 0.445, 0.11), handR: lerp3([-0.24, 0.88, 0.05], H.at, k), handL: pal ? lerp3([0.24, 0.88, 0.05], EASEL.palette, k) : [0.22, 0.88, 0.04] },
       hand: { handR: mixH([[0, -1, 0], [1, 0, 0]], H.hand, k), handL: pal ? mixH([[0, -1, 0], [-1, 0, 0]], EASEL.paletteH, k) : [[0, -1, 0], [-1, 0, 0]] },
       grip: { handR: k > 0.5 ? 'hold' : 'relax', handL: pal ? 'flat' : 'relax' },
       pole: { handR: [-0.45, -0.55, -0.1], handL: [0.5, -0.5, -0.2] },
@@ -593,9 +595,9 @@ export const ACTS = {
   },
 };
 function mixH(a, b, k) { return [lerp3(a[0], b[0], k), lerp3(a[1], b[1], k)]; }
-// phone: lies on the side table PHONE.on (spot frame); at his ear the palm faces his cheek, fingers up and back, the
+// phone: lies on the table PHONE.on (spot frame); at his ear the palm faces his cheek, fingers up and back, the
 // phone between them (props.js holds it HELD off the palm)
-export const PHONE = { ring: 1.6, table: 0.72, on: [-0.02, 0.735, 0.42], ear: [-0.19, 0.03, 0.04], earH: [[0.05, 0.85, -0.45], [1, 0, 0.1]] };
+export const PHONE = { ring: 1.6, table: 0.72, on: [0, 0.73, 0.37], ear: [-0.19, 0.03, 0.04], earH: [[0.05, 0.85, -0.45], [1, 0, 0.1]] };
 // watering can: on a stool at WATER.stool (its handle grip), carried at the side, poured over the pot ahead
 export const WATER = { P: 4.5, stool: [-0.32, 0.64, 0.24], y: 0.98, z: 0.42, carryH: [[0, -1, 0], [1, 0, 0]], pourH: [[0, -0.75, -0.65], [1, 0, 0]] };
 // easel: canvas centre EASEL.canvas (w x h, its top leaning back `tilt` m per m), palette on the left palm, brush in the right

@@ -62,20 +62,21 @@ const { room, shelf, lamp, walls, win, kb, gt } = buildRoom();
 scene.add(room);
 room.updateMatrixWorld(true);
 for (const w of walls) { const b = new THREE.Box3().setFromObject(w); if (b.min.y < 1) solid(b.min.x, b.min.z, b.max.x, b.max.z); }
-const STOOL = { x: -0.2, z: 0.1, heading: 0, act: 'stool' };
-const st0 = stool(); st0.position.set(STOOL.x, 0, STOOL.z); scene.add(st0);
 const snk = makeSnake(); scene.add(snk.group);
 disc(SNAKE_BED.x, SNAKE_BED.z, SNAKE_BED.r);                    // its cushion
 solid(0.4, -3, 2.2, -2.45);                                     // record shelf
 solid(-0.95, -2.8, 0.35, -2.4);                                 // keyboard
-disc(2.55, -1.9, 0.28); disc(3.35, -2.5, 0.28); disc(3.5, -1.0, 0.24); disc(-3.36, 2.36, 0.4); disc(STOOL.x, STOOL.z, 0.22);
+disc(2.55, -1.9, 0.28); disc(3.35, -2.5, 0.28); disc(3.5, -1.0, 0.24); disc(-3.36, 2.36, 0.4);
 const F = furnish({ room, walls, solid, W: RW, D: RD });
 // wardrobe: back to the right wall between the lamp and the doorway, opening into the room (-x)
 const ward = makeWardrobe(); ward.group.position.set(RW / 2 - 0.05 - WD.d / 2, 0, 0); ward.group.rotation.y = -Math.PI / 2; room.add(ward.group);
 solid(RW / 2 - 0.05 - WD.d, -WD.w / 2 - 0.02, RW / 2, WD.w / 2 + 0.02);
 disc(F.CHAIR.x, F.CHAIR.z, 0.26);
-const props = buildProps({ solid, disc });                   // phone + side table, watering can, easel (solids before the nav grid)
+const props = buildProps({ solid, disc });                   // phone, watering can, easel (solids before the nav grid)
 scene.add(props.group);
+const st0 = stool(); st0.position.set(props.spots.EASEL.x, 0, props.spots.EASEL.z); scene.add(st0);
+disc(props.spots.EASEL.x, props.spots.EASEL.z, 0.22);
+const STOOL = props.spots.EASEL;
 
 boot.step(0.3, 'hanging the gallery');
 const gallery = await buildGallery({ walls, solid });
@@ -230,7 +231,6 @@ function lookOut() {
   player.sit(WINDOW);
 }
 const stations = [
-  { label: 'sit', seat: STOOL, obj: st0, p: [STOOL.x, STOOL.z + 0.5], r: 0.9, act: () => (player.st.seated ? player.stand() : player.sit(STOOL)) },
   {
     label: 'records', obj: shelf, p: [1.3, -2.05], face: [1.3, -2.8], r: 1.1, act: () => { sfx.fx('crate'); deck.openCrate(); man.face('delighted'); },
   },
@@ -273,9 +273,9 @@ stations.push(...doors.stations());
   use('cook', A.COOK, O.pan); use('brush teeth', A.BRUSH, O.toothbrush);
   const P = props.spots, PO = props.objs;
   Object.assign(P.PHONE, { enter: () => sfx.fx('click') });
-  stations.push({ label: 'make a call', seat: P.PHONE, obj: PO.phone, p: [P.PHONE.x, P.PHONE.z], face: [1.25, 1.2], r: 1.1, act: () => (player.st.seated ? player.stand() : player.sit(P.PHONE)) });
+  stations.push({ label: 'make a call', seat: P.PHONE, obj: PO.phone, p: [P.PHONE.x, P.PHONE.z], face: [P.PHONE.x, P.PHONE.z + 0.5], r: 1.1, act: () => (player.st.seated ? player.stand() : player.sit(P.PHONE)) });
   stations.push({ label: 'water the plant', seat: P.PLANT, obj: PO.plant, p: P.PLANT.out, face: [-3.36, 2.36], r: 1.2, act: () => (player.st.seated ? player.stand() : player.sit(P.PLANT)) });
-  stations.push({ label: 'paint', seat: P.EASEL, obj: PO.easel, p: [P.EASEL.x, P.EASEL.z], face: [0.9, 2.4], r: 1.1, act: () => (player.st.seated ? player.stand() : player.sit(P.EASEL)) });
+  stations.push({ label: 'paint', seat: P.EASEL, obj: [...PO.easel, st0], p: [P.EASEL.x, P.EASEL.z], face: [P.EASEL.x, P.EASEL.z + 0.6], r: 1.1, act: () => (player.st.seated ? player.stand() : player.sit(P.EASEL)) });
   stations.push({ label: 'eat', seat: A.EAT, obj: O.table, p: A.EAT.out, face: [A.EAT.x - 1, A.EAT.z], r: 1.2, act: () => (player.st.seated ? player.stand() : player.sit(A.EAT)) });
 }
 // his day on India time (routine.js): where he walks to and how he starts each thing

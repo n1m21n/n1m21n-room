@@ -11,3 +11,4 @@ site/public/data/art.json
 .venv/
 data/raw/
 .wrangler/
+site/public/art/sim/*.inf
