@@ -160,12 +160,13 @@ export const ACTIVITIES = {
   "rate": 0.0147,
   "minDur": 14,
   "cooldown": 35,
-  "baseMinutes": 40,
+  "baseMinutes": 35,
   "spread": 0.5,
   "intensity": "strumSpeed",
   "station": true,
   "requires": [],
-  "emotionPull": {}
+  "emotionPull": {},
+  "durationSource": "round 7: 40 -> 35 (stream bouts stay under ~40 min)"
  },
  "keys": {
   "kind": "normal",
@@ -183,12 +184,13 @@ export const ACTIVITIES = {
   "rate": 0.0374,
   "minDur": 14,
   "cooldown": 35,
-  "baseMinutes": 40,
+  "baseMinutes": 35,
   "spread": 0.5,
   "intensity": "tempo",
   "station": true,
   "requires": [],
-  "emotionPull": {}
+  "emotionPull": {},
+  "durationSource": "round 7: 40 -> 35 (stream bouts stay under ~40 min)"
  },
  "tv": {
   "kind": "normal",
@@ -206,14 +208,14 @@ export const ACTIVITIES = {
   "rate": 0.114,
   "minDur": 14,
   "cooldown": 40,
-  "baseMinutes": 67.5,
+  "baseMinutes": 35,
   "spread": 0.5,
   "intensity": null,
   "station": true,
   "requires": [],
   "emotionPull": {},
   "baseMinutesHand": 45,
-  "durationSource": "blend 0.5 hand 45 + ATUS tv median 90"
+  "durationSource": "blend 0.5 hand 45 + ATUS tv median 90; round 7: 67.5 -> 35 (stream bouts stay under ~40 min)"
  },
  "records": {
   "kind": "normal",
@@ -250,14 +252,14 @@ export const ACTIVITIES = {
   "rate": 0.05171,
   "minDur": 6,
   "cooldown": 30,
-  "baseMinutes": 34,
+  "baseMinutes": 28,
   "spread": 0.5,
   "intensity": null,
   "station": true,
   "requires": [],
   "emotionPull": {},
   "baseMinutesHand": 8,
-  "durationSource": "blend 0.5 hand 8 + ATUS game median 60"
+  "durationSource": "blend 0.5 hand 8 + ATUS game median 60; round 7: 34 -> 28 (stream bouts stay under ~40 min)"
  },
  "window": {
   "kind": "normal",
@@ -298,14 +300,14 @@ export const ACTIVITIES = {
   "rate": 0.08055,
   "minDur": 14,
   "cooldown": 35,
-  "baseMinutes": 45,
+  "baseMinutes": 30,
   "spread": 0.5,
   "intensity": null,
   "station": true,
   "requires": [],
   "emotionPull": {},
   "baseMinutesHand": 30,
-  "durationSource": "blend 0.5 hand 30 + ATUS read median 60"
+  "durationSource": "blend 0.5 hand 30 + ATUS read median 60; round 7: 45 -> 30 (stream bouts stay under ~40 min)"
  },
  "work": {
   "kind": "normal",
@@ -325,14 +327,14 @@ export const ACTIVITIES = {
   "rate": 0.03646,
   "minDur": 16,
   "cooldown": 25,
-  "baseMinutes": 115,
+  "baseMinutes": 45,
   "spread": 0.3,
   "intensity": "typeSpeed",
   "station": true,
   "requires": [],
   "emotionPull": {},
   "baseMinutesHand": 60,
-  "durationSource": "blend 0.5 hand 60 + ATUS work median 170"
+  "durationSource": "blend 0.5 hand 60 + ATUS work median 170; round 7: 115 -> 45 (stream bouts stay under ~40 min)"
  },
  "shower": {
   "kind": "normal",
@@ -840,7 +842,7 @@ export const ACTIVITIES = {
   "rate": 0.02,
   "minDur": 15,
   "cooldown": 60,
-  "baseMinutes": 105,
+  "baseMinutes": 45,
   "spread": 0.4,
   "intensity": "typeSpeed",
   "station": false,
@@ -850,7 +852,7 @@ export const ACTIVITIES = {
    "anxious": 1
   },
   "baseMinutesHand": 40,
-  "durationSource": "blend 0.5 hand 40 + ATUS work median 170"
+  "durationSource": "blend 0.5 hand 40 + ATUS work median 170; round 7: 105 -> 45 (stream bouts stay under ~40 min)"
  },
  "false_start": {
   "kind": "erratic",

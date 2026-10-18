@@ -36,8 +36,8 @@ export const TUNE_DEFAULTS = {
  "planChance": 0.5033,
  "planPull": 3.595,
  "workDay": 1.671,
- "workDuty": 0.25,
- "workTarget": 300,
+ "workDuty": 0.9,
+ "workTarget": 360,
  "workThroughDone": 0.25,
  "intentPull": 1
 };

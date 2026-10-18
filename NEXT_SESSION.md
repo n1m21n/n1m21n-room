@@ -2,6 +2,13 @@
 
 Start here. Then read `BLUEPRINT_REVIEW.md` (review of the two Antigravity blueprints), `SIM_DESIGN.md`, `DATA_SOURCES.md`.
 
+## STATUS UPDATE (2026-10-18, round 7): short beats, breaks, shorter bouts: read `SIM_REVIEW.md` "Round 7"
+
+- `site/src/beats.js`: mood-picked 5-8 s seated beats every 25-55 s, plus `withBreaks`, which sends him on a 40-75 s trip every 5-10 min (wall clock, the same for every viewer). Max gap 9.2 min, enforced by `tests/beats.mjs` (≤ 10).
+- Durations are data and tune only: tv 35, work 45, read 30 base minutes; workDuty 0.9, workTarget 360. Stress .266 -> .332 and sleep +70 min to watch.
+- Gates: build, sim 48/0, beats 34994/0, physics 0 fail, Monte Carlo PASS, resume 40/40. rebased on the stream round (PR #1).
+- Next: night mode, snack bowl prop, phone left behind on breaks, the camera following him on tea/fridge trips.
+
 ## STATUS UPDATE (2026-10-18, stream round): core / stream split + chat errands: read `STREAM.md`
 
 - Core engine vs stream engine split (`site/src/errands/`, `camera-director.js`, `thoughts.js` core; `site/src/stream/` stream only). Chat notes on the desk, 26 commands + `!play <song>`, server-scheduled so both sites play the same errand. Music player shuffles (daily seeded order). Automatic camera on both sites, off on touch.

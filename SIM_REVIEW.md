@@ -253,6 +253,50 @@ Still open after round 6: cook_dinner is missed 45 % of the time (dinner is ofte
 right hand 16-22 mm into the tee at about 1 in 5 clock phases (`verifyActs` reads `performance.now()`, so a run
 passes or fails by chance). Same on round 5 code; fix the paint pose, and seed the clock in `verifyActs`.
 
+## Round 7 (2026-10-18): short beats, breaks, shorter bouts
+
+The stream should change every 5-10 minutes. Two visual layers and one data-only duration change. The sim logic is untouched.
+
+**Short beats** (`site/src/beats.js`, all new poses, layered over the long act in `player.js`):
+- Every 25-55 s slot (wall clock, same for every viewer), one beat may play for 5-8 s. Its odds depend on mood (`moodClass`):
+  focused .45, calm .75, tired / stressed .9, bored 1. Tired leans to yawn / rub_eyes; bored or stressed leans to fidget / sigh.
+- desk: lean_back, sip, rub_eyes, yawn, look_out, fidget, sigh. write: look_out, sigh, rub_eyes. tv: laugh, snack,
+  shift, yawn, sigh. read: look_up, weight, sigh. keys / guitar: retry, nod, sigh. bed: turn_over (10 s, about 12 % of slots).
+  nap / bench / stool / eat / cook / tea / pin / paint: glance (+ weight / sigh where it fits).
+- The existing standing micro-acts in acts.js are kept as they were. The mug now shows for any pose with `mug`.
+- Gates: `tests/beats.mjs` 34994 / 0. Physics P8 poses every beat at start, peak and end: 0 fail, 3 warn (rub_eyes hand in
+  hand 9 mm, turn_over 11 mm, eat/glance sole in table 12.8 mm, which comes from the base eat pose).
+- Stills: `build-cache/review/stills/beat-*.png`, sheet `beats_sheet.png`.
+
+**Breaks** (`withBreaks` wraps the life chooser, visual only, no tune / life.json change):
+- 8 blocks per hour of 450 s ± 75 (300-600 s). Each block holds one 40-75 s trip: window, plant, records, snake, pace, read,
+  tea, fridge. The choice depends on the activity (`BREAKS_FROM`) and mood, with no repeats back to back.
+  After the trip he goes back to the same act.
+- Gap between visible changes, every act and mood, over a simulated day: median 6.6-6.8 min, max 9.2 min, ≥ 168 trips a day.
+  `tests/beats.mjs` fails if any gap is over 10 min.
+
+**Shorter bouts** (Naman: "a little more shorter"). `activities.json` baseMinutes: tv 67.5→35, work 115→45,
+work_through 105→45, read 45→30, keys / guitar 40→35, snake 34→28. In `tune.json`, workDuty 0.25→0.9 and workTarget 300→360,
+which keeps total work about the same in shorter blocks.
+
+| act (bout min) | before median / p90 | after median / p90 | min / day before → after |
+|---|---|---|---|
+| work | 109 / 133 | 41 / 51 | 151 → 157 |
+| work_through | 78 / 111 | 34 / 48 | 77 → 50 |
+| tv | 56 / 78 | 28 / 41 | 138 → 74 |
+| read | 40 / 54 | 26 / 35 | 125 → 88 |
+| keys | 35 / 45 | 30 / 42 | 21 → 21 |
+| snake | 31 / 42 | 25 / 34 | 22 → 14 |
+| sleep | 337 / 434 | 332 / 433 | 530 → 598 |
+
+Monte Carlo (200 × 7): PASS. mood .629 → .646, stress .266 → **.332**, acts / day 44 → 53, erratic 1.02 → 0.66,
+night acts .99 → 1.52, art pieces .352 → .383, music 26.4 → 25.9, social 68.7 → 66.5, intentions kept 1.25 → 1.24,
+fail rate .104 → .115. resume_probe 40/40, tests/sim.mjs 48/0. life.json regenerated.
+
+Still open after round 7: stress rose and sleep rose by about 70 min, because the freed TV and read time partly goes to bed.
+Ideas: night mode (dim room, lamp on) for long sleep stretches; a visible snack bowl for tv/snack; a trip during a phone call
+leaves the phone behind; the camera should follow him across rooms on tea / fridge trips (stream director, not touched here).
+
 ## Still open
 
 - Music suits values like "allegro suits sad 0.89" are a mood-repair rule; state it or replace with
