@@ -26,7 +26,7 @@ run(async () => {
   const r = reporter('cutaway'), only = want('only');
   const ctx = await start(), { page, errors } = await openPage(ctx, { w: VW, h: VH, dpr: 1, touch: false });
   const pose = (x, z, yaw, view = 'third') => page.evaluate(([x, z, yaw, view]) => {
-    const d = window.dev, P = d.player; if (P.st.seated) P.stand(); P.st.frozen = false; P.cancelAuto(); P.keys.clear(); P.st.speed = 0;
+    const d = window.dev, P = d.player; d.director.off = true; if (P.st.seated) P.stand(); P.st.frozen = false; P.cancelAuto(); P.keys.clear(); P.st.speed = 0;
     while (P.st.view !== view) P.cycleView();
     P.st.frozen = true;   // (the idle routine would walk him off)
     P.pos.set(x, 0, z); d.man.root.position.set(x, 0, z); P.st.yaw = yaw; P.st.heading = yaw; P.st.pitch = 0.38; P.st.dist = 3.8; P.st.intro = 1;

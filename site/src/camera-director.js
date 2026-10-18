@@ -44,15 +44,17 @@ export function makeDirector({ player, solids = [], pace = 1, rnd = Math.random 
     const k = KIND[doing] || 'medium';
     return k === last && rnd() < 0.5 ? (k === 'wide' ? 'medium' : 'wide') : k;     // the same framing twice in a row looks stuck
   }
+  let off = false;
   return {
     // call every frame with what he is doing and whether he is walking
     update(dt, { doing, walking }) {
-      if (st.view !== 'third') return;
+      if (off || st.view !== 'third') return;
       if (!shot || (t += dt) > dur || (walking && shot.kind === 'detail')) { force = null; cut(choose(doing, walking)); }
       shot.dist += shot.push * dt; shot.yaw += shot.drift * dt;
       st.yaw = wrap(st.heading + shot.yaw); st.pitch = shot.pitch; st.dist = shot.dist;
     },
     // an event wants a particular framing now: 'face' for a note being read
+    set off(v) { off = !!v; },                                      // tests/cutaway.mjs poses the camera by hand: the director must not fight it
     cutTo(kind) { force = kind; shot = null; },
     get shot() { return shot?.kind; },
   };
