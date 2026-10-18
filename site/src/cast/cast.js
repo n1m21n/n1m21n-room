@@ -48,6 +48,7 @@ export function makeCast({ lead, ctx, ui, storeKey = 'n1m21n.cast' }) {
   const interactable = () => controlId === lead.id ? null : comps.get(controlId)?.nearSpot() || null;
   // a tap on the floor walks whoever is under control; true = handled here (main.js then skips its own tap)
   function tap(x, z) {
+    shut();
     if (controlId === lead.id) return false;
     comps.get(controlId)?.player.goTo(x, z); return true;
   }
@@ -92,7 +93,11 @@ export function makeCast({ lead, ctx, ui, storeKey = 'n1m21n.cast' }) {
     if (here.length + away.length > 1) chip('_cast', nameOf(focusId), 'who' + (controlId !== lead.id ? ' ctl' : ''), 'choose a character', () => toggle('_list'));
     card();
   }
-  function toggle(id, force) { const open = force ?? openId !== id; openId = open ? id : null; if (open) ui.closeOthers?.(); card(); ui.panelTop?.(); }
+  // the card is a passing dialog: it closes by itself after a few seconds, after any button on it, and on a tap into the room
+  let closeT = 0;
+  const shut = () => { clearTimeout(closeT); if (openId) { openId = null; card(); } };
+  const linger = () => { clearTimeout(closeT); if (openId) closeT = setTimeout(shut, 7000); };
+  function toggle(id, force) { const open = force ?? openId !== id; openId = open ? id : null; if (open) ui.closeOthers?.(); card(); ui.panelTop?.(); linger(); }
   function card() {
     const box = ui.box; if (!openId) { box.hidden = true; return; }
     box.hidden = false;
@@ -110,14 +115,17 @@ export function makeCast({ lead, ctx, ui, storeKey = 'n1m21n.cast' }) {
       + (id === controlId ? btn('release', 'let go', true) : btn('control', 'take control', false))
       + (spec ? btn('off', 'send off', true) : '') + '</div>';
   }
+  ui.box.addEventListener('pointerdown', linger);
   ui.box.addEventListener('click', e => {
     const a = e.target.dataset?.a; if (!a) return; const id = e.target.dataset.id, to = e.target.dataset.to;
+    const keep = a === 'open' || a === 'spawn';
     if (a === 'focus') focus(id);
     else if (a === 'control') control(id);
     else if (a === 'release') control(lead.id);
     else if (a === 'off') dismiss(id);
     else if (a === 'open') { present().includes(id) && (focus(id), toggle(id, true)); }
     else if (a === 'spawn') spawn(id).then(c => { if (c?.on) { focus(id); toggle(id, true); } });
+    if (!keep) shut();
   });
   // `id` says hi to `to`: walks over and waves (or only nods if they are absorbed); someone doing something private is left alone
   function greet(id, to) {
