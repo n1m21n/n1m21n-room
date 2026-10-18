@@ -12,4 +12,3 @@ site/public/data/art.json
 data/raw/
 .wrangler/
 site/public/art/sim/*.inf
-__pycache__/

@@ -38,7 +38,7 @@
   .chrome .right button, .chrome .status button { border:0; border-radius:0; background:none; height:100%; box-shadow:none; }
   .chrome .right button + button, .chrome .status button:not([hidden]) ~ button:not([hidden]) { border-left:2px solid var(--ink); }
   .chrome .right button:active, .chrome .status button:active { transform:none; background:var(--spiral); }
-  @media (max-width:640px) { #mood, #liveinfo, #castinfo { left:calc(var(--edge) + env(safe-area-inset-left)) !important; right:calc(var(--edge) + env(safe-area-inset-right)) !important; width:auto !important; box-sizing:border-box; } }   /* phones: the dialog spans the bar's width, equal margins, right under the pills */
+  @media (max-width:640px) { #mood, #liveinfo { left:calc(var(--edge) + env(safe-area-inset-left)) !important; right:calc(var(--edge) + env(safe-area-inset-right)) !important; width:auto !important; box-sizing:border-box; } }   /* phones: the dialog spans the bar's width, equal margins, right under the pills */
   .chrome .status:not(:has(button:not([hidden]))) { display:none; }
   .chrome .row2 { justify-content:space-between; } .chrome .right { justify-self:end; } .chrome .right button { width:var(--hud); padding:0; } .chrome .right, .chrome .status, .chrome .sign { box-shadow:none; } .chrome .status button { padding:0 12px 0 10px; }
   .clock { position:fixed; right:calc(var(--edge) + env(safe-area-inset-right)); bottom:calc(var(--edge) + env(safe-area-inset-bottom)); z-index:2; height:auto; padding:3px 8px; font:500 10px/1 'DM Mono',monospace; opacity:.8; pointer-events:none; border-width:1.5px; }
@@ -68,8 +68,8 @@
   /* mood chip + panel: sketchbook card, ink border, hard shadow only */
   #moodbtn { gap:6px; padding:0 12px 0 7px; font-weight:500; cursor:pointer; text-transform:lowercase; color:var(--ink); }
   #moodbtn img { width:18px; height:18px; border-radius:50%; border:1.6px solid var(--ink); background:var(--spiral); object-fit:cover; }
-  #mood, #liveinfo, #castinfo { position:fixed; right:calc(var(--edge) + env(safe-area-inset-right)); top:var(--ppanel, var(--ptop, calc(var(--edge) + env(safe-area-inset-top) + var(--hud) + var(--row2) + 14px))); width:min(300px, calc(100vw - 32px)); max-height:calc(100vh - 150px); overflow:auto; z-index:6; background:var(--paper); border:2px solid var(--ink); border-radius:22px; box-shadow:4px 4px 0 var(--ink); padding:14px 16px 12px; font:400 12px/1.4 'DM Mono',monospace; text-transform:lowercase; touch-action:pan-y; }
-  #mood h3, #liveinfo h3, #castinfo h3 { margin:12px 0 5px; font:800 15px/1 'Bricolage Grotesque',sans-serif; font-stretch:75%; letter-spacing:-0.01em; color:var(--blue); }
+  #mood, #liveinfo { position:fixed; right:calc(var(--edge) + env(safe-area-inset-right)); top:var(--ppanel, var(--ptop, calc(var(--edge) + env(safe-area-inset-top) + var(--hud) + var(--row2) + 14px))); width:min(300px, calc(100vw - 32px)); max-height:calc(100vh - 150px); overflow:auto; z-index:6; background:var(--paper); border:2px solid var(--ink); border-radius:22px; box-shadow:4px 4px 0 var(--ink); padding:14px 16px 12px; font:400 12px/1.4 'DM Mono',monospace; text-transform:lowercase; touch-action:pan-y; }
+  #mood h3, #liveinfo h3 { margin:12px 0 5px; font:800 15px/1 'Bricolage Grotesque',sans-serif; font-stretch:75%; letter-spacing:-0.01em; color:var(--blue); }
   #mood .mhead { display:flex; gap:12px; align-items:center; margin-bottom:6px; } #mood .mhead img { width:46px; height:46px; border-radius:50%; border:2px solid var(--ink); background:var(--spiral); object-fit:cover; }
   #mood .mhead b { display:block; font:800 24px/1 'Bricolage Grotesque',sans-serif; font-stretch:75%; color:var(--pink); margin-bottom:3px; } #mood .mhead span { color:var(--ink); }
   #mood .mnow { margin:0 0 10px; display:inline-block; font-weight:500; background:var(--spiral); padding:2px 9px; border-radius:999px; border:1.6px solid var(--ink); } #mood .mnow b { font-weight:500; background:var(--spiral); padding:1px 6px; border-radius:999px; border:1.6px solid var(--ink); }
@@ -79,11 +79,8 @@
   #mood .mbody { min-height:84px; } #mood .mlab { margin:0 0 5px; font-size:11px; opacity:.7; } #mood .mbody .mwins + .mlab { margin-top:10px; } #mood .mrow em { font-style:normal; text-align:right; }
   #mood .mbar { display:block; height:8px; border:1.6px solid var(--ink); border-radius:999px; background:var(--paper); overflow:hidden; } #mood .mbar i { display:block; height:100%; background:var(--blue); } #mood .mbar.bad i { background:var(--pink); }
   #mood .mgrid { display:grid; grid-template-columns:1fr auto; gap:3px 12px; } #mood .mgrid b { font-weight:500; text-align:right; }
-  #liveinfo p, #castinfo p { margin:0 0 8px; } #castinfo .row { display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; } #castinfo button.go.alt { background:var(--paper); color:var(--ink); box-shadow:3px 3px 0 var(--ink); } #castinfo button.go, #liveinfo button.go { font:inherit; text-transform:lowercase; cursor:pointer; background:var(--ink); color:var(--paper); border:2px solid var(--ink); border-radius:999px; padding:6px 14px; box-shadow:3px 3px 0 var(--pink); }
+  #liveinfo p { margin:0 0 8px; } #liveinfo button.go { font:inherit; text-transform:lowercase; cursor:pointer; background:var(--ink); color:var(--paper); border:2px solid var(--ink); border-radius:999px; padding:6px 14px; box-shadow:3px 3px 0 var(--pink); }
   #livebtn { gap:7px; padding:0 11px 0 9px; font-weight:500; cursor:pointer; text-transform:lowercase; color:var(--ink); } #livebtn i { width:9px; height:9px; border-radius:50%; background:var(--pink); border:1.6px solid var(--ink); animation:livedot 1.6s ease-in-out infinite; } #livebtn.mine i { background:var(--blue); animation:none; }
-  button.cast.who i { width:10px; height:10px; border:0; background:none; position:relative; } button.cast.who i::before { content:''; position:absolute; left:2.5px; top:0; width:5px; height:5px; border-radius:50%; background:var(--ink); } button.cast.who i::after { content:''; position:absolute; left:0; bottom:0; width:10px; height:5px; border-radius:5px 5px 1px 1px; background:var(--ink); } button.cast.who span::after { content:' ▾'; font-size:.8em; } button.cast.who.ctl span::after { content:' · ▾'; }
-  #castinfo .pick { display:flex; flex-direction:column; gap:6px; } #castinfo .pick button { display:flex; align-items:center; gap:10px; font:inherit; text-transform:lowercase; cursor:pointer; background:var(--paper); color:var(--ink); border:2px solid var(--ink); border-radius:12px; padding:8px 12px; text-align:left; } #castinfo .pick button.sel { background:var(--ink); color:var(--paper); } #castinfo .pick b { width:12px; height:12px; border-radius:50%; border:2px solid currentColor; } #castinfo .pick button.sel b { background:var(--pink); border-color:var(--pink); } #castinfo .pick span { flex:1; font-weight:600; } #castinfo .pick em { font-style:normal; opacity:.65; font-size:.85em; }
-  button.cast { gap:7px; padding:0 11px 0 9px; font-weight:500; cursor:pointer; text-transform:lowercase; color:var(--ink); } button.cast i { width:9px; height:9px; border-radius:50%; background:transparent; border:1.6px solid var(--ink); } button.cast.on i { background:var(--blue); } button.cast.ctl span::after { content:' ·'; } button.cast.plus i { border:0; width:11px; height:11px; background:none; position:relative; } button.cast.plus i::before, button.cast.plus i::after { content:''; position:absolute; background:var(--ink); border-radius:1px; } button.cast.plus i::before { left:0; right:0; top:4.5px; height:2px; } button.cast.plus i::after { top:0; bottom:0; left:4.5px; width:2px; }
   @keyframes livedot { 50% { transform:scale(.55); opacity:.55; } }
   @media (prefers-reduced-motion:reduce) { #livebtn i { animation:none; } }
   #mood .mnote { margin:7px 0 0; opacity:.75; } #mood svg { width:100%; height:auto; display:block; } #mood svg .base { stroke:var(--ink); stroke-width:1; stroke-dasharray:3 4; opacity:.35; } #mood svg circle { fill:var(--pink); stroke:var(--ink); stroke-width:1.6; } #mood svg path { fill:none; stroke:var(--pink); stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }
@@ -92,13 +89,12 @@
   #moodfloat .up { background:var(--spiral); color:var(--ink); } #moodfloat .down { background:var(--pink); color:var(--paper); }
   @keyframes mfloat { 0% { opacity:0; transform:translate(var(--dx),0); } 12% { opacity:1; } 100% { opacity:0; transform:translate(var(--dx),70px); } }
   @media (prefers-reduced-motion:reduce) { #moodfloat span { animation:mfade 2.5s forwards; } @keyframes mfade { 0%,70% { opacity:1; } 100% { opacity:0; } } }
-  body:has(#card:not([hidden])) :is(#mood, #moodfloat, #liveinfo, #castinfo) { display:none; }
-  :is(#thought, .tb) { position:fixed; transform:translate(-30%,-100%); max-width:min(300px, calc(100vw - 32px)); pointer-events:none; z-index:5; }
-  :is(#thought, .tb) p { margin:0; font:400 13px/1.45 'DM Mono',monospace; background:var(--paper); border:2px solid var(--ink); border-radius:22px; padding:12px 16px; animation:bob 3s ease-in-out infinite; }
-  :is(#thought, .tb) i { position:absolute; border:2px solid var(--ink); background:var(--paper); border-radius:50%; }
-  :is(#thought, .tb) i:nth-of-type(1) { width:14px; height:14px; left:22%; bottom:-20px; }
-  :is(#thought, .tb) i:nth-of-type(2) { width:8px; height:8px; left:18%; bottom:-34px; }
-  .tb p { box-shadow:3px 3px 0 var(--tint, var(--pink)); }
+  body:has(#card:not([hidden])) :is(#mood, #moodfloat, #liveinfo) { display:none; }
+  #thought { position:fixed; transform:translate(-30%,-100%); max-width:min(300px, calc(100vw - 32px)); pointer-events:none; z-index:5; }
+  #thought p { margin:0; font:400 13px/1.45 'DM Mono',monospace; background:var(--paper); border:2px solid var(--ink); border-radius:22px; padding:12px 16px; animation:bob 3s ease-in-out infinite; }
+  #thought i { position:absolute; border:2px solid var(--ink); background:var(--paper); border-radius:50%; }
+  #thought i:nth-of-type(1) { width:14px; height:14px; left:22%; bottom:-20px; }
+  #thought i:nth-of-type(2) { width:8px; height:8px; left:18%; bottom:-34px; }
   @keyframes bob { 50% { transform:translateY(-4px); } }
   body.watching #deck { display:none; }                          /* the tv player stands in for the deck while watching */
   #tvp { position:fixed; left:calc(var(--edge) + env(safe-area-inset-left)); bottom:calc(var(--edge) + env(safe-area-inset-bottom)); width:min(340px, calc(100vw - 2 * var(--edge))); box-sizing:border-box; background:var(--paper); color:var(--ink); border:2px solid var(--ink); border-radius:12px; padding:10px; box-shadow:5px 5px 0 var(--pink); font:400 12px 'DM Mono',monospace; z-index:6; }
@@ -268,7 +264,7 @@
   .crate .atracks { max-height:none; }
   @media (max-width:480px) { .crate .ahead { flex-direction:column; align-items:flex-start; } .crate .vinyl.big { width:120px; } }
 
-  @media (max-width:640px) { .chrome .row2 { justify-content:space-between; gap:6px; } .chrome .meta { padding:0 9px; font-size:11px; } .chrome .clock { gap:5px; padding:0 9px 0 6px; } .chrome .clock svg { width:16px; height:16px; } @media (max-width:420px) { .chrome .clock svg { display:none; } .chrome .meta, .chrome .sign { font-size:10.5px; } .chrome .clock { padding:0 7px; } .chrome #livebtn, .chrome button.cast { gap:5px; padding:0 8px 0 7px; } .chrome #moodbtn { gap:4px; padding:0 7px 0 5px; } .chrome .sign { gap:5px; padding:0 8px; } .chrome .row2 { gap:5px; } } .chrome #moodbtn { padding:0 9px 0 6px; } .chrome #moodbtn img { width:16px; height:16px; } .chrome .sign { font-size:11px; padding:0 9px; } }
+  @media (max-width:640px) { .chrome .row2 { justify-content:space-between; gap:6px; } .chrome .meta { padding:0 9px; font-size:11px; } .chrome .clock { gap:5px; padding:0 9px 0 6px; } .chrome .clock svg { width:16px; height:16px; } @media (max-width:420px) { .chrome .clock svg { display:none; } .chrome .meta, .chrome .sign { font-size:10.5px; } .chrome .clock { padding:0 7px; } .chrome #livebtn { gap:5px; padding:0 8px 0 7px; } .chrome #moodbtn { gap:4px; padding:0 7px 0 5px; } .chrome .sign { gap:5px; padding:0 8px; } .chrome .row2 { gap:5px; } } .chrome #moodbtn { padding:0 9px 0 6px; } .chrome #moodbtn img { width:16px; height:16px; } .chrome .sign { font-size:11px; padding:0 9px; } }
   .left { display:flex; align-items:center; gap:var(--gap); } .left .mark { margin-right:6px; }
   .chrome .round { width:var(--hud); padding:0; font-weight:500; }
   #snd svg { width:16px; height:16px; fill:none; stroke:var(--ink); stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
@@ -299,7 +295,7 @@
     #tvp { width:auto; right:calc(var(--edge) + env(safe-area-inset-right)); }
     #tvp .tscr { max-height:30dvh; }
   }
-  body:has(#card:not([hidden])) :is(#prompt, #inf, #toast, #thought, .tb) { display:none; }   /* a card owns the screen */
+  body:has(#card:not([hidden])) :is(#prompt, #inf, #toast, #thought) { display:none; }   /* a card owns the screen */
   @keyframes drop { from { transform:translateY(-12px); opacity:0; } }
   /* ---------- phone on its side: a short screen, so a smaller stick, the deck a column at the left, and the tv player
      splits into screen | controls; panels never run under the stick or off the bottom */
@@ -458,7 +454,6 @@ window.boot = (() => {
 <div id="moodfloat" aria-hidden="true"></div>
 <div id="mood" role="region" aria-label="how he feels" hidden></div>
 <div id="liveinfo" role="region" aria-label="what live means" hidden></div>
-<div id="castinfo" role="region" aria-label="the people in the room" hidden></div>
 <div id="thought" hidden><p></p><i></i><i></i></div>
 <div id="card" hidden></div>
 <div id="joy" aria-hidden="true"><i></i></div>

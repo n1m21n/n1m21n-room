@@ -22,7 +22,7 @@ import { makeIntentions } from './intent.js';
 import { duration } from './profile.js';
 import { EMOTIONS } from './data/emotions.gen.js';
 import { TUNE } from './tune.js';
-import { CHAINS, NEURO } from './data/world.gen.js';
+import { CHAINS } from './data/world.gen.js';
 import { MIDI_PIECES } from './data/midi.gen.js';
 import { FEEL } from './data/feel.gen.js';
 import { FOLLOW } from './data/follow.gen.js';
@@ -31,11 +31,9 @@ const MOTIVES = Object.keys(TUNE.decay);
 const ESSENTIAL = new Set(['sleep', 'eat', 'cook', 'shower', 'brush', 'wash', 'loo', 'dress']);   // never cancelled by a bad mood
 const AWAY_CAP_MIN = 14 * 1440;                                  // simulate at most two weeks act-by-act; beyond that decay only
 
-// profile: a second character's own tuning (tools/emotions/her.json via data/her.gen.js): { name, tune, neuro, actMul, actOff, emotionPull }. None = the man, exactly as before.
-export function makeSimCore({ profile = null, seed = 1, storage = null, instability = {}, awayScale = 1, withGrid = true, gridBounds = null, solids = null } = {}) {
-  const T = profile?.tune ? Object.assign(Object.create(TUNE), profile.tune, { decay: { ...TUNE.decay, ...(profile.tune.decay || {}) } }) : TUNE;   // per-character tuning over the shared defaults
+export function makeSimCore({ seed = 1, storage = null, instability = {}, awayScale = 1, withGrid = true, gridBounds = null, solids = null } = {}) {
   const rng = makeRng(seed);
-  const neuro = makeNeuro(profile?.neuro ? { ...NEURO, vars: Object.fromEntries(Object.entries(NEURO.vars).map(([k, d]) => [k, { ...d, ...(profile.neuro[k] || {}) }])) } : undefined);
+  const neuro = makeNeuro();
   const inst = makeInstability({ rng, neuro });
   if (instability.enabled != null) inst.enabled = instability.enabled;
   for (const [k, v] of Object.entries(instability.lambda || {})) inst.setLambda(k, v);
@@ -44,7 +42,7 @@ export function makeSimCore({ profile = null, seed = 1, storage = null, instabil
   const art = makeArt({ rng });
   let savouring = false, pendingSereneSavour = false;
   const motives = Object.fromEntries(MOTIVES.map(m => [m, 0.78]));
-  const chains = makeChains({ rng, inst, ledger, gapSeconds: T.chainGap, ctx: () => ({ emotion: emotion.current, motives, enforceTriggers: true }) });
+  const chains = makeChains({ rng, inst, ledger, ctx: () => ({ emotion: emotion.current, motives, enforceTriggers: true }) });
   const outcomes = makeOutcomes({ rng, inst, neuro, ledger });
   const hazards = makeHazards({ seed, inst });
   const planAdj = makePlanAdjust({ seed, neuro });
@@ -72,7 +70,7 @@ export function makeSimCore({ profile = null, seed = 1, storage = null, instabil
   // how the act itself feels (ATUS Well-Being per activity), added on top of the body/memory mood
   function feel(a) {
     const f = FEEL[doing] || { v: 0, s: 0 };
-    return { ...a, valence: Math.min(1, Math.max(0, a.valence + T.moodShift + T.feelPull * f.v)), arousal: Math.min(1, Math.max(0, a.arousal + (T.arousalShift || 0))), stress: Math.min(1, Math.max(0, a.stress + T.stressShift + T.feelPull * f.s)) };
+    return { ...a, valence: Math.min(1, Math.max(0, a.valence + TUNE.moodShift + TUNE.feelPull * f.v)), stress: Math.min(1, Math.max(0, a.stress + TUNE.stressShift + TUNE.feelPull * f.s)) };
   }
   function recompute() {
     affect = feel(composeAffect({ motives, neuroAffect: neuro.affect(ledger.trace('valence')), traces: ledger.traces }));
@@ -149,7 +147,7 @@ export function makeSimCore({ profile = null, seed = 1, storage = null, instabil
   // habit[act] = [level, at]: +1 per time done, decays with the act's habTau (minutes)
   function habitNow(name) {
     const h = habit[name]; if (!h) return 0;
-    return h[0] * Math.exp(-(tMin - h[1]) / (ACTIVITIES[name]?.habTau ?? T.habTau));
+    return h[0] * Math.exp(-(tMin - h[1]) / (ACTIVITIES[name]?.habTau ?? TUNE.habTau));
   }
   function habituate(name) {
     if (name === 'sleep' || name === 'loo') return;
@@ -158,14 +156,14 @@ export function makeSimCore({ profile = null, seed = 1, storage = null, instabil
   function follow(prev, name) {
     if (!prev) return 1;
     const m = FOLLOW.pairs[prev + '>' + name] ?? FOLLOW.cats[(ACTIVITIES[prev]?.category || '') + '>' + (ACTIVITIES[name]?.category || '')] ?? 1;
-    return T.followPull === 1 ? m : m ** T.followPull;
+    return TUNE.followPull === 1 ? m : m ** TUNE.followPull;
   }
   function actWeights() {
     const hour = (tMin % 1440) / 60;
     const night = hour >= 23 || hour < 6;
     const candidates = {};
-    const nextSteps = T.chainPull > 1 ? chains.nextActs() : null;
-    const startable = T.chainStartPull > 1 ? new Set(chains.available({ min: tMin % 1440, motives, emotion: emotion.current, hasGrid: !!grid }).map(id => CHAINS[id].steps.find(x => !x.optional).act)) : null;
+    const nextSteps = TUNE.chainPull > 1 ? chains.nextActs() : null;
+    const startable = TUNE.chainStartPull > 1 ? new Set(chains.available({ min: tMin % 1440, motives, emotion: emotion.current, hasGrid: !!grid }).map(id => CHAINS[id].steps.find(x => !x.optional).act)) : null;
     const stage = inst.active('desire');
     // a bad mood cancels or postpones the non-essential part of this hour (one seeded decision per hour, memoised)
     const hourKey = day + ':' + Math.floor(tMin / 60);
@@ -174,50 +172,49 @@ export function makeSimCore({ profile = null, seed = 1, storage = null, instabil
     for (const [name, a] of Object.entries(ACTIVITIES)) {
       if (a.requires?.includes('inventory') || (a.requires?.includes('grid') && !grid && name !== 'roam')) continue;
       if (a.forcedOnly) continue;
-      if (a.only ? a.only !== profile?.name : profile?.actOff?.includes(name)) continue;               // her-only acts stay out of his choices; her switched-off ones out of hers
       if (a.artStage && name !== 'art_sketch' && (!art.active || savouring)) continue;
       if (['wall_bump', 'stumble', 'false_start'].includes(name)) continue;                           // hazard-driven, not chosen
       if (!world.guardOk(name, tMin)) continue;                                                       // makes no sense in this state (dress when dressed, brush clean teeth)
       if (['yawn', 'stretch', 'sigh', 'fidget', 'sip', 'glance'].includes(name) && !nextSteps?.has(name)) continue; // micro-acts only when part of an active chain
       let score = 0;
-      for (const [m, r] of Object.entries(a.rewards || {})) if (motives[m] != null) score += (1 - motives[m]) ** 2 * r * (a.rate * T.rateScale);
-      for (const [m, d] of Object.entries(a.drain || {})) if (motives[m] != null) score -= (1 - motives[m]) * d * T.drainScale;
-      if (!Object.keys(a.rewards || {}).length) score += T.microBase;                      // micro-acts exist at a low base
-      score *= (profile?.emotionPull?.[name]?.[emotion.current] ?? ACTIVITIES[name].emotionPull?.[emotion.current] ?? 1) * (profile?.actMul?.[name] ?? 1);
-      if (name === 'sleep') score *= night ? T.sleepNight : (motives.energy < T.sleepEnergyAt ? T.sleepLowEnergy : T.sleepDay);
-      if (a.artStage && art.active && !savouring) score *= T.artFollow;
-      if (nextSteps?.has(name)) score *= T.chainPull; else if (startable?.has(name)) score *= T.chainStartPull;
-      if (savouring && chains.live.includes('serene_savour') && chains.nextActs().has(name)) score *= T.savourPull;   // after a serene piece he stays with the savouring routine
+      for (const [m, r] of Object.entries(a.rewards || {})) if (motives[m] != null) score += (1 - motives[m]) ** 2 * r * (a.rate * TUNE.rateScale);
+      for (const [m, d] of Object.entries(a.drain || {})) if (motives[m] != null) score -= (1 - motives[m]) * d * TUNE.drainScale;
+      if (!Object.keys(a.rewards || {}).length) score += TUNE.microBase;                      // micro-acts exist at a low base
+      score *= ACTIVITIES[name].emotionPull?.[emotion.current] ?? 1;
+      if (name === 'sleep') score *= night ? TUNE.sleepNight : (motives.energy < TUNE.sleepEnergyAt ? TUNE.sleepLowEnergy : TUNE.sleepDay);
+      if (a.artStage && art.active && !savouring) score *= TUNE.artFollow;
+      if (nextSteps?.has(name)) score *= TUNE.chainPull; else if (startable?.has(name)) score *= TUNE.chainStartPull;
+      if (savouring && chains.live.includes('serene_savour') && chains.nextActs().has(name)) score *= TUNE.savourPull;   // after a serene piece he stays with the savouring routine
       score *= follow(lastAct, name);
-      if (name === lastAct) score *= T.repeatPenalty; else if (recent.includes(name)) score *= T.recentPenalty;
+      if (name === lastAct) score *= TUNE.repeatPenalty; else if (recent.includes(name)) score *= TUNE.recentPenalty;
       if (a.cooldown && lastDoneAt[name] != null && (tMin - lastDoneAt[name]) * 60 < a.cooldown && !nextSteps?.has(name)) score *= 0.12;
       const cls = FOLLOW.actClass?.[name];
       const hShape = cls && FOLLOW.hourShape?.[cls]?.[Math.floor(hour) % 24];
       // circadian prior; in the dead of night (01-05 h) ordinary acts are pulled much harder towards their clock (no tea at 5 am)
       const deadNight = hour >= 1 && hour < 5 && a.kind === 'normal' && name !== 'loo';
-      if (hShape != null && T.circadianPull > 0 && name !== 'sleep') score *= Math.max(0.15, hShape) ** (deadNight ? T.nightPull : T.circadianPull);
-      else if (deadNight && name !== 'sleep' && !a.artStage) score *= T.nightQuiet;
+      if (hShape != null && TUNE.circadianPull > 0 && name !== 'sleep') score *= Math.max(0.15, hShape) ** (deadNight ? TUNE.nightPull : TUNE.circadianPull);
+      else if (deadNight && name !== 'sleep' && !a.artStage) score *= TUNE.nightQuiet;
       if (name === 'nap_bench' && motives.energy > 0.42) score *= 0.08;
-      score *= world.needMul(name, tMin) * world.caffeineMul(name, tMin) * world.pay(name, tMin) * intents.mul(name, tMin, T.intentPull);
-      if (goal && plan.length && world.clobbers(name, plan, tMin)) score *= T.clobberMul;      // would undo what his plan relies on                      // the world asks (dishes in the sink, pyjamas at noon); caffeine already in him
+      score *= world.needMul(name, tMin) * world.caffeineMul(name, tMin) * world.pay(name, tMin) * intents.mul(name, tMin, TUNE.intentPull);
+      if (goal && plan.length && world.clobbers(name, plan, tMin)) score *= TUNE.clobberMul;      // would undo what his plan relies on                      // the world asks (dishes in the sink, pyjamas at noon); caffeine already in him
       if (a.due) score *= Math.min(2.5, Math.max(0.05, (tMin - (lastDoneAt[name] ?? tMin - a.due)) / a.due)) ** 2;   // a thing in the world that needs doing again (the plant's thirst), not one of his motives
       // habituation: the same act again soon pays less (a decaying count of recent repeats; replaces the old per-day caps)
       const hv = habitNow(name);
-      if (hv > 0) score /= 1 + (a.habK ?? T.habK) * hv * (nextSteps?.has(name) ? T.habChain : 1);
+      if (hv > 0) score /= 1 + (a.habK ?? TUNE.habK) * hv * (nextSteps?.has(name) ? TUNE.habChain : 1);
       if ((name === 'eat' || name === 'cook') && motives.hunger > 0.82 && !nextSteps?.has(name)) score *= 0.15;
-      if (a.kind === 'erratic') score *= (T.erraticBase + affect.stress * T.erraticStress + (1 - affect.valence) * T.erraticValence) * (name === 'night_shower' || name === 'night_work' ? (night ? 1.5 : 0.1) : 1);
+      if (a.kind === 'erratic') score *= (TUNE.erraticBase + affect.stress * TUNE.erraticStress + (1 - affect.valence) * TUNE.erraticValence) * (name === 'night_shower' || name === 'night_work' ? (night ? 1.5 : 0.1) : 1);
       // duty: the working day pulls him to the desk, less as today's hours fill up (owed falls from 1 to 0 at workTarget minutes)
-      const owed = /^work/.test(name) ? clamp(1 - ((cur.actMin.work || 0) + (cur.actMin.work_through || 0)) / T.workTarget, 0, 1) : 1;
-      if (name === 'work' && hour >= T.workFrom && hour < T.workTo) score = Math.max(score, T.workDuty * owed) * T.workDay;
-      if (name === 'work' && night) score *= T.workNight;
+      const owed = /^work/.test(name) ? clamp(1 - ((cur.actMin.work || 0) + (cur.actMin.work_through || 0)) / TUNE.workTarget, 0, 1) : 1;
+      if (name === 'work' && hour >= TUNE.workFrom && hour < TUNE.workTo) score = Math.max(score, TUNE.workDuty * owed) * TUNE.workDay;
+      if (name === 'work' && night) score *= TUNE.workNight;
       if (name === 'work_through' && motives.energy > 0.45) score *= 0.2;
-      if (name === 'work_through') score *= T.workThroughDone + (1 - T.workThroughDone) * owed;   // pushing on through exhaustion is for work still owed
+      if (name === 'work_through') score *= TUNE.workThroughDone + (1 - TUNE.workThroughDone) * owed;   // pushing on through exhaustion is for work still owed
       // planned cancellation of non-essentials in a bad mood
       if (!ESSENTIAL.has(name) && a.kind === 'normal') {
-        if (hourPlan.action === 'cancel') score *= T.cancelMul; else if (hourPlan.action === 'postpone') score *= T.postponeMul;
+        if (hourPlan.action === 'cancel') score *= TUNE.cancelMul; else if (hourPlan.action === 'postpone') score *= TUNE.postponeMul;
       }
       if (stage) score *= 1 + inst.noise('desire');
-      candidates[name] = Math.max(0.001, score) ** T.pickExp;
+      candidates[name] = Math.max(0.001, score) ** TUNE.pickExp;
     }
     return candidates;
   }
@@ -225,10 +222,10 @@ export function makeSimCore({ profile = null, seed = 1, storage = null, instabil
   // and follows it until something breaks it. Any permutation can occur; habits are just the high-affinity ones.
   let plan = [];
   function walkWeights(prev, w0) {
-    const o = {}; for (const [a, v] of Object.entries(w0)) if (a !== prev) o[a] = (v / follow(lastAct, a)) ** T.planFlat * follow(prev, a) ** T.planFollow; return o;
+    const o = {}; for (const [a, v] of Object.entries(w0)) if (a !== prev) o[a] = (v / follow(lastAct, a)) ** TUNE.planFlat * follow(prev, a) ** TUNE.planFollow; return o;
   }
   function rollPlan(w0) {
-    const first = rng.weighted(w0), seqn = [first], len = rng.int(T.planMin, T.planMax);
+    const first = rng.weighted(w0), seqn = [first], len = rng.int(TUNE.planMin, TUNE.planMax);
     while (seqn.length < len && seqn[seqn.length - 1] !== 'sleep') seqn.push(rng.weighted(walkWeights(seqn[seqn.length - 1], w0)));
     const night = ((tMin % 1440) / 60) >= 21 || ((tMin % 1440) / 60) < 5;
     if (night && seqn[seqn.length - 1] !== 'sleep' && rng.chance(0.6)) seqn.push('sleep');
@@ -238,11 +235,11 @@ export function makeSimCore({ profile = null, seed = 1, storage = null, instabil
   function chainProb(seqIn) {
     const w0 = actWeights(), tot = o => Object.values(o).reduce((x, y) => x + y, 0);
     let free = 1, prev = lastAct;
-    const lens = T.planMax - T.planMin + 1;
-    let planned = T.planChance * (w0[seqIn[0]] || 0) / tot(w0) * (seqIn.length >= T.planMin && seqIn.length <= T.planMax ? 1 / lens : 0);
+    const lens = TUNE.planMax - TUNE.planMin + 1;
+    let planned = TUNE.planChance * (w0[seqIn[0]] || 0) / tot(w0) * (seqIn.length >= TUNE.planMin && seqIn.length <= TUNE.planMax ? 1 / lens : 0);
     for (let i = 1; i < seqIn.length; i++) { const ww = walkWeights(seqIn[i - 1], w0); planned *= (ww[seqIn[i]] || 0) / tot(ww); }
     for (const a of seqIn) { free *= (w0[a] || 0) / tot(w0); prev = a; }
-    return { planned, free, total: planned + (1 - T.planChance) * free };
+    return { planned, free, total: planned + (1 - TUNE.planChance) * free };
   }
   // what visitors' play leaves behind: a leaning toward what they did (fades over about a story day) and a little company and fun
   let lean = {}, leanAt = 0;
@@ -256,9 +253,9 @@ export function makeSimCore({ profile = null, seed = 1, storage = null, instabil
   function pickAct() {
     const w = actWeights();
     { const f = leanF(), ks = Object.keys(lean); if (ks.length) { const vs = Object.values(w), avg = vs.reduce((x, y) => x + y, 0) / (vs.length || 1); for (const a of ks) if (a in w) w[a] = w[a] * (1 + lean[a] * f) + lean[a] * f * avg * 0.35; } }       // a visit adds weight of its own, since a rarely chosen act has almost none to multiply
-    if (T.goalPlan) return pickGoal(w);
-    if (!plan.length && rng.chance(T.planChance)) plan = rollPlan(w);
-    if (plan.length && w[plan[0]]) w[plan[0]] *= T.planPull;
+    if (TUNE.goalPlan) return pickGoal(w);
+    if (!plan.length && rng.chance(TUNE.planChance)) plan = rollPlan(w);
+    if (plan.length && w[plan[0]]) w[plan[0]] *= TUNE.planPull;
     return rng.weighted(w);
   }
 
@@ -291,7 +288,7 @@ export function makeSimCore({ profile = null, seed = 1, storage = null, instabil
   function pickGoal(w) {
     if (goal && !plan.length) {                                            // suspended by a detour or an interruption
       // goal memory fades with time away and with every restart; the goal act itself having just been cut halves it again
-      const pRes = Math.exp(-(tMin - goal.away) / T.resumeTau) * T.resumeDecay ** goal.resumed * (goal.seq.at(-1) === '~' + goal.act ? 0.5 : 1);
+      const pRes = Math.exp(-(tMin - goal.away) / TUNE.resumeTau) * TUNE.resumeDecay ** goal.resumed * (goal.seq.at(-1) === '~' + goal.act ? 0.5 : 1);
       if (rng.chance(pRes) && replan(w)) { goal.resumed++; return plan[0]; }
       endGoal('dropped');
     }
@@ -299,7 +296,7 @@ export function makeSimCore({ profile = null, seed = 1, storage = null, instabil
       goal.branches++; if (!replan(w)) return rng.weighted(w);
     }
     if (goal && plan.length) {
-      if (w[plan[0]]) w[plan[0]] *= T.planPull;
+      if (w[plan[0]]) w[plan[0]] *= TUNE.planPull;
       return rng.weighted(w);                                              // usually the next step; sometimes something pulls him away
     }
     for (let i = 0; i < 4; i++) {                                          // a new goal; one that cannot be planned now is set aside
@@ -321,7 +318,7 @@ export function makeSimCore({ profile = null, seed = 1, storage = null, instabil
       else { ci.missed++; if (e.carried) ci.carried++; ledger.write('intention_broken', { scale: e.carried ? 0.5 : 1, note: 'intent:' + e.id }); }
       log('intent', e);
     }
-    if (!goal || !T.goalPlan) return;
+    if (!goal || !TUNE.goalPlan) return;
     if (act === goal.act && done) { goal.seq.push(act); endGoal('done'); return; }   // got there (maybe early, skipping steps)
     const i = plan.indexOf(act);
     if (i >= 0 && done) { plan.splice(i, 1); goal.seq.push(act); return; } // a planned step (in order or not)
@@ -363,7 +360,7 @@ export function makeSimCore({ profile = null, seed = 1, storage = null, instabil
   function trackFree(act) {
     if (!seg.length) segM0 = meanM(); else segFlow += Math.log(follow(seg[seg.length - 1], act) || 1);
     seg.push(act);
-    if (act === 'sleep' || seg.length >= T.freeChainMax) {
+    if (act === 'sleep' || seg.length >= TUNE.freeChainMax) {
       if (seg.length >= 2) {
         const flow = segFlow / (seg.length - 1), gain = meanM() - segM0, closed = act === 'sleep';
         const fc = { seq: seg.join('>'), len: seg.length, flow: +flow.toFixed(3), gain: +gain.toFixed(3), closed, day };
@@ -385,11 +382,11 @@ export function makeSimCore({ profile = null, seed = 1, storage = null, instabil
     if (ACTIVITIES[act]?.artStage) artStage(act, o);
     let piece = null, pay = null;
     if ((act === 'keys' || act === 'guitar') && o.kind !== 'fail') { piece = pickPiece(act); pay = piece && MIDI_PIECES[piece]; nowPiece = piece; }
-    const gain = { ok: 1, partial: T.partialGain, fail: T.failGain, side: 0.8, surprise: 1.3 }[o.kind] * T.satiate * world.pay(act, tMin);   // a snack fills less than a cooked meal
+    const gain = { ok: 1, partial: TUNE.partialGain, fail: TUNE.failGain, side: 0.8, surprise: 1.3 }[o.kind] * TUNE.satiate * world.pay(act, tMin);   // a snack fills less than a cooked meal
     // motives: drain everything for the elapsed minutes, then the act's rewards (rate per sim second = per story minute)
     const m0 = { ...motives };
     for (const m of MOTIVES) {
-      motives[m] = clamp(motives[m] - T.decay[m] * mins * (doing === 'sleep' && m !== 'bladder' && m !== 'hunger' ? T.sleepDecayMul : 1) * inst.gain('motives'));
+      motives[m] = clamp(motives[m] - TUNE.decay[m] * mins * (doing === 'sleep' && m !== 'bladder' && m !== 'hunger' ? TUNE.sleepDecayMul : 1) * inst.gain('motives'));
     }
     const pre = { ...motives };
     for (const [m, r] of Object.entries(a.rewards || {})) if (m in motives) motives[m] = clamp(motives[m] + (1 - motives[m]) * clamp(r * a.rate * mins * gain, 0, 1));
@@ -415,7 +412,7 @@ export function makeSimCore({ profile = null, seed = 1, storage = null, instabil
     if (left > 0 && mins > 0) {                                                  // interrupted: pay only the progress made, and only drain the minutes he lived
       const p = clamp(1 - left / mins, 0, 1); lived = mins - left;
       for (const m of Object.keys(a.rewards || {})) if (m in motives) motives[m] = pre[m] + (motives[m] - pre[m]) * p;
-      for (const m of MOTIVES) motives[m] = clamp(motives[m] + T.decay[m] * left * (act === 'sleep' && m !== 'bladder' && m !== 'hunger' ? T.sleepDecayMul : 1) * inst.gain('motives') + (a.drain?.[m] || 0) * left);
+      for (const m of MOTIVES) motives[m] = clamp(motives[m] + TUNE.decay[m] * left * (act === 'sleep' && m !== 'bladder' && m !== 'hunger' ? TUNE.sleepDecayMul : 1) * inst.gain('motives') + (a.drain?.[m] || 0) * left);
       if (act === 'loo' && p < 0.5) motives.bladder = clamp(pre.bladder + (1 - pre.bladder) * p * 2);
       if (p < 0.9) ledger.write(/^work/.test(act) ? 'interrupted_work' : 'interrupted_act', { scale: 1 - p, note: act });   // being cut off costs a little: frustration, less pride
     } else {                                                     // finished acts with their own reward event
@@ -426,7 +423,7 @@ export function makeSimCore({ profile = null, seed = 1, storage = null, instabil
       if (act === 'sleep' && (h0 >= 21 || h0 < 5) && lived < 300) ledger.write('short_sleep', { scale: (300 - lived) / 300, note: act }); }
     for (const e of chains.sweep(tMin)) chainEvent(e);
     lastAct = act; recent.push(act); if (recent.length > 3) recent.shift();
-    afterAct(act, o.kind !== 'fail', lived >= 0.9 * mins); if (!T.goalPlan) { if (plan[0] === act) plan.shift(); else plan = []; }
+    afterAct(act, o.kind !== 'fail', lived >= 0.9 * mins); if (!TUNE.goalPlan) { if (plan[0] === act) plan.shift(); else plan = []; }
     trackFree(act);
     cur.actMin[act] = (cur.actMin[act] || 0) + lived; if (act === 'sleep') cur.sleepMin += lived;
     if (cur.ticks && affect.valence > 0.8) cur.events.push('high');
@@ -434,7 +431,7 @@ export function makeSimCore({ profile = null, seed = 1, storage = null, instabil
   // live mode: the site performs the act, the core only learns that it began (what runAct does for the choosing state, without moving the clock)
   function noteLive(act) {
     lastDoneAt[act] = tMin; habituate(act); lastAct = act; recent.push(act); if (recent.length > 3) recent.shift();
-    afterAct(act, true, true); if (!T.goalPlan) { if (plan[0] === act) plan.shift(); else plan = []; }
+    afterAct(act, true, true); if (!TUNE.goalPlan) { if (plan[0] === act) plan.shift(); else plan = []; }
     trackFree(act);
   }
   const liveDuration = act => Math.max(1, duration(act, { ...affect, fatigue: 1 - motives.energy }, { rng, secPerMinute: 1 }));   // story minutes = real seconds live

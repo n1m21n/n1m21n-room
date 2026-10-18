@@ -11,10 +11,10 @@ const START_MIN = 0;                                                           /
 
 export const storyMinutesAt = (ms, epoch = LIFE_EPOCH_MS) => START_MIN + Math.max(0, (ms - epoch) / 60000);
 
-export function makeLife({ seed = LIFE_SEED, epochMs = LIFE_EPOCH_MS, checkpoints = null, tune = null, profile = null } = {}) {   // profile: a second character (her.js), her own life on the same clock
-  let core = makeSimCore({ profile, seed, withGrid: false });
+export function makeLife({ seed = LIFE_SEED, epochMs = LIFE_EPOCH_MS, checkpoints = null, tune = null } = {}) {
+  let core = makeSimCore({ seed, withGrid: false });
   let events = [], applied = 0, startAt = 0;                       // nudge log, sorted by (t, seq); `applied` = how many the core has already seen
-  const fresh = () => { core = makeSimCore({ profile, seed, withGrid: false }); applied = 0; startAt = 0; };
+  const fresh = () => { core = makeSimCore({ seed, withGrid: false }); applied = 0; startAt = 0; };
   const evMin = e => storyMinutesAt(e.t, epochMs);
   function best(target) {                                          // latest checkpoint at or before target (and before the first nudge, which a checkpoint would not contain)
     const cap = events.length ? Math.min(target, evMin(events[0])) : target;

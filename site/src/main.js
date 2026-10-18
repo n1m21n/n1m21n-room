@@ -28,12 +28,9 @@ import { ACTIVITIES } from './sim/data/activities.gen.js';
 import { MIDI_PIECES } from './sim/data/midi.gen.js';
 import { makeStorage } from './sim/persist.js';
 import { makeLife } from './sim/life.js';
-import { SPOT_OF, MICRO } from './spot-of.js';
 import { makeNudges } from './sim/nudges.js';
 import { makePosture } from './sim/posture.js';
 import { makeThoughts } from './thoughts.js';
-import { MEET_LINES as HIS_MEET } from './thought-lines.js';
-import { makeCast } from './cast/cast.js';
 import { makeDirector } from './camera-director.js';
 import { makeErrands } from './errands/playback.js';
 import { makeFeed } from './errands/feed.js';
@@ -109,7 +106,7 @@ try {
   localStorage.setItem('n1m21n.lastVisit', String(Date.now()));
 } catch (e) { console.warn('sim life failed', e); }
 addEventListener('pagehide', () => { try { simCore.save(); } catch {} });
-const posture = makePosture({ getMotives: () => utility.motives, getSnakePos: () => snk.head.position, getOthers: () => cast ? cast.aware.othersFor(cast.aware.members[0]) : [] });
+const posture = makePosture({ getMotives: () => utility.motives, getSnakePos: () => snk.head.position });
 const nav = makeNav(solids, 0.26);
 const ROUTE_BIAS = { anxious: -0.6, lonely: -0.5, sad: -0.35, given_up: -0.4, uneasy: -0.4, embarrassed: -0.5, joyful: 0.5, excited: 0.5, proud: 0.4, triumph: 0.5, delighted: 0.35, restless: 0.3 };   // <0 hugs walls, >0 takes the open floor
 for (const b of solids) simCore.grid?.blockRect(b[0], b[1], b[2], b[3]);   // the real furniture in the sim's grid
@@ -317,6 +314,11 @@ const AS = annex.spots;
 const IS_STREAM = new URLSearchParams(location.search).has('stream');
 const SIM_MODE = (() => { try { const q = new URLSearchParams(location.search).get('sim') ?? localStorage.getItem('n1m21n.sim'); return q === '1' ? 'local' : q === 'off' || q === '0' ? null : 'life'; } catch { return null; } })();   // 'life' = the shared canonical life (everyone sees the same him); 'local' = this tab's own core chooses
 const SIM_LIVE = !!SIM_MODE;
+// every act he can live has a spot; build / gather need the sim's open-world grid (not in this room) and stay off-screen
+const SPOT_OF = { nap_bench: 'nap', gallery_view: 'bench', night_shower: 'shower', work_through: 'work', night_work: 'work', phone_call: 'phone', answer_phone: 'answer', write_letter: 'write',
+  art_sketch: 'easel', art_refine: 'easel', art_render: 'easel', art_review: 'easel', water_plant: 'plant', greet_visitor: 'greet', roam: 'roam', run_indoors: 'roam', pace: 'pace',
+  wall_bump: 'stumble', false_start: 'glance', build: 'work', gather: 'records' };
+const MICRO = new Set(['yawn', 'stretch', 'sigh', 'fidget', 'sip', 'glance', 'stumble']);   // done where he stands; a seated him stays put
 const simChooser = SIM_MODE === 'life' ? {
   next(current, spots) {                                              // the canonical life's act right now; one with no spot leaves him where he is
     const a = simLife.at(Date.now()).doing, w = SPOT_OF[a] || a;
@@ -338,8 +340,7 @@ const simChooser = SIM_MODE === 'life' ? {
   hold: name => simCore.liveDuration(lastLiveAct && (SPOT_OF[lastLiveAct] || lastLiveAct) === name ? lastLiveAct : name),
 } : null;
 let lastLiveAct = null;
-const watchedCast = () => { const f = cast?.focusId; const c = f && f !== 'him' ? cast.comps.get(f) : null; return c?.on ? c : null; };   // the character the camera follows, when it is not him
-const moodPanel = SIM_LIVE ? makeMoodPanel({ nudges, bonus: () => (routine.mine ? null : visitBonus), getCore: () => (watchedCast()?.core || (SIM_MODE === 'life' ? simLife.at(Date.now()) : simCore)), getDoing: () => (watchedCast() ? watchedCast().core?.doing : SIM_MODE === 'life' ? simLife.at(Date.now()).doing : lastLiveAct), other: () => (watchedCast() ? { name: watchedCast().spec.name } : null) }) : null;
+const moodPanel = SIM_LIVE ? makeMoodPanel({ nudges, bonus: () => (routine.mine ? null : visitBonus), getCore: () => (SIM_MODE === 'life' ? simLife.at(Date.now()) : simCore), getDoing: () => (SIM_MODE === 'life' ? simLife.at(Date.now()).doing : lastLiveAct) }) : null;
 // the easel's canvas follows the life: sketch -> refine -> render -> review of the hour's piece (props.js); hands on, he refines
 // paint still on his hands (the sim's `paint` fluent: set by refine/render, cleared by a wash)
 const paintOnHands = () => { if (!SIM_LIVE || !routine.mine) return false; try { const c = SIM_MODE === 'life' ? simLife.at(Date.now()) : simCore; return c.world.val('paint', c.time.tMin) >= 0.5; } catch { return false; } };
@@ -381,23 +382,6 @@ const routine = makeRoutine({
     pace: { at: PACE[0], start: () => { walker.at = 0; } }, roam: { at: ROAM[0], start: () => { walker.at = 0; } },
   },
 });
-// the cast: him is the lead; anyone else (cast/characters/*.js, today: her) is off by default and brought in by the visitor from the top bar. The choice is the
-// visitor's own (localStorage n1m21n.cast, or ?cast=her; ?her=1 / ?her=0 still work). Each one's code, face textures and life file load only when first brought in.
-let cast = null;
-const castBox = $('castinfo');
-if (SIM_LIVE) {
-  cast = makeCast({
-    lead: { id: 'him', name: 'n1m21n', player, routine, man, say: (t, secs) => bubble.say(t, secs), meetLines: HIS_MEET },
-    ctx: { scene, camera, solids, walls, nav, rooms, snake: snk, ROAM, PACE,
-      seats: { BED: F.BED, CHAIR: F.CHAIR, KEYS, WINDOW, TV: { x: telly.TV.x, z: telly.TV.z, heading: telly.TV.heading, act: 'tv', out: telly.TV.out, pressed: 0 }, READ: { x: reading.READ.x, z: reading.READ.z, heading: reading.READ.heading, act: 'read', out: reading.READ.out } } },
-    ui: { status: document.querySelector('.chrome .status'), before: $('moodbtn'), box: castBox, toast: s => toast(s), panelTop: () => setTimeout(panelTop, 0),
-      closeOthers: () => { if ($('mood') && !$('mood').hidden) $('moodbtn').click(); if (liveOpen) liveBtn.click(); } },
-  });
-  const qs = new URLSearchParams(location.search);
-  let want = []; try { const c = qs.get('cast'), h = qs.get('her'); want = c ? c.split(',') : h != null ? (h === '1' ? ['her'] : []) : JSON.parse(localStorage.getItem('n1m21n.cast') || 'null') || (localStorage.getItem('n1m21n.her') === '1' ? ['her'] : []); } catch {}
-  cast.init({ want });
-  window.dev && (window.dev.cast = cast);
-}
 // live / your room: hands off, he is the shared him everyone sees; take the controls and he is yours until you leave, and the visit is
 // remembered (one short summary to the server, which nudges his shared days)
 const liveBtn = $('livebtn'), liveBox = $('liveinfo'); let liveOpen = false, wasLocal = false, liveAcc = 0;
@@ -417,7 +401,7 @@ function liveUpdate(dt) {
   if (local !== wasLocal) { wasLocal = local; if (!local) for (const k in visitBonus) delete visitBonus[k]; if (local) nudges.start(); else nudges.end(); if (liveOpen) liveBox.innerHTML = liveText(); }
   liveBtn.hidden = !SIM_LIVE; liveBtn.classList.toggle('mine', local); const t = liveBtn.lastElementChild; const label = local ? 'hands on' : 'live'; if (t.textContent !== label) t.textContent = label; liveBtn.title = liveBtn.ariaLabel = label === 'live' ? 'live · he is living his shared day' : 'hands on · you are driving';
 }
-liveBtn.addEventListener('click', e => { e.stopPropagation(); if (!liveOpen && !$('mood').hidden) $('moodbtn').click(); liveOpen = !liveOpen; liveBox.hidden = !liveOpen; if (liveOpen) $('castinfo').hidden = true; liveBtn.setAttribute('aria-expanded', liveOpen); if (liveOpen) { liveBox.innerHTML = liveText(); panelTop(); } });
+liveBtn.addEventListener('click', e => { e.stopPropagation(); if (!liveOpen && !$('mood').hidden) $('moodbtn').click(); liveOpen = !liveOpen; liveBox.hidden = !liveOpen; liveBtn.setAttribute('aria-expanded', liveOpen); if (liveOpen) { liveBox.innerHTML = liveText(); panelTop(); } });
 $('moodbtn').addEventListener('click', () => { if (!$('mood').hidden && liveOpen) { liveOpen = false; liveBox.hidden = true; liveBtn.setAttribute('aria-expanded', false); } setTimeout(panelTop, 0); });
 liveBox.addEventListener('click', e => { if (e.target.id === 'golive') { nudges.end(); routine.handBack(); liveOpen = false; liveBox.hidden = true; liveBtn.setAttribute('aria-expanded', false); } });
 for (const ev of ['pagehide', 'visibilitychange']) addEventListener(ev, () => { if (ev === 'pagehide' || document.visibilityState === 'hidden') nudges.end(); });
@@ -445,7 +429,6 @@ function onTap(cx, cy) {
   ray.setFromCamera(ndc, camera);
   const hit = ray.intersectObjects(scene.children, true).find(h => h.object !== marker && shown(h.object) && !man.root.getObjectById(h.object.id));
   if (!hit) return;
-  if (cast?.tap(hit.point.x, hit.point.z)) return;                       // someone else is under control: the tap walks them
   for (let o = hit.object; o; o = o.parent) if (byObj.has(o)) return walkTo(byObj.get(o));
   const end = player.goTo(hit.point.x, hit.point.z, { done: () => { marker.visible = false; } });
   showMarker(end);
@@ -564,11 +547,9 @@ const sim = {
     },
   },
 };
-window.dev = { get cast() { return cast; }, get her() { return cast?.comps.get('her'); }, get director() { return director; }, setLiveAct: a => { lastLiveAct = a; }, props, THREE, rooms, fits, ward, openWardrobe, snake: snk, routine, motives: utility.motives, sim, sfx, get dpr() { return dpr; }, doors, gallery, annex, portals, stations, walkTo, nav, solids, man, player, scene, camera, room, phys, verifyActs, verifyBeats, beats, ACTS, GUITAR_AT, render: () => comp.render(scene, camera), renderer, reading, telly, shoot, sky: ph => { lastSky = ph; win.userData.sky.material.uniforms.uMap.value = skies[ph] ||= skyTex(ph); } };                              // dev
+window.dev = { get director() { return director; }, setLiveAct: a => { lastLiveAct = a; }, props, THREE, rooms, fits, ward, openWardrobe, snake: snk, routine, motives: utility.motives, sim, sfx, get dpr() { return dpr; }, doors, gallery, annex, portals, stations, walkTo, nav, solids, man, player, scene, camera, room, phys, verifyActs, verifyBeats, beats, ACTS, GUITAR_AT, render: () => comp.render(scene, camera), renderer, reading, telly, shoot, sky: ph => { lastSky = ph; win.userData.sky.material.uniforms.uMap.value = skies[ph] ||= skyTex(ph); } };                              // dev
 let near = null;
 function pickStation() {
-  const cn = cast?.interactable();                                     // someone else is under control: E is theirs
-  if (cn) { near = cn; $('prompt').hidden = false; $('plabel').textContent = cn.label; return; }
   const p = player.pos, h = player.st.heading;
   let best = null, bd = 1e9;
   for (const s of stations) {
@@ -781,8 +762,7 @@ renderer.setAnimationLoop(() => {
   if (!audio.paused) shelf.userData.spin.rotation.y = t * 3.5;     // 33⅓-ish; stops where it was when paused
   const arm = shelf.userData.arm; arm.rotation.y += ((audio.paused ? 0 : ARM_PLAY) - arm.rotation.y) * (1 - Math.exp(-2.5 * dt));   // tonearm swings onto the record
   player.update(dt, t);
-  cast?.update(dt, t);
-  if (routine.mine && !portals.busy && (!cast || cast.focusId === 'him')) director.update(dt, { doing: routine.doing, walking: routine.walking });
+  if (routine.mine && !portals.busy) director.update(dt, { doing: routine.doing, walking: routine.walking });
   stream?.update(dt);
   errands.update(dt);
   framePanels(dt);

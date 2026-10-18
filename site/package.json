@@ -7,7 +7,6 @@
     "build": "vite build",
     "preview": "vite preview --port 5182",
     "test:sim": "node tests/sim.mjs",
-    "test:cast": "node tests/cast.mjs",
     "test:ui": "node tests/ui-hygiene.mjs",
     "test:physics": "node tests/physics.mjs",
     "test:design": "node tests/design.mjs",

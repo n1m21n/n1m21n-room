@@ -85,7 +85,7 @@ export function mood() {
 }
 
 // chooser (optional, ?sim=1): { next(current) -> spot name | null, hold(name) -> seconds } hands the choosing to the sim core
-export function makeRoutine({ player, spots, toast, idleAfter = 120, utility = null, chooser = null, solo = false }) {   // solo: a character no visitor controls (hers): input never takes her over
+export function makeRoutine({ player, spots, toast, idleAfter = 120, utility = null, chooser = null }) {
   // spots: name -> { seat, at: [x, z] (where he walks to), face, start() (sit down and begin) }
   const ai = utility || makeUtilityAI();
   ai.registerSpots(spots);
@@ -99,9 +99,8 @@ export function makeRoutine({ player, spots, toast, idleAfter = 120, utility = n
   }
   const planned = () => now().what;
   let mine = true, lastInput = performance.now(), doing = null, going = false, startedAt = performance.now(), holdFor = 0;
-  let listening = true;                                                // false while the visitor is controlling someone else (cast.js): their input is not for him
-  const touched = () => { if (!listening) return; lastInput = performance.now(); mine = false; going = false; };
-  if (!solo) for (const ev of ['pointerdown', 'keydown', 'wheel']) addEventListener(ev, touched, { capture: true, passive: true });
+  const touched = () => { lastInput = performance.now(); mine = false; going = false; };
+  for (const ev of ['pointerdown', 'keydown', 'wheel']) addEventListener(ev, touched, { capture: true, passive: true });
 
   function begin(what, { walk }) {
     const s = spots[what]; if (!s) return;
@@ -155,7 +154,6 @@ export function makeRoutine({ player, spots, toast, idleAfter = 120, utility = n
     spots,
     handBack() { lastInput = -1e9; mine = true; going = false; acc = 9; },      // the visitor lets go: he rejoins the live feed at once
     get mine() { return mine; },
-    listen(on) { listening = on; if (!on) this.handBack(); },
     get doing() { return doing; },
   };
 }

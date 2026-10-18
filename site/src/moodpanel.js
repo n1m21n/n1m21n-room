@@ -16,7 +16,7 @@ const METERS = [['energy', 'energy'], ['hunger', 'belly'], ['fun', 'fun'], ['soc
 const PUSH = { guitar: 'guitar songs', keys: 'keys songs', records: 'records', tv: 'tv nights', snake: 'snake pets', window: 'window gazes', read: 'reading sessions', work: 'desk sessions', eat: 'meals', tea: 'cups of tea', cook: 'cooking', fridge: 'fridge raids', shower: 'showers', brush: 'teeth brushed', wash: 'face washes', loo: 'loo trips', dress: 'outfit changes', bench: 'bench sits', gallery_view: 'art looks', sleep: 'lie-downs', lamp: 'lamp flicks', sit: 'stool sits', timeline: 'timeline peeks', phone_call: 'phone calls', water_plant: 'plant waterings', art_refine: 'paint sessions' };
 const pills = o => Object.entries(o).filter(([k, n]) => n && PUSH[k]).sort((a, b) => b[1] - a[1]).slice(0, 8).map(([k, n]) => `<span><b>${n}</b> ${PUSH[k]}</span>`).join('');
 
-export function makeMoodPanel({ nudges, getCore, getDoing, bonus = () => null, other = () => null }) {      // other: { name } while the camera follows someone else (their numbers, their pronoun)
+export function makeMoodPanel({ nudges, getCore, getDoing, bonus = () => null }) {
   const btn = document.getElementById('moodbtn'), box = document.getElementById('mood');
   const full = (() => { try { return new URLSearchParams(location.search).has('stats'); } catch { return false; } })();
   btn.hidden = false;
@@ -29,7 +29,6 @@ export function makeMoodPanel({ nudges, getCore, getDoing, bonus = () => null, o
     const el = document.createElement('span'); el.textContent = txt; el.className = up ? 'up' : 'down';
     el.style.setProperty('--dx', (Math.random() * 30 - 15) + 'px'); fl.append(el); setTimeout(() => el.remove(), 2600);
   }
-  let lastWho = '';
   function watch(m) {                                              // slow decay is ~1 point per sample; an act's reward is a jump
     if (prev) { let n = 0; for (const k in FLOAT) { const d = Math.round(((m[k] ?? 0) - (prev[k] ?? 0)) * 100); if (Math.abs(d) >= 4 && n++ < 4) setTimeout(() => pop(`${d > 0 ? '+' : '−'}${Math.abs(d)} ${FLOAT[k]}`, d > 0), n * 220); } }
     prev = { ...m };
@@ -48,8 +47,7 @@ export function makeMoodPanel({ nudges, getCore, getDoing, bonus = () => null, o
 
   function update(dt) {
     acc += dt; if (acc < 0.6) return; acc = 0;
-    const core = getCore(), o = other(), b = o ? null : bonus(), mot = {}; for (const k in core.motives) mot[k] = Math.max(0, Math.min(1, core.motives[k] + (b?.[k] || 0)));   // his own state + what this visitor just did
-    if ((o?.name || '') !== lastWho) { lastWho = o?.name || ''; prev = null; }                                  // switching character is not a reward: no +/- floats
+    const core = getCore(), b = bonus(), mot = {}; for (const k in core.motives) mot[k] = Math.max(0, Math.min(1, core.motives[k] + (b?.[k] || 0)));   // his own state + what this visitor just did
     watch(mot);
     const emo = core.emotion.current, a = core.affect, face = core.emotion.faceOf(emo);
     const chip = `<img src="/media/man/face-${face}.webp" alt="" width="18" height="18"><span>${nice(emo)}</span>`;
@@ -59,9 +57,8 @@ export function makeMoodPanel({ nudges, getCore, getDoing, bonus = () => null, o
     const wins = WINS.map(([k, l]) => [t.acts[k] || 0, l]).filter(w => w[0]);
     if (t.art?.pieces) wins.push([t.art.pieces, t.art.pieces === 1 ? 'piece of art' : 'pieces of art']);
     if (t.social) wins.push([t.social, t.social === 1 ? 'visitor' : 'visitors']);
-    const everyone = !o && nudges?.online ? pills(nudges.counts) : '', you = nudges?.online ? pills(nudges.mine || {}) : '';
-    const body = tab === 'visitors' && o ? `<p class="mnote">visitors only nudge the shared n1m21n for now. ${o.name} lives her own day.</p>`
-      : tab === 'visitors'
+    const everyone = nudges?.online ? pills(nudges.counts) : '', you = nudges?.online ? pills(nudges.mine || {}) : '';
+    const body = tab === 'visitors'
       ? (nudges?.online
         ? `${everyone ? `<p class="mlab">everyone · ${nudges.visitors} visitor${nudges.visitors === 1 ? '' : 's'}</p><p class="mwins">${everyone}</p>` : '<p class="mnote">nobody has played with him yet. take the controls and he will remember your visit.</p>'}${you ? `<p class="mlab">you</p><p class="mwins">${you}</p>` : ''}`
         : '<p class="mnote">visits are not loading right now.</p>')
@@ -77,8 +74,6 @@ export function makeMoodPanel({ nudges, getCore, getDoing, bonus = () => null, o
       html += `<h3>full numbers</h3>${['hygiene', 'focus', 'bladder'].map(k => num(k, mot[k] ?? 0)).join('')}${[['valence', 'mood'], ['arousal', 'wired'], ['stress', 'stress'], ['dominance', 'control']].map(([k, l]) => num(l, a[k] ?? 0, k === 'stress')).join('')}
         <div class="mgrid"><span>acts</span><b>${t.n}</b><span>chains done</span><b>${t.chainsDone}</b><span>chains broken</span><b>${t.chainsBroken}</b><span>went wrong</span><b>${t.outcomes.fail}</b></div>`;
     }
-    if (o) html = html.replace(/\bhis\b/g, 'her').replace(/\bhim\b/g, 'her').replace(/\bhe\b/g, 'she').replace(/\bhe'll\b/g, "she'll");     // her numbers, said about her
-    btn.title = btn.ariaLabel = o ? `how ${o.name} feels · tap for the numbers` : 'how he feels · tap for the numbers';
     box.innerHTML = html;
   }
   return { update };

@@ -1,6 +1,6 @@
 # Emotion report (generated)
 
-27 emotions, 47 activities, 20 chains.
+27 emotions, 46 activities, 20 chains.
 
 | emotion | v | a | st | e | dom | face | texture | tempo | breath Hz | spine rad | chest rad |
 |---|---|---|---|---|---|---|---|---|---|---|---|
@@ -67,6 +67,6 @@
 ## Activities by kind / trivial
 
 - normal / trivial (10): fridge, brush, wash, loo, yawn, stretch, sigh, fidget, sip, glance
-- normal / non-trivial (30): sleep, bench, eat, cook, tea, guitar, keys, tv, records, snake, window, read, work, shower, dress, roam, pace, gallery_view, build, gather, phone_call, write_letter, greet_visitor, answer_phone, art_sketch, art_refine, art_render, art_review, water_plant, dance
+- normal / non-trivial (29): sleep, bench, eat, cook, tea, guitar, keys, tv, records, snake, window, read, work, shower, dress, roam, pace, gallery_view, build, gather, phone_call, write_letter, greet_visitor, answer_phone, art_sketch, art_refine, art_render, art_review, water_plant
 - erratic / trivial (3): wall_bump, stumble, false_start
 - erratic / non-trivial (4): run_indoors, night_shower, nap_bench, work_through
