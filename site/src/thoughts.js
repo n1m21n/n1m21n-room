@@ -46,10 +46,11 @@ function simThought(core, doing, seed, L) {
   const tl = TIME_LINES[hourBucket(core.time?.hour ?? 12)];
   if (tl) kinds.push('time');
   kinds.push('self');
+  if (L.RANDOM_LINES) kinds.push('rand', 'rand', 'rand');                              // a thought that just turns up, whatever he is doing
   const kind = kinds.length ? pick(kinds, 2) : null;
-  let base = kind === 'need' ? pick(NEED_LINES[need], 3) : kind === 'emo' ? pick(EMOTION_LINES[emo], 3) : kind === 'act' ? pick(DAY_THOUGHTS[doing] || ACT_LINES[doing], 3) : kind === 'time' ? pick(tl, 3) : kind === 'self' ? pick(SELF_LINES, 3) : null;
+  let base = kind === 'need' ? pick(NEED_LINES[need], 3) : kind === 'emo' ? pick(EMOTION_LINES[emo], 3) : kind === 'act' ? pick(DAY_THOUGHTS[doing] || ACT_LINES[doing], 3) : kind === 'time' ? pick(tl, 3) : kind === 'self' ? pick(SELF_LINES, 3) : kind === 'rand' ? pick(L.RANDOM_LINES, 3) : null;
   if (!base) return null;
-  const hint = next && NEXT_LINES[next] && h(4) < 0.6 ? ' ' + NEXT_LINES[next] : '';
+  const hint = kind !== 'rand' && next && NEXT_LINES[next] && h(4) < 0.45 ? ' ' + NEXT_LINES[next] : '';
   return base + hint;
 }
 

@@ -80,3 +80,23 @@ export const MORE = {
   SCROLL_LINES: ["omg this is so me", "ok sending this to my friend", "one more reel, one more", "why is it all so relatable", "phone down. ok really now", "saving this for later"],
   SELF_LINES: ["i'm trying to be softer with myself", "small steps still count", "i like my own company more than i thought", "it's ok to not be productive today", "i overthink everything, hmmm", "i'm a slow starter, but i get there", "some days just need a blanket"],
 };
+
+// random mind-wandering: not about what she is doing, a thought that just turns up
+export const RANDOM = [
+  "hmmm what shall i eat later", "i should call my friend. tomorrow maybe", "why is it so hard to pick a song", "my hair is being annoying today",
+  "ok i need new earphones", "wonder what everyone is doing rn", "i keep forgetting to drink water 😭", "i love the smell after rain",
+  "what if i learn to bake", "my phone battery is always dying", "i should clean my desk. ok later", "achaaa i forgot to reply to that",
+  "tea or coffee, hmmm, tea", "i want to go somewhere green", "the sky is such a nice colour right now", "i wonder if the plant is happy",
+  "need to buy a new notebook", "why do i get sleepy at the same time every day", "it would be nice to have a cat", "i should plan a small trip",
+  "my bracelet is so cute, i love it", "what is that song, its stuck in my head", "ok no more scrolling. five more minutes", "hmmm i should tidy this shelf",
+  "i want pani puri so bad", "some nights are just made for lying down and thinking", "i think i'll write a note to myself", "do plants like music or is that a myth",
+  "i need a long walk with nothing to do", "i hope tomorrow is slow", "the room smells like chai, i love it", "wait i never answered that message",
+  "my favourite part of the day is right now", "i should stretch, hmmm, later", "the blue light in here is so cosy", "i'm getting hungry again 😭",
+  "what shall i wear tomorrow", "someone should make a day with 30 hours", "i could draw smthn. maybe", "so much to do, so little energy",
+  "old photos are such a trap, i end up smiling", "ok i'll sleep early tonight. promise", "i like the quiet when everyone is busy", "hmmm what was i about to do",
+  "i wonder what he is thinking abt", "this room feels so lived in",
+];
+export const MORE2 = {
+  DAY_THOUGHTS: { tea: ["adrak chai, yes please", "waiting for the boil is meditation"], cook: ["jeera first, always", "i'll add a bit more masala"], easel: ["hmmm maybe a softer blue", "colours are my comfort"], work: ["too many tabs, too little brain", "reply later, finish this now", "ok no more meetings after this"], keys: ["i like how soft this note is", "ok one more try with a different mood"], guitar: ["my fingertips hurt, worth it", "play it slow first"], records: ["this song is a hug", "play the other side next"] },
+  ACT_LINES: { tv: ["i know the ending and im still watching", "pause, snack, play"], read: ["i read the same line twice, ok again", "this one is going to stay with me"], window: ["the street is so calm now", "there is a tiny bird outside"], roam: ["i came here for smthn. what was it"], pace: ["i think better walking, ok"] },
+};

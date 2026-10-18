@@ -80,3 +80,23 @@ export const MORE = {
   SCROLL_LINES: ["ok that reel was good", "who even makes these", "one more scroll then work", "saving this for the playlist", "my thumb has a mind of its own", "ok enough, phone away"],
   SELF_LINES: ["i should be kinder to myself", "growing slowly is still growing", "i like building things more than finishing them", "im okay with being a work in progress", "some days are for rest and thats ok", "i think too much, but im learning", "its fine to take the long way", "im more of a night person tbh"],
 };
+
+// random mind-wandering: not about what he is doing, a thought that just turns up (observations, questions, small plans, memories)
+export const RANDOM = [
+  "wonder if the plant can hear the music", "what would i name this track", "i should clean the desk. not today", "somebody somewhere is playing the same song rn",
+  "why do old gadgets feel warmer", "i need a haircut", "what if i moved the bed to the other wall", "the fan has a rhythm if u listen",
+  "i havent called home in a few days", "i should learn another instrument", "what is the colour of this room called", "kind of want noodles",
+  "how long have i been awake", "did i lock the door", "every song sounds better through a wall", "thinking abt a trip somewhere with mountains",
+  "my handwriting is getting worse", "what if the next idea is the good one", "i should write this down. i wont", "the rain sounds different on this window",
+  "one day ill finish all the unfinished things", "why is the light better at this exact time", "i want to make a track that sounds like this hour", "should i get a second monitor",
+  "i miss the old city sometimes", "is it too late for coffee. yes. coffee anyway", "ok no more tabs", "that one chord keeps looping in my head",
+  "what is everyone having for dinner", "i should stretch", "wonder what the snake dreams abt", "need new strings. maybe",
+  "somebody should make a map of quiet rooms", "the room feels like a small ship tonight", "i like how the floor looks in this light", "i could redo the whole shelf",
+  "the neighbour is practising something again", "the world is loud but this corner is fine", "will this idea survive till morning", "my tea is always cold by the time i remember it",
+  "i want a window seat for life", "just realised ive been humming for ten minutes", "what song was that from", "the moon looks close tonight",
+  "i keep meaning to read that book", "might repaint the wall. maybe", "i like the sound of paper", "how do other people end their days",
+];
+export const MORE2 = {
+  DAY_THOUGHTS: { tea: ["cardamom this time", "tea tastes better when nobody is waiting on me"], cook: ["a pinch more spice never hurt", "chopping is oddly calming"], easel: ["maybe the sky should be louder", "brush is getting dry, keep going"], work: ["commit message says fix. it was not a fix", "refactor it or leave it, thats the question", "console is finally quiet"], keys: ["the minor chord is where the story is", "loop it and let it breathe"], guitar: ["string buzz, thats the fret", "bar chords are a workout"], records: ["dust on the sleeve, love it", "side b is always the secret"] },
+  ACT_LINES: { tv: ["this plot makes no sense and i like it", "ok who is the bad guy"], read: ["underlining things i will forget", "this author gets it"], window: ["lights are coming on across the street", "a cat on the opposite roof, nice"], roam: ["looking for what i walked in for"], pace: ["the floor is my whiteboard"] },
+};
