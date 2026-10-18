@@ -177,8 +177,8 @@ export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onT
   }
   const inRoom = (r, m) => pos.x > r.box[0] + m && pos.x < r.box[2] - m && pos.z > r.box[1] + m && pos.z < r.box[3] - m;
   function roomNow() {
-    if (here && inRoom(here, -0.2)) here = rooms.find(r => r !== here && inRoom(r, INSET)) || here;   // a doorway: still the old one
-    else here = rooms.find(r => inRoom(r, INSET)) || rooms.find(r => inRoom(r, 0)) || null;
+    if (here && inRoom(here, -0.35)) here = rooms.find(r => r !== here && inRoom(r, INSET)) || here;   // a doorway: still the old one
+    else here = rooms.find(r => inRoom(r, INSET)) || rooms.find(r => inRoom(r, -0.1)) || here;
     return here;
   }
   // vx, vz: the camera's heading on the floor plan (from the lens toward him)
@@ -207,6 +207,7 @@ export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onT
     n.name = m.name; c.mats.push([o, m, n]); o.material = n; return true;
   }
   function cutWall(w, why) {
+    if (w.userData.door || w.userData.low || w.userData.hall) return;
     let c = cuts.get(w);
     if (!c) {
       c = { k: 0, clear: 0, hit: true, why, mats: [], pop: [] }; cuts.set(w, c);
@@ -270,7 +271,7 @@ export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onT
       // wall (annex.js linings) goes with it though it stands on the floor
       const sz = new THREE.Vector3(), c = new THREE.Vector3();
       for (const o of getProps()) {
-        if (o === w || o.userData.floor || o.userData.stays) continue;
+        if (o === w || o.userData.floor || o.userData.stays || o.userData.door || o.parent?.name === 'door') continue;
         const ub = o.userData.skin ? boxOf(o) : boxOf(unitOf(o)); ub.getCenter(c);
         if ((ub.min.y > 0.05 || o.userData.skin) && small(ub, sz) && wb.containsPoint(c)) out.push(o);
       }
@@ -359,7 +360,7 @@ export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onT
       camera.lookAt(focus.x, focus.y - drop, focus.z); camera.fov = tall ? 66 : 50;
       // the arm can't pull in any further (0.6 m) and a prop still hugs the lens (the tees inside the wardrobe, a corner
       // plant's leaves, an open wardrobe door): cut it away like the ones right by him
-      for (const a of LENS_AX) { ray.set(camera.position, a); ray.far = 0.14; for (const q of ray.intersectObjects(lens, false)) if (walls.includes(q.object)) { if (!ofHere(q.object)) cutWall(q.object, 'lens'); } else if ((q.object.visible || hidden.has(q.object)) && !occl.includes(q.object)) occl.push(q.object); }
+      for (const a of LENS_AX) { ray.set(camera.position, a); ray.far = 0.14; for (const q of ray.intersectObjects(lens, false)) if (walls.includes(q.object)) { if (!ofHere(q.object) && !q.object.userData.door && !q.object.userData.low && !q.object.userData.hall) cutWall(q.object, 'lens'); } else if ((q.object.visible || hidden.has(q.object)) && !occl.includes(q.object)) occl.push(q.object); }
     }
     camera.updateProjectionMatrix();
     // cut away any wall still between camera and player (top-down, tight corners)
@@ -375,9 +376,9 @@ export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onT
       for (const off of [0, -0.35, 0.35]) {
         tgt.set(pos.x + side.x * off, 1.0, pos.z + side.z * off);
         const v = tgt.clone().sub(camera.position), L = v.length();
-        ray.set(camera.position, v.normalize()); ray.far = L;
+        ray.set(camera.position, v.normalize()); ray.far = Math.max(0, L - 0.35);
         for (const h of ray.intersectObjects(walls, false)) {
-          if (ofHere(h.object) || h.object.userData.low) continue;   // his room: the cutaway's call. Half walls stay
+          if (ofHere(h.object) || h.object.userData.low || h.object.userData.door || h.object.userData.hall) continue;   // his room: the cutaway's call. Half walls, doors, halls stay
           if (st.view === 'third' && (h.object.userData.door || orb.d > 0.62) && (h.object.userData.arm || (h.object.userData.armOut && !inBox(h.object.userData.armOut)))) continue;   // those stop the camera instead (a door must never blink out mid-push), unless the arm is fully in and one is still between
           cutWall(h.object, 'ray' + off);
         }
