@@ -22,7 +22,10 @@ export async function onRequestGet({ env, request }) {
     if (!id) return json({ ok: false, why: 'no live chat on that video id (is chat on, is the stream live?)', wait: 30000 }, 404);
     chatIds.set(v, id);
   }
-  const r = await fetch(`https://www.googleapis.com/youtube/v3/liveChat/messages?liveChatId=${encodeURIComponent(id)}&part=snippet,authorDetails&maxResults=200${p ? '&pageToken=' + encodeURIComponent(p) : ''}&key=${key}`);
+  let r = await fetch(`https://www.googleapis.com/youtube/v3/liveChat/messages?liveChatId=${encodeURIComponent(id)}&part=snippet,authorDetails&maxResults=200${p ? '&pageToken=' + encodeURIComponent(p) : ''}&key=${key}`);
+  if (!r.ok && p) {
+    r = await fetch(`https://www.googleapis.com/youtube/v3/liveChat/messages?liveChatId=${encodeURIComponent(id)}&part=snippet,authorDetails&maxResults=200&key=${key}`);
+  }
   if (!r.ok) { if (r.status === 403 || r.status === 404) chatIds.delete(v); return json({ ok: false, why: await yterr(r), wait: r.status === 403 ? 300000 : 30000 }, 502); }
   const d = await r.json();
   const messages = (d.items || []).filter(m => m.snippet?.type === 'textMessageEvent').map(m => ({ user: m.authorDetails?.channelId || '', name: m.authorDetails?.displayName || '', text: String(m.snippet?.textMessageDetails?.messageText || '').slice(0, 200), t: Date.parse(m.snippet?.publishedAt) || Date.now() }));

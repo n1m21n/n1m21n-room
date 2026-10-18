@@ -21,8 +21,8 @@ export function youtubeFeed(videoId, onMessage, onStatus = () => {}) {
         onStatus(true, 'chat connected'); token = d.next || token; wait = d.wait || wait;
         const cutoff = first ? Date.now() - 60000 : 0; first = false;       // the chat that was already there when the stream page opened is history
         for (const m of d.messages || []) if (!cutoff || m.t >= cutoff) onMessage({ user: 'yt:' + m.user, name: m.name, text: m.text });
-      } else { wait = d.wait || 30000; onStatus(false, 'chat: ' + (d.why || 'error ' + r.status)); }
-    } catch { wait = 30000; onStatus(false, 'chat: cannot reach the server'); }
+      } else { token = ''; wait = d.wait || 30000; onStatus(false, 'chat: ' + (d.why || 'error ' + r.status)); }
+    } catch { token = ''; wait = 30000; onStatus(false, 'chat: cannot reach the server'); }
     if (!stopped) timer = setTimeout(poll, wait);
   }
   poll();

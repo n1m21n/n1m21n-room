@@ -73,7 +73,7 @@ export function replyFor(note, rnd = Math.random) {
 
 // the pile of notes on his desk. One note per viewer at a time, the same command from several viewers stacks as votes (×3), a viewer
 // waits `cooldown` between notes, and the pile holds at most `max`. next() takes the most voted, oldest first.
-export function makeQueue({ max = 6, cooldown = 20000, now = Date.now } = {}) {
+export function makeQueue({ max = 6, cooldown = 8000, now = Date.now } = {}) {
   const notes = [], last = new Map(); let seq = 0;
   function offer({ user, name, text }) {
     const p = parse(text); if (!p) return { ok: false, why: 'ignored' };
