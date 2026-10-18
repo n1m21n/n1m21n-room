@@ -163,9 +163,9 @@ export function makeDoors({ scene, walls, solids, player, man }) {
         push(d, { x: end[0], z: end[1], done, face });
         continue;
       }
-      // walking into it with keys: it swings open ahead of him (no time to stop and reach)
+      // walking into it or standing in front of it: swing open ahead of him so he never gets stuck
       const hd = st.heading, toward = -(Math.sin(hd) * d.n.x + Math.cos(hd) * d.n.z) * side;
-      if (st.speed > 0.3 && toward > 0.5 && Math.abs(along) < 0.75) { d.to = swingSign(d, side) * OPEN; setAngle(d, d.angle + d.to * 0.02); }
+      if ((st.speed > 0.15 || Math.abs(along) < 0.85) && toward > 0.25) { d.to = swingSign(d, side) * OPEN; setAngle(d, d.angle + d.to * 0.02); }
     }
   }
 

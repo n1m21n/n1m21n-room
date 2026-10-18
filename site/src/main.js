@@ -696,8 +696,19 @@ comp.render(scene, camera);
 player.st.frozen = !!window.boot;                              // no walking about behind the loading screen
 const arrived = routine.arrive();                              // he's already at whatever the hour says
 if (night()) { shared.uLamp.value = 1; lamp.userData.pool.visible = true; F.desk.userData.lamp.userData.pool.visible = true; }
-boot.ready(() => { player.st.frozen = false; routine.handBack();   // the click on enter is not play: he starts live
- toast(arrived, 5000); });
+const IS_STREAM = new URLSearchParams(window.location.search).has('stream');
+boot.ready(() => {
+  player.st.frozen = false;
+  routine.handBack();   // the click on enter is not play: he starts live
+  toast(arrived, 5000);
+  if (IS_STREAM) {
+    setTimeout(() => {
+      $('enter')?.click();
+      sfx.setMuted(false);
+      paintSnd();
+    }, 400);
+  }
+});
 
 const clock = new THREE.Clock();
 let tick = -1, lastWhere = '', boilNow = false;
@@ -710,6 +721,12 @@ renderer.setAnimationLoop(() => {
   if (!audio.paused) shelf.userData.spin.rotation.y = t * 3.5;     // 33⅓-ish; stops where it was when paused
   const arm = shelf.userData.arm; arm.rotation.y += ((audio.paused ? 0 : ARM_PLAY) - arm.rotation.y) * (1 - Math.exp(-2.5 * dt));   // tonearm swings onto the record
   player.update(dt, t);
+  if (player.st.view === 'third' && (!player.keys.size || IS_STREAM)) {
+    player.st.yaw += dt * 0.035;                                 // gentle, aesthetic 360 orbit
+    const cycle = Math.sin(t * 0.06);                            // ~100s breathing cycle
+    player.st.dist = 3.8 + cycle * 0.55;                         // smooth dolly in/out (3.25m - 4.35m)
+    player.st.pitch = 0.38 + cycle * 0.04;
+  }
   framePanels(dt);
   doors.update(dt);
   ward.update(dt, t);
