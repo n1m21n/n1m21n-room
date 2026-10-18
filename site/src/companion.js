@@ -16,6 +16,8 @@ import { makeLife } from './sim/life.js';
 import { HER } from './sim/data/her.gen.js';
 import { SPOT_OF, MICRO } from './spot-of.js';
 import { palmFrame, BOOK } from './acts.js';
+import { makeThoughts } from './thoughts.js';
+import * as LINES from './her-thought-lines.js';
 
 const OFFSET = 211e3;                                        // her beats and breaks run on a clock a few minutes off his, so they never move in step
 const SEATED = new Set(['sleep', 'work', 'keys', 'tv', 'read', 'window']);   // one at a time: he has first call
@@ -108,6 +110,12 @@ export async function makeCompanion(ctx) {
   let hiAt = 0;
   function maybeHi(dt) { if ((hiAt += dt) < 30) return; hiAt = 0; if (Math.floor(Date.now() / 600e3) % 2 === 0 && Math.random() < 0.08 && !player.st.seated && routine.doing !== 'away') sayHi(); }
 
+  // her thought bubble: her own voice (her-thought-lines.js), her own sim, and her own rhythm (a line every ~28 s, not his 20)
+  const herCore = () => { try { return life.at(Date.now()); } catch { return null; } };
+  const bubbleEl = document.getElementById('thought-her');
+  const bubble = makeThoughts({ el: bubbleEl, man, camera: ctx.camera, player, routine: { get doing() { return routine.doing; } }, window: null, core: herCore, lines: LINES, doingOf: () => herCore()?.doing, phone: false });
+  bubble.setPace({ every: 28, hold: 6.5 });
+
   function stepWalker(dt) {
     const w = routine.doing; if ((w !== 'pace' && w !== 'roam') || player.st.seated || player.auto.pts) { walker.at = 0; return; }
     if ((walker.at += dt) < (w === 'pace' ? 2 : 3.5)) return;
@@ -123,7 +131,7 @@ export async function makeCompanion(ctx) {
     man.root.position.set(DOOR[0], 0, DOOR[1]); man.root.visible = true; away = false; routine.handBack();
   }
   function hide() {
-    if (!on) return; on = false; away = false;
+    if (!on) return; on = false; away = false; bubbleEl.hidden = true;
     if (player.st.seated) player.stand(); player.cancelAuto(); man.root.visible = false;
   }
   function update(dt, t) {
@@ -133,11 +141,12 @@ export async function makeCompanion(ctx) {
     player.update(dt, t);
     routine.update(dt, { busy: false });
     stepWalker(dt); bookUpdate(); maybeHi(dt);
+    if (man.root.visible && !meeting && !player.st.seated?.act?.startsWith?.('greet')) bubble.update(dt); else bubbleEl.hidden = true;
     if (meeting?.arrived && player.st.seated && Date.now() - meeting.arrivedAt > 6e3) player.stand();      // the wave has had its moment
     if (meeting && ((meeting.arrived && !player.st.seated) || Date.now() - meeting.at > 45e3)) endMeeting();
     // never through him: if they meet on the floor she steps aside
     const dx = player.pos.x - him.player.pos.x, dz = player.pos.z - him.player.pos.z, d = Math.hypot(dx, dz);
     if (d < 0.55 && !player.st.seated && d > 1e-3) { const k = (0.55 - d) / d * 0.5; player.pos.x += dx * k; player.pos.z += dz * k; }
   }
-  return { man, player, routine, show, hide, update, sayHi, get meeting() { return !!meeting; }, get on() { return on; }, get core() { return life.at(Date.now()); }, life: () => life };
+  return { man, player, routine, bubble, show, hide, update, sayHi, get meeting() { return !!meeting; }, get on() { return on; }, get core() { return life.at(Date.now()); }, life: () => life };
 }

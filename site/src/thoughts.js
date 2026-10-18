@@ -2,7 +2,8 @@
 // for what he is doing. `say(text, secs)` lets a caller (the stream's chat notes) put a line in the bubble for a moment, and
 // `setPace` changes how often the musings come (the stream wants them quicker).
 import * as THREE from 'three';
-import { NEED_LINES, NEED_FIX, EMOTION_LINES, NEXT_LINES, DAY_THOUGHTS, ACT_LINES, TIME_LINES, SELF_LINES, hourBucket } from './thought-lines.js';
+import * as HIS from './thought-lines.js';
+import { DAY_THOUGHTS } from './thought-lines.js';
 
 const PHONE_LINES = [
   "hey, yeah i'm listening.",
@@ -27,7 +28,8 @@ export { DAY_THOUGHTS };
 
 // what the sim says about him right now (read-only): emotion, his lowest need and the next act he means to do.
 // Seeded by the clock, not Math.random, so everyone watching the shared life sees the same line at the same time.
-function simThought(core, doing, seed) {
+function simThought(core, doing, seed, L) {
+  const { NEED_LINES, NEED_FIX, EMOTION_LINES, NEXT_LINES, DAY_THOUGHTS, ACT_LINES, TIME_LINES, SELF_LINES, hourBucket } = L;
   if (doing === 'sleep' || doing === 'nap_bench') return null;
   const h = n => { let x = (seed * 2654435761 + n * 40503) >>> 0; x ^= x >>> 15; x = Math.imul(x, 2246822519) >>> 0; return (x >>> 0) / 4294967296; };
   const pick = (arr, n) => arr[Math.floor(h(n) * arr.length)];
@@ -51,16 +53,18 @@ function simThought(core, doing, seed) {
   return base + hint;
 }
 
-export function makeThoughts({ el, man, camera, player, routine, window: win, core = () => null }) {
+// lines: another character's voice (same exports as thought-lines.js); doingOf: what to call the act (her chooser names differ from her sim's); phone: false for a character with no phone talk
+export function makeThoughts({ el, man, camera, player, routine, window: win, core = () => null, lines = HIS, doingOf = null, phone = true }) {
+  const DAY = lines.DAY_THOUGHTS;
   const headW = new THREE.Vector3(), p = el.querySelector('p');
   let phoneLineIdx = 0, phoneLineT = 0, currentPhoneLine = '';
   let casualT = 0, currentCasual = '', casualHold = 0;
   let pace = { every: 20, hold: 6 }, forced = null;
 
   function update(dt = 0.016) {
-    const isWindow = player.st.seated === win && win.t > 0.8;
-    const isPhone = (player.st.seated?.act === 'phone' && (player.st.spec?.phone || player.st.seated?.t > 0.6)) || routine.doing === 'phone' || routine.doing === 'answer';
-    const doing = routine.doing;
+    const isWindow = !!win && player.st.seated === win && win.t > 0.8;
+    const isPhone = phone && (player.st.seated?.act === 'phone' && (player.st.spec?.phone || player.st.seated?.t > 0.6)) || routine.doing === 'phone' || routine.doing === 'answer';
+    const doing = (doingOf && doingOf()) || routine.doing;
 
     let text = '';
     if (forced && (forced.left -= dt) > 0) {
@@ -77,7 +81,7 @@ export function makeThoughts({ el, man, camera, player, routine, window: win, co
         phoneLineIdx = (phoneLineIdx + 1) % PHONE_LINES.length;
       }
       text = `“${currentPhoneLine}”`;
-    } else if (DAY_THOUGHTS[doing] || core()) {
+    } else if (DAY[doing] || core()) {
       forced = null;
       casualT += dt;
       if (casualHold > 0) {
@@ -85,8 +89,8 @@ export function makeThoughts({ el, man, camera, player, routine, window: win, co
         text = currentCasual;
       } else if (casualT > pace.every) {
         casualT = 0;
-        const pool = DAY_THOUGHTS[doing];
-        let c = null; try { const k = core(); if (k && doing) c = simThought(k, doing, Math.floor(Date.now() / (pace.every * 1000))); } catch { /* sim still loading: fall back */ }
+        const pool = DAY[doing] || lines.ACT_LINES?.[doing];
+        let c = null; try { const k = core(); if (k && doing) c = simThought(k, doing, Math.floor(Date.now() / (pace.every * 1000)), lines); } catch { /* sim still loading: fall back */ }
         currentCasual = c || (pool ? pool[Math.floor(Math.random() * pool.length)] : '');
         if (!currentCasual) return void (el.hidden = true);
         casualHold = pace.hold;

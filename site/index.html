@@ -91,11 +91,12 @@
   @keyframes mfloat { 0% { opacity:0; transform:translate(var(--dx),0); } 12% { opacity:1; } 100% { opacity:0; transform:translate(var(--dx),70px); } }
   @media (prefers-reduced-motion:reduce) { #moodfloat span { animation:mfade 2.5s forwards; } @keyframes mfade { 0%,70% { opacity:1; } 100% { opacity:0; } } }
   body:has(#card:not([hidden])) :is(#mood, #moodfloat, #liveinfo, #herinfo) { display:none; }
-  #thought { position:fixed; transform:translate(-30%,-100%); max-width:min(300px, calc(100vw - 32px)); pointer-events:none; z-index:5; }
-  #thought p { margin:0; font:400 13px/1.45 'DM Mono',monospace; background:var(--paper); border:2px solid var(--ink); border-radius:22px; padding:12px 16px; animation:bob 3s ease-in-out infinite; }
-  #thought i { position:absolute; border:2px solid var(--ink); background:var(--paper); border-radius:50%; }
-  #thought i:nth-of-type(1) { width:14px; height:14px; left:22%; bottom:-20px; }
-  #thought i:nth-of-type(2) { width:8px; height:8px; left:18%; bottom:-34px; }
+  :is(#thought, #thought-her) { position:fixed; transform:translate(-30%,-100%); max-width:min(300px, calc(100vw - 32px)); pointer-events:none; z-index:5; }
+  :is(#thought, #thought-her) p { margin:0; font:400 13px/1.45 'DM Mono',monospace; background:var(--paper); border:2px solid var(--ink); border-radius:22px; padding:12px 16px; animation:bob 3s ease-in-out infinite; }
+  :is(#thought, #thought-her) i { position:absolute; border:2px solid var(--ink); background:var(--paper); border-radius:50%; }
+  :is(#thought, #thought-her) i:nth-of-type(1) { width:14px; height:14px; left:22%; bottom:-20px; }
+  :is(#thought, #thought-her) i:nth-of-type(2) { width:8px; height:8px; left:18%; bottom:-34px; }
+  #thought-her p { box-shadow:3px 3px 0 var(--pink); }
   @keyframes bob { 50% { transform:translateY(-4px); } }
   body.watching #deck { display:none; }                          /* the tv player stands in for the deck while watching */
   #tvp { position:fixed; left:calc(var(--edge) + env(safe-area-inset-left)); bottom:calc(var(--edge) + env(safe-area-inset-bottom)); width:min(340px, calc(100vw - 2 * var(--edge))); box-sizing:border-box; background:var(--paper); color:var(--ink); border:2px solid var(--ink); border-radius:12px; padding:10px; box-shadow:5px 5px 0 var(--pink); font:400 12px 'DM Mono',monospace; z-index:6; }
@@ -296,7 +297,7 @@
     #tvp { width:auto; right:calc(var(--edge) + env(safe-area-inset-right)); }
     #tvp .tscr { max-height:30dvh; }
   }
-  body:has(#card:not([hidden])) :is(#prompt, #inf, #toast, #thought) { display:none; }   /* a card owns the screen */
+  body:has(#card:not([hidden])) :is(#prompt, #inf, #toast, #thought, #thought-her) { display:none; }   /* a card owns the screen */
   @keyframes drop { from { transform:translateY(-12px); opacity:0; } }
   /* ---------- phone on its side: a short screen, so a smaller stick, the deck a column at the left, and the tv player
      splits into screen | controls; panels never run under the stick or off the bottom */
@@ -459,6 +460,7 @@ window.boot = (() => {
 <div id="liveinfo" role="region" aria-label="what live means" hidden></div>
 <div id="herinfo" role="region" aria-label="her" hidden></div>
 <div id="thought" hidden><p></p><i></i><i></i></div>
+<div id="thought-her" hidden><p></p><i></i><i></i></div>
 <div id="card" hidden></div>
 <div id="joy" aria-hidden="true"><i></i></div>
 <!--seo:about-->

@@ -312,7 +312,13 @@ export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onT
   const ARM_PAD = 0.3, LENS_AX = [[1, 0, 0], [-1, 0, 0], [0, 1, 0], [0, -1, 0], [0, 0, 1], [0, 0, -1]].map(a => new THREE.Vector3(...a));
   const orb = { init: false, yaw: 0, pitch: 0, d: 0 }, focus = new THREE.Vector3(), dir = new THREE.Vector3();
   let camFocus = null;
+  // following someone else (her): the camera code reads `pos` for the room, the walls to cut and the arm length, so it runs with pos on her
   function cam(dt) {
+    const cf = camFocus?.(); if (!cf) return camBody(dt);
+    const sx = pos.x, sz = pos.z; pos.set(cf.x, 0, cf.z);
+    try { camBody(dt); } finally { pos.set(sx, 0, sz); }
+  }
+  function camBody(dt) {
     const f = new THREE.Vector3(-Math.sin(st.yaw), 0, -Math.cos(st.yaw));
     for (const o of headParts) o.visible = st.view !== 'first' && !o.userData.underHat;   // outfits.js hides the hair shine under a hat
     for (const o of man.bones.head.children) if (o.name === 'hat') o.visible = st.view !== 'first';   // outfits.js hats
