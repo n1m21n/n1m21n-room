@@ -32,6 +32,7 @@ import { SPOT_OF, MICRO } from './spot-of.js';
 import { makeNudges } from './sim/nudges.js';
 import { makePosture } from './sim/posture.js';
 import { makeThoughts } from './thoughts.js';
+import { makeCast } from './cast/cast.js';
 import { makeDirector } from './camera-director.js';
 import { makeErrands } from './errands/playback.js';
 import { makeFeed } from './errands/feed.js';
@@ -107,7 +108,7 @@ try {
   localStorage.setItem('n1m21n.lastVisit', String(Date.now()));
 } catch (e) { console.warn('sim life failed', e); }
 addEventListener('pagehide', () => { try { simCore.save(); } catch {} });
-const posture = makePosture({ getMotives: () => utility.motives, getSnakePos: () => snk.head.position });
+const posture = makePosture({ getMotives: () => utility.motives, getSnakePos: () => snk.head.position, getOthers: () => cast ? cast.aware.othersFor(cast.aware.members[0]) : [] });
 const nav = makeNav(solids, 0.26);
 const ROUTE_BIAS = { anxious: -0.6, lonely: -0.5, sad: -0.35, given_up: -0.4, uneasy: -0.4, embarrassed: -0.5, joyful: 0.5, excited: 0.5, proud: 0.4, triumph: 0.5, delighted: 0.35, restless: 0.3 };   // <0 hugs walls, >0 takes the open floor
 for (const b of solids) simCore.grid?.blockRect(b[0], b[1], b[2], b[3]);   // the real furniture in the sim's grid
@@ -378,62 +379,22 @@ const routine = makeRoutine({
     pace: { at: PACE[0], start: () => { walker.at = 0; } }, roam: { at: ROAM[0], start: () => { walker.at = 0; } },
   },
 });
-// her: the second character. Off by default; the toggle is this visitor's own (localStorage n1m21n.her, or ?her=1 / ?her=0) and loads her code,
-// her face textures and her own life file only when she is first switched on (companion.js)
-let her = null, herBusy = false, focusHer = false, herOpen = false;
-const herBtn = $('herbtn'), himBtn = $('himbtn'), herBox = $('herinfo');
-function herUi() {
-  const on = !!(her && her.on);
-  herBtn.classList.toggle('plus', !on); herBtn.classList.toggle('on', on && focusHer); herBtn.setAttribute('aria-pressed', on && focusHer);
-  herBtn.lastElementChild.textContent = on ? 'her' : 'meet her'; herBtn.title = on ? (focusHer ? 'about her' : 'follow her') : 'bring her into the room';
-  himBtn.hidden = !on; himBtn.classList.toggle('on', !focusHer); himBtn.setAttribute('aria-pressed', !focusHer);
-  if (!on && herOpen) herPanel(false);
-}
-function herPanel(open) {
-  herOpen = open; herBox.hidden = !open; herBtn.setAttribute('aria-expanded', open); if (!open) return;
-  if ($('mood') && !$('mood').hidden) $('moodbtn').click();
-  if (liveOpen) liveBtn.click();
-  herBox.innerHTML = `<h3>her</h3><p>she lives her own day in the same room, on the same india clock for everyone. calmer than him: more reading, more window, less desk.</p><p>${focusHer ? 'the camera is following her. tap “him” to go back.' : 'tap “her” to follow her with the camera.'}</p><div class="row"><button class="go" data-a="hi">say hi to him</button><button class="go alt" data-a="off">send her off</button></div>`;
-  setTimeout(panelTop, 0);
-}
-let himCam = null;
-function follow(h) {
-  if (h && !focusHer) himCam = { yaw: player.st.yaw, dist: player.st.dist, pitch: player.st.pitch };
-  if (!h && focusHer && himCam) { Object.assign(player.st, himCam); himCam = null; }
-  if (h && her?.on) { const hp = her.player.pos; player.st.yaw = Math.atan2(-hp.x, -hp.z); player.st.dist = 3.4; player.st.pitch = 0.36; }   // from the room's middle, so walls and furniture are not between the lens and her
-  focusHer = h && !!(her && her.on); player.setCamFocus(focusHer ? () => ({ x: her.player.pos.x, z: her.player.pos.z, low: !!her.player.st.seated && (her.player.st.spec ? (her.player.st.spec.y || 0) < -0.1 || !!her.player.st.spec.lie : true) }) : null);
-  herUi();
-}
-async function setHer(on) {
-  if (herBusy) return; herBusy = true;
-  try {
-    if (on && !her) {
-      const { makeCompanion } = await import('./companion.js');
-      her = await makeCompanion({ scene, camera, solids, walls, nav, rooms, snake: snk, ROAM, PACE, him: { player, routine },
-        seats: { BED: F.BED, CHAIR: F.CHAIR, KEYS, WINDOW, TV: { x: telly.TV.x, z: telly.TV.z, heading: telly.TV.heading, act: 'tv', out: telly.TV.out, pressed: 0 }, READ: { x: reading.READ.x, z: reading.READ.z, heading: reading.READ.heading, act: 'read', out: reading.READ.out } } });
-      window.dev && (window.dev.her = her);
-    }
-    if (on) her.show(); else { her?.hide(); follow(false); }
-    try { localStorage.setItem('n1m21n.her', on ? '1' : '0'); } catch {}
-    herUi();
-  } catch (e) { console.warn('her failed', e); herBtn?.classList.remove('on'); } finally { herBusy = false; }
-}
-if (herBtn && SIM_LIVE) {
-  herBtn.hidden = false;
-  herBtn.addEventListener('click', async e => {
-    e.stopPropagation();
-    if (!(her && her.on)) { await setHer(true); if (her?.on) { follow(true); herPanel(true); } return; }    // first tap: she walks in, the camera goes to her, a card says who she is
-    if (!focusHer) { follow(true); return; }
-    herPanel(!herOpen);
+// the cast: him is the lead; anyone else (cast/characters/*.js, today: her) is off by default and brought in by the visitor from the top bar. The choice is the
+// visitor's own (localStorage n1m21n.cast, or ?cast=her; ?her=1 / ?her=0 still work). Each one's code, face textures and life file load only when first brought in.
+let cast = null;
+const castBox = $('castinfo');
+if (SIM_LIVE) {
+  cast = makeCast({
+    lead: { id: 'him', name: 'him', player, routine, man },
+    ctx: { scene, camera, solids, walls, nav, rooms, snake: snk, ROAM, PACE,
+      seats: { BED: F.BED, CHAIR: F.CHAIR, KEYS, WINDOW, TV: { x: telly.TV.x, z: telly.TV.z, heading: telly.TV.heading, act: 'tv', out: telly.TV.out, pressed: 0 }, READ: { x: reading.READ.x, z: reading.READ.z, heading: reading.READ.heading, act: 'read', out: reading.READ.out } } },
+    ui: { status: document.querySelector('.chrome .status'), before: $('moodbtn'), box: castBox, toast: s => toast(s), panelTop: () => setTimeout(panelTop, 0),
+      closeOthers: () => { if ($('mood') && !$('mood').hidden) $('moodbtn').click(); if (liveOpen) liveBtn.click(); } },
   });
-  himBtn.addEventListener('click', e => { e.stopPropagation(); follow(false); if (herOpen) herPanel(true); });
-  herBox.addEventListener('click', e => {
-    const a = e.target.dataset?.a; if (!a) return;
-    if (a === 'off') { herPanel(false); setHer(false); } else if (a === 'hi') { if (her?.sayHi()) herPanel(false); else toast('he’s on the move · try again in a moment'); }
-  });
-  const q = new URLSearchParams(location.search).get('her');
-  let want = false; try { want = q != null ? q === '1' : localStorage.getItem('n1m21n.her') === '1'; } catch {}
-  if (want) setHer(true);
+  const qs = new URLSearchParams(location.search);
+  let want = []; try { const c = qs.get('cast'), h = qs.get('her'); want = c ? c.split(',') : h != null ? (h === '1' ? ['her'] : []) : JSON.parse(localStorage.getItem('n1m21n.cast') || 'null') || (localStorage.getItem('n1m21n.her') === '1' ? ['her'] : []); } catch {}
+  cast.init({ want });
+  window.dev && (window.dev.cast = cast);
 }
 // live / your room: hands off, he is the shared him everyone sees; take the controls and he is yours until you leave, and the visit is
 // remembered (one short summary to the server, which nudges his shared days)
@@ -482,6 +443,7 @@ function onTap(cx, cy) {
   ray.setFromCamera(ndc, camera);
   const hit = ray.intersectObjects(scene.children, true).find(h => h.object !== marker && shown(h.object) && !man.root.getObjectById(h.object.id));
   if (!hit) return;
+  if (cast?.tap(hit.point.x, hit.point.z)) return;                       // someone else is under control: the tap walks them
   for (let o = hit.object; o; o = o.parent) if (byObj.has(o)) return walkTo(byObj.get(o));
   const end = player.goTo(hit.point.x, hit.point.z, { done: () => { marker.visible = false; } });
   showMarker(end);
@@ -600,7 +562,7 @@ const sim = {
     },
   },
 };
-window.dev = { get director() { return director; }, setLiveAct: a => { lastLiveAct = a; }, props, THREE, rooms, fits, ward, openWardrobe, snake: snk, routine, motives: utility.motives, sim, sfx, get dpr() { return dpr; }, doors, gallery, annex, portals, stations, walkTo, nav, solids, man, player, scene, camera, room, phys, verifyActs, verifyBeats, beats, ACTS, GUITAR_AT, render: () => comp.render(scene, camera), renderer, reading, telly, shoot, sky: ph => { lastSky = ph; win.userData.sky.material.uniforms.uMap.value = skies[ph] ||= skyTex(ph); } };                              // dev
+window.dev = { get cast() { return cast; }, get her() { return cast?.comps.get('her'); }, get director() { return director; }, setLiveAct: a => { lastLiveAct = a; }, props, THREE, rooms, fits, ward, openWardrobe, snake: snk, routine, motives: utility.motives, sim, sfx, get dpr() { return dpr; }, doors, gallery, annex, portals, stations, walkTo, nav, solids, man, player, scene, camera, room, phys, verifyActs, verifyBeats, beats, ACTS, GUITAR_AT, render: () => comp.render(scene, camera), renderer, reading, telly, shoot, sky: ph => { lastSky = ph; win.userData.sky.material.uniforms.uMap.value = skies[ph] ||= skyTex(ph); } };                              // dev
 let near = null;
 function pickStation() {
   const p = player.pos, h = player.st.heading;
@@ -815,7 +777,7 @@ renderer.setAnimationLoop(() => {
   if (!audio.paused) shelf.userData.spin.rotation.y = t * 3.5;     // 33⅓-ish; stops where it was when paused
   const arm = shelf.userData.arm; arm.rotation.y += ((audio.paused ? 0 : ARM_PLAY) - arm.rotation.y) * (1 - Math.exp(-2.5 * dt));   // tonearm swings onto the record
   player.update(dt, t);
-  her?.update(dt, t);
+  cast?.update(dt, t);
   if (routine.mine && !portals.busy) director.update(dt, { doing: routine.doing, walking: routine.walking });
   stream?.update(dt);
   errands.update(dt);

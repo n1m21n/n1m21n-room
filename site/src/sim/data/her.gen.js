@@ -83,5 +83,24 @@ export const HER = {
    "nostalgia": 1.5,
    "joyful": 1.3
   }
+ },
+ "motion": {
+  "walk": 0.94,
+  "cadence": 1.05,
+  "swing": 0.8,
+  "sway": 1.4,
+  "bounce": 1.15,
+  "lean": 0.0,
+  "shoulders": 0.02,
+  "headTilt": 0.035,
+  "breath": 1.0,
+  "expressive": 1.35,
+  "glance": 0.7,
+  "blink": 1.2,
+  "tempo": 1.0,
+  "face": {
+   "valence": 0.05,
+   "arousal": 0.04
+  }
  }
 };

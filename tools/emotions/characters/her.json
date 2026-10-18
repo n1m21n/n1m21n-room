@@ -1,5 +1,5 @@
 {
- "doc": "Her: the second character. tune/neuro are overrides on tune.json and neuro.json (her own emotional tuning); actOff/actMul/emotionPull shape her act set. gen.py bakes this into site/src/sim/data/her.gen.js. His life is untouched: acts with `only: her` are skipped for him.",
+ "doc": "Her: the second character. tune/neuro are overrides on tune.json and neuro.json (her own emotional tuning); actOff/actMul/emotionPull shape her act set. gen.py bakes this into site/src/sim/data/her.gen.js. His life is untouched: acts with `only: her` are skipped for him. motion: her body rhythm (walk speed, step cadence, arm swing, hip sway, bounce, lean, shoulders, head tilt, breath, how far feelings show in the body, glance and blink rate, act tempo, a nudge to which face shows); 1 = as he moves, lean/shoulders/headTilt are radians offsets.",
  "name": "her",
  "seed": 4417,
  "tune": {
@@ -82,6 +82,25 @@
   "records": {
    "nostalgia": 1.5,
    "joyful": 1.3
+  }
+ },
+ "motion": {
+  "walk": 0.94,
+  "cadence": 1.05,
+  "swing": 0.8,
+  "sway": 1.4,
+  "bounce": 1.15,
+  "lean": 0.0,
+  "shoulders": 0.02,
+  "headTilt": 0.035,
+  "breath": 1.0,
+  "expressive": 1.35,
+  "glance": 0.7,
+  "blink": 1.2,
+  "tempo": 1.0,
+  "face": {
+   "valence": 0.05,
+   "arousal": 0.04
   }
  }
 }

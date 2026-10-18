@@ -14,7 +14,9 @@ const e = new THREE.Euler(), q = new THREE.Quaternion();
 const damp = (a, b, k, dt) => a + (b - a) * (1 - Math.exp(-k * dt));
 const wrap = a => Math.atan2(Math.sin(a), Math.cos(a));
 
-export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onTap, rooms = [], posture = null, beats = null, companion = false }) {   // companion: a second character (hers): no input, no camera, only walking and acting
+export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onTap, rooms = [], posture = null, beats = null, companion = false, motion = null }) {   // companion: a second character (hers): no input, no camera, only walking and acting
+  // motion: this character's own body rhythm (tools/emotions/characters/<id>.json, baked by gen.py); none = the man exactly as before
+  const M = { walk: 1, cadence: 1, swing: 1, sway: 1, bounce: 1, lean: 0, shoulders: 0, headTilt: 0, ...(motion || {}) };
   const pos = new THREE.Vector3(-0.6, 0, 1.2);
   const st = { turnTo: null, heading: Math.PI, speed: 0, phase: 0, yaw: 0.25, pitch: 0.38, dist: 3.8, view: 'third', seated: null, frozen: false, bumps: 0, blocked: false, faceNow: 'neutral' };
   const keys = new Set();
@@ -80,6 +82,15 @@ export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onT
   const headParts = [];
   man.root.traverse(o => { if (o.isMesh && /^(head|hair|ear)/.test(o.name)) headParts.push(o); });
 
+  // other characters (cast/awareness.js): circles { x, z, r, w } a walker is pushed out of; w = how much of the push is this one's (the lead gives way less)
+  let avoid = null, inputOn = true, inputFrom = null;
+  function pushOut(p) {
+    const cs = avoid?.(); if (!cs) return;
+    for (const c of cs) {
+      const dx = p.x - c.x, dz = p.z - c.z, d = Math.hypot(dx, dz), min = R + c.r - 0.2;
+      if (d < min) { const k = d > 1e-6 ? (min - d) / d * (c.w ?? 1) : 0; if (d > 1e-6) { p.x += dx * k; p.z += dz * k; } else p.x += min * (c.w ?? 1); }
+    }
+  }
   function collide(p) {
     for (let it = 0; it < 2; it++) for (const b of solids) {
       const cx = THREE.MathUtils.clamp(p.x, b[0], b[2]), cz = THREE.MathUtils.clamp(p.z, b[1], b[3]);
@@ -111,9 +122,9 @@ export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onT
       }
       return;
     }
-    const walk = WALK * (posture?.state.gait || 1);
+    const walk = WALK * M.walk * (posture?.state.gait || 1);
     const sp = st.speed, a = Math.min(sp / walk, 1), run = THREE.MathUtils.clamp((sp - walk) / (RUN - walk), 0, 1);
-    st.phase += dt * (sp > 0.05 ? 2.4 + sp * 1.6 : 0);
+    st.phase += dt * (sp > 0.05 ? (2.4 + sp * 1.6) * M.cadence : 0);
     const s = Math.sin(st.phase), c = Math.cos(st.phase);
     const amp = a * (0.5 + 0.35 * run);
     for (const [side, sg] of [['L', 1], ['R', -1]]) {
@@ -121,7 +132,7 @@ export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onT
       set('thigh' + side, ss * amp * 0.9 + run * 0.15);
       set('shin' + side, -(0.08 + Math.max(0, Math.sin(st.phase * sg + 1.3)) * (0.5 + 0.7 * run)) * a);
       set('foot' + side, Math.max(0, -ss) * 0.25 * a);
-      set('upperarm' + side, -ss * amp * 0.8, 0, (side === 'L' ? 1 : -1) * (0.04 + 0.16 * run) + (posture?.state.deltas['upperarm' + side]?.[2] || 0));   // +z on the left = out: hands clear the thighs
+      set('upperarm' + side, -ss * amp * 0.8 * M.swing, 0, (side === 'L' ? 1 : -1) * (0.04 + 0.16 * run + M.shoulders) + (posture?.state.deltas['upperarm' + side]?.[2] || 0));   // +z on the left = out: hands clear the thighs
       set('forearm' + side, 0.15 + (0.25 + 0.9 * run) * a + Math.max(0, -ss) * 0.2 * a);
       set('hand' + side, -0.1);
     }
@@ -132,13 +143,13 @@ export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onT
     const dChest = pState ? pState.deltas.chest : [-breathe, 0, 0];
     const dNeck  = pState ? pState.deltas.neck  : [0, 0, 0];
     const dHead  = pState ? pState.deltas.head  : [0, 0, 0];
-    set('hips', dHips[0] * (1 - a), s * 0.08 * a + dHips[1] * (1 - a), dHips[2] * (1 - a));
-    set('spine', 0.04 + run * 0.12 + dSpine[0] * (1 - a * 0.5), -s * 0.06 * a + dSpine[1] * (1 - a), dSpine[2] * (1 - a));
-    set('chest', 0.02 + run * 0.08 + dChest[0] * (1 - a * 0.5), -s * 0.08 * a + dChest[1] * (1 - a), dChest[2] * (1 - a));
+    set('hips', dHips[0] * (1 - a), s * 0.08 * a * M.sway + dHips[1] * (1 - a), dHips[2] * (1 - a));
+    set('spine', 0.04 + M.lean + run * 0.12 + dSpine[0] * (1 - a * 0.5), -s * 0.06 * a * M.sway + dSpine[1] * (1 - a), dSpine[2] * (1 - a));
+    set('chest', 0.02 + run * 0.08 + dChest[0] * (1 - a * 0.5), -s * 0.08 * a * M.sway + dChest[1] * (1 - a), dChest[2] * (1 - a));
     set('neck', -run * 0.1 + dNeck[0] * (1 - a * 0.5), dNeck[1] * (1 - a), dNeck[2] * (1 - a));
-    set('head', -run * 0.08 + Math.sin(t * 0.7) * 0.02 * (1 - a) + dHead[0] * (1 - a), Math.sin(t * 0.37) * 0.08 * (1 - a) + dHead[1] * (1 - a), dHead[2] * (1 - a));
+    set('head', -run * 0.08 + Math.sin(t * 0.7) * 0.02 * (1 - a) + dHead[0] * (1 - a), Math.sin(t * 0.37) * 0.08 * (1 - a) + dHead[1] * (1 - a), dHead[2] * (1 - a) + M.headTilt);
     if (pState?.face) { const sh = posture.shownFace(pState.face); if (sh !== st.faceNow) { man.face(sh); st.faceNow = sh; } }
-    man.root.position.y = -Math.abs(c) * 0.025 * a * (1 + run);
+    man.root.position.y = -Math.abs(c) * 0.025 * a * (1 + run) * M.bounce;
     relaxHands(B, run > 0.5 ? 'fist' : 'relax');
     if (pState) curlFingers(B, pState.deltas.fingers + pState.deltas.fingersT);
     plant();
@@ -438,18 +449,21 @@ export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onT
 
   const fwd = new THREE.Vector3(), right = new THREE.Vector3(), mv = new THREE.Vector3();
   function update(dt, t) {
-    let ix = move.x, iy = move.y;
-    if (keys.has('KeyW') || keys.has('ArrowUp')) iy += 1;
-    if (keys.has('KeyS') || keys.has('ArrowDown')) iy -= 1;
-    if (keys.has('KeyA') || keys.has('ArrowLeft')) ix -= 1;
-    if (keys.has('KeyD') || keys.has('ArrowRight')) ix += 1;
+    const IN = inputFrom || { keys, move, st };                         // someone else's keys, stick and camera when the visitor is controlling this character (cast.js)
+    let ix = inputOn ? IN.move.x : 0, iy = inputOn ? IN.move.y : 0;
+    if (inputOn) {
+      if (IN.keys.has('KeyW') || IN.keys.has('ArrowUp')) iy += 1;
+      if (IN.keys.has('KeyS') || IN.keys.has('ArrowDown')) iy -= 1;
+      if (IN.keys.has('KeyA') || IN.keys.has('ArrowLeft')) ix -= 1;
+      if (IN.keys.has('KeyD') || IN.keys.has('ArrowRight')) ix += 1;
+    }
     const mag = Math.min(1, Math.hypot(ix, iy));
     if (st.frozen) { ix = iy = 0; }
     if (st.seated && mag > 0.2) stand();
-    fwd.set(-Math.sin(st.yaw), 0, -Math.cos(st.yaw)); right.set(Math.cos(st.yaw), 0, -Math.sin(st.yaw));
+    fwd.set(-Math.sin(IN.st.yaw), 0, -Math.cos(IN.st.yaw)); right.set(Math.cos(IN.st.yaw), 0, -Math.sin(IN.st.yaw));
     mv.set(0, 0, 0).addScaledVector(fwd, iy).addScaledVector(right, ix);
-    let running = keys.has('ShiftLeft') || keys.has('ShiftRight') || Math.hypot(move.x, move.y) > 0.95;
-    let target = st.seated || st.frozen ? 0 : mag * (running ? RUN : WALK * (posture?.state.gait || 1));
+    const running = inputOn && (IN.keys.has('ShiftLeft') || IN.keys.has('ShiftRight') || Math.hypot(IN.move.x, IN.move.y) > 0.95);
+    let target = st.seated || st.frozen ? 0 : mag * (running ? RUN : WALK * M.walk * (posture?.state.gait || 1));
     if (mag > 0.2) { cancelAuto(); st.turnTo = null; }
     if (st.turnTo != null && !auto.pts && !st.seated) {
       st.heading += wrap(st.turnTo - st.heading) * (1 - Math.exp(-10 * dt));
@@ -467,7 +481,7 @@ export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onT
         }
       } else {
         mv.set(dx / d, 0, dz / d);
-        target = Math.min(left > 4 ? RUN : WALK * (posture?.state.gait || 1), 0.6 + left * 2.5);
+        target = Math.min(left > 4 ? RUN : WALK * M.walk * (posture?.state.gait || 1), 0.6 + left * 2.5);
       }
     }
     st.speed = damp(st.speed, target, 8, dt);
@@ -485,6 +499,7 @@ export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onT
       if (lost > 0.8 && !st.blocked && st.speed > 1.1) { st.bumps++; st.speed *= 0.25; }
       st.blocked = lost > 0.8 || (st.blocked && lost > 0.3);
     }
+    if (!st.seated) { pushOut(pos); collide(pos); }                       // other characters: never stand inside someone, moving or not
     man.root.position.x = pos.x; man.root.position.z = pos.z;
     man.root.rotation.y = st.heading + (st.seated && st.spec?.turn || 0);
     man.root.rotation.x = st.seated && (st.seated.pose === 'lying' || (ACTS[st.seated.act] && st.spec?.lie)) ? -Math.PI / 2 : 0;
@@ -526,5 +541,5 @@ export function makePlayer({ man, scene, camera, canvas, solids, walls, nav, onT
   }
   function cycleView() { st.view = VIEWS[(VIEWS.indexOf(st.view) + 1) % VIEWS.length]; if (st.view === 'first') st.pitch = 0; else st.pitch = 0.38; return st.view; }
 
-  return { pos, st, keys, update, setCamFocus: fn => { camFocus = fn; }, sit, stand, goTo, cancelAuto, auto, cycleView, POSES, dbg: { cuts, orb, facing, room: () => here, sides: () => sides, attached, unitOf } };   // dbg: tests/walls.mjs
+  return { pos, st, keys, move, update, setCamFocus: fn => { camFocus = fn; }, setAvoid: fn => { avoid = fn; }, setInput: on => { inputOn = on; if (!on) { keys.clear(); move.set(0, 0); } }, setInputFrom: p => { inputFrom = p; }, sit, stand, goTo, cancelAuto, auto, cycleView, POSES, dbg: { cuts, orb, facing, room: () => here, sides: () => sides, attached, unitOf } };   // dbg: tests/walls.mjs
 }

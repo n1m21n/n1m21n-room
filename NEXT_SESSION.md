@@ -2,6 +2,16 @@
 
 Start here. Then read `BLUEPRINT_REVIEW.md` (review of the two Antigravity blueprints), `SIM_DESIGN.md`, `DATA_SOURCES.md`.
 
+## STATUS UPDATE (2026-10-18, the cast): characters are spec files; awareness, manners, control: NOT deployed (branch claude/project-thread-jl01cj)
+
+- A character is four small files: `tools/emotions/characters/<id>.json` (sim tuning + `motion` body rhythm, baked by `gen.py` to `characters.gen.js`), `site/src/cast/characters/<id>.js` (spec, picked up by `import.meta.glob`), a look module, a voice file. `node tools/cast/new_character.mjs <id>` scaffolds them; the skill is `.claude/skills/add-room-character/SKILL.md`. `node tools/sim/make_life.mjs --char=<id>` writes `life.<id>.json`.
+- `site/src/cast/cast.js`: registry, top-bar chips (`him` + whoever is here, `+ meet x` for the rest, folds into one "cast" button past two), card (follow / take control / say hi / send off), camera focus (the lead's player orbits whoever is followed; `player.setCamFocus`), control (`player.setInput` / `setInputFrom`: keys, stick and floor taps drive one character; his routine ignores input meanwhile: `routine.listen`).
+- `site/src/cast/awareness.js`: bodies (circles, `player.setAvoid`), manners by activity (private / absorbed / free: nothing / nod from further off / walk over and wave), seats (the lead has first call: someone in the seat he heads for stands up for 5 min), gaze (others are glance targets in `posture.getOthers`).
+- Motion profile: `makePlayer({ motion })` and `makePosture({ style })`. Defaults = his exact motion. Her values in `her.json`.
+- `site/src/companion.js` is generic (`makeCompanion(ctx, spec)`). Her thought bubbles use `her-thought-lines.js` (original lines in her manner, from an aggregate profile; she agreed to it). `tests/cast.mjs` is the gate.
+- Her look now: black tank top, curtain bangs, small pursed lips, smaller nose. `?jacket=red|camel|cream|denim` shows a jacket (off by default).
+- Limits: control = walk only (no using props or stations as her); kitchen/bath acts still step out; no sound for her.
+
 ## STATUS UPDATE (2026-10-18, her): a second character in the room, toggle off by default: NOT deployed
 
 - Her: same rig and toon style (`site/src/her.js`: hair, round glasses, black sleeveless top, red bracelet; her faces are his textures recoloured, frames drawn on). `site/src/companion.js`: her own player, posture, routine and book; no input, no camera.

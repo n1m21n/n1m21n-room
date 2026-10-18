@@ -83,7 +83,9 @@ const GAIT = {
 const GAIT_OF = { joyful: 'active', delighted: 'active', proud: 'active', triumph: 'active', amusement: 'active', excited: 'active', restless: 'active',
   drowsy: 'exhausted', dazed: 'exhausted', bored: 'exhausted', anxious: 'exhausted', frustrated: 'exhausted', sad: 'elderly', given_up: 'elderly', lonely: 'elderly' };
 
-export function makePosture({ getMotives, getSnakePos } = {}) {
+// style: this character's own manner (data/characters.gen.js `motion`): breath, sway, expressive (how far feelings show in the body), glance (1 = as often as him, 2 = half as often), blink, tempo, face { valence, arousal } bias
+export function makePosture({ getMotives, getSnakePos, getOthers, style = null } = {}) {
+  const X = { breath: 1, sway: 1, expressive: 1, glance: 1, blink: 1, tempo: 1, face: null, ...(style || {}) };
   let simEmotion = null;
   const state = {
     gait: 1,
@@ -125,6 +127,7 @@ export function makePosture({ getMotives, getSnakePos } = {}) {
       DEFAULT_POI.window,
       DEFAULT_POI.desk,
       sp ? { name: 'snake', x: sp.x, y: 0.25, z: sp.z } : DEFAULT_POI.snake,
+      ...(getOthers?.() || []),                                         // the other characters in the room (cast.js): a glance at someone is a glance at a place of interest
     ];
   }
 
@@ -142,7 +145,7 @@ export function makePosture({ getMotives, getSnakePos } = {}) {
       g.timer += dt;
       if (g.timer >= g.dur) {
         g.active = false;
-        g.cooldown = 3.2 + ((Math.sin(t * 7.13) + 1) * 0.5) * 3.5;
+        g.cooldown = (3.2 + ((Math.sin(t * 7.13) + 1) * 0.5) * 3.5) * X.glance;
       }
     } else {
       g.cooldown -= dt;
@@ -157,12 +160,12 @@ export function makePosture({ getMotives, getSnakePos } = {}) {
           const relYaw = wrap(worldYaw - (heading || 0));
           if (Math.abs(relYaw) < 1.35) {
             const relPitch = clamp(Math.atan2(1.4 - p.y, Math.max(0.6, dist)) * 0.45, -0.16, 0.22);
-            candidates.push({ name: p.name, yaw: clamp(relYaw * 0.55, -0.32, 0.32), pitch: relPitch, dist });
+            candidates.push({ name: p.name, who: p.who, yaw: clamp(relYaw * 0.55, -0.32, 0.32), pitch: relPitch, dist });
           }
         }
         if (candidates.length) {
           // Prefer glancing at the snake when it slithers close (< 2.2 m)
-          const nearSnake = candidates.find(c => c.name === 'snake' && c.dist < 2.2);
+          const nearSnake = candidates.find(c => (c.name === 'snake' || c.who) && c.dist < 2.2);
           const idx = Math.floor(((Math.sin(t * 13.37) + 1) * 0.5) * candidates.length) % candidates.length;
           const pick = nearSnake || candidates[idx];
           g.active = true;
@@ -217,19 +220,19 @@ export function makePosture({ getMotives, getSnakePos } = {}) {
     updateGlance(dt, t, pos, heading, canGlance);
 
     // 1. Spine & Neck: forward slump (+x) scaled by Fatigue; chest expansion (-x) scaled by Valence
-    const slumpSpine = aff.fatigue * 0.065 * actScale;
-    const slumpNeck  = aff.fatigue * 0.055 * actScale;
-    const chestExpand = -(aff.valence - 0.5) * 0.06 * actScale;
+    const slumpSpine = aff.fatigue * 0.065 * actScale * X.expressive;
+    const slumpNeck  = aff.fatigue * 0.055 * actScale * X.expressive;
+    const chestExpand = -(aff.valence - 0.5) * 0.06 * actScale * X.expressive;
 
     // 2. Dynamic breathing oscillation on spine and chest
-    const breathAmp = (0.016 + aff.arousal * 0.01) * stillFactor * Math.max(0.3, actScale);
+    const breathAmp = (0.016 + aff.arousal * 0.01) * X.breath * stillFactor * Math.max(0.3, actScale);
     const breathSpine = breathWave * breathAmp;
     const breathChest = -breathWave * breathAmp * 1.15;
 
     // 3. Weight shifting / micro-fidgets: 0.2 Hz procedural sine sway on hips and spine when standing or seated
     const swayWave = Math.sin(t * 0.2 * TWO_PI);
     const swayWave2 = Math.cos(t * 0.2 * TWO_PI * 0.7 + 0.8);
-    const swayScale = (seated ? 0.45 : stillFactor) * actScale;
+    const swayScale = (seated ? 0.45 : stillFactor) * actScale * X.sway;
     const hipRoll = swayWave * 0.022 * swayScale;
     const hipYaw  = swayWave2 * 0.016 * swayScale;
     const spineRoll = -swayWave * 0.018 * swayScale;
@@ -248,8 +251,8 @@ export function makePosture({ getMotives, getSnakePos } = {}) {
     // 5. Dynamic facial expression & musical tempo multiplier from Valence & Energy
     state.face = mapEmotionToFace({
       energy: aff.energy,
-      valence: aff.valence,
-      arousal: aff.arousal,
+      valence: clamp(aff.valence + (X.face?.valence || 0), 0, 1),
+      arousal: clamp(aff.arousal + (X.face?.arousal || 0), 0, 1),
       sleeping: actName === 'bed',
       glancing: state.glance.active,
     });
@@ -290,11 +293,11 @@ export function makePosture({ getMotives, getSnakePos } = {}) {
         if (state.blinkIn <= 0) {
           const nerv = clamp((1 - (aff.valence)) + aff.fatigue * 0.5, 0, 1);
           state.blink = true; state.blinkFor = 0.12;
-          state.blinkIn = 2.2 + (1 - nerv) * 3.4 + ((Math.sin(t * 91.7) + 1) * 0.5) * 2.2;
+          state.blinkIn = (2.2 + (1 - nerv) * 3.4 + ((Math.sin(t * 91.7) + 1) * 0.5) * 2.2) / X.blink;
         }
       }
     }
-    state.tempo = POSTURE_EMOTION_MATRIX[state.face]?.tempo || 1.0;
+    state.tempo = (POSTURE_EMOTION_MATRIX[state.face]?.tempo || 1.0) * X.tempo;
     if (seated) seated.tempo = state.tempo;
 
     return state;

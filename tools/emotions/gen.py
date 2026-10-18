@@ -310,17 +310,30 @@ with open(os.path.join(HERE, "faces_sheet.svg"), "w") as f:
     f.write("\n".join(svg))
 print("wrote report.md, faces.gen.json, faces_sheet.svg")
 
-# her.json: the second character's own tuning (emotional baselines, act set). Checked against the acts and neuromodulators that exist.
-_her = json.load(open(os.path.join(HERE, "her.json")))
-_her.pop("doc", None)
-for _a in list(_her.get("actOff", [])) + list(_her.get("actMul", {})) + list(_her.get("emotionPull", {})):
-    if _a not in acts:
-        err(f"her.json: unknown act {_a}")
-for _k in _her.get("neuro", {}):
-    if _k not in NEU["vars"]:
-        err(f"her.json: unknown neuromodulator {_k}")
-for _a, _m in _her.get("emotionPull", {}).items():
-    for _e in _m:
-        if _e not in built:
-            err(f"her.json: {_a} emotionPull has unknown emotion {_e}")
-js("her.gen.js", [("HER", _her)])
+# characters/*.json: each extra character's own tuning (emotional baselines, act set). Checked against the acts and neuromodulators that exist.
+# One file per character; `new_character.mjs` scaffolds one. Baked to characters.gen.js (CHARACTERS = { id: profile }) and, for her, her.gen.js.
+import glob
+_chars = {}
+for _path in sorted(glob.glob(os.path.join(HERE, "characters", "*.json"))):
+    _fn = os.path.basename(_path)
+    _c = json.load(open(_path))
+    _c.pop("doc", None)
+    _cid = _c.get("name") or _fn[:-5]
+    if _cid != _fn[:-5]:
+        err(f"{_fn}: name {_cid} must match the file name")
+    for _a in list(_c.get("actOff", [])) + list(_c.get("actMul", {})) + list(_c.get("emotionPull", {})):
+        if _a not in acts:
+            err(f"{_fn}: unknown act {_a}")
+    for _k in _c.get("neuro", {}):
+        if _k not in NEU["vars"]:
+            err(f"{_fn}: unknown neuromodulator {_k}")
+    for _a, _m in _c.get("emotionPull", {}).items():
+        for _e in _m:
+            if _e not in built:
+                err(f"{_fn}: {_a} emotionPull has unknown emotion {_e}")
+    for _k in _c.get("motion", {}):
+        if _k not in ("walk", "cadence", "swing", "sway", "bounce", "lean", "shoulders", "headTilt", "breath", "expressive", "glance", "blink", "tempo", "face"):
+            err(f"{_fn}: unknown motion key {_k}")
+    _chars[_cid] = _c
+js("characters.gen.js", [("CHARACTERS", _chars)])
+js("her.gen.js", [("HER", _chars["her"])])
