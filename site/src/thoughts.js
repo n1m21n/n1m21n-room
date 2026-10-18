@@ -2,7 +2,7 @@
 // for what he is doing. `say(text, secs)` lets a caller (the stream's chat notes) put a line in the bubble for a moment, and
 // `setPace` changes how often the musings come (the stream wants them quicker).
 import * as THREE from 'three';
-import { NEED_LINES, NEED_FIX, EMOTION_LINES, NEXT_LINES } from './thought-lines.js';
+import { NEED_LINES, NEED_FIX, EMOTION_LINES, NEXT_LINES, DAY_THOUGHTS, ACT_LINES, TIME_LINES, SELF_LINES, hourBucket } from './thought-lines.js';
 
 const PHONE_LINES = [
   "hey, yeah i'm listening.",
@@ -23,19 +23,7 @@ const PHONE_LINES = [
   "cool, let me call you right back in a bit."
 ];
 
-export const DAY_THOUGHTS = {
-  tea: ["can't start the day without a hot cup.", "steep it for two more minutes.", "warm mug, quiet room.", "ginger and black tea hit just right."],
-  cook: ["let's make something quick and simple.", "ordering food would've been faster, but cooking is nice.", "salt seems just right.", "simple meals are the best."],
-  eat: ["quiet meals are the best.", "comfort food never fails.", "taking ten minutes to just sit and eat."],
-  plant: ["monstera is finally getting a new leaf.", "don't overwater it, naman.", "a bit of green in the studio."],
-  easel: ["needs a bit more magenta in the shadows.", "doodling is pure therapy.", "two hues blending... that's it.", "pixels, paint, synths: same thing, different speed."],
-  work: ["one more commit and then a break.", "fixing node graph connections in infinite.", "music videos folder is getting huge.", "code compiles on the first try? suspicious."],
-  keys: ["what if the tempo drops to 110 here?", "that chord progression gives goosebumps.", "analog warmth just hits different.", "let's lay down a sub bassline."],
-  guitar: ["fingers getting calloused again.", "this riff has been stuck in my head all week.", "acoustic resonates nicely in this room."],
-  records: ["andhera on vinyl still sounds so warm.", "which record to play next?", "vinyl crackle is comforting."],
-  fridge: ["anything sweet left in here?", "need to restock groceries soon.", "cold water hits different."],
-  snake: ["gentle, quiet, zero thoughts in that head.", "who keeps who?", "curled up in the spiral again."]
-};
+export { DAY_THOUGHTS };
 
 // what the sim says about him right now (read-only): emotion, his lowest need and the next act he means to do.
 // Seeded by the clock, not Math.random, so everyone watching the shared life sees the same line at the same time.
@@ -52,9 +40,12 @@ function simThought(core, doing, seed) {
   const kinds = [];
   if (need) kinds.push('need', 'need');
   if (EMOTION_LINES[emo] && emo !== 'neutral') kinds.push('emo', 'emo');
-  if (DAY_THOUGHTS[doing]) kinds.push('act');
+  if (DAY_THOUGHTS[doing] || ACT_LINES[doing]) kinds.push('act');
+  const tl = TIME_LINES[hourBucket(core.time?.hour ?? 12)];
+  if (tl) kinds.push('time');
+  kinds.push('self');
   const kind = kinds.length ? pick(kinds, 2) : null;
-  let base = kind === 'need' ? pick(NEED_LINES[need], 3) : kind === 'emo' ? pick(EMOTION_LINES[emo], 3) : kind === 'act' ? pick(DAY_THOUGHTS[doing], 3) : null;
+  let base = kind === 'need' ? pick(NEED_LINES[need], 3) : kind === 'emo' ? pick(EMOTION_LINES[emo], 3) : kind === 'act' ? pick(DAY_THOUGHTS[doing] || ACT_LINES[doing], 3) : kind === 'time' ? pick(tl, 3) : kind === 'self' ? pick(SELF_LINES, 3) : null;
   if (!base) return null;
   const hint = next && NEXT_LINES[next] && h(4) < 0.6 ? ' ' + NEXT_LINES[next] : '';
   return base + hint;
