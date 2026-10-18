@@ -93,7 +93,7 @@
   "work": {
    "energy": -21,
    "hunger": -8,
-   "fun": -64,
+   "fun": -30,
    "focus": -70,
    "bladder": -5,
    "social": 18
@@ -306,7 +306,7 @@
    "energy": "atus-wb class read (blend 0.6)"
   },
   "work": {
-   "fun": "atus-wb class work (blend 0.6)",
+   "fun": "hand-set -30 in round 4 (ATUS-WB blend gave -64: fun fell ~0.5/h, so boredom ended almost every work stint within the hour)",
    "focus": "atus-wb class work (blend 0.6)",
    "energy": "atus-wb class work (blend 0.6)"
   },

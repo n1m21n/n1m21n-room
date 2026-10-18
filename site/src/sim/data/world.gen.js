@@ -2406,7 +2406,7 @@ export const HAZARDS = {
   "kFatigue": 0,
   "trigger": "fun<0.22&&act==work",
   "ledger": "boredom_quit",
-  "interrupt": "hard"
+  "interrupt": "soft"
  },
  "frustration_slam": {
   "h0": 0,

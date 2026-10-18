@@ -201,9 +201,12 @@ export function makeSimCore({ seed = 1, storage = null, instability = {}, awaySc
       if (hv > 0) score /= 1 + (a.habK ?? TUNE.habK) * hv * (nextSteps?.has(name) ? TUNE.habChain : 1);
       if ((name === 'eat' || name === 'cook') && motives.hunger > 0.82 && !nextSteps?.has(name)) score *= 0.15;
       if (a.kind === 'erratic') score *= (TUNE.erraticBase + affect.stress * TUNE.erraticStress + (1 - affect.valence) * TUNE.erraticValence) * (name === 'night_shower' || name === 'night_work' ? (night ? 1.5 : 0.1) : 1);
-      if (name === 'work' && hour >= TUNE.workFrom && hour < TUNE.workTo) score = Math.max(score, TUNE.workDuty) * TUNE.workDay;   // duty: the working day pulls him to the desk
+      // duty: the working day pulls him to the desk, less as today's hours fill up (owed falls from 1 to 0 at workTarget minutes)
+      const owed = /^work/.test(name) ? clamp(1 - ((cur.actMin.work || 0) + (cur.actMin.work_through || 0)) / TUNE.workTarget, 0, 1) : 1;
+      if (name === 'work' && hour >= TUNE.workFrom && hour < TUNE.workTo) score = Math.max(score, TUNE.workDuty * owed) * TUNE.workDay;
       if (name === 'work' && night) score *= TUNE.workNight;
       if (name === 'work_through' && motives.energy > 0.45) score *= 0.2;
+      if (name === 'work_through') score *= TUNE.workThroughDone + (1 - TUNE.workThroughDone) * owed;   // pushing on through exhaustion is for work still owed
       // planned cancellation of non-essentials in a bad mood
       if (!ESSENTIAL.has(name) && a.kind === 'normal') {
         if (hourPlan.action === 'cancel') score *= TUNE.cancelMul; else if (hourPlan.action === 'postpone') score *= TUNE.postponeMul;
@@ -371,6 +374,7 @@ export function makeSimCore({ seed = 1, storage = null, instability = {}, awaySc
     if ((act === 'keys' || act === 'guitar') && o.kind !== 'fail') { piece = pickPiece(act); pay = piece && MIDI_PIECES[piece]; nowPiece = piece; }
     const gain = { ok: 1, partial: TUNE.partialGain, fail: TUNE.failGain, side: 0.8, surprise: 1.3 }[o.kind] * TUNE.satiate * world.pay(act, tMin);   // a snack fills less than a cooked meal
     // motives: drain everything for the elapsed minutes, then the act's rewards (rate per sim second = per story minute)
+    const m0 = { ...motives };
     for (const m of MOTIVES) {
       motives[m] = clamp(motives[m] - TUNE.decay[m] * mins * (doing === 'sleep' && m !== 'bladder' && m !== 'hunger' ? TUNE.sleepDecayMul : 1) * inst.gain('motives'));
     }
@@ -384,10 +388,16 @@ export function makeSimCore({ seed = 1, storage = null, instability = {}, awaySc
     }
     if (act === 'sleep') ledger.write('slept', { scale: clamp(mins / 420, 0.3, 1.2), note: 'sleep' });
     if (act === 'loo') motives.bladder = 1;
-    // step the world in chunks so traces decay and hazards can fire while the act runs
+    // step the world in chunks so traces decay and hazards can fire while the act runs. Mood and hazards see the motives
+    // as lived so far (start -> end, linear), not the end of the act: 2 h of work must not read as bored from minute one.
     let left = mins; const chunk = Math.max(2, Math.min(10, mins / 3));
-    const hits0 = hits;
-    while (left > 0) { const d = Math.min(chunk, left); tMin += d; left -= d; rollDay(); tick(d); if ((hits > hits0 || tMin >= stopAt) && act !== 'sleep' && left > 0) break; }   // a hazard cuts the act short
+    const hits0 = hits, mEnd = { ...motives };
+    while (left > 0) {
+      const d = Math.min(chunk, left); tMin += d; left -= d; rollDay();
+      const f = 1 - left / mins; for (const m of MOTIVES) motives[m] = m0[m] + (mEnd[m] - m0[m]) * f;
+      tick(d); if ((hits > hits0 || tMin >= stopAt) && act !== 'sleep' && left > 0) break;   // a hazard cuts the act short
+    }
+    Object.assign(motives, mEnd);
     let lived = mins;
     if (left > 0 && mins > 0) {                                                  // interrupted: pay only the progress made, and only drain the minutes he lived
       const p = clamp(1 - left / mins, 0, 1); lived = mins - left;

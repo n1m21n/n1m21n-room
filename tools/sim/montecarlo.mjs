@@ -39,6 +39,10 @@ const rep = {
     top_goal: Object.entries(goals).sort((a, b) => b[1] - a[1]).slice(0, 8).map(([k, n]) => `${k} ×${n}`) },
   per_day: Object.fromEntries(['brush', 'dress', 'shower', 'tea', 'eat', 'cook', 'fridge', 'wash', 'phone_call', 'water_plant'].map(a => [a, +(acts.filter(e => e.act === a).length / days.length).toFixed(2)])),
   // same act again within 3 h (habituation should keep this low) and awake-at-night acts (01-05 h, not sleep / loo / erratic)
+  // work: minutes at the desk per day (plain work and work_through), stint length, and how often boredom cuts it
+  work: { work_min: +mean(col(d => d.actMin?.work || 0)).toFixed(1), work_through_min: +mean(col(d => d.actMin?.work_through || 0)).toFixed(1),
+    stints: +mean(col(d => d.acts.work || 0)).toFixed(2), min_per_stint: +(mean(col(d => d.actMin?.work || 0)) / (mean(col(d => d.acts.work || 0)) || 1)).toFixed(1),
+    boredom_quit: +mean(col(d => d.events.filter(e => e === 'boredom_quit').length)).toFixed(2), p10: +q(col(d => d.actMin?.work || 0), 0.1).toFixed(0), p90: +q(col(d => d.actMin?.work || 0), 0.9).toFixed(0) },
   repeat_3h: +(acts.filter((e, i) => acts.slice(Math.max(0, i - 12), i).some(p => p.act === e.act && p.day === e.day && e.t - p.t < 180 && e.t > p.t)).length / acts.length).toFixed(3),
   night_acts_per_day: +(acts.filter(e => { const h = (e.t % 1440) / 60; return h >= 1 && h < 5 && e.actKind === 'normal' && !['sleep', 'loo'].includes(e.act); }).length / days.length).toFixed(2),
   pinned_days: col(d => d.v).filter(v => v < 0.05 || v > 0.95).length,

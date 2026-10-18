@@ -110,7 +110,7 @@ lazy), `~tv>~greet_visitor>tv` (knock mid-show, back to the show), `dress>~showe
 
 ### Where it still falls short (honest)
 
-1. **Work.** Ordinary `work` lasts 9–27 min/day: the boredom_quit hazard (fun < 0.22) cuts it almost always;
+1. **Work.** (fixed in round 4) Ordinary `work` lasted 9–27 min/day: the boredom_quit hazard (fun < 0.22) cuts it almost always;
    `work_through` is effectively his day job (~3 h, 10:00–15:00). Work drains fun too fast; needs tuning.
 2. **Goals are mostly one step.** 274 multi-step sequences, but the top goals are single acts. Only hygiene,
    food and dressing have preconditions; art, music, social and errands have none yet.
@@ -121,6 +121,47 @@ lazy), `~tv>~greet_visitor>tv` (knock mid-show, back to the show), `dress>~showe
 7. **Not validated against people.** Time use was ~57 points off the ATUS diary earlier; not re-run on this
    model. Eat 4.5/day and fridge 3.5/day are still high; phone 3.8 calls/day is high.
 8. Mood fell 0.597 -> 0.561 and stress rose to 0.28 (in band, but watch it).
+
+## Round 4 (same day): work vs boredom
+
+Plain `work` lasted 9–27 min/day and the burnout act `work_through` had become his day job. Three causes, three fixes:
+
+1. **Bug: hazards and mood saw the end of the act from minute one.** `runAct` applies a whole act's decay, drain and
+   rewards up front, then steps the world in chunks. Every hazard trigger (and the affect / emotion read) saw the
+   motives as they would be at the END of the act, so a 2 h work stint read `fun < 0.22` at its first tick and
+   `boredom_quit` fired at once. Now each chunk sees the motives interpolated start -> end (linear) and the end state
+   is restored after the loop (`core.js runAct`). This touches every act's hazards, not only work.
+2. **Work drained fun too fast.** `motive_matrix.json` work/fun was -64 (ATUS-WB blend) = 0.46 fun/h on top of the
+   base decay; from a normal mood fun crossed 0.22 inside an hour. Hand-set to -30 (source note updated).
+   `boredom_quit` is now a `soft` interruption: he steps away from the desk and may come back (resume odds as for any
+   soft break) instead of the work goal breaking.
+3. **Nothing pulled him to the desk.** Work pays almost nothing to his motives, so its appeal was the duty floor
+   `workDuty` 0.051 -> after `pickExp` it lost to tv and read every time. `workDuty` 0.25, and duty now fades with the
+   hours already done today: owed = 1 - (work + work_through minutes) / `workTarget` (300). `work_through` keeps
+   `workThroughDone` (0.25) of its appeal once the hours are done, so he only pushes through exhaustion for work still
+   owed. All three are in `tools/emotions/tune.json`.
+
+Monte Carlo (200 seeds × 7 days; `work` block added to `montecarlo.mjs`):
+
+| metric | round 3 | round 4 |
+|---|---|---|
+| verdict | PASS | PASS |
+| plain work min/day (p10 / p90) | 26.7 (0 / 80) | 153 (81 / 242) |
+| work_through min/day | 163 | 71 |
+| work stints/day, min per stint | 0.93, 29 | 1.47, 105 |
+| boredom_quit per day | 0.87 | 0.28 |
+| mood valence (sd) / stress | 0.561 (0.102) / 0.282 | 0.612 (0.094) / 0.254 |
+| chains done / broken / dropped | 2.84 / 2.97 / 1.56 | 3.10 / 2.80 / 1.16 |
+| fail rate / erratic events per day | 0.099 / 1.75 | 0.102 / 1.04 |
+| acts per day / repeat within 3 h | 47.3 / 0.204 | 43.6 / 0.185 |
+| eat / fridge / phone per day | 4.54 / 3.50 / 3.77 | 4.17 / 3.25 / 2.95 |
+| top time shares | sleep 35.5, tv 11.5, work_through 11.3, read 8.4 | sleep 37.3, work 10.6, tv 10.0, read 8.1, work_through 4.9 |
+
+(The round 3 column is measured with round 3 code; `work` numbers came from the new `work` block run on it.)
+
+Still open after round 4: total desk time is ~3.7 h/day with no weekday/weekend difference (no calendar yet); work
+has no deadlines or output (nothing gets finished); `work_through` still fires on ~half the days; eat 4.2/day and
+fridge 3.3/day are still high.
 
 ## Still open
 

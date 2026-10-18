@@ -318,7 +318,7 @@ export const ACTIVITIES = {
   "drain": {
    "energy": 0.00252,
    "hunger": 0.00096,
-   "fun": 0.00768,
+   "fun": 0.0036,
    "focus": 0.0084,
    "bladder": 0.0006
   },
@@ -1325,7 +1325,7 @@ export const STATION_AFFORDANCES = {
   "drain": {
    "energy": 0.00252,
    "hunger": 0.00096,
-   "fun": 0.00768,
+   "fun": 0.0036,
    "focus": 0.0084,
    "bladder": 0.0006
   },

@@ -2,6 +2,13 @@
 
 Start here. Then read `BLUEPRINT_REVIEW.md` (review of the two Antigravity blueprints), `SIM_DESIGN.md`, `DATA_SOURCES.md`.
 
+## STATUS UPDATE (2026-10-18, round 4): work vs boredom: read `SIM_REVIEW.md` "Round 4"
+
+- Bug fixed: during an act, hazards and mood saw the end-of-act motives from minute one (boredom quit every work stint at once). Motives are now interpolated per chunk.
+- Work/fun drain -64 -> -30 (`motive_matrix.json`), boredom_quit soft, duty 0.25 fading with today's hours (`workTarget` 300, `workThroughDone` 0.25 in `tune.json`). Plain work 27 -> 153 min/day, work_through 163 -> 71, mood 0.561 -> 0.612.
+- Gates pass (build, tests 48/0, physics 100/0 fail, Monte Carlo PASS); `life.json` regenerated. NOT deployed.
+- Next: option (b) preconditions for art/music/social acts; weekday/weekend calendar; work output/deadlines; ATUS re-validation.
+
 ## STATUS UPDATE (2026-10-18, round 3): planned chains: read `SIM_REVIEW.md` "Round 3"
 
 - Goal planner over a world model (`tools/emotions/world_model.json`, `site/src/sim/world.js`, `TUNE.goalPlan`): chains are generated (preconditions, any order, learned habits, interruption + resume + replan). Tea 2.7/day.

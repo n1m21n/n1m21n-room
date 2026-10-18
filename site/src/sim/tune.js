@@ -12,6 +12,7 @@ export const TUNE = {
   erraticBase: 0.15, erraticStress: 1, erraticValence: 0.5,
   sleepNight: 3, sleepLowEnergy: 2, sleepDay: 0.1, sleepEnergyAt: 0.2,
   workNight: 0.4, workDay: 1.5, workDuty: 0.06, workFrom: 9, workTo: 19,
+  workTarget: 300, workThroughDone: 0.25,   // minutes of work a day after which duty stops pulling; work_through keeps this share of its appeal once the hours are done
   cancelMul: 0.3, postponeMul: 0.6,
   chainGap: 60,             // minutes between chain steps before it counts as broken
   resumeTau: 45,            // soft interruption: chance he comes back to a suspended chain = exp(-break minutes / resumeTau) (goal memory, Altmann & Trafton 2002)
