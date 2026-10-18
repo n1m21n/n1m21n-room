@@ -144,7 +144,8 @@ function bracelet(man) {
 // jacket: shells cloned from his tee body, sleeves and arms, pushed out along the normals; the front is cut open to show the tank
 const JACKET_COLOURS = { red: ['#C8303F', '#6E1424'], camel: ['#D9A066', '#8A5A2A'], cream: ['#EFE6C8', '#A99A6E'], denim: ['#6E86D8', '#2E3E8C'] };
 function jacket(man) {
-  const [col, shc] = JACKET_COLOURS[q('jacket')] || JACKET_COLOURS.red;
+  if (!JACKET_COLOURS[q('jacket')]) return;                                  // off unless asked for: ?jacket=red|camel|cream|denim
+  const [col, shc] = JACKET_COLOURS[q('jacket')];
   const src = {}; man.root.traverse(o => { if (o.isSkinnedMesh && ['tee', 'sleeveL', 'sleeveR', 'armL', 'armR'].includes(o.name)) src[o.name] = o; });
   const grow = { tee: 0.016, sleeveL: 0.014, sleeveR: 0.014, armL: 0.011, armR: 0.011 };
   for (const [name, o] of Object.entries(src)) {
