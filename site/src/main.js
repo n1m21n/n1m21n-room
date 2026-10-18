@@ -602,14 +602,95 @@ const paintSnd = () => { snd.classList.toggle('off', sfx.muted); snd.setAttribut
 snd.onclick = () => { sfx.setMuted(!sfx.muted); paintSnd(); }; paintSnd();
 document.addEventListener('click', ev => { if (ev.target.closest('.chrome button, #deck button, #prompt, .crate button, .x')) sfx.fx('tick'); }, true);
 
-// thought bubble over his head while he looks out of the window
+// thought / speech bubbles: phone calls, window gazing, and daily musings
+const PHONE_LINES = [
+  "haan bhai bol, sun raha hoon",
+  "bas room mein baitha hoon, track ki arrangement dekh raha tha",
+  "paranoia wala master sunna? kick drum hits so clean now",
+  "infinite daw ka ek naya update push kiya subah",
+  "wait, let me send you the export link right after this",
+  "delhi traffic was crazy today honestly",
+  "chai pee li tune? meri abhi bani hai",
+  "ek nayi patch sound mili synth pe, shaam ko sunata hoon",
+  "swiggy se mangwa raha hoon kuch, bata kya khana hai?",
+  "kal studio chalein? shaam ko milte hain pakka",
+  "listening to the mix on different speakers to check the low-end",
+  "aaj dhoop bohot tez hai bahar yaar",
+  "haan haan, 5 minute mein call back karta hoon!",
+  "redhand album ka vinyl sleeve dekh raha tha, looks dope",
+  "nahi nahi so nahi raha, record sun raha hoon bas",
+  "chal theek hai, thodi der mein call karta hoon"
+];
+
+const DAY_THOUGHTS = {
+  tea: ["chai bina din shuru nahi hota.", "thodi adrak zyada honi chahiye thi.", "steep it for two more minutes.", "warm cup, quiet room."],
+  cook: ["let's make something quick.", "swiggy would've been faster but whatever.", "salt seems just right.", "simple khana is the best khana."],
+  eat: ["quiet meals are the best.", "dal chawal is undefeated honestly.", "finally some food."],
+  plant: ["monstera is finally getting a new leaf.", "don't overwater it, naman.", "a bit of green in the studio."],
+  easel: ["needs a bit more magenta in the shadows.", "doodling is pure therapy.", "two hues blending... that's it.", "pixels, paint, synths: same thing different speed."],
+  work: ["one more commit and then break.", "fixing node graph connections in infinite.", "music videos folder is getting huge.", "code compiles on the first try? suspicious."],
+  keys: ["what if the tempo drops to 110 here?", "that chord progression gives goosebumps.", "analog warmth just hits different.", "let's lay down a bassline."],
+  guitar: ["fingers getting calloused again.", "this riff has been stuck in my head all week.", "acoustic resonates nicely in this room."],
+  records: ["andhera on vinyl still sounds so warm.", "which record next?", "vinyl crackle is comforting."],
+  fridge: ["kuch meetha bacha hai kya?", "need to restock groceries soon.", "cold water hits different."],
+  snake: ["gentle, quiet, zero thoughts in that head.", "who keeps who?", "curled up in the spiral again."]
+};
+
 const headW = new THREE.Vector3();
-function thought() {
-  const on = player.st.seated === WINDOW && WINDOW.t > 0.8, el = $('thought');
-  if (!on) { if (!el.hidden) el.hidden = true; return; }
-  if (el.hidden) { el.querySelector('p').textContent = WINDOW.text; el.hidden = false; }
-  man.bones.head.getWorldPosition(headW); headW.y += 0.45; headW.project(camera);
-  el.style.left = (headW.x + 1) / 2 * innerWidth + 'px'; el.style.top = (1 - headW.y) / 2 * innerHeight + 'px';
+let phoneLineIdx = 0, phoneLineT = 0, currentPhoneLine = '';
+let casualT = 0, currentCasual = '', casualHold = 0;
+
+function thought(dt = 0.016) {
+  const el = $('thought');
+  const isWindow = player.st.seated === WINDOW && WINDOW.t > 0.8;
+  const isPhone = (player.st.seated?.act === 'phone' && (player.st.spec?.phone || player.st.seated?.t > 0.6)) || routine.doing === 'phone' || routine.doing === 'answer';
+  const doing = routine.doing;
+
+  let text = '';
+  if (isWindow) {
+    text = WINDOW.text;
+  } else if (isPhone) {
+    phoneLineT += dt;
+    if (phoneLineT > 4.5 || !currentPhoneLine) {
+      phoneLineT = 0;
+      currentPhoneLine = PHONE_LINES[phoneLineIdx % PHONE_LINES.length];
+      phoneLineIdx = (phoneLineIdx + 1) % PHONE_LINES.length;
+    }
+    text = `“${currentPhoneLine}”`;
+  } else if (DAY_THOUGHTS[doing]) {
+    casualT += dt;
+    if (casualHold > 0) {
+      casualHold -= dt;
+      text = currentCasual;
+    } else if (casualT > 20) {
+      casualT = 0;
+      const pool = DAY_THOUGHTS[doing];
+      currentCasual = pool[Math.floor(Math.random() * pool.length)];
+      casualHold = 6.0;
+      text = currentCasual;
+    }
+  } else {
+    casualHold = 0;
+    currentCasual = '';
+    phoneLineT = 0;
+  }
+
+  if (!text) {
+    if (!el.hidden) el.hidden = true;
+    return;
+  }
+
+  if (el.querySelector('p').textContent !== text) {
+    el.querySelector('p').textContent = text;
+  }
+  if (el.hidden) el.hidden = false;
+
+  man.bones.head.getWorldPosition(headW);
+  headW.y += 0.45;
+  headW.project(camera);
+  if (headW.z > 1) { el.hidden = true; return; }
+  el.style.left = ((headW.x + 1) / 2 * innerWidth) + 'px';
+  el.style.top = ((1 - headW.y) / 2 * innerHeight) + 'px';
 }
 
 let toastT = 0;
@@ -747,7 +828,7 @@ renderer.setAnimationLoop(() => {
   } catch (e) { simSaved = -1e9; console.warn('sim core disabled', e); }
   routine.update(dt, { busy: !$('card').hidden || (player.st.seated === telly.TV && !routine.mine) || portals.busy });
   pickStation();
-  thought();
+  thought(dt);
   const w = whereAmI(player.pos);
   if (w !== lastWhere) { lastWhere = w; hudPlace(w); }
   hudClock(); hudSky();
