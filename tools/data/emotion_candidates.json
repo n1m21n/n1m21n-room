@@ -1,0 +1,110 @@
+{
+ "awe": {
+  "sources": 3,
+  "valence": 0.68,
+  "arousal": 0.59,
+  "dominance": 0.56
+ },
+ "aesthetic_appreciation": {
+  "sources": 3,
+  "valence": 0.78,
+  "arousal": 0.58,
+  "dominance": 0.57
+ },
+ "nostalgia": {
+  "sources": 3,
+  "valence": 0.58,
+  "arousal": 0.46,
+  "dominance": 0.43
+ },
+ "amusement": {
+  "sources": 3,
+  "valence": 0.77,
+  "arousal": 0.63,
+  "dominance": 0.61
+ },
+ "triumph": {
+  "sources": 3,
+  "valence": 0.8,
+  "arousal": 0.67,
+  "dominance": 0.73
+ },
+ "admiration": {
+  "sources": 3,
+  "valence": 0.8,
+  "arousal": 0.6,
+  "dominance": 0.64
+ },
+ "excitement": {
+  "sources": 3,
+  "valence": 0.78,
+  "arousal": 0.71,
+  "dominance": 0.65
+ },
+ "surprise": {
+  "sources": 3,
+  "valence": 0.69,
+  "arousal": 0.72,
+  "dominance": 0.5
+ },
+ "guilt": {
+  "sources": 3,
+  "valence": 0.23,
+  "arousal": 0.56,
+  "dominance": 0.38
+ },
+ "disgust": {
+  "sources": 3,
+  "valence": 0.17,
+  "arousal": 0.6,
+  "dominance": 0.38
+ },
+ "sympathy": {
+  "sources": 3,
+  "valence": 0.64,
+  "arousal": 0.43,
+  "dominance": 0.54
+ },
+ "envy": {
+  "sources": 3,
+  "valence": 0.38,
+  "arousal": 0.61,
+  "dominance": 0.4
+ },
+ "craving": {
+  "sources": 2,
+  "valence": 0.65,
+  "arousal": 0.61,
+  "dominance": 0.55
+ },
+ "adoration": {
+  "sources": 3,
+  "valence": 0.78,
+  "arousal": 0.56,
+  "dominance": 0.61
+ },
+ "romance": {
+  "sources": 3,
+  "valence": 0.82,
+  "arousal": 0.6,
+  "dominance": 0.56
+ },
+ "contempt": {
+  "sources": 3,
+  "valence": 0.3,
+  "arousal": 0.55,
+  "dominance": 0.42
+ },
+ "horror": {
+  "sources": 3,
+  "valence": 0.19,
+  "arousal": 0.7,
+  "dominance": 0.37
+ },
+ "empathic_pain": {
+  "sources": 3,
+  "valence": 0.22,
+  "arousal": 0.55,
+  "dominance": 0.34
+ }
+}

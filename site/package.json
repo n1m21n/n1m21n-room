@@ -6,6 +6,7 @@
     "dev": "vite --port 5181 --host",
     "build": "vite build",
     "preview": "vite preview --port 5182",
+    "test:sim": "node tests/sim.mjs",
     "test:ui": "node tests/ui-hygiene.mjs",
     "test:physics": "node tests/physics.mjs",
     "test:design": "node tests/design.mjs",
@@ -16,7 +17,7 @@
     "test:walls": "node tests/walls.mjs",
     "test:cutaway": "node tests/cutaway.mjs",
     "stills": "node tests/stills.mjs",
-    "test": "node tests/ui-hygiene.mjs && node tests/physics.mjs && node tests/layout.mjs && node tests/design.mjs && node tests/platform.mjs && node tests/content.mjs && node tests/health.mjs"
+    "test": "node tests/sim.mjs && node tests/ui-hygiene.mjs && node tests/physics.mjs && node tests/layout.mjs && node tests/design.mjs && node tests/platform.mjs && node tests/content.mjs && node tests/health.mjs"
   },
   "dependencies": {
     "three": "0.170.0"

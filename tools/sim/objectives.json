@@ -1,0 +1,217 @@
+{
+ "doc": "Targets for a believable, varied, stable person. Each metric has a band [lo,hi]; inside = 0 penalty, outside = ((distance)/width)^2 * weight. 'hard' metrics must hold on every validation block or the set is rejected.",
+ "metrics": {
+  "loo_share": {
+   "band": [
+    0.02,
+    0.05
+   ],
+   "w": 3,
+   "note": "toilet visits are a small share of acts"
+  },
+  "eat_per_day": {
+   "band": [
+    2,
+    4
+   ],
+   "w": 3
+  },
+  "sleep_min_per_day": {
+   "band": [
+    360,
+    540
+   ],
+   "w": 4,
+   "hard": true
+  },
+  "zero_sleep_days": {
+   "band": [
+    0,
+    0.01
+   ],
+   "w": 6,
+   "hard": true,
+   "note": "fraction of days with no sleep"
+  },
+  "shower_per_day": {
+   "band": [
+    0.7,
+    2
+   ],
+   "w": 2
+  },
+  "acts_per_day": {
+   "band": [
+    30,
+    80
+   ],
+   "w": 1
+  },
+  "max_single_act_share": {
+   "band": [
+    0,
+    0.14
+   ],
+   "w": 3
+  },
+  "distinct_acts_week": {
+   "band": [
+    22,
+    40
+   ],
+   "w": 2
+  },
+  "culture_share": {
+   "band": [
+    0.25,
+    0.6
+   ],
+   "w": 2,
+   "note": "creative+expressive+intellectual+leisure share of acts"
+  },
+  "chains_done_per_day": {
+   "band": [
+    2,
+    8
+   ],
+   "w": 2
+  },
+  "chain_broken_ratio": {
+   "band": [
+    0.25,
+    0.45
+   ],
+   "w": 3,
+   "note": "chains that break / chains that end. FINAL target ~0.35: real life interrupts routines often, but every break must branch"
+  },
+  "chain_branch_ratio": {
+   "band": [
+    0.9,
+    1
+   ],
+   "w": 4,
+   "note": "share of broken chains that continue into another sequence (branch/resume); the rest are dead ends"
+  },
+  "chain_deadend_per_day": {
+   "band": [
+    0,
+    0.4
+   ],
+   "w": 3
+  },
+  "valence_mean": {
+   "band": [
+    0.58,
+    0.75
+   ],
+   "w": 20
+  },
+  "valence_day_sd": {
+   "band": [
+    0.06,
+    0.16
+   ],
+   "w": 3,
+   "note": "day-to-day mood variation inside one life"
+  },
+  "valence_p10": {
+   "band": [
+    0.2,
+    1
+   ],
+   "w": 2,
+   "hard": true
+  },
+  "stress_mean": {
+   "band": [
+    0.2,
+    0.45
+   ],
+   "w": 3
+  },
+  "stress_runaway_days": {
+   "band": [
+    0,
+    0.05
+   ],
+   "w": 4,
+   "hard": true,
+   "note": "fraction of days whose peak stress exceeds 0.97 for the whole day (mean>0.9)"
+  },
+  "erratic_events_per_day": {
+   "band": [
+    0.5,
+    3
+   ],
+   "w": 2
+  },
+  "erratic_act_share": {
+   "band": [
+    0.02,
+    0.1
+   ],
+   "w": 2
+  },
+  "fail_rate": {
+   "band": [
+    0.03,
+    0.1
+   ],
+   "w": 2
+  },
+  "between_life_sd": {
+   "band": [
+    0.02,
+    0.1
+   ],
+   "w": 1,
+   "note": "different seeds should be recognisably different lives, but one personality"
+  },
+  "social_acts_per_day": {
+   "band": [
+    1.5,
+    5
+   ],
+   "w": 2,
+   "note": "phone, letters, visitors, snake: social contact is a real part of the day"
+  },
+  "art_pieces_per_day": {
+   "band": [
+    0.3,
+    1.2
+   ],
+   "w": 2
+  },
+  "art_satisfied_share": {
+   "band": [
+    0.03,
+    0.1
+   ],
+   "w": 10,
+   "note": "serene satisfaction after a piece is RARE; those are the good pieces"
+  },
+  "art_disappointed_share": {
+   "band": [
+    0.05,
+    0.3
+   ],
+   "w": 2
+  },
+  "art_skill": {
+   "band": [
+    0.25,
+    0.7
+   ],
+   "w": 1,
+   "note": "skill after the sweep horizon (short runs: lower bound is gentle)"
+  },
+  "atus_gap": {
+   "band": [
+    0,
+    35
+   ],
+   "w": 4,
+   "note": "sum of absolute class minute-share gaps vs ATUS (pct points), persona classes excluded"
+  }
+ }
+}

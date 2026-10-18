@@ -60,7 +60,7 @@ export function makeMusic({ data, cardEl, card, closeCard, onTrack = () => {} })
 
   // global switch (chrome, top right)
   const sw = document.createElement('button');
-  sw.id = 'musicsw';
+  sw.id = 'musicsw'; sw.className = 'round'; sw.title = 'music on / off';
   document.querySelector('.chrome .right').prepend(sw);
   sw.onclick = () => toggle();
 
@@ -90,7 +90,8 @@ export function makeMusic({ data, cardEl, card, closeCard, onTrack = () => {} })
     q('dtracks').innerHTML = a.tracks.map((x, i) => `<li data-i="${i}" class="${i === T ? 'cur' : ''}"><span>${esc(x.title)}</span><em>${fmt(x.dur)}</em></li>`).join('');
     q('dtracks').querySelectorAll('li').forEach(li => { li.onclick = () => play(A, +li.dataset.i); });
     deck.classList.toggle('playing', playing);
-    sw.innerHTML = `<span class="sl">music</span><span class="tg"><i></i></span><span class="st">${on ? 'on' : 'off'}</span>`;
+    sw.innerHTML = `<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7.5 14.5V5l8-1.8v9.3"/><circle cx="5.6" cy="14.6" r="2.1"/><circle cx="13.6" cy="12.6" r="2.1"/>${on ? '' : '<path class="x" d="M3 17L17 3"/>'}</svg>`;
+    sw.setAttribute('aria-label', on ? 'music on, tap to turn off' : 'music off, tap to turn on');
     sw.setAttribute('aria-pressed', on);
     sw.classList.toggle('on', on);
     drawWave();

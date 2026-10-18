@@ -1,0 +1,37 @@
+gen 0: best 4.68 median 91.0 baseline 101.3 hard=[] 39s
+gen 1: best 16.68 median 73.2 hard=[] 83s
+gen 2: best 12.78 median 62.5 hard=[] 128s
+gen 3: best 6.40 median 29.3 hard=[] 172s
+gen 4: best 6.55 median 18.8 hard=[] 214s
+gen 5: best 6.31 median 11.3 hard=[] 256s
+gen 6: best 4.76 median 8.7 hard=[] 297s
+gen 7: best 3.75 median 7.1 hard=[] 338s
+gen 8: best 3.30 median 5.9 hard=[] 381s
+gen 9: best 3.04 median 5.2 hard=[] 421s
+gen 10: best 2.43 median 4.4 hard=[] 459s
+gen 11: best 2.18 median 3.7 hard=[] 498s
+gen 12: best 1.45 median 3.1 hard=[] 535s
+
+validation (480 lives x 14 days, unseen seeds): baseline 102.38 [hard: sleep_min_per_day]  ->  best 1.57 [hard: ]
+metric                  target        baseline  best
+loo_share               0.02..0.05    0.1219    0.02207
+eat_per_day             2..4          6.56      3.883
+sleep_min_per_day       360..540      631.3     530.4
+zero_sleep_days         0..0.01       0         0
+shower_per_day          0.7..2        5.564     2.184
+acts_per_day            30..80        61.11     54.57
+max_single_act_share    0..0.14       0.1219    0.139
+distinct_acts_week      22..40        24.74     22.48
+culture_share           0.25..0.6     0.2612    0.4868
+chains_done_per_day     2..6          5.253     7.021
+chain_broken_ratio      0.08..0.3     0.7877    0.4498
+valence_mean            0.5..0.7      0.5911    0.6544
+valence_day_sd          0.06..0.16    0.1122    0.09188
+valence_p10             0.2..1        0.422     0.526
+stress_mean             0.2..0.45     0.4438    0.2739
+stress_runaway_days     0..0.05       0.01682   0
+erratic_events_per_day  0.5..3        0.6147    2.985
+erratic_act_share       0.02..0.1     0.09996   0.07135
+fail_rate               0.03..0.1     0.08417   0.1049
+between_life_sd         0.02..0.1     0.04824   0.03352
+saved /Users/namansoni/music videos/n1m21n-room/tools/sim/results/sweep-1792233102346.json

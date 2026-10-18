@@ -15,27 +15,8 @@ export function urgency(m) {
 // Each station defines motive `rewards` (used for both utility evaluation and continuous restoration while active),
 // optional `drain` (motives consumed while performing the act, e.g. work consuming focus/fun),
 // `minDur` (seconds to commit before switching), and `cooldown` (seconds of post-act cooldown).
-export const DEFAULT_AFFORDANCES = {
-  sleep:   { rewards: { energy: 1.0 }, drain: {}, rate: 0.045, minDur: 18, cooldown: 60, category: 'Primary Restorative' },
-  bench:   { rewards: { energy: 0.45, focus: 0.65 }, drain: {}, rate: 0.032, minDur: 12, cooldown: 35, category: 'Focus + Rest' },
-  eat:     { rewards: { hunger: 1.0 }, drain: {}, rate: 0.055, minDur: 12, cooldown: 45, category: 'Primary Restorative' },
-  cook:    { rewards: { hunger: 0.78, fun: 0.22 }, drain: {}, rate: 0.042, minDur: 12, cooldown: 50, category: 'Hunger + Fun' },
-  fridge:  { rewards: { hunger: 0.62 }, drain: {}, rate: 0.05, minDur: 8, cooldown: 35, category: 'Quick Hunger' },
-  tea:     { rewards: { hunger: 0.45, focus: 0.38, energy: 0.2 }, drain: { bladder: 0.006 }, rate: 0.045, minDur: 10, cooldown: 40, category: 'Break / Multi-motive' },
-  guitar:  { rewards: { fun: 0.92 }, drain: { energy: 0.002 }, rate: 0.042, minDur: 14, cooldown: 35, category: 'Creative / Fun' },
-  keys:    { rewards: { fun: 0.95 }, drain: { energy: 0.002 }, rate: 0.042, minDur: 14, cooldown: 35, category: 'Creative / Fun' },
-  tv:      { rewards: { fun: 0.82, energy: 0.18 }, drain: {}, rate: 0.038, minDur: 14, cooldown: 40, category: 'Passive Fun' },
-  records: { rewards: { fun: 0.75 }, drain: {}, rate: 0.048, minDur: 8, cooldown: 35, category: 'Music / Fun' },
-  snake:   { rewards: { fun: 0.65, social: 1.0 }, drain: {}, rate: 0.065, minDur: 6, cooldown: 30, category: 'Social + Fun' },
-  window:  { rewards: { focus: 0.85, fun: 0.22 }, drain: {}, rate: 0.045, minDur: 10, cooldown: 30, category: 'Focus Restorative' },
-  read:    { rewards: { focus: 0.88, fun: 0.45 }, drain: {}, rate: 0.04, minDur: 14, cooldown: 35, category: 'Focus + Fun' },
-  work:    { rewards: { focus: 0.62, social: 0.18 }, drain: { focus: 0.012, fun: 0.009, energy: 0.003 }, rate: 0.025, minDur: 16, cooldown: 25, category: 'Productive (Drains Focus/Fun)' },
-  shower:  { rewards: { hygiene: 1.0, energy: 0.15 }, drain: {}, rate: 0.055, minDur: 12, cooldown: 60, category: 'Primary Restorative' },
-  brush:   { rewards: { hygiene: 0.65 }, drain: {}, rate: 0.05, minDur: 10, cooldown: 45, category: 'Hygiene' },
-  wash:    { rewards: { hygiene: 0.58, focus: 0.15 }, drain: {}, rate: 0.05, minDur: 8, cooldown: 40, category: 'Hygiene + Refresh' },
-  loo:     { rewards: { bladder: 1.0 }, drain: {}, rate: 0.07, minDur: 8, cooldown: 45, category: 'Primary Restorative' },
-  dress:   { rewards: { hygiene: 0.38, fun: 0.35, social: 0.32 }, drain: {}, rate: 0.045, minDur: 8, cooldown: 55, category: 'Expressive' },
-};
+import { STATION_AFFORDANCES } from './data/activities.gen.js';   // generated from tools/emotions/activities.json
+export const DEFAULT_AFFORDANCES = STATION_AFFORDANCES;
 
 // Neutral manual-only interactive stations (no autonomous pull)
 export const NEUTRAL_STATIONS = ['sit', 'lamp', 'timeline', 'look', 'door'];
@@ -121,11 +102,12 @@ export function makeUtilityAI({
   }
 
   function cooldownPenalty(name) {
+    if (name === activeAct) return 0;             // never penalise what he is doing right now: cooldown only discourages going back to it
     const cd = cooldowns[name] || 0;
     if (cd <= 0) return 0;
     const entry = registry.get(name);
     const maxCd = entry?.cooldown || 40;
-    return Math.min(0.45, (cd / maxCd) * 0.35);
+    return Math.min(1, cd / maxCd) * 0.35;
   }
 
   // Detailed breakdown of an action's score components
@@ -253,7 +235,7 @@ export function makeUtilityAI({
   }
 
   function setDoing(name) {
-    if (activeAct && activeAct !== name && registry.has(activeAct)) {
+    if (activeAct && activeAct !== name && activeTime > 0 && registry.has(activeAct)) {   // only an act he actually performed cools down
       const prev = registry.get(activeAct);
       cooldowns[activeAct] = prev.cooldown || 35;
     }

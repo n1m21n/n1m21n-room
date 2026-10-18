@@ -107,6 +107,12 @@ export function shapeHand(Bn, side, g) {                          // curl is loc
 function resetFingers(Bn, side) { for (const f of [...FING, 'thb']) for (const i of '12') Bn[f + i + side].quaternion.copy(Bn[f + i + side].userData.rest); }
 export function relaxHands(Bn, g = 'relax') { if (!Bn.idx1L) return; for (const sd of 'LR') { resetFingers(Bn, sd); shapeHand(Bn, sd, g); } }
 
+// extra finger curl on top of whatever grip is set (emotion: tension curls, tremor flickers)
+export function curlFingers(Bn, amt) {
+  if (!amt || !Bn.idx1L) return;
+  for (const sd of 'LR') for (const k of ['idx1', 'mid1', 'rng1', 'pky1', 'idx2', 'mid2', 'rng2', 'pky2']) Bn[k + sd]?.quaternion.multiply(q.setFromEuler(e.set(amt * (k.endsWith('2') ? 1.2 : 1), 0, 0)));
+}
+
 // apply a spec to the man (root already placed at the spot); returns the spec
 export function applyAct(man, spec) {
   if (!calib) calibrate(man);
@@ -116,6 +122,7 @@ export function applyAct(man, spec) {
     const v = spec.fk?.[n]; if (v) b.quaternion.multiply(q.setFromEuler(e.set(v[0], v[1], v[2])));
   }
   for (const sd of ['L', 'R']) if (Bn.idx1L) shapeHand(Bn, sd, spec.grip?.['hand' + sd] || 'relax');
+  curlFingers(Bn, spec.fingers);
   man.root.position.y = spec.y || 0;
   man.root.updateMatrixWorld(true);
   const tw = new THREE.Vector3(), pw = new THREE.Vector3(), rootQ = man.root.getWorldQuaternion(new THREE.Quaternion());
@@ -168,14 +175,14 @@ const now = (t, rate, at) => S(t * rate) > at;                  // a beat that c
 export const ACTS = {
   // desk chair: seat top 0.485, keyboard top 0.745 spanning z 0.30-0.46 in front of him
   desk: (u, t, sp) => {
-    const tp = sp?.tempo || 1.0, tap = s => Math.max(0, S(t * 13 * tp + s)) ** 3 * 0.012;
+    const tt = sp?.tt ?? t * (sp?.tempo || 1.0), tap = s => Math.max(0, S(tt * 13 + s)) ** 3 * 0.012;   // tt: act clock integrated at his tempo, so a tempo change never jumps the hands
     return {
       y: -0.34, face: mood() === 'tired' ? 'given_up' : now(t, 0.21, 0.93) ? 'uneasy' : now(t, 0.37, 0.6) ? 'curious' : 'neutral',
       fk: { ...SIT_FK, spine: [0.12, 0, 0], chest: [0.04, 0, 0], neck: [0.06, 0, 0], head: [0.1, S(t * 0.6) * 0.06, 0] },
       ik: {
         ...sitLegs(0.42),
-        handL: [0.11 + S(t * 2.1 * tp) * 0.02, 0.778 + tap(0), 0.37 + S(t * 1.3 * tp) * 0.01],
-        handR: [-0.11 + S(t * 1.7 * tp + 1) * 0.025, 0.778 + tap(2.1), 0.37 + S(t * 1.1 * tp) * 0.01],
+        handL: [0.11 + S(tt * 2.1) * 0.02, 0.778 + tap(0), 0.37 + S(tt * 1.3) * 0.01],
+        handR: [-0.11 + S(tt * 1.7 + 1) * 0.025, 0.778 + tap(2.1), 0.37 + S(tt * 1.1) * 0.01],
       },
       hand: { handL: TYPE(1), handR: TYPE(-1) },
       pole: { handL: [0.4, -0.5, -0.2], handR: [-0.4, -0.5, -0.2] },
@@ -211,10 +218,10 @@ export const ACTS = {
   }),
   // standing at the keyboard: keys top 1.032 spanning z 0.35-0.53; chords move up and down
   keys: (u, t, sp) => {
-    const tp = sp?.tempo || 1.0, ch = Math.floor(t * 1.6 * tp), pos = [0, 0.06, -0.04, 0.1][ch % 4], hit = s => Math.max(0, S(t * 10 * tp + s)) ** 4 * 0.01;
+    const tt = sp?.tt ?? t * (sp?.tempo || 1.0), ch = Math.floor(tt * 1.6), pos = [0, 0.06, -0.04, 0.1][ch % 4], hit = s => Math.max(0, S(tt * 10 + s)) ** 4 * 0.01;
     return {
       face: now(t, 0.33, 0.7) ? 'delighted' : 'calm',
-      fk: { spine: [0.1, 0, 0], chest: [0.04, 0, 0], neck: [0.1, 0, 0], head: [0.18, S(t * 0.8 * tp) * 0.1, S(t * 1.6 * tp) * 0.04] },
+      fk: { spine: [0.1, 0, 0], chest: [0.04, 0, 0], neck: [0.1, 0, 0], head: [0.18, S(tt * 0.8) * 0.1, S(tt * 1.6) * 0.04] },
       ik: { handL: [0.15 + pos, 1.078 - hit(0), 0.43], handR: [-0.15 + pos * 0.5, 1.078 - hit(1.8), 0.43] },
       hand: { handL: KEYS(1), handR: KEYS(-1) },      // ref: pianist from above, palms level, fingers arched onto the keys
       pole: { handL: [0.45, -0.4, -0.3], handR: [-0.45, -0.4, -0.3] },
@@ -223,10 +230,10 @@ export const ACTS = {
   // guitar on: strumming hand hangs over the top of the lower bout in front of the strings, fretting hand
   // behind the neck (fingers up past it, never through it)
   guitar: (u, t, sp) => {
-    const tp = sp?.tempo || 1.0, s = 0.64 + Math.floor(t * 0.8 * tp) % 3 * 0.06, strum = S(t * 9 * tp) * 0.03;
+    const tt = sp?.tt ?? t * (sp?.tempo || 1.0), s = 0.64 + Math.floor(tt * 0.8) % 3 * 0.06, strum = S(tt * 9) * 0.03;
     return {
       face: now(t, 0.29, 0.7) ? 'delighted' : 'calm',
-      fk: { neck: [0.12, 0, 0], head: [0.22, 0.35, 0.05], hips: [0, S(t * 2 * tp) * 0.03, 0] },
+      fk: { neck: [0.12, 0, 0], head: [0.22, 0.35, 0.05], hips: [0, S(tt * 2) * 0.03, 0] },
       ik: { handR: guitarAt(-0.05 + strum * 0.4, 0.12 + strum, 0.086), handL: guitarAt(0.02, s, -0.022) },
       hand: { handR: [[0.45, -0.85, 0.05], [0, 0, -1]], handL: [GUP, [0, 0, 1]] },
       grip: { handR: 'relax', handL: 'relax' },
@@ -432,13 +439,177 @@ export const ACTS = {
       pole: { handL: [0.5, -0.3, -0.3], handR: [-0.55, -0.4, -0.2] },
     };
   },
+  // phone (side table by the bean bag, top PHONE.table): picks it up off the table and talks with it at his right ear,
+  // the left hand talking too; answering, it rings on the table first (sp.ring) and he looks round at it
+  phone: (u, t, sp) => {
+    const p0 = sp?.ring ? PHONE.ring : 0.2, grab = ease((u - p0) / 0.5), lift = ease((u - p0 - 0.6) / 0.7);
+    const bend = grab * (1 - lift), talk = lift > 0.9, g = talk ? Math.max(0, S(t * 0.7)) ** 2 : 0;
+    const ear = B => add(B('head'), PHONE.ear);
+    return {
+      face: u < p0 ? 'curious' : talk ? (now(t, 0.23, 0.55) ? 'delighted' : now(t, 0.31, 0.2) ? 'curious' : 'calm') : 'calm', phone: grab > 0.6, ringing: !!sp?.ring && u < p0 + 0.4,
+      fk: { hips: [0, talk ? S(t * 0.21) * 0.22 : 0, 0], spine: [0.32 * bend, 0, 0], neck: [0.1 * bend, 0, 0], head: [0.2 * bend + (u < p0 ? 0.25 : 0), u < p0 ? -0.35 : talk ? 0.12 + S(t * 0.4) * 0.1 : 0, talk ? -0.12 : 0] },
+      ik: { handR: B => lerp3(lerp3([-0.24, 0.88, 0.05], PHONE.on, grab), ear(B), lift), handL: lerp3([0.24, 0.88, 0.05], [0.2, 1.02 + 0.1 * g, 0.3], g) },
+      hand: { handR: mixH(mixH([[0, -1, 0], [1, 0, 0]], [[0, -0.2, 1], [0, -1, 0]], grab), PHONE.earH, lift), handL: mixH([[0, -1, 0], [-1, 0, 0]], [[0.3, 0.2, 1], [0, 1, 0]], g) },
+      grip: { handR: grab > 0.6 ? 'hold' : 'relax', handL: g > 0.5 ? 'flat' : 'relax' },
+      pole: { handR: [-0.3, -0.7, -0.05], handL: [0.45, -0.5, -0.2] },
+    };
+  },
+  // the monstera: lifts the watering can off its little stool (on his right), waters the pot in two places, tipping it
+  // forward (fingers rock back) so the spout dips; spec.pour runs the water while the spout is down
+  water: (u, t) => {
+    const grab = ease(u / 0.6), up = ease((u - 0.8) / 0.7), c = u < 1.8 ? 0 : ((u - 1.8) % WATER.P) / WATER.P;
+    const tip = u < 1.8 ? 0 : c < 0.15 ? ease(c / 0.15) : c < 0.6 ? 1 : c < 0.75 ? 1 - ease((c - 0.6) / 0.15) : 0;
+    const side = Math.floor(Math.max(0, u - 1.8) / WATER.P) % 2 ? 0.07 : -0.07;
+    const carry = lerp3(lerp3([-0.25, 0.88, 0.1], WATER.stool, grab), lerp3([-0.24, 0.9, 0.3], [-0.12 + side, WATER.y, WATER.z], ease((u - 1.2) / 0.6)), up);
+    return {
+      face: tip > 0.5 ? 'delighted' : 'calm', can: grab > 0.6, pour: tip > 0.6,
+      fk: { spine: [0.42 * grab * (1 - up) + 0.14 * up, 0, -0.08 * grab * (1 - up)], neck: [0.1, 0, 0], head: [0.2 + 0.1 * up, -0.1 * grab * (1 - up) + side * 0.6, 0] },
+      ik: { handR: carry, handL: lerp3([0.24, 0.88, 0.05], [0.15, 0.95, 0.25], up) },
+      hand: { handR: mixH(mixH([[0, -1, 0], [1, 0, 0]], WATER.carryH, grab), WATER.pourH, tip), handL: mixH([[0, -1, 0], [-1, 0, 0]], [[0, -0.3, 1], [-1, 0, 0]], up) },
+      grip: { handR: grab > 0.5 ? 'hold' : 'relax' },
+      pole: { handR: [-0.55, -0.4, -0.25], handL: [0.45, -0.5, -0.2] },
+    };
+  },
+  // the easel: brush strokes on the canvas (EASEL.canvas in front of him), palette on the left hand for the colour
+  // stages, a dip into the paint now and then; review: steps back in himself, hand on his chin, palette down
+  paint: (u, t, sp) => {
+    const stage = sp?.stage || 'refine', pal = stage !== 'sketch', k = ease(u / 0.8);
+    if (stage === 'review') return {
+      face: now(t, 0.2, 0.3) ? 'curious' : 'calm', palette: true,
+      fk: { spine: [-0.06, 0, 0], neck: [-0.04, 0, 0], head: [-0.05, S(t * 0.3) * 0.12, 0.08 + S(t * 0.21) * 0.05] },
+      ik: { handR: [-0.03, -0.1, 0.13], handL: lerp3([0.24, 0.88, 0.05], [0.26, 0.95, 0.12], k) },
+      follow: { handR: 'head' },
+      hand: { handR: [[0.1, 1, 0.3], [0, 0.4, -1]], handL: [[0.2, 0, 1], [0, 1, 0]] },
+      grip: { handR: 'cup', handL: 'flat' },
+      pole: { handR: [0.1, -0.6, 0.5], handL: [0.45, -0.5, -0.2] },
+    };
+    const { canvas: C } = EASEL, cyc = (t % EASEL.dipEvery) / EASEL.dipEvery, dip = pal ? (cyc > 0.82 ? Math.sin((cyc - 0.82) / 0.18 * Math.PI) : 0) : 0;
+    const rate = stage === 'sketch' ? 1.6 : stage === 'render' ? 0.7 : 1, lift = Math.max(0, S(t * 2.2 * rate)) ** 6 * 0.035;
+    const ty = C.y + S(t * 0.5 * rate + 1) * C.h * 0.36, tx = S(t * 0.83 * rate) * C.w * 0.34 + S(t * 2.9 * rate) * 0.03;
+    const onC = [tx, ty, C.z + (ty - C.y) * C.tilt - lift];
+    const tipAt = lerp3(onC, EASEL.dab, dip), F = lerp3(EASEL.F, EASEL.dabF, dip);
+    const H = heldAt(tipAt, F, EASEL.N, TOOLS.paint.reach);
+    return {
+      face: dip > 0.5 ? 'curious' : now(t, 0.17, 0.75) ? 'delighted' : 'calm', paint: k > 0.5, palette: pal,
+      fk: { spine: [0.05 + 0.06 * dip, 0, 0], neck: [0.04, 0, 0], head: [0.06 + (ty - C.y) * -0.3 + 0.2 * dip, tx * -0.6 + 0.25 * dip, 0] },
+      ik: { handR: lerp3([-0.24, 0.88, 0.05], H.at, k), handL: pal ? lerp3([0.24, 0.88, 0.05], EASEL.palette, k) : [0.22, 0.88, 0.04] },
+      hand: { handR: mixH([[0, -1, 0], [1, 0, 0]], H.hand, k), handL: pal ? mixH([[0, -1, 0], [-1, 0, 0]], EASEL.paletteH, k) : [[0, -1, 0], [-1, 0, 0]] },
+      grip: { handR: k > 0.5 ? 'hold' : 'relax', handL: pal ? 'flat' : 'relax' },
+      pole: { handR: [-0.45, -0.55, -0.1], handL: [0.5, -0.5, -0.2] },
+    };
+  },
+  // writing a letter at the desk: left hand holds the sheet down, the pen runs along the lines, a pause to think
+  write: (u, t) => {
+    const think = now(t, 0.19, 0.8), line = Math.floor(t / 4) % 6, along = (t % 4) / 4;
+    const tip = think ? [-0.02, 0.86, 0.3] : [0.06 - along * 0.14 + S(t * 19) * 0.004, WRITE.y + Math.max(0, S(t * 7)) * 0.004, WRITE.z + 0.035 - line * 0.013];
+    const H = heldAt(tip, think ? [0.1, 0.8, 0.3] : WRITE.F, WRITE.N, TOOLS.pen.reach);
+    return {
+      y: -0.34, face: think ? 'curious' : 'calm', pen: true,
+      fk: { ...SIT_FK, spine: [0.16, 0, 0], chest: [0.05, 0, 0], neck: [0.1, 0, 0], head: [think ? -0.05 : 0.22, think ? 0.2 : 0, 0] },
+      ik: { ...sitLegs(0.42), handL: [0.13, WRITE.y + 0.04, WRITE.z], handR: H.at },
+      hand: { handL: [[-0.2, 0, 1], [0, -1, 0]], handR: H.hand },
+      grip: { handL: 'flat', handR: 'hold' },
+      pole: { handL: [0.4, -0.5, -0.2], handR: [-0.45, -0.5, -0.2] },
+    };
+  },
+  // the door: someone's come; a wave, then hands relaxed, listening, nodding
+  greet: (u, t) => {
+    const w = ease(u / 0.5) * (1 - ease((u - 3.2) / 0.6));
+    return {
+      face: u < 4 ? 'delighted' : now(t, 0.3, 0.4) ? 'delighted' : 'curious',
+      fk: { head: [-0.05 + (u > 4 ? Math.max(0, S(t * 1.4)) * 0.12 : 0), 0, 0] },
+      ik: { handR: lerp3([-0.24, 0.88, 0.05], [-0.32 + S(t * 9) * 0.07 * w, 1.62, 0.18], w) },
+      hand: { handR: mixH([[0, -1, 0], [1, 0, 0]], [[0, 1, 0.1], [0, 0, 1]], w) },
+      grip: { handR: w > 0.5 ? 'flat' : 'relax' },
+      pole: { handR: [-0.6, -0.4, -0.2] },
+    };
+  },
+  // gallery bench, worn out: slumped, chin down, asleep sitting up
+  nap: (u, t) => ({
+    y: -0.43, face: u < 1.5 ? 'given_up' : 'sleep',
+    fk: { ...SIT_FK, spine: [0.22 + S(t * 1.1) * 0.01, 0, 0], chest: [0.06, 0, 0], neck: [0.3, 0, 0], head: [0.32, 0.15, 0.2] },
+    ik: { ...sitLegs(0.46, 0.123), handL: onKnee('L', 0.005), handR: onKnee('R', -0.005) },
+    hand: { handL: KNEE_HAND, handR: KNEE_HAND },
+    pole: { handL: [0.5, -0.2, -0.4], handR: [-0.5, -0.2, -0.4] },
+  }),
+  // little things, done where he stands (micro acts in a routine): yawn, stretch, sigh, fidget, sip, glance, stumble
+  yawn: (u, t) => {
+    const k = ease(u / 0.6) * (1 - ease((u - 3) / 0.6));
+    return {
+      face: k > 0.5 ? 'dazed' : 'calm',
+      fk: { spine: [-0.06 * k, 0, 0], neck: [-0.15 * k, 0, 0], head: [-0.25 * k, 0, 0] },
+      ik: { handR: B => lerp3([-0.24, 0.88, 0.05], add(B('head'), [0, 0.0, 0.2]), k) },
+      hand: { handR: mixH([[0, -1, 0], [1, 0, 0]], [[0.4, 1, 0], [0, 0, -1]], k) },
+      grip: { handR: 'cup' }, pole: { handR: [-0.5, -0.5, 0] },
+    };
+  },
+  stretch: (u, t) => {
+    const k = ease(u / 1.0) * (1 - ease((u - 4) / 0.8)), sw = S(t * 0.9) * 0.12 * k;
+    return {
+      face: k > 0.5 ? 'sleep' : 'calm',
+      fk: { spine: [-0.08 * k, 0, sw], chest: [-0.05 * k, 0, sw * 0.5], head: [-0.15 * k, 0, 0] },
+      ik: { handL: lerp3([0.24, 0.88, 0.05], [0.07, 1.98, 0.02], k), handR: lerp3([-0.24, 0.88, 0.05], [-0.07, 1.98, 0.02], k) },
+      hand: { handL: mixH([[0, -1, 0], [-1, 0, 0]], [[0, 1, 0], [-1, 0, 0]], k), handR: mixH([[0, -1, 0], [1, 0, 0]], [[0, 1, 0], [1, 0, 0]], k) },
+      grip: { handL: 'flat', handR: 'flat' }, pole: { handL: [0.5, 0.2, -0.2], handR: [-0.5, 0.2, -0.2] },
+    };
+  },
+  sigh: (u, t) => {
+    const k = ease((u % 6) / 1.2) * (1 - ease(((u % 6) - 2.4) / 1.5));
+    return { face: 'given_up', fk: { spine: [0.08 + 0.08 * k, 0, 0], chest: [0.06 * k, 0, 0], neck: [0.12 * k, 0, 0], head: [0.1 + 0.15 * k, S(t * 0.3) * 0.1, 0], upperarmL: [0, 0, -0.04 * k], upperarmR: [0, 0, 0.04 * k] } };
+  },
+  fidget: (u, t) => {
+    const r = S(t * 6) * 0.025, k = ease(u / 0.6);
+    return {
+      face: now(t, 0.4, 0.3) ? 'uneasy' : 'calm',
+      fk: { hips: [0, S(t * 0.8) * 0.12, S(t * 0.5) * 0.04], head: [0.08, S(t * 1.3) * 0.25, 0] },
+      ik: { handL: lerp3([0.24, 0.88, 0.05], [0.035, 1.02 + r, 0.24], k), handR: lerp3([-0.24, 0.88, 0.05], [-0.035, 1.02 - r, 0.24], k) },
+      hand: { handL: [[-0.3, 0.2, 1], [-1, 0, 0]], handR: [[0.3, 0.2, 1], [1, 0, 0]] },
+      grip: { handL: 'cup', handR: 'cup' }, pole: { handL: [0.4, -0.6, -0.2], handR: [-0.4, -0.6, -0.2] },
+    };
+  },
+  sip: (u, t) => {
+    const k = ease(u / 0.6), s = u > 1.2 ? Math.max(0, S((u - 1.2) * 1.1)) ** 4 : 0, pitch = 0.05 - 0.15 * s;
+    return {
+      face: s > 0.5 ? 'sleep' : 'calm', mug: true,
+      fk: { neck: [-0.08 * s, 0, 0], head: [0.05 - 0.12 * s, S(t * 0.4) * 0.1 * (1 - s), 0] },
+      ik: { handR: B => lerp3([-0.24, 0.88, 0.05], lerp3([-0.12, 1.12, 0.3], add(mouth(B, pitch), [-0.05, -0.03, 0.06]), s), k) },
+      hand: { handR: mixH([[0, -1, 0], [1, 0, 0]], [[0, 0.15, 1], [1, 0, 0]], k) },
+      grip: { handR: 'hold' }, pole: { handR: [-0.45, -0.6, -0.2] },
+    };
+  },
+  glance: (u, t) => ({
+    face: now(t, 0.5, 0.2) ? 'curious' : 'calm',
+    fk: { hips: [0, S(t * 0.35) * 0.2, 0], neck: [0, S(t * 0.6) * 0.2, 0], head: [-0.05 + S(t * 0.8) * 0.06, S(t * 0.6 + 1) * 0.45, 0] },
+  }),
+  stumble: (u, t) => {
+    const k = u < 0.25 ? ease(u / 0.25) : 1 - ease((u - 0.25) / 1.2);
+    return {
+      face: u < 1.6 ? 'alarm' : 'uneasy',
+      fk: { spine: [0.35 * k, 0, 0.1 * k], chest: [0.1 * k, 0, 0], head: [-0.2 * k, 0, 0] },
+      ik: { handL: lerp3([0.24, 0.88, 0.05], [0.45, 1.2, 0.35], k), handR: lerp3([-0.24, 0.88, 0.05], [-0.45, 1.15, 0.4], k) },
+      hand: { handL: [[0.3, 0.2, 1], [0, -1, 0]], handR: [[-0.3, 0.2, 1], [0, -1, 0]] },
+      grip: { handL: 'flat', handR: 'flat' }, pole: { handL: [0.6, -0.3, -0.2], handR: [-0.6, -0.3, -0.2] },
+    };
+  },
 };
 function mixH(a, b, k) { return [lerp3(a[0], b[0], k), lerp3(a[1], b[1], k)]; }
+// phone: lies on the side table PHONE.on (spot frame); at his ear the palm faces his cheek, fingers up and back, the
+// phone between them (props.js holds it HELD off the palm)
+export const PHONE = { ring: 1.6, table: 0.72, on: [-0.02, 0.735, 0.42], ear: [-0.19, 0.03, 0.04], earH: [[0.05, 0.85, -0.45], [1, 0, 0.1]] };
+// watering can: on a stool at WATER.stool (its handle grip), carried at the side, poured over the pot ahead
+export const WATER = { P: 4.5, stool: [-0.32, 0.64, 0.24], y: 0.98, z: 0.42, carryH: [[0, -1, 0], [1, 0, 0]], pourH: [[0, -0.75, -0.65], [1, 0, 0]] };
+// easel: canvas centre EASEL.canvas (w x h, its top leaning back `tilt` m per m), palette on the left palm, brush in the right
+export const EASEL = {
+  canvas: { y: 1.32, z: 0.64, w: 0.6, h: 0.74, tilt: 0.1 }, dipEvery: 9, dab: [0.2, 1.06, 0.34], dabF: [0.4, -0.5, 0.8],
+  F: [-0.1, 0.25, 1], N: [0.75, -0.6, 0], palette: [0.27, 1.0, 0.3], paletteH: [[-0.2, 0, 1], [0, 1, 0]],
+};
+// desk writing: the sheet lies in front of him on the desk (chair frame), top surface WRITE.y
+export const WRITE = { y: 0.724, z: 0.26, F: [0.15, -0.55, 0.8], N: [0.55, -0.8, 0] };   // sheet on the desk's near edge, short of the keyboard
 
 // ---- things he holds (toothbrush, spatula, spoon): a stick lying along his fingers, its axis HELD off the palm. `reach`
 // is how far its working end (tip) is past the palm centre; annex.js builds each to the same numbers
 export const HELD = 0.012;
-export const TOOLS = { brush: { reach: 0.12, back: 0.07 }, spatula: { reach: 0.22, back: 0.08 }, spoon: { reach: 0.13, back: 0.05 } };
+export const TOOLS = { brush: { reach: 0.12, back: 0.07 }, spatula: { reach: 0.22, back: 0.08 }, spoon: { reach: 0.13, back: 0.05 }, paint: { reach: 0.2, back: 0.1 }, pen: { reach: 0.1, back: 0.04 } };
 const nrm = v => { const l = Math.hypot(...v); return v.map(x => x / l); };
 // fingers F, palm N (N is squared up to F, as applyAct does) -> the palm contact, relative to the tip, and the hand spec
 export function heldAt(tip, F, N, reach) {

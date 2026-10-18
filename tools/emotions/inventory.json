@@ -1,0 +1,48 @@
+{
+ "doc": "Materials for the future Minecraft-style build ability (slice 6).",
+ "materials": {
+  "wood": {
+   "hardness": 1,
+   "gather": "tree",
+   "unit": 1
+  },
+  "stone": {
+   "hardness": 2,
+   "gather": "rock",
+   "unit": 1
+  },
+  "earth": {
+   "hardness": 1,
+   "gather": "ground",
+   "unit": 2
+  }
+ },
+ "blocks": {
+  "wood_plank": {
+   "needs": {
+    "wood": 1
+   }
+  },
+  "stone_block": {
+   "needs": {
+    "stone": 1
+   }
+  },
+  "earth_block": {
+   "needs": {
+    "earth": 1
+   }
+  }
+ },
+ "site": {
+  "minFreeRadius": 1,
+  "levelTolerance": 0.05,
+  "insideBounds": true
+ },
+ "start": {
+  "wood": 0,
+  "stone": 0,
+  "earth": 0
+ },
+ "capacity": 32
+}

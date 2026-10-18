@@ -1,0 +1,17 @@
+Mutopia Project pieces (https://www.mutopiaproject.org), sequences of public-domain compositions
+typeset by Mutopia volunteers. Mutopia licenses each edition separately: Public Domain, CC0,
+CC-BY, CC-BY-SA. Pieces here: Aguado (op.4 no.3, no.5; op.11 no.4), Archangelsky "Let us hasten",
+J.S. Bach (BWV 117a, 604, 661, 665, 666, 861 Praeludium 16, 941), "Lobe den Herren", "Mit Freuden zart",
+"Spirit of God (Bellow Falls)". Per-edition licence and typesetter credit: see each piece's Mutopia page.
+The other files here (clair-de-lune, curious-etude, dazed-drift, happy-prelude, tired-lullaby, uneasy-nocturne)
+are the owner's own.
+
+Pop / film-piano arrangements (repurposed, credited; compositions belong to their original writers and rights holders):
+- imagine-lennon.mid: "Imagine" (John Lennon). comfortably-numb.mid: "Comfortably Numb" (Pink Floyd). youre-only-lonely.mid: "You're Only Lonely" (J.D. Souther).
+- emopia-*.mid: clips from the EMOPIA dataset (Hung et al., ISMIR 2021, CC BY 4.0 dataset; piano covers transcribed from YouTube). Filename = quadrant_YouTubeID_clip: Q1:zmZHNy9T8Pg, Q1:7yW9c7t8Hq0, Q1:o5AIp2Yc01M, Q1:Jn9r0avp0fY, Q1:IH2KrGjKXw0, Q1:yFw_kO7DF-Y, Q1:1vjy9oMFa8c, Q1:uqRLEByE6pU, Q1:Ie5koh4qvJc, Q1:s5b8viFsVJE, Q1:jziI_cuN_H8, Q1:Y5JcZQ0xg4Y, Q1:Xsn9zT-05ns, Q1:k4dxAlI5N-k, Q1:_8v0MFBZoco, Q2:61EA0xRX8gE, Q2:ANZf1QXsNrY, Q2:jIKX3ShvLxo, Q2:Q5b5unyP8BM, Q2:P-We4q3goKU, Q2:--2B4d4lQhs, Q2:1kny88W533Q, Q2:Dg935IbDggo, Q2:sEQf5lcnj_o, Q2:Ie5koh4qvJc, Q2:3_MxhSS86oU, Q2:S7Bo4-NCEDk, Q2:f2BXXa7lPuE, Q2:ijfxkQPAQdE, Q2:L3_TadjSQQ0, Q3:ijfxkQPAQdE, Q3:G4rL_OtfFAU, Q3:uj3Gif77SYM, Q3:ItGNJM6skM4, Q3:ZvD8QSO7NPw, Q4:FyK_c-TIcCA, Q4:UaYYMRkHMYc, Q4:Ie5koh4qvJc, Q4:fShAWhXIits
+
+More Mutopia guitar pieces (Aguado studies/op.3/op.11, Bach WTC I prelude 1 guitar duo; "Spanish Romance" anonymous, edition CC BY-SA 2.5): aminor-study, aguado-op11n05, aguado-op11n02, aguado-op11n03, aguado-op11n10, aguado-op11n08, aguado-op11n01, aguado-op11n06, aguado-op11n07, aguado-op11n09, g-major-allegro, aguado-op03n07, aguado-op03n06, aguado-op03n01, aguado-op03n08, aguado-op03n04, aguado-op03n03, aguado-op03n02, aguado-op03n05, spanish-romance
+
+BitMidi (https://bitmidi.com, user-uploaded arrangements of songs owned by their original writers, repurposed with credit): jasper-folks-river-flows-in-you-mid yann-tiersen-une-comptine-dun-autre-mid gymnopedie-no-1-mid beatles-yesterday-mid bohemian-rhapsody-1-mid hotel-california-unplugged-mid clapton-tears-in-heaven-k-mid blackbird-1-mid led-zeppelin-stairway-to-heaven-k-mid gymnopedie-no-1-mid fields-of-gold-mid coldplay-clocks-mid radiohead-creep-mid 
+
+Generated pieces (gen-*.mid, guitar-gen-*.mid): original compositions by the project (tools/music/compose.mjs), nothing to credit.

@@ -30,7 +30,8 @@ export function faceTex(name = 'neutral') {
   return faces[name];
 }
 
-export const FACES = ['neutral', 'calm', 'curious', 'delighted', 'sleep', 'uneasy', 'alarm', 'dazed', 'given_up'];
+import { FACE_TEXTURES } from './sim/data/emotions.gen.js';
+export const FACES = [...new Set([...FACE_TEXTURES, 'alarm'])];     // generated: every texture that exists on disk
 export async function loadMan() {
   // every expression up front: a face loaded on first use draws black until it arrives
   const ready = Promise.all(FACES.map(n => new Promise(res => { const t = faceTex(n); if (t.userData.ready) res(); else { const k = setInterval(() => { if (t.userData.ready || t.image?.complete) { clearInterval(k); res(); } }, 30); setTimeout(() => { clearInterval(k); res(); }, 8000); } })));

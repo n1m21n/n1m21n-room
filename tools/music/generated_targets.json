@@ -1,0 +1,1154 @@
+{
+ "gen-001": {
+  "valence": 0.05,
+  "arousal": 0.07,
+  "energy": 0.3,
+  "mode": "locrian",
+  "bpm": 64,
+  "seconds": 66
+ },
+ "gen-002": {
+  "valence": 0.18,
+  "arousal": 0.09,
+  "energy": 0.3,
+  "mode": "phrygian",
+  "bpm": 59,
+  "seconds": 71
+ },
+ "gen-003": {
+  "valence": 0.25,
+  "arousal": 0.07,
+  "energy": 0.29,
+  "mode": "phrygian",
+  "bpm": 58,
+  "seconds": 72
+ },
+ "gen-004": {
+  "valence": 0.35,
+  "arousal": 0.05,
+  "energy": 0.28,
+  "mode": "aeolian",
+  "bpm": 56,
+  "seconds": 75
+ },
+ "gen-005": {
+  "valence": 0.45,
+  "arousal": 0.06,
+  "energy": 0.29,
+  "mode": "dorian",
+  "bpm": 58,
+  "seconds": 72
+ },
+ "gen-006": {
+  "valence": 0.55,
+  "arousal": 0.04,
+  "energy": 0.28,
+  "mode": "dorian",
+  "bpm": 61,
+  "seconds": 69
+ },
+ "gen-007": {
+  "valence": 0.67,
+  "arousal": 0.06,
+  "energy": 0.29,
+  "mode": "mixolydian",
+  "bpm": 58,
+  "seconds": 72
+ },
+ "gen-008": {
+  "valence": 0.74,
+  "arousal": 0.04,
+  "energy": 0.27,
+  "mode": "ionian",
+  "bpm": 56,
+  "seconds": 75
+ },
+ "gen-009": {
+  "valence": 0.82,
+  "arousal": 0.04,
+  "energy": 0.27,
+  "mode": "ionian",
+  "bpm": 61,
+  "seconds": 69
+ },
+ "gen-010": {
+  "valence": 0.91,
+  "arousal": 0.07,
+  "energy": 0.29,
+  "mode": "lydian",
+  "bpm": 61,
+  "seconds": 69
+ },
+ "gen-011": {
+  "valence": 0.04,
+  "arousal": 0.13,
+  "energy": 0.34,
+  "mode": "locrian",
+  "bpm": 67,
+  "seconds": 63
+ },
+ "gen-012": {
+  "valence": 0.16,
+  "arousal": 0.14,
+  "energy": 0.35,
+  "mode": "phrygian",
+  "bpm": 65,
+  "seconds": 65
+ },
+ "gen-013": {
+  "valence": 0.25,
+  "arousal": 0.12,
+  "energy": 0.33,
+  "mode": "phrygian",
+  "bpm": 67,
+  "seconds": 63
+ },
+ "gen-014": {
+  "valence": 0.34,
+  "arousal": 0.15,
+  "energy": 0.35,
+  "mode": "aeolian",
+  "bpm": 71,
+  "seconds": 59
+ },
+ "gen-015": {
+  "valence": 0.47,
+  "arousal": 0.12,
+  "energy": 0.33,
+  "mode": "dorian",
+  "bpm": 67,
+  "seconds": 63
+ },
+ "gen-016": {
+  "valence": 0.58,
+  "arousal": 0.13,
+  "energy": 0.34,
+  "mode": "mixolydian",
+  "bpm": 67,
+  "seconds": 63
+ },
+ "gen-017": {
+  "valence": 0.68,
+  "arousal": 0.16,
+  "energy": 0.36,
+  "mode": "ionian",
+  "bpm": 70,
+  "seconds": 60
+ },
+ "gen-018": {
+  "valence": 0.75,
+  "arousal": 0.16,
+  "energy": 0.36,
+  "mode": "ionian",
+  "bpm": 70,
+  "seconds": 60
+ },
+ "gen-019": {
+  "valence": 0.83,
+  "arousal": 0.13,
+  "energy": 0.34,
+  "mode": "ionian",
+  "bpm": 68,
+  "seconds": 62
+ },
+ "gen-020": {
+  "valence": 0.96,
+  "arousal": 0.19,
+  "energy": 0.38,
+  "mode": "lydian",
+  "bpm": 72,
+  "seconds": 58
+ },
+ "gen-021": {
+  "valence": 0.04,
+  "arousal": 0.24,
+  "energy": 0.42,
+  "mode": "locrian",
+  "bpm": 78,
+  "seconds": 54
+ },
+ "gen-022": {
+  "valence": 0.16,
+  "arousal": 0.26,
+  "energy": 0.43,
+  "mode": "phrygian",
+  "bpm": 79,
+  "seconds": 53
+ },
+ "gen-023": {
+  "valence": 0.26,
+  "arousal": 0.24,
+  "energy": 0.42,
+  "mode": "phrygian",
+  "bpm": 80,
+  "seconds": 53
+ },
+ "gen-024": {
+  "valence": 0.37,
+  "arousal": 0.24,
+  "energy": 0.41,
+  "mode": "aeolian",
+  "bpm": 75,
+  "seconds": 56
+ },
+ "gen-025": {
+  "valence": 0.45,
+  "arousal": 0.29,
+  "energy": 0.45,
+  "mode": "dorian",
+  "bpm": 81,
+  "seconds": 52
+ },
+ "gen-026": {
+  "valence": 0.59,
+  "arousal": 0.28,
+  "energy": 0.45,
+  "mode": "mixolydian",
+  "bpm": 83,
+  "seconds": 51
+ },
+ "gen-027": {
+  "valence": 0.65,
+  "arousal": 0.24,
+  "energy": 0.41,
+  "mode": "mixolydian",
+  "bpm": 79,
+  "seconds": 53
+ },
+ "gen-028": {
+  "valence": 0.79,
+  "arousal": 0.22,
+  "energy": 0.4,
+  "mode": "ionian",
+  "bpm": 75,
+  "seconds": 56
+ },
+ "gen-029": {
+  "valence": 0.84,
+  "arousal": 0.25,
+  "energy": 0.42,
+  "mode": "ionian",
+  "bpm": 82,
+  "seconds": 51
+ },
+ "gen-030": {
+  "valence": 0.96,
+  "arousal": 0.23,
+  "energy": 0.41,
+  "mode": "lydian",
+  "bpm": 76,
+  "seconds": 55
+ },
+ "gen-031": {
+  "valence": 0.08,
+  "arousal": 0.33,
+  "energy": 0.47,
+  "mode": "locrian",
+  "bpm": 85,
+  "seconds": 49
+ },
+ "gen-032": {
+  "valence": 0.14,
+  "arousal": 0.37,
+  "energy": 0.51,
+  "mode": "phrygian",
+  "bpm": 90,
+  "seconds": 47
+ },
+ "gen-033": {
+  "valence": 0.29,
+  "arousal": 0.37,
+  "energy": 0.51,
+  "mode": "aeolian",
+  "bpm": 88,
+  "seconds": 48
+ },
+ "gen-034": {
+  "valence": 0.33,
+  "arousal": 0.33,
+  "energy": 0.48,
+  "mode": "aeolian",
+  "bpm": 85,
+  "seconds": 49
+ },
+ "gen-035": {
+  "valence": 0.46,
+  "arousal": 0.32,
+  "energy": 0.47,
+  "mode": "dorian",
+  "bpm": 85,
+  "seconds": 49
+ },
+ "gen-036": {
+  "valence": 0.56,
+  "arousal": 0.38,
+  "energy": 0.52,
+  "mode": "mixolydian",
+  "bpm": 91,
+  "seconds": 46
+ },
+ "gen-037": {
+  "valence": 0.69,
+  "arousal": 0.32,
+  "energy": 0.47,
+  "mode": "ionian",
+  "bpm": 84,
+  "seconds": 50
+ },
+ "gen-038": {
+  "valence": 0.77,
+  "arousal": 0.32,
+  "energy": 0.47,
+  "mode": "ionian",
+  "bpm": 87,
+  "seconds": 48
+ },
+ "gen-039": {
+  "valence": 0.83,
+  "arousal": 0.34,
+  "energy": 0.48,
+  "mode": "ionian",
+  "bpm": 86,
+  "seconds": 49
+ },
+ "gen-040": {
+  "valence": 0.92,
+  "arousal": 0.34,
+  "energy": 0.48,
+  "mode": "lydian",
+  "bpm": 83,
+  "seconds": 51
+ },
+ "gen-041": {
+  "valence": 0.04,
+  "arousal": 0.49,
+  "energy": 0.59,
+  "mode": "locrian",
+  "bpm": 100,
+  "seconds": 42
+ },
+ "gen-042": {
+  "valence": 0.13,
+  "arousal": 0.46,
+  "energy": 0.57,
+  "mode": "phrygian",
+  "bpm": 96,
+  "seconds": 44
+ },
+ "gen-043": {
+  "valence": 0.25,
+  "arousal": 0.45,
+  "energy": 0.56,
+  "mode": "phrygian",
+  "bpm": 96,
+  "seconds": 44
+ },
+ "gen-044": {
+  "valence": 0.36,
+  "arousal": 0.47,
+  "energy": 0.58,
+  "mode": "aeolian",
+  "bpm": 101,
+  "seconds": 42
+ },
+ "gen-045": {
+  "valence": 0.45,
+  "arousal": 0.42,
+  "energy": 0.54,
+  "mode": "dorian",
+  "bpm": 98,
+  "seconds": 43
+ },
+ "gen-046": {
+  "valence": 0.55,
+  "arousal": 0.43,
+  "energy": 0.55,
+  "mode": "mixolydian",
+  "bpm": 97,
+  "seconds": 43
+ },
+ "gen-047": {
+  "valence": 0.64,
+  "arousal": 0.43,
+  "energy": 0.55,
+  "mode": "mixolydian",
+  "bpm": 93,
+  "seconds": 45
+ },
+ "gen-048": {
+  "valence": 0.77,
+  "arousal": 0.42,
+  "energy": 0.54,
+  "mode": "ionian",
+  "bpm": 96,
+  "seconds": 44
+ },
+ "gen-049": {
+  "valence": 0.87,
+  "arousal": 0.42,
+  "energy": 0.54,
+  "mode": "lydian",
+  "bpm": 96,
+  "seconds": 44
+ },
+ "gen-050": {
+  "valence": 0.93,
+  "arousal": 0.45,
+  "energy": 0.56,
+  "mode": "lydian",
+  "bpm": 99,
+  "seconds": 42
+ },
+ "gen-051": {
+  "valence": 0.04,
+  "arousal": 0.53,
+  "energy": 0.62,
+  "mode": "locrian",
+  "bpm": 104,
+  "seconds": 40
+ },
+ "gen-052": {
+  "valence": 0.12,
+  "arousal": 0.57,
+  "energy": 0.64,
+  "mode": "phrygian",
+  "bpm": 106,
+  "seconds": 40
+ },
+ "gen-053": {
+  "valence": 0.24,
+  "arousal": 0.56,
+  "energy": 0.64,
+  "mode": "phrygian",
+  "bpm": 110,
+  "seconds": 38
+ },
+ "gen-054": {
+  "valence": 0.35,
+  "arousal": 0.57,
+  "energy": 0.65,
+  "mode": "aeolian",
+  "bpm": 113,
+  "seconds": 37
+ },
+ "gen-055": {
+  "valence": 0.44,
+  "arousal": 0.53,
+  "energy": 0.62,
+  "mode": "dorian",
+  "bpm": 102,
+  "seconds": 41
+ },
+ "gen-056": {
+  "valence": 0.54,
+  "arousal": 0.54,
+  "energy": 0.63,
+  "mode": "dorian",
+  "bpm": 106,
+  "seconds": 40
+ },
+ "gen-057": {
+  "valence": 0.64,
+  "arousal": 0.54,
+  "energy": 0.63,
+  "mode": "mixolydian",
+  "bpm": 107,
+  "seconds": 39
+ },
+ "gen-058": {
+  "valence": 0.74,
+  "arousal": 0.58,
+  "energy": 0.65,
+  "mode": "ionian",
+  "bpm": 108,
+  "seconds": 39
+ },
+ "gen-059": {
+  "valence": 0.83,
+  "arousal": 0.55,
+  "energy": 0.63,
+  "mode": "ionian",
+  "bpm": 109,
+  "seconds": 39
+ },
+ "gen-060": {
+  "valence": 0.91,
+  "arousal": 0.53,
+  "energy": 0.62,
+  "mode": "lydian",
+  "bpm": 104,
+  "seconds": 40
+ },
+ "gen-061": {
+  "valence": 0.06,
+  "arousal": 0.64,
+  "energy": 0.69,
+  "mode": "locrian",
+  "bpm": 119,
+  "seconds": 35
+ },
+ "gen-062": {
+  "valence": 0.12,
+  "arousal": 0.66,
+  "energy": 0.71,
+  "mode": "phrygian",
+  "bpm": 120,
+  "seconds": 35
+ },
+ "gen-063": {
+  "valence": 0.26,
+  "arousal": 0.64,
+  "energy": 0.69,
+  "mode": "phrygian",
+  "bpm": 115,
+  "seconds": 37
+ },
+ "gen-064": {
+  "valence": 0.37,
+  "arousal": 0.67,
+  "energy": 0.72,
+  "mode": "aeolian",
+  "bpm": 118,
+  "seconds": 36
+ },
+ "gen-065": {
+  "valence": 0.45,
+  "arousal": 0.61,
+  "energy": 0.68,
+  "mode": "dorian",
+  "bpm": 115,
+  "seconds": 37
+ },
+ "gen-066": {
+  "valence": 0.57,
+  "arousal": 0.62,
+  "energy": 0.69,
+  "mode": "mixolydian",
+  "bpm": 117,
+  "seconds": 36
+ },
+ "gen-067": {
+  "valence": 0.66,
+  "arousal": 0.61,
+  "energy": 0.68,
+  "mode": "mixolydian",
+  "bpm": 112,
+  "seconds": 38
+ },
+ "gen-068": {
+  "valence": 0.71,
+  "arousal": 0.68,
+  "energy": 0.72,
+  "mode": "ionian",
+  "bpm": 119,
+  "seconds": 35
+ },
+ "gen-069": {
+  "valence": 0.86,
+  "arousal": 0.66,
+  "energy": 0.71,
+  "mode": "lydian",
+  "bpm": 116,
+  "seconds": 36
+ },
+ "gen-070": {
+  "valence": 0.95,
+  "arousal": 0.64,
+  "energy": 0.69,
+  "mode": "lydian",
+  "bpm": 117,
+  "seconds": 36
+ },
+ "gen-071": {
+  "valence": 0.04,
+  "arousal": 0.72,
+  "energy": 0.75,
+  "mode": "locrian",
+  "bpm": 124,
+  "seconds": 34
+ },
+ "gen-072": {
+  "valence": 0.16,
+  "arousal": 0.78,
+  "energy": 0.79,
+  "mode": "phrygian",
+  "bpm": 126,
+  "seconds": 33
+ },
+ "gen-073": {
+  "valence": 0.21,
+  "arousal": 0.76,
+  "energy": 0.78,
+  "mode": "phrygian",
+  "bpm": 123,
+  "seconds": 34
+ },
+ "gen-074": {
+  "valence": 0.32,
+  "arousal": 0.78,
+  "energy": 0.79,
+  "mode": "aeolian",
+  "bpm": 131,
+  "seconds": 32
+ },
+ "gen-075": {
+  "valence": 0.41,
+  "arousal": 0.72,
+  "energy": 0.75,
+  "mode": "aeolian",
+  "bpm": 122,
+  "seconds": 34
+ },
+ "gen-076": {
+  "valence": 0.53,
+  "arousal": 0.78,
+  "energy": 0.79,
+  "mode": "dorian",
+  "bpm": 128,
+  "seconds": 33
+ },
+ "gen-077": {
+  "valence": 0.68,
+  "arousal": 0.73,
+  "energy": 0.76,
+  "mode": "mixolydian",
+  "bpm": 125,
+  "seconds": 34
+ },
+ "gen-078": {
+  "valence": 0.79,
+  "arousal": 0.73,
+  "energy": 0.76,
+  "mode": "ionian",
+  "bpm": 127,
+  "seconds": 33
+ },
+ "gen-079": {
+  "valence": 0.86,
+  "arousal": 0.75,
+  "energy": 0.77,
+  "mode": "lydian",
+  "bpm": 123,
+  "seconds": 34
+ },
+ "gen-080": {
+  "valence": 0.96,
+  "arousal": 0.78,
+  "energy": 0.79,
+  "mode": "lydian",
+  "bpm": 130,
+  "seconds": 32
+ },
+ "gen-081": {
+  "valence": 0.04,
+  "arousal": 0.82,
+  "energy": 0.82,
+  "mode": "locrian",
+  "bpm": 135,
+  "seconds": 31
+ },
+ "gen-082": {
+  "valence": 0.14,
+  "arousal": 0.85,
+  "energy": 0.84,
+  "mode": "phrygian",
+  "bpm": 138,
+  "seconds": 30
+ },
+ "gen-083": {
+  "valence": 0.25,
+  "arousal": 0.86,
+  "energy": 0.85,
+  "mode": "phrygian",
+  "bpm": 139,
+  "seconds": 30
+ },
+ "gen-084": {
+  "valence": 0.36,
+  "arousal": 0.88,
+  "energy": 0.87,
+  "mode": "aeolian",
+  "bpm": 138,
+  "seconds": 30
+ },
+ "gen-085": {
+  "valence": 0.45,
+  "arousal": 0.83,
+  "energy": 0.83,
+  "mode": "dorian",
+  "bpm": 134,
+  "seconds": 31
+ },
+ "gen-086": {
+  "valence": 0.58,
+  "arousal": 0.85,
+  "energy": 0.85,
+  "mode": "mixolydian",
+  "bpm": 135,
+  "seconds": 31
+ },
+ "gen-087": {
+  "valence": 0.68,
+  "arousal": 0.85,
+  "energy": 0.85,
+  "mode": "mixolydian",
+  "bpm": 139,
+  "seconds": 30
+ },
+ "gen-088": {
+  "valence": 0.74,
+  "arousal": 0.83,
+  "energy": 0.83,
+  "mode": "ionian",
+  "bpm": 133,
+  "seconds": 32
+ },
+ "gen-089": {
+  "valence": 0.83,
+  "arousal": 0.89,
+  "energy": 0.87,
+  "mode": "ionian",
+  "bpm": 141,
+  "seconds": 30
+ },
+ "gen-090": {
+  "valence": 0.96,
+  "arousal": 0.82,
+  "energy": 0.82,
+  "mode": "lydian",
+  "bpm": 134,
+  "seconds": 31
+ },
+ "gen-091": {
+  "valence": 0.04,
+  "arousal": 0.96,
+  "energy": 0.92,
+  "mode": "locrian",
+  "bpm": 146,
+  "seconds": 29
+ },
+ "gen-092": {
+  "valence": 0.13,
+  "arousal": 0.96,
+  "energy": 0.92,
+  "mode": "phrygian",
+  "bpm": 149,
+  "seconds": 28
+ },
+ "gen-093": {
+  "valence": 0.29,
+  "arousal": 0.96,
+  "energy": 0.92,
+  "mode": "aeolian",
+  "bpm": 150,
+  "seconds": 28
+ },
+ "gen-094": {
+  "valence": 0.31,
+  "arousal": 0.93,
+  "energy": 0.9,
+  "mode": "aeolian",
+  "bpm": 142,
+  "seconds": 30
+ },
+ "gen-095": {
+  "valence": 0.42,
+  "arousal": 0.92,
+  "energy": 0.89,
+  "mode": "dorian",
+  "bpm": 140,
+  "seconds": 30
+ },
+ "gen-096": {
+  "valence": 0.54,
+  "arousal": 0.91,
+  "energy": 0.89,
+  "mode": "dorian",
+  "bpm": 140,
+  "seconds": 30
+ },
+ "guitar-gen-001": {
+  "valence": 0.05,
+  "arousal": 0.06,
+  "energy": 0.29,
+  "mode": "locrian",
+  "bpm": 57,
+  "seconds": 74
+ },
+ "guitar-gen-002": {
+  "valence": 0.18,
+  "arousal": 0.04,
+  "energy": 0.27,
+  "mode": "phrygian",
+  "bpm": 61,
+  "seconds": 69
+ },
+ "guitar-gen-003": {
+  "valence": 0.31,
+  "arousal": 0.08,
+  "energy": 0.3,
+  "mode": "aeolian",
+  "bpm": 60,
+  "seconds": 70
+ },
+ "guitar-gen-004": {
+  "valence": 0.5,
+  "arousal": 0.04,
+  "energy": 0.27,
+  "mode": "dorian",
+  "bpm": 62,
+  "seconds": 68
+ },
+ "guitar-gen-005": {
+  "valence": 0.69,
+  "arousal": 0.08,
+  "energy": 0.3,
+  "mode": "ionian",
+  "bpm": 59,
+  "seconds": 71
+ },
+ "guitar-gen-006": {
+  "valence": 0.78,
+  "arousal": 0.04,
+  "energy": 0.27,
+  "mode": "ionian",
+  "bpm": 62,
+  "seconds": 68
+ },
+ "guitar-gen-007": {
+  "valence": 0.92,
+  "arousal": 0.13,
+  "energy": 0.34,
+  "mode": "lydian",
+  "bpm": 69,
+  "seconds": 61
+ },
+ "guitar-gen-008": {
+  "valence": 0.04,
+  "arousal": 0.2,
+  "energy": 0.38,
+  "mode": "locrian",
+  "bpm": 70,
+  "seconds": 60
+ },
+ "guitar-gen-009": {
+  "valence": 0.21,
+  "arousal": 0.16,
+  "energy": 0.36,
+  "mode": "phrygian",
+  "bpm": 73,
+  "seconds": 58
+ },
+ "guitar-gen-010": {
+  "valence": 0.41,
+  "arousal": 0.19,
+  "energy": 0.38,
+  "mode": "aeolian",
+  "bpm": 71,
+  "seconds": 59
+ },
+ "guitar-gen-011": {
+  "valence": 0.47,
+  "arousal": 0.19,
+  "energy": 0.38,
+  "mode": "dorian",
+  "bpm": 74,
+  "seconds": 57
+ },
+ "guitar-gen-012": {
+  "valence": 0.63,
+  "arousal": 0.23,
+  "energy": 0.41,
+  "mode": "mixolydian",
+  "bpm": 78,
+  "seconds": 54
+ },
+ "guitar-gen-013": {
+  "valence": 0.76,
+  "arousal": 0.24,
+  "energy": 0.41,
+  "mode": "ionian",
+  "bpm": 79,
+  "seconds": 53
+ },
+ "guitar-gen-014": {
+  "valence": 0.91,
+  "arousal": 0.18,
+  "energy": 0.37,
+  "mode": "lydian",
+  "bpm": 73,
+  "seconds": 58
+ },
+ "guitar-gen-015": {
+  "valence": 0.04,
+  "arousal": 0.34,
+  "energy": 0.48,
+  "mode": "locrian",
+  "bpm": 84,
+  "seconds": 50
+ },
+ "guitar-gen-016": {
+  "valence": 0.19,
+  "arousal": 0.37,
+  "energy": 0.5,
+  "mode": "phrygian",
+  "bpm": 87,
+  "seconds": 48
+ },
+ "guitar-gen-017": {
+  "valence": 0.35,
+  "arousal": 0.37,
+  "energy": 0.51,
+  "mode": "aeolian",
+  "bpm": 92,
+  "seconds": 46
+ },
+ "guitar-gen-018": {
+  "valence": 0.51,
+  "arousal": 0.35,
+  "energy": 0.49,
+  "mode": "dorian",
+  "bpm": 86,
+  "seconds": 49
+ },
+ "guitar-gen-019": {
+  "valence": 0.67,
+  "arousal": 0.41,
+  "energy": 0.53,
+  "mode": "mixolydian",
+  "bpm": 92,
+  "seconds": 46
+ },
+ "guitar-gen-020": {
+  "valence": 0.81,
+  "arousal": 0.31,
+  "energy": 0.46,
+  "mode": "ionian",
+  "bpm": 82,
+  "seconds": 51
+ },
+ "guitar-gen-021": {
+  "valence": 0.93,
+  "arousal": 0.39,
+  "energy": 0.52,
+  "mode": "lydian",
+  "bpm": 88,
+  "seconds": 48
+ },
+ "guitar-gen-022": {
+  "valence": 0.09,
+  "arousal": 0.5,
+  "energy": 0.6,
+  "mode": "locrian",
+  "bpm": 104,
+  "seconds": 40
+ },
+ "guitar-gen-023": {
+  "valence": 0.26,
+  "arousal": 0.47,
+  "energy": 0.57,
+  "mode": "phrygian",
+  "bpm": 97,
+  "seconds": 43
+ },
+ "guitar-gen-024": {
+  "valence": 0.36,
+  "arousal": 0.51,
+  "energy": 0.6,
+  "mode": "aeolian",
+  "bpm": 101,
+  "seconds": 42
+ },
+ "guitar-gen-025": {
+  "valence": 0.46,
+  "arousal": 0.47,
+  "energy": 0.58,
+  "mode": "dorian",
+  "bpm": 98,
+  "seconds": 43
+ },
+ "guitar-gen-026": {
+  "valence": 0.68,
+  "arousal": 0.49,
+  "energy": 0.59,
+  "mode": "mixolydian",
+  "bpm": 104,
+  "seconds": 40
+ },
+ "guitar-gen-027": {
+  "valence": 0.73,
+  "arousal": 0.47,
+  "energy": 0.58,
+  "mode": "ionian",
+  "bpm": 103,
+  "seconds": 41
+ },
+ "guitar-gen-028": {
+  "valence": 0.9,
+  "arousal": 0.5,
+  "energy": 0.59,
+  "mode": "lydian",
+  "bpm": 104,
+  "seconds": 40
+ },
+ "guitar-gen-029": {
+  "valence": 0.1,
+  "arousal": 0.59,
+  "energy": 0.66,
+  "mode": "locrian",
+  "bpm": 115,
+  "seconds": 37
+ },
+ "guitar-gen-030": {
+  "valence": 0.27,
+  "arousal": 0.7,
+  "energy": 0.74,
+  "mode": "phrygian",
+  "bpm": 120,
+  "seconds": 35
+ },
+ "guitar-gen-031": {
+  "valence": 0.31,
+  "arousal": 0.68,
+  "energy": 0.72,
+  "mode": "aeolian",
+  "bpm": 120,
+  "seconds": 35
+ },
+ "guitar-gen-032": {
+  "valence": 0.48,
+  "arousal": 0.64,
+  "energy": 0.7,
+  "mode": "dorian",
+  "bpm": 117,
+  "seconds": 36
+ },
+ "guitar-gen-033": {
+  "valence": 0.66,
+  "arousal": 0.64,
+  "energy": 0.7,
+  "mode": "mixolydian",
+  "bpm": 114,
+  "seconds": 37
+ },
+ "guitar-gen-034": {
+  "valence": 0.76,
+  "arousal": 0.6,
+  "energy": 0.67,
+  "mode": "ionian",
+  "bpm": 109,
+  "seconds": 39
+ },
+ "guitar-gen-035": {
+  "valence": 0.91,
+  "arousal": 0.69,
+  "energy": 0.73,
+  "mode": "lydian",
+  "bpm": 120,
+  "seconds": 35
+ },
+ "guitar-gen-036": {
+  "valence": 0.1,
+  "arousal": 0.81,
+  "energy": 0.82,
+  "mode": "locrian",
+  "bpm": 132,
+  "seconds": 32
+ },
+ "guitar-gen-037": {
+  "valence": 0.19,
+  "arousal": 0.83,
+  "energy": 0.83,
+  "mode": "phrygian",
+  "bpm": 132,
+  "seconds": 32
+ },
+ "guitar-gen-038": {
+  "valence": 0.35,
+  "arousal": 0.82,
+  "energy": 0.82,
+  "mode": "aeolian",
+  "bpm": 129,
+  "seconds": 33
+ },
+ "guitar-gen-039": {
+  "valence": 0.47,
+  "arousal": 0.8,
+  "energy": 0.81,
+  "mode": "dorian",
+  "bpm": 132,
+  "seconds": 32
+ },
+ "guitar-gen-040": {
+  "valence": 0.6,
+  "arousal": 0.75,
+  "energy": 0.77,
+  "mode": "mixolydian",
+  "bpm": 127,
+  "seconds": 33
+ },
+ "guitar-gen-041": {
+  "valence": 0.78,
+  "arousal": 0.83,
+  "energy": 0.83,
+  "mode": "ionian",
+  "bpm": 136,
+  "seconds": 31
+ },
+ "guitar-gen-042": {
+  "valence": 0.96,
+  "arousal": 0.77,
+  "energy": 0.79,
+  "mode": "lydian",
+  "bpm": 126,
+  "seconds": 33
+ },
+ "guitar-gen-043": {
+  "valence": 0.07,
+  "arousal": 0.95,
+  "energy": 0.91,
+  "mode": "locrian",
+  "bpm": 145,
+  "seconds": 29
+ },
+ "guitar-gen-044": {
+  "valence": 0.18,
+  "arousal": 0.92,
+  "energy": 0.89,
+  "mode": "phrygian",
+  "bpm": 142,
+  "seconds": 30
+ },
+ "guitar-gen-045": {
+  "valence": 0.32,
+  "arousal": 0.88,
+  "energy": 0.86,
+  "mode": "aeolian",
+  "bpm": 139,
+  "seconds": 30
+ },
+ "guitar-gen-046": {
+  "valence": 0.55,
+  "arousal": 0.96,
+  "energy": 0.92,
+  "mode": "mixolydian",
+  "bpm": 143,
+  "seconds": 29
+ },
+ "guitar-gen-047": {
+  "valence": 0.66,
+  "arousal": 0.96,
+  "energy": 0.92,
+  "mode": "mixolydian",
+  "bpm": 147,
+  "seconds": 29
+ },
+ "guitar-gen-048": {
+  "valence": 0.84,
+  "arousal": 0.9,
+  "energy": 0.88,
+  "mode": "ionian",
+  "bpm": 138,
+  "seconds": 30
+ }
+}

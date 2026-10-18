@@ -1,0 +1,155 @@
+{
+ "doc": "additive mood offset while doing the act; scaled by TUNE.feelPull",
+ "acts": {
+  "eat": {
+   "valence": 0.062,
+   "stress": -0.081,
+   "source": "ATUS WB class eat, n=15768"
+  },
+  "tea": {
+   "valence": 0.062,
+   "stress": -0.081,
+   "source": "ATUS WB class eat, n=15768"
+  },
+  "sip": {
+   "valence": 0.062,
+   "stress": -0.081,
+   "source": "ATUS WB class eat, n=15768"
+  },
+  "cook": {
+   "valence": 0.033,
+   "stress": -0.044,
+   "source": "ATUS WB class cook, n=6008"
+  },
+  "fridge": {
+   "valence": 0.033,
+   "stress": -0.044,
+   "source": "ATUS WB class cook, n=6008"
+  },
+  "tv": {
+   "valence": -0.01,
+   "stress": -0.074,
+   "source": "ATUS WB class tv, n=9339"
+  },
+  "records": {
+   "valence": 0.05,
+   "stress": -0.047,
+   "source": "ATUS WB class music, n=300"
+  },
+  "guitar": {
+   "valence": 0.05,
+   "stress": -0.047,
+   "source": "ATUS WB class music, n=300"
+  },
+  "keys": {
+   "valence": 0.05,
+   "stress": -0.047,
+   "source": "ATUS WB class music, n=300"
+  },
+  "snake": {
+   "valence": -0.001,
+   "stress": -0.087,
+   "source": "ATUS WB class game, n=1903"
+  },
+  "window": {
+   "valence": 0.006,
+   "stress": -0.043,
+   "source": "ATUS WB class relax, n=1863"
+  },
+  "bench": {
+   "valence": 0.006,
+   "stress": -0.043,
+   "source": "ATUS WB class relax, n=1863"
+  },
+  "read": {
+   "valence": 0.002,
+   "stress": -0.13,
+   "source": "ATUS WB class read, n=1809"
+  },
+  "write_letter": {
+   "valence": -0.059,
+   "stress": 0.03,
+   "source": "ATUS WB class write, n=2220"
+  },
+  "work": {
+   "valence": -0.06,
+   "stress": 0.147,
+   "source": "ATUS WB class work, n=6463"
+  },
+  "work_through": {
+   "valence": -0.06,
+   "stress": 0.147,
+   "source": "ATUS WB class work, n=6463"
+  },
+  "phone_call": {
+   "valence": 0.036,
+   "stress": 0.015,
+   "source": "ATUS WB class phone, n=1088"
+  },
+  "answer_phone": {
+   "valence": 0.036,
+   "stress": 0.015,
+   "source": "ATUS WB class phone, n=1088"
+  },
+  "greet_visitor": {
+   "valence": 0.111,
+   "stress": -0.091,
+   "source": "ATUS WB class social, n=3928"
+  },
+  "art_sketch": {
+   "valence": 0.052,
+   "stress": -0.008,
+   "source": "ATUS WB class hobby, n=123"
+  },
+  "art_refine": {
+   "valence": 0.052,
+   "stress": -0.008,
+   "source": "ATUS WB class hobby, n=123"
+  },
+  "art_render": {
+   "valence": 0.052,
+   "stress": -0.008,
+   "source": "ATUS WB class hobby, n=123"
+  },
+  "art_review": {
+   "valence": 0.052,
+   "stress": -0.008,
+   "source": "ATUS WB class hobby, n=123"
+  },
+  "build": {
+   "valence": -0.031,
+   "stress": 0.001,
+   "source": "ATUS WB class diy, n=691"
+  },
+  "gather": {
+   "valence": -0.048,
+   "stress": -0.015,
+   "source": "ATUS WB class chores, n=4286"
+  },
+  "gallery_view": {
+   "valence": 0.131,
+   "stress": -0.124,
+   "source": "ATUS WB class gallery, n=180"
+  },
+  "roam": {
+   "valence": 0.123,
+   "stress": -0.106,
+   "source": "ATUS WB class walk, n=105"
+  },
+  "pace": {
+   "valence": 0.123,
+   "stress": -0.106,
+   "source": "ATUS WB class walk, n=105"
+  },
+  "run_indoors": {
+   "valence": 0.1,
+   "stress": -0.119,
+   "source": "ATUS WB class exercise, n=1689"
+  },
+  "water_plant": {
+   "valence": 0.02,
+   "stress": -0.05,
+   "source": "estimate near ATUS WB class lawn & garden (no direct n)"
+  }
+ }
+}

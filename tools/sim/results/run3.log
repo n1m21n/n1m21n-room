@@ -1,0 +1,9 @@
+gen 0: best 1.53 median 91.7 baseline 1.5 hard=[] 59s
+gen 1: best 1.53 median 73.9 hard=[] 119s
+gen 2: best 1.57 median 57.9 hard=[] 183s
+gen 3: best 1.52 median 25.9 hard=[] 244s
+gen 4: best 1.62 median 16.9 hard=[] 305s
+gen 5: best 1.52 median 13.2 hard=[] 367s
+gen 6: best 1.61 median 9.3 hard=[] 429s
+gen 7: best 1.68 median 6.7 hard=[] 489s
+gen 8: best 1.55 median 5.3 hard=[] 546s

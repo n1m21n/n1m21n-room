@@ -1,0 +1,561 @@
+{
+ "doc": "Tunable factors. id = <json file>:<dotted path>. cat groups them for per-category sweeps; log = sample on a log scale.",
+ "factors": [
+  {
+   "id": "tune:decay.energy",
+   "cat": "body",
+   "lo": 0.0002,
+   "hi": 0.0009,
+   "log": true
+  },
+  {
+   "id": "tune:decay.hunger",
+   "cat": "body",
+   "lo": 0.0003,
+   "hi": 0.0012,
+   "log": true
+  },
+  {
+   "id": "tune:decay.fun",
+   "cat": "body",
+   "lo": 0.0003,
+   "hi": 0.0014,
+   "log": true
+  },
+  {
+   "id": "tune:decay.focus",
+   "cat": "body",
+   "lo": 0.0002,
+   "hi": 0.001,
+   "log": true
+  },
+  {
+   "id": "tune:decay.hygiene",
+   "cat": "body",
+   "lo": 0.00015,
+   "hi": 0.0006,
+   "log": true
+  },
+  {
+   "id": "tune:decay.bladder",
+   "cat": "body",
+   "lo": 0.0002,
+   "hi": 0.0012,
+   "log": true
+  },
+  {
+   "id": "tune:decay.social",
+   "cat": "body",
+   "lo": 0.0001,
+   "hi": 0.0006,
+   "log": true
+  },
+  {
+   "id": "tune:sleepDecayMul",
+   "cat": "body",
+   "lo": 0.1,
+   "hi": 0.8
+  },
+  {
+   "id": "tune:pickExp",
+   "cat": "choice",
+   "lo": 0.8,
+   "hi": 3.0
+  },
+  {
+   "id": "tune:rateScale",
+   "cat": "choice",
+   "lo": 6,
+   "hi": 40,
+   "log": true
+  },
+  {
+   "id": "tune:drainScale",
+   "cat": "choice",
+   "lo": 2,
+   "hi": 20,
+   "log": true
+  },
+  {
+   "id": "tune:microBase",
+   "cat": "choice",
+   "lo": 0.005,
+   "hi": 0.2,
+   "log": true
+  },
+  {
+   "id": "tune:repeatPenalty",
+   "cat": "choice",
+   "lo": 0.15,
+   "hi": 1.0
+  },
+  {
+   "id": "tune:recentPenalty",
+   "cat": "choice",
+   "lo": 0.5,
+   "hi": 1.0
+  },
+  {
+   "id": "tune:satiate",
+   "cat": "choice",
+   "lo": 0.5,
+   "hi": 1.6
+  },
+  {
+   "id": "tune:sleepNight",
+   "cat": "sleep",
+   "lo": 1.5,
+   "hi": 8,
+   "log": true
+  },
+  {
+   "id": "tune:sleepLowEnergy",
+   "cat": "sleep",
+   "lo": 1,
+   "hi": 5
+  },
+  {
+   "id": "tune:sleepDay",
+   "cat": "sleep",
+   "lo": 0.02,
+   "hi": 0.5,
+   "log": true
+  },
+  {
+   "id": "tune:sleepEnergyAt",
+   "cat": "sleep",
+   "lo": 0.1,
+   "hi": 0.45
+  },
+  {
+   "id": "tune:chainGap",
+   "cat": "chains",
+   "lo": 20,
+   "hi": 240,
+   "log": true
+  },
+  {
+   "id": "tune:cancelMul",
+   "cat": "mood",
+   "lo": 0.1,
+   "hi": 0.8
+  },
+  {
+   "id": "tune:postponeMul",
+   "cat": "mood",
+   "lo": 0.3,
+   "hi": 0.9
+  },
+  {
+   "id": "tune:erraticBase",
+   "cat": "erratic",
+   "lo": 0.02,
+   "hi": 0.5
+  },
+  {
+   "id": "tune:erraticStress",
+   "cat": "erratic",
+   "lo": 0.2,
+   "hi": 2.5
+  },
+  {
+   "id": "tune:erraticValence",
+   "cat": "erratic",
+   "lo": 0,
+   "hi": 1.5
+  },
+  {
+   "id": "tune:failGain",
+   "cat": "outcomes",
+   "lo": 0.0,
+   "hi": 0.5
+  },
+  {
+   "id": "tune:partialGain",
+   "cat": "outcomes",
+   "lo": 0.3,
+   "hi": 0.9
+  },
+  {
+   "id": "hazards:events.startle.h0",
+   "cat": "erratic",
+   "lo": 2e-05,
+   "hi": 0.0004,
+   "log": true
+  },
+  {
+   "id": "hazards:events.startle.kStress",
+   "cat": "erratic",
+   "lo": 2e-05,
+   "hi": 0.0004,
+   "log": true
+  },
+  {
+   "id": "hazards:events.false_start.h0",
+   "cat": "erratic",
+   "lo": 5e-05,
+   "hi": 0.0008,
+   "log": true
+  },
+  {
+   "id": "hazards:events.false_start.kStress",
+   "cat": "erratic",
+   "lo": 0.0001,
+   "hi": 0.001,
+   "log": true
+  },
+  {
+   "id": "outcomes:mods.stress.fail",
+   "cat": "outcomes",
+   "lo": 0.0,
+   "hi": 0.2
+  },
+  {
+   "id": "outcomes:mods.stress.ok",
+   "cat": "outcomes",
+   "lo": -0.25,
+   "hi": 0.0
+  },
+  {
+   "id": "outcomes:mods.fatigue.fail",
+   "cat": "outcomes",
+   "lo": 0.0,
+   "hi": 0.4
+  },
+  {
+   "id": "outcomes:mods.fatigue.ok",
+   "cat": "outcomes",
+   "lo": -0.5,
+   "hi": 0.0
+  },
+  {
+   "id": "ledger_events:kindWeight.erratic",
+   "cat": "mood",
+   "lo": 1.2,
+   "hi": 4
+  },
+  {
+   "id": "neuro:vars.CORT.tau",
+   "cat": "chem",
+   "lo": 300,
+   "hi": 2400,
+   "log": true
+  },
+  {
+   "id": "neuro:vars.HT.tau",
+   "cat": "chem",
+   "lo": 900,
+   "hi": 7200,
+   "log": true
+  },
+  {
+   "id": "neuro:vars.NE.tau",
+   "cat": "chem",
+   "lo": 20,
+   "hi": 200,
+   "log": true
+  },
+  {
+   "id": "neuro:vars.DA.tau",
+   "cat": "chem",
+   "lo": 100,
+   "hi": 900,
+   "log": true
+  },
+  {
+   "id": "neuro:affect.stress.CORT",
+   "cat": "chem",
+   "lo": 0.5,
+   "hi": 1.5
+  },
+  {
+   "id": "neuro:affect.valence.CORT",
+   "cat": "chem",
+   "lo": -0.7,
+   "hi": -0.1
+  },
+  {
+   "id": "ledger_events:traces.stress.tau",
+   "cat": "mood",
+   "lo": 120,
+   "hi": 900,
+   "log": true
+  },
+  {
+   "id": "ledger_events:traces.frustration.tau",
+   "cat": "mood",
+   "lo": 15,
+   "hi": 120,
+   "log": true
+  },
+  {
+   "id": "ledger_events:traces.valence.tau",
+   "cat": "mood",
+   "lo": 300,
+   "hi": 2400,
+   "log": true
+  },
+  {
+   "id": "activities:activities.loo.rate",
+   "cat": "body",
+   "lo": 0.01,
+   "hi": 0.12,
+   "log": true
+  },
+  {
+   "id": "activities:activities.eat.rate",
+   "cat": "body",
+   "lo": 0.02,
+   "hi": 0.12,
+   "log": true
+  },
+  {
+   "id": "activities:activities.sleep.rate",
+   "cat": "sleep",
+   "lo": 0.01,
+   "hi": 0.12,
+   "log": true
+  },
+  {
+   "id": "tune:chainPull",
+   "cat": "chains",
+   "lo": 1,
+   "hi": 12,
+   "log": true
+  },
+  {
+   "id": "tune:chainStartPull",
+   "cat": "chains",
+   "lo": 1,
+   "hi": 6,
+   "log": true
+  },
+  {
+   "id": "taste:verdict.satisfiedAt",
+   "cat": "art",
+   "lo": 0.72,
+   "hi": 0.94
+  },
+  {
+   "id": "taste:verdict.proudAt",
+   "cat": "art",
+   "lo": 0.5,
+   "hi": 0.8
+  },
+  {
+   "id": "taste:process.perceptionNoise",
+   "cat": "art",
+   "lo": 0.05,
+   "hi": 0.4
+  },
+  {
+   "id": "taste:process.refineStep",
+   "cat": "art",
+   "lo": 0.2,
+   "hi": 0.9
+  },
+  {
+   "id": "taste:weights.emotion",
+   "cat": "art",
+   "lo": 0.1,
+   "hi": 0.6
+  },
+  {
+   "id": "tune:artFollow",
+   "cat": "art",
+   "lo": 1,
+   "hi": 10,
+   "log": true
+  },
+  {
+   "id": "hazards:events.knock.h0",
+   "cat": "social",
+   "lo": 0.0001,
+   "hi": 0.002,
+   "log": true
+  },
+  {
+   "id": "hazards:events.phone_ring.h0",
+   "cat": "social",
+   "lo": 0.0001,
+   "hi": 0.002,
+   "log": true
+  },
+  {
+   "id": "activities:activities.phone_call.rate",
+   "cat": "social",
+   "lo": 0.01,
+   "hi": 0.12
+  },
+  {
+   "id": "activities:activities.write_letter.rate",
+   "cat": "social",
+   "lo": 0.01,
+   "hi": 0.1
+  },
+  {
+   "id": "activities:activities.art_sketch.rate",
+   "cat": "art",
+   "lo": 0.01,
+   "hi": 0.1
+  },
+  {
+   "id": "tune:followPull",
+   "cat": "chain",
+   "lo": 0.4,
+   "hi": 2.5
+  },
+  {
+   "id": "tune:planChance",
+   "cat": "chain",
+   "lo": 0.2,
+   "hi": 0.8
+  },
+  {
+   "id": "tune:planPull",
+   "cat": "chain",
+   "lo": 2,
+   "hi": 10,
+   "log": true
+  },
+  {
+   "id": "tune:workDay",
+   "cat": "desire",
+   "lo": 1,
+   "hi": 4
+  },
+  {
+   "id": "tune:workDuty",
+   "cat": "desire",
+   "lo": 0.02,
+   "hi": 0.2,
+   "log": true
+  },
+  {
+   "id": "activities:activities.tv.rate",
+   "cat": "rates",
+   "lo": 0.0133,
+   "hi": 0.114,
+   "log": true
+  },
+  {
+   "id": "activities:activities.window.rate",
+   "cat": "rates",
+   "lo": 0.0158,
+   "hi": 0.135,
+   "log": true
+  },
+  {
+   "id": "activities:activities.bench.rate",
+   "cat": "rates",
+   "lo": 0.0112,
+   "hi": 0.096,
+   "log": true
+  },
+  {
+   "id": "activities:activities.read.rate",
+   "cat": "rates",
+   "lo": 0.014,
+   "hi": 0.12,
+   "log": true
+  },
+  {
+   "id": "activities:activities.records.rate",
+   "cat": "rates",
+   "lo": 0.0168,
+   "hi": 0.144,
+   "log": true
+  },
+  {
+   "id": "activities:activities.guitar.rate",
+   "cat": "rates",
+   "lo": 0.0147,
+   "hi": 0.126,
+   "log": true
+  },
+  {
+   "id": "activities:activities.keys.rate",
+   "cat": "rates",
+   "lo": 0.0147,
+   "hi": 0.126,
+   "log": true
+  },
+  {
+   "id": "activities:activities.shower.rate",
+   "cat": "rates",
+   "lo": 0.0192,
+   "hi": 0.165,
+   "log": true
+  },
+  {
+   "id": "activities:activities.brush.rate",
+   "cat": "rates",
+   "lo": 0.0175,
+   "hi": 0.15,
+   "log": true
+  },
+  {
+   "id": "activities:activities.wash.rate",
+   "cat": "rates",
+   "lo": 0.0175,
+   "hi": 0.15,
+   "log": true
+  },
+  {
+   "id": "activities:activities.dress.rate",
+   "cat": "rates",
+   "lo": 0.0158,
+   "hi": 0.135,
+   "log": true
+  },
+  {
+   "id": "activities:activities.gather.rate",
+   "cat": "rates",
+   "lo": 0.0105,
+   "hi": 0.09,
+   "log": true
+  },
+  {
+   "id": "activities:activities.run_indoors.rate",
+   "cat": "rates",
+   "lo": 0.007,
+   "hi": 0.06,
+   "log": true
+  },
+  {
+   "id": "activities:activities.greet_visitor.rate",
+   "cat": "rates",
+   "lo": 0.0315,
+   "hi": 0.27,
+   "log": true
+  },
+  {
+   "id": "activities:activities.snake.rate",
+   "cat": "rates",
+   "lo": 0.0227,
+   "hi": 0.195,
+   "log": true
+  },
+  {
+   "id": "activities:activities.work.rate",
+   "cat": "rates",
+   "lo": 0.0087,
+   "hi": 0.075,
+   "log": true
+  },
+  {
+   "id": "activities:activities.cook.rate",
+   "cat": "rates",
+   "lo": 0.0147,
+   "hi": 0.126,
+   "log": true
+  },
+  {
+   "id": "activities:activities.build.rate",
+   "cat": "rates",
+   "lo": 0.0105,
+   "hi": 0.09,
+   "log": true
+  }
+ ]
+}

@@ -1,0 +1,362 @@
+{
+ "content": {
+  "expression": {
+   "lid": 0.225,
+   "slant": 0.115,
+   "crease": 0,
+   "lower": 0.3757,
+   "iris": 0.6538,
+   "wide": 1.0,
+   "sp_r": 42.61,
+   "sp_turns": 2.741,
+   "sp_sq": 0.7265,
+   "mouth": 0,
+   "flush": 0.0175
+  },
+  "eyes_open": 0.75,
+  "gaze": [
+   -0.018,
+   0.185
+  ]
+ },
+ "joyful": {
+  "expression": {
+   "lid": 0.0,
+   "slant": 0.261,
+   "crease": 0.516,
+   "lower": 0.9,
+   "iris": 1.0235,
+   "wide": 1.0072,
+   "sp_r": 49.76,
+   "sp_turns": 2.245,
+   "sp_sq": 0.606,
+   "mouth": 0.45,
+   "flush": 0.0105
+  },
+  "eyes_open": 1,
+  "gaze": [
+   -0.011,
+   0.117
+  ]
+ },
+ "absorbed": {
+  "expression": {
+   "lid": 0.27,
+   "slant": 0.17,
+   "crease": 0.056,
+   "lower": 0.2565,
+   "iris": 0.8075,
+   "wide": 1.0,
+   "sp_r": 39.82,
+   "sp_turns": 3.072,
+   "sp_sq": 0.783,
+   "mouth": 0.1,
+   "flush": 0.07
+  },
+  "eyes_open": 0.7,
+  "gaze": [
+   -0.07,
+   0.35
+  ]
+ },
+ "bored": {
+  "expression": {
+   "lid": 0.3532,
+   "slant": -0.115,
+   "crease": 0,
+   "lower": 0,
+   "iris": 0.5675,
+   "wide": 1.0,
+   "sp_r": 34.07,
+   "sp_turns": 3.225,
+   "sp_sq": 0.8755,
+   "mouth": 0,
+   "flush": 0.0525
+  },
+  "eyes_open": 0.608,
+  "gaze": [
+   0.35,
+   0.15
+  ]
+ },
+ "restless": {
+  "expression": {
+   "lid": 0.0788,
+   "slant": -0.11,
+   "crease": 0,
+   "lower": 0,
+   "iris": 0.8712,
+   "wide": 1.036,
+   "sp_r": 32.1,
+   "sp_turns": 3.6,
+   "sp_sq": 0.925,
+   "mouth": 0.245,
+   "flush": 0.14
+  },
+  "eyes_open": 0.912,
+  "gaze": [
+   -0.4,
+   0.207
+  ]
+ },
+ "anxious": {
+  "expression": {
+   "lid": 0.0,
+   "slant": -0.7,
+   "crease": 0,
+   "lower": 0,
+   "iris": 0.8712,
+   "wide": 1.12,
+   "sp_r": 24.41,
+   "sp_turns": 4.125,
+   "sp_sq": 1.0765,
+   "mouth": 0.2625,
+   "flush": 0.2625
+  },
+  "eyes_open": 1.0,
+  "gaze": [
+   -0.4,
+   0.23
+  ]
+ },
+ "frustrated": {
+  "expression": {
+   "lid": 0.117,
+   "slant": 0.6,
+   "crease": 0,
+   "lower": 0,
+   "iris": 0.8645,
+   "wide": 1.108,
+   "sp_r": 26.4,
+   "sp_turns": 4.05,
+   "sp_sq": 1.04,
+   "mouth": 0.26,
+   "flush": 0.245
+  },
+  "eyes_open": 0.87,
+  "gaze": [
+   0.0,
+   0.23
+  ]
+ },
+ "sad": {
+  "expression": {
+   "lid": 0.513,
+   "slant": -0.619,
+   "crease": 0,
+   "lower": 0,
+   "iris": 0.5037,
+   "wide": 1.0,
+   "sp_r": 26.438,
+   "sp_turns": 3.675,
+   "sp_sq": 1.0227,
+   "mouth": 0,
+   "flush": 0.1575
+  },
+  "eyes_open": 0.43,
+  "gaze": [
+   -0.158,
+   0.32
+  ]
+ },
+ "lonely": {
+  "expression": {
+   "lid": 0.405,
+   "slant": -0.534,
+   "crease": 0,
+   "lower": 0,
+   "iris": 0.5705,
+   "wide": 1.0,
+   "sp_r": 29.148,
+   "sp_turns": 3.6,
+   "sp_sq": 0.9742,
+   "mouth": 0,
+   "flush": 0.14
+  },
+  "eyes_open": 0.55,
+  "gaze": [
+   0.5,
+   0.2
+  ]
+ },
+ "proud": {
+  "expression": {
+   "lid": 0.0698,
+   "slant": 0.545,
+   "crease": 0.18,
+   "lower": 0.495,
+   "iris": 0.7925,
+   "wide": 1.0,
+   "sp_r": 44.2,
+   "sp_turns": 2.635,
+   "sp_sq": 0.7,
+   "mouth": 0.0475,
+   "flush": 0.0175
+  },
+  "eyes_open": 0.922,
+  "gaze": [
+   -0.018,
+   0.163
+  ]
+ },
+ "relieved": {
+  "expression": {
+   "lid": 0.405,
+   "slant": 0.11,
+   "crease": 0,
+   "lower": 0.2835,
+   "iris": 0.6125,
+   "wide": 1.0,
+   "sp_r": 40.98,
+   "sp_turns": 2.898,
+   "sp_sq": 0.757,
+   "mouth": 0,
+   "flush": 0.035
+  },
+  "eyes_open": 0.55,
+  "gaze": [
+   -0.035,
+   0.23
+  ]
+ },
+ "embarrassed": {
+  "expression": {
+   "lid": 0.3308,
+   "slant": -0.862,
+   "crease": 0,
+   "lower": 0,
+   "iris": 0.6567,
+   "wide": 1.0,
+   "sp_r": 25.468,
+   "sp_turns": 3.93,
+   "sp_sq": 1.0502,
+   "mouth": 0,
+   "flush": 0.217
+  },
+  "eyes_open": 0.632,
+  "gaze": [
+   0.4,
+   0.6
+  ]
+ },
+ "drowsy": {
+  "expression": {
+   "lid": 0.54,
+   "slant": -0.12,
+   "crease": 0,
+   "lower": 0,
+   "iris": 0.4662,
+   "wide": 1.0,
+   "sp_r": 36.72,
+   "sp_turns": 3.15,
+   "sp_sq": 0.828,
+   "mouth": 0,
+   "flush": 0.035
+  },
+  "eyes_open": 0.4,
+  "gaze": [
+   -0.035,
+   0.388
+  ]
+ },
+ "awe": {
+  "expression": {
+   "lid": 0.0,
+   "slant": 0.027,
+   "crease": 0.0096,
+   "lower": 0.2336,
+   "iris": 0.7947,
+   "wide": 1.0,
+   "sp_r": 39.914,
+   "sp_turns": 3.0174,
+   "sp_sq": 0.7781,
+   "mouth": 0.0885,
+   "flush": 0.0525
+  },
+  "eyes_open": 1.0,
+  "gaze": [
+   -0.052,
+   -0.25
+  ]
+ },
+ "aesthetic_appreciation": {
+  "expression": {
+   "lid": 0.225,
+   "slant": 0.046,
+   "crease": 0,
+   "lower": 0.27,
+   "iris": 0.791,
+   "wide": 1.0,
+   "sp_r": 40.96,
+   "sp_turns": 2.88,
+   "sp_sq": 0.756,
+   "mouth": 0.076,
+   "flush": 0.028
+  },
+  "eyes_open": 0.75,
+  "gaze": [
+   -0.028,
+   0.23
+  ]
+ },
+ "nostalgia": {
+  "expression": {
+   "lid": 0.36,
+   "slant": -0.202,
+   "crease": 0,
+   "lower": 0.18,
+   "iris": 0.6867,
+   "wide": 1.0,
+   "sp_r": 38.8,
+   "sp_turns": 3.14,
+   "sp_sq": 0.8,
+   "mouth": 0,
+   "flush": 0.07
+  },
+  "eyes_open": 0.6,
+  "gaze": [
+   -0.07,
+   -0.2
+  ]
+ },
+ "amusement": {
+  "expression": {
+   "lid": 0.18,
+   "slant": 0.12,
+   "crease": 0.1008,
+   "lower": 0.72,
+   "iris": 0.827,
+   "wide": 1.0,
+   "sp_r": 46.96,
+   "sp_turns": 2.48,
+   "sp_sq": 0.656,
+   "mouth": 0.121,
+   "flush": 0.028
+  },
+  "eyes_open": 0.8,
+  "gaze": [
+   -0.028,
+   0.185
+  ]
+ },
+ "triumph": {
+  "expression": {
+   "lid": 0.0,
+   "slant": 0.324,
+   "crease": 0.2696,
+   "lower": 0.63,
+   "iris": 0.8682,
+   "wide": 1.0,
+   "sp_r": 45.6,
+   "sp_turns": 2.59,
+   "sp_sq": 0.68,
+   "mouth": 0.158,
+   "flush": 0.035
+  },
+  "eyes_open": 1,
+  "gaze": [
+   -0.035,
+   0.117
+  ]
+ }
+}

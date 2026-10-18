@@ -1,0 +1,570 @@
+{
+ "doc": "Every event the ledger can write. deltas = immediate additions to emotional traces (each fades with its tau from traces). motives = immediate motive nudges. neuro = neuromodulator impulses. weight multiplies all (erratic events are scaled by kindWeight). spread = leak across motives (see stability.json coupling).",
+ "traces": {
+  "arousal": {
+   "tau": 20
+  },
+  "frustration": {
+   "tau": 23.16
+  },
+  "stress": {
+   "tau": 722
+  },
+  "valence": {
+   "tau": 300
+  },
+  "pride": {
+   "tau": 1800
+  },
+  "fatigueDebt": {
+   "tau": 10800
+  },
+  "loneliness": {
+   "tau": 3600
+  },
+  "boredom": {
+   "tau": 600
+  },
+  "curiosity": {
+   "tau": 480
+  },
+  "comfort": {
+   "tau": 1200
+  }
+ },
+ "kindWeight": {
+  "normal": 1,
+  "erratic": 3.061
+ },
+ "events": {
+  "meal_done": {
+   "kind": "normal",
+   "deltas": {
+    "valence": 0.03,
+    "pride": 0.01,
+    "comfort": 0.03
+   },
+   "motives": {},
+   "neuro": {
+    "HT": 0.04,
+    "DA": 0.03
+   }
+  },
+  "chain_complete": {
+   "kind": "normal",
+   "deltas": {
+    "valence": 0.05,
+    "stress": -0.05,
+    "pride": 0.03
+   },
+   "neuro": {
+    "HT": 0.05,
+    "CORT": -0.04
+   }
+  },
+  "long_shower": {
+   "kind": "normal",
+   "deltas": {
+    "comfort": 0.05,
+    "valence": 0.02,
+    "stress": -0.02
+   },
+   "neuro": {
+    "HT": 0.02
+   }
+  },
+  "skip_meal_ok": {
+   "kind": "normal",
+   "deltas": {},
+   "neuro": {}
+  },
+  "skip_meal_hungry": {
+   "kind": "erratic",
+   "deltas": {
+    "stress": 0.05,
+    "valence": -0.04
+   },
+   "neuro": {
+    "CORT": 0.0167
+   }
+  },
+  "short_sleep": {
+   "kind": "erratic",
+   "deltas": {
+    "fatigueDebt": 0.3,
+    "stress": 0.08
+   },
+   "neuro": {
+    "CORT": 0.02,
+    "NE": 0.0167
+   }
+  },
+  "wall_bump": {
+   "kind": "erratic",
+   "deltas": {
+    "stress": 0.04,
+    "frustration": 0.033,
+    "valence": -0.02,
+    "arousal": 0.15
+   },
+   "neuro": {
+    "NE": 0.0667,
+    "CORT": 0.0133
+   }
+  },
+  "stumble": {
+   "kind": "erratic",
+   "deltas": {
+    "stress": 0.03,
+    "frustration": 0.02,
+    "arousal": 0.1
+   },
+   "neuro": {
+    "NE": 0.05
+   }
+  },
+  "startle": {
+   "kind": "erratic",
+   "deltas": {
+    "arousal": 0.3,
+    "stress": 0.03
+   },
+   "neuro": {
+    "NE": 0.1,
+    "CORT": 0.01
+   }
+  },
+  "interrupted_act": {
+   "kind": "erratic",
+   "deltas": {
+    "frustration": 0.027,
+    "pride": -0.013
+   },
+   "neuro": {
+    "DA": -0.0133,
+    "CORT": 0.0067
+   }
+  },
+  "interrupted_work": {
+   "kind": "erratic",
+   "deltas": {
+    "frustration": 0.04,
+    "pride": -0.04
+   },
+   "neuro": {
+    "DA": -0.0167,
+    "CORT": 0.01
+   }
+  },
+  "wrong_time_act": {
+   "kind": "erratic",
+   "deltas": {
+    "stress": 0.01
+   },
+   "neuro": {
+    "CORT": 0.0033
+   }
+  },
+  "pet_snake": {
+   "kind": "normal",
+   "deltas": {
+    "loneliness": -0.2,
+    "valence": 0.06,
+    "comfort": 0.04
+   },
+   "neuro": {
+    "OXY": 0.12,
+    "HT": 0.03
+   }
+  },
+  "bladder_override": {
+   "kind": "erratic",
+   "deltas": {
+    "stress": 0.03,
+    "frustration": 0.02
+   },
+   "neuro": {
+    "CORT": 0.01
+   }
+  },
+  "boredom_quit": {
+   "kind": "erratic",
+   "deltas": {
+    "boredom": 0.1,
+    "pride": -0.02
+   },
+   "neuro": {
+    "DA": -0.0167
+   }
+  },
+  "frustration_slam": {
+   "kind": "erratic",
+   "deltas": {
+    "frustration": 0.05,
+    "stress": 0.03
+   },
+   "neuro": {
+    "NE": 0.0333,
+    "CORT": 0.0133
+   }
+  },
+  "nap_collapse": {
+   "kind": "erratic",
+   "deltas": {
+    "fatigueDebt": -0.1,
+    "valence": -0.01
+   },
+   "neuro": {
+    "CORT": 0.0067
+   }
+  },
+  "false_start": {
+   "kind": "normal",
+   "deltas": {
+    "boredom": 0.02
+   },
+   "neuro": {}
+  },
+  "music_made": {
+   "kind": "normal",
+   "deltas": {
+    "pride": 0.06,
+    "valence": 0.05,
+    "curiosity": 0.02
+   },
+   "neuro": {
+    "DA": 0.08,
+    "HT": 0.03
+   }
+  },
+  "work_block_done": {
+   "kind": "normal",
+   "deltas": {
+    "pride": 0.08,
+    "valence": 0.03,
+    "stress": -0.02
+   },
+   "neuro": {
+    "DA": 0.1,
+    "HT": 0.03
+   }
+  },
+  "work_through_burnout": {
+   "kind": "erratic",
+   "deltas": {
+    "stress": 0.06,
+    "frustration": 0.04,
+    "fatigueDebt": 0.1
+   },
+   "neuro": {
+    "CORT": 0.0267
+   }
+  },
+  "roam_new_cell": {
+   "kind": "normal",
+   "deltas": {
+    "curiosity": 0.03,
+    "boredom": -0.04
+   },
+   "neuro": {
+    "DA": 0.04
+   }
+  },
+  "roam_done": {
+   "kind": "normal",
+   "deltas": {
+    "curiosity": -0.05,
+    "boredom": -0.1,
+    "valence": 0.02
+   },
+   "neuro": {
+    "DA": 0.03,
+    "NE": 0.02
+   }
+  },
+  "build_placed": {
+   "kind": "normal",
+   "deltas": {
+    "pride": 0.05,
+    "curiosity": 0.02
+   },
+   "neuro": {
+    "DA": 0.1
+   }
+  },
+  "build_failed": {
+   "kind": "erratic",
+   "deltas": {
+    "frustration": 0.05,
+    "pride": -0.03
+   },
+   "neuro": {
+    "DA": -0.02,
+    "CORT": 0.0133
+   }
+  },
+  "build_done": {
+   "kind": "normal",
+   "deltas": {
+    "pride": 0.2,
+    "valence": 0.1
+   },
+   "neuro": {
+    "DA": 0.2,
+    "HT": 0.06
+   }
+  },
+  "visitor_arrive": {
+   "kind": "normal",
+   "deltas": {
+    "curiosity": 0.06,
+    "loneliness": -0.08,
+    "arousal": 0.1
+   },
+   "neuro": {
+    "OXY": 0.1,
+    "DA": 0.06,
+    "NE": 0.1
+   }
+  },
+  "visitor_interact": {
+   "kind": "normal",
+   "deltas": {
+    "loneliness": -0.05,
+    "valence": 0.03
+   },
+   "neuro": {
+    "OXY": 0.05,
+    "DA": 0.03
+   }
+  },
+  "visitor_leave": {
+   "kind": "normal",
+   "deltas": {
+    "loneliness": 0.04,
+    "boredom": 0.02
+   },
+   "neuro": {
+    "OXY": -0.04
+   }
+  },
+  "good_surprise": {
+   "kind": "normal",
+   "deltas": {
+    "valence": 0.05,
+    "curiosity": 0.03,
+    "arousal": 0.1
+   },
+   "neuro": {
+    "DA": 0.12,
+    "NE": 0.05
+   }
+  },
+  "bad_surprise": {
+   "kind": "erratic",
+   "deltas": {
+    "stress": 0.05,
+    "frustration": 0.03,
+    "arousal": 0.15
+   },
+   "neuro": {
+    "NE": 0.04,
+    "CORT": 0.02
+   }
+  },
+  "sunlight": {
+   "kind": "normal",
+   "deltas": {
+    "valence": 0.01,
+    "comfort": 0.01
+   },
+   "neuro": {
+    "HT": 0.02
+   }
+  },
+  "tea_break": {
+   "kind": "normal",
+   "deltas": {
+    "comfort": 0.02,
+    "stress": -0.01
+   },
+   "neuro": {
+    "CORT": -0.02
+   }
+  },
+  "rumination": {
+   "kind": "erratic",
+   "deltas": {
+    "stress": 0.02,
+    "valence": -0.015
+   },
+   "neuro": {
+    "CORT": 0.0067
+   }
+  },
+  "comfort_binge": {
+   "kind": "erratic",
+   "deltas": {
+    "comfort": 0.06,
+    "stress": -0.03,
+    "pride": -0.03,
+    "fatigueDebt": 0.02
+   },
+   "neuro": {
+    "DA": 0.0167,
+    "CORT": -0.0067
+   }
+  },
+  "pacing_release": {
+   "kind": "erratic",
+   "deltas": {
+    "stress": -0.03,
+    "arousal": -0.05
+   },
+   "neuro": {
+    "NE": -0.0167
+   }
+  },
+  "night_work_done": {
+   "kind": "erratic",
+   "deltas": {
+    "pride": 0.05,
+    "fatigueDebt": 0.15,
+    "stress": 0.04
+   },
+   "neuro": {
+    "DA": 0.0167,
+    "CORT": 0.0167
+   }
+  },
+  "skipped_hygiene_bed": {
+   "kind": "erratic",
+   "deltas": {
+    "comfort": -0.03,
+    "pride": -0.02
+   },
+   "neuro": {}
+  },
+  "restless_roam_done": {
+   "kind": "erratic",
+   "deltas": {
+    "boredom": -0.12,
+    "stress": -0.03,
+    "curiosity": -0.03
+   },
+   "neuro": {
+    "NE": -0.01,
+    "DA": 0.01
+   }
+  },
+  "chain_broken": {
+   "kind": "erratic",
+   "deltas": {
+    "frustration": 0.03,
+    "stress": 0.02
+   },
+   "scalesWith": "stepsRemaining",
+   "neuro": {
+    "CORT": 0.0067
+   }
+  },
+  "music_relief": {
+   "kind": "normal",
+   "deltas": {
+    "stress": -0.08,
+    "arousal": -0.05,
+    "valence": 0.02
+   },
+   "neuro": {
+    "CORT": -0.04,
+    "HT": 0.03
+   }
+  },
+  "art_done": {
+   "kind": "normal",
+   "deltas": {
+    "valence": 0.03,
+    "pride": 0.02,
+    "stress": -0.02
+   },
+   "neuro": {
+    "DA": 0.04
+   }
+  },
+  "art_proud": {
+   "kind": "normal",
+   "deltas": {
+    "valence": 0.06,
+    "pride": 0.08,
+    "stress": -0.03
+   },
+   "neuro": {
+    "DA": 0.08,
+    "HT": 0.03
+   }
+  },
+  "art_disappointed": {
+   "kind": "normal",
+   "deltas": {
+    "valence": -0.07,
+    "frustration": 0.08,
+    "stress": 0.04
+   },
+   "neuro": {
+    "DA": -0.04,
+    "CORT": 0.03
+   }
+  },
+  "art_satisfied": {
+   "kind": "normal",
+   "deltas": {
+    "valence": 0.14,
+    "pride": 0.15,
+    "stress": -0.12,
+    "arousal": -0.08
+   },
+   "neuro": {
+    "DA": 0.12,
+    "HT": 0.1,
+    "CORT": -0.08,
+    "OXY": 0.04
+   }
+  },
+  "free_chain": {
+   "kind": "normal",
+   "deltas": {
+    "valence": 0.03,
+    "stress": -0.03,
+    "pride": 0.01
+   },
+   "neuro": {
+    "HT": 0.02,
+    "CORT": -0.02
+   }
+  },
+  "goal_done": {
+   "kind": "normal",
+   "deltas": {
+    "valence": 0.03,
+    "stress": -0.02,
+    "pride": 0.02
+   },
+   "neuro": {
+    "DA": 0.02,
+    "CORT": -0.01
+   },
+   "doc": "a goal that took several planned steps was reached (scaled by steps)"
+  },
+  "goal_dropped": {
+   "kind": "erratic",
+   "deltas": {
+    "frustration": 0.02,
+    "pride": -0.01
+   },
+   "neuro": {
+    "CORT": 0.005
+   },
+   "doc": "a goal he had started on was given up (scaled by steps done)"
+  }
+ }
+}

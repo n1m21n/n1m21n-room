@@ -1,0 +1,40 @@
+gen 0: best 3.32 median 66.9 baseline 3.3 hard=[] 27s
+gen 1: best 3.40 median 26.8 hard=[] 55s
+gen 2: best 3.34 median 13.0 hard=[] 85s
+gen 3: best 3.51 median 8.7 hard=[] 113s
+gen 4: best 3.23 median 6.4 hard=[] 142s
+gen 5: best 3.04 median 5.4 hard=[] 170s
+gen 6: best 3.19 median 4.8 hard=[] 195s
+gen 7: best 3.02 median 4.2 hard=[] 219s
+
+validation (320 lives x 14 days, unseen seeds): baseline 3.31 [hard: ]  ->  best 2.98 [hard: ]
+metric                  target        baseline  best
+loo_share               0.02..0.05    0.0396    0.04503
+eat_per_day             2..4          3.965     2.892
+sleep_min_per_day       360..540      525.7     520.3
+zero_sleep_days         0..0.01       0         0
+shower_per_day          0.7..2        1.523     0.8808
+acts_per_day            30..80        50.44     49.26
+max_single_act_share    0..0.14       0.07967   0.08573
+distinct_acts_week      22..40        28.7      28.32
+culture_share           0.25..0.6     0.3981    0.4276
+chains_done_per_day     2..8          10.88     12.12
+chain_broken_ratio      0.25..0.45    0.6085    0.569
+chain_branch_ratio      0.9..1        1         1
+chain_deadend_per_day   0..0.4        0         0
+valence_mean            0.55..0.75    0.8662    0.8413
+valence_day_sd          0.06..0.16    0.07227   0.07158
+valence_p10             0.2..1        0.757     0.734
+stress_mean             0.2..0.45     0.1582    0.1988
+stress_runaway_days     0..0.05       0         0
+erratic_events_per_day  0.5..3        1.738     1.576
+erratic_act_share       0.02..0.1     0.06829   0.06132
+fail_rate               0.03..0.1     0.08317   0.1064
+between_life_sd         0.02..0.1     0.02489   0.02389
+social_acts_per_day     1.5..5        4.987     4.018
+art_pieces_per_day      0.3..1.2      0.7268    0.3536
+art_satisfied_share     0.03..0.1     0.0215    0.02715
+art_disappointed_share  0.05..0.3     0.1852    0.05871
+art_skill               0.25..0.7     0.2585    0.2041
+atus_gap                0..35         57.57     58.77
+saved /Users/namansoni/music videos/n1m21n-room/tools/sim/results/sweep-1792243787329.json

@@ -19,12 +19,18 @@ const SAY = {
   work: 'he’s at work', bench: 'he’s in the gallery', tv: 'he’s watching tv', dress: 'he’s getting dressed', loo: 'he’s in the loo',
   wash: 'he’s washing his face', brush: 'he’s brushing his teeth', shower: 'he’s in the shower', tea: 'he’s making tea', fridge: 'he’s at the fridge',
   cook: 'he’s cooking', eat: 'he’s eating', snake: 'he’s petting the snake', records: 'he’s browsing records',
+  phone: 'he’s on the phone', answer: 'he’s on the phone', plant: 'he’s watering the plant', easel: 'he’s painting', write: 'he’s writing a letter',
+  nap: 'he’s dozing on a bench', greet: 'he’s at the door', pace: 'he’s pacing', roam: 'he’s wandering about',
+  yawn: 'he’s yawning', stretch: 'he’s stretching', sigh: 'he’s sighing', fidget: 'he’s fidgeting', sip: 'he’s having a sip', glance: 'he’s looking round', stumble: 'he tripped',
 };
 const GO = {
   sleep: 'off to bed', window: 'over to the window', read: 'picking up a book', guitar: 'picking up the guitar', keys: 'back to the keys',
   work: 'back to work', bench: 'off to the gallery', tv: 'putting the tv on', dress: 'getting dressed', loo: 'off to the loo',
   wash: 'washing his face', brush: 'brushing his teeth', shower: 'into the shower', tea: 'making tea', fridge: 'something from the fridge',
   cook: 'off to cook', eat: 'sitting down to eat', snake: 'over to the snake', records: 'flipping through the records',
+  phone: 'making a call', answer: 'the phone’s ringing', plant: 'watering the plant', easel: 'to the easel', write: 'writing a letter',
+  nap: 'a nap on the bench', greet: 'someone at the door', pace: 'pacing', roam: 'wandering about',
+  yawn: 'a yawn', stretch: 'a stretch', sigh: 'a sigh', fidget: 'fidgeting', sip: 'a sip', glance: 'a look round', stumble: 'a trip',
 };
 // a small fast PRNG, seeded per day
 const rng = seed => () => { seed = (seed + 0x6d2b79f5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
@@ -78,7 +84,8 @@ export function mood() {
   return min >= w && min < w + 40 ? 'groggy' : min >= 22 * 60 + 30 ? 'tired' : 'fresh';
 }
 
-export function makeRoutine({ player, spots, toast, idleAfter = 120, utility = null }) {
+// chooser (optional, ?sim=1): { next(current) -> spot name | null, hold(name) -> seconds } hands the choosing to the sim core
+export function makeRoutine({ player, spots, toast, idleAfter = 120, utility = null, chooser = null }) {
   // spots: name -> { seat, at: [x, z] (where he walks to), face, start() (sit down and begin) }
   const ai = utility || makeUtilityAI();
   ai.registerSpots(spots);
@@ -91,14 +98,14 @@ export function makeRoutine({ player, spots, toast, idleAfter = 120, utility = n
     return { what: plan[i][1], since: min - plan[i][0] };
   }
   const planned = () => now().what;
-  let mine = true, lastInput = performance.now(), doing = null, going = false;
+  let mine = true, lastInput = performance.now(), doing = null, going = false, startedAt = performance.now(), holdFor = 0;
   const touched = () => { lastInput = performance.now(); mine = false; going = false; };
   for (const ev of ['pointerdown', 'keydown', 'wheel']) addEventListener(ev, touched, { capture: true, passive: true });
 
   function begin(what, { walk }) {
     const s = spots[what]; if (!s) return;
-    doing = what;
-    ai.setDoing(what);
+    doing = what; startedAt = performance.now(); holdFor = chooser ? chooser.hold(what) * 1000 : 0;
+    if (!walk) ai.setDoing(what);       // walking there: the utility AI starts the act (count, cooldown) when he arrives and sits
     const target = typeof s.at === 'function' ? s.at() : s.at;
     const face = typeof s.face === 'function' ? s.face() : s.face;
     if (!walk) { if (player.st.seated) player.stand(); s.start(); return; }
@@ -117,6 +124,16 @@ export function makeRoutine({ player, spots, toast, idleAfter = 120, utility = n
     if (busy || going || player.auto?.pts) return;
     if (!mine && performance.now() - lastInput < idleAfter * 1000) return;
     mine = true;
+    if (chooser) {                                                     // the sim chooses; he stays with an act for its own length
+      if (doing && performance.now() - startedAt < holdFor) return;
+      const w = chooser.next(doing, spots);
+      if (!w || !spots[w]) return;
+      const s = spots[w];
+      if (doing === w && (!s.seat || player.st.seated === s.seat)) { startedAt = performance.now(); return; }
+      toast(`${istClock()} in india · ${GO[w] || w}`);
+      begin(w, { walk: true });
+      return;
+    }
     const decision = ai.evaluate(player.pos, { current: activeDoing, available: spots });
     const w = decision.shouldSwitch && decision.best ? decision.best : null;
     if (!w) return;
@@ -128,6 +145,7 @@ export function makeRoutine({ player, spots, toast, idleAfter = 120, utility = n
   return {
     arrive, update, planned, now, dayPlan, clock, ai,
     get motives() { return ai.motives; },
+    handBack() { lastInput = -1e9; mine = true; going = false; acc = 9; },      // the visitor lets go: he rejoins the live feed at once
     get mine() { return mine; },
     get doing() { return doing; },
   };

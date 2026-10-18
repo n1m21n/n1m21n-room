@@ -1,0 +1,267 @@
+{
+ "when": "2026-10-17T13:17:22.278Z",
+ "pop": 120,
+ "gens": 8,
+ "n": 32,
+ "days": 7,
+ "cats": [],
+ "history": [
+  {
+   "gen": 0,
+   "best": 8.22,
+   "median": 67.85,
+   "baseline": 8.22,
+   "hard": []
+  },
+  {
+   "gen": 1,
+   "best": 7.87,
+   "median": 19.67,
+   "hard": []
+  },
+  {
+   "gen": 2,
+   "best": 7.08,
+   "median": 13.97,
+   "hard": []
+  },
+  {
+   "gen": 3,
+   "best": 5.42,
+   "median": 10.81,
+   "hard": []
+  },
+  {
+   "gen": 4,
+   "best": 5.09,
+   "median": 8.56,
+   "hard": []
+  },
+  {
+   "gen": 5,
+   "best": 4.44,
+   "median": 7.47,
+   "hard": []
+  },
+  {
+   "gen": 6,
+   "best": 3.83,
+   "median": 6.21,
+   "hard": []
+  },
+  {
+   "gen": 7,
+   "best": 3.85,
+   "median": 5.53,
+   "hard": []
+  },
+  {
+   "gen": 8,
+   "best": 3.2,
+   "median": 5.01,
+   "hard": []
+  }
+ ],
+ "baselineValidation": {
+  "fitness": 9.009760258219202,
+  "hardFail": [],
+  "metrics": {
+   "loo_share": 0.023994784736968516,
+   "eat_per_day": 6.134598214285714,
+   "shower_per_day": 2.320089285714286,
+   "sleep_min_per_day": 529.7450024229116,
+   "zero_sleep_days": 0.0015625,
+   "acts_per_day": 58.550669642857144,
+   "max_single_act_share": 0.10477417682334059,
+   "distinct_acts_week": 31.075,
+   "culture_share": 0.4002256897452222,
+   "chains_done_per_day": 10.720535714285715,
+   "chain_broken_ratio": 0.6004625277641441,
+   "chain_branch_ratio": 1,
+   "chain_deadend_per_day": 0,
+   "valence_mean": 0.7382794642857146,
+   "valence_day_sd": 0.09332877709318525,
+   "valence_p10": 0.605,
+   "stress_mean": 0.2605872767857149,
+   "stress_runaway_days": 0,
+   "erratic_events_per_day": 0.8866071428571428,
+   "erratic_act_share": 0.046598070200185276,
+   "fail_rate": 0.0776723457627894,
+   "between_life_sd": 0.0326396849891754,
+   "atus_gap": 69.97105684999674,
+   "social_acts_per_day": 7.789508928571428,
+   "art_pieces_per_day": 0.5665178571428572,
+   "art_satisfied_share": 0.007486209613869189,
+   "art_disappointed_share": 0.19070133963750985,
+   "art_skill": 0.2320163885130143
+  }
+ },
+ "best": {
+  "params": {
+   "tune:decay.energy": 0.000553859789998125,
+   "tune:decay.hunger": 0.0006892340151038525,
+   "tune:decay.fun": 0.0014000000000000002,
+   "tune:decay.focus": 0.0002762855013381903,
+   "tune:decay.hygiene": 0.00033180624465065144,
+   "tune:decay.bladder": 0.00038569338093872576,
+   "tune:decay.social": 0.0005474954291670971,
+   "tune:sleepDecayMul": 0.464361694763214,
+   "tune:pickExp": 2.486045152761455,
+   "tune:rateScale": 13.162940370624364,
+   "tune:drainScale": 3.235531907776994,
+   "tune:microBase": 0.02341346957928199,
+   "tune:repeatPenalty": 0.4691988696983611,
+   "tune:recentPenalty": 0.7850049497603488,
+   "tune:satiate": 1.1196449367789243,
+   "tune:sleepNight": 6.762353107646367,
+   "tune:sleepLowEnergy": 2.9845697890596097,
+   "tune:sleepDay": 0.061420431911778726,
+   "tune:sleepEnergyAt": 0.356046564361471,
+   "tune:chainGap": 196.8186520392698,
+   "tune:cancelMul": 0.4799565094062801,
+   "tune:postponeMul": 0.566335316811809,
+   "tune:erraticBase": 0.2842541782899541,
+   "tune:erraticStress": 1.8329221115227536,
+   "tune:erraticValence": 1.4695325687787921,
+   "tune:failGain": 0.22120529284617685,
+   "tune:partialGain": 0.37302909665343886,
+   "hazards:events.startle.h0": 0.0003382264019544239,
+   "hazards:events.startle.kStress": 0.00007766547755086458,
+   "hazards:events.false_start.h0": 0.00013638839528366025,
+   "hazards:events.false_start.kStress": 0.00019800152663272295,
+   "outcomes:mods.stress.fail": 0.13509380721295625,
+   "outcomes:mods.stress.ok": -0.015060673442914535,
+   "outcomes:mods.fatigue.fail": 0.10591669153687347,
+   "outcomes:mods.fatigue.ok": -0.21141189913209169,
+   "ledger_events:kindWeight.erratic": 3.3178290923679628,
+   "neuro:vars.CORT.tau": 450.66531783812155,
+   "neuro:vars.HT.tau": 4173.640843261653,
+   "neuro:vars.NE.tau": 71.37897537342928,
+   "neuro:vars.DA.tau": 456.31478858132533,
+   "neuro:affect.stress.CORT": 0.6691451137367697,
+   "neuro:affect.valence.CORT": -0.4327721797713596,
+   "ledger_events:traces.stress.tau": 482.80173021173897,
+   "ledger_events:traces.frustration.tau": 74.6991675309176,
+   "ledger_events:traces.valence.tau": 303.144733825495,
+   "activities:activities.loo.rate": 0.014870762410316337,
+   "activities:activities.eat.rate": 0.046077469159704676,
+   "activities:activities.sleep.rate": 0.018949445529578855,
+   "tune:chainPull": 6.353280508340481,
+   "tune:chainStartPull": 2.3373241720023237,
+   "taste:verdict.satisfiedAt": 0.7505515843121456,
+   "taste:verdict.proudAt": 0.7787914060770049,
+   "taste:process.perceptionNoise": 0.20000633903293163,
+   "taste:process.refineStep": 0.6457096645245766,
+   "taste:weights.emotion": 0.344313235360106,
+   "tune:artFollow": 7.32841017549139,
+   "hazards:events.knock.h0": 0.00020472931621327557,
+   "hazards:events.phone_ring.h0": 0.00010000000000000009,
+   "activities:activities.phone_call.rate": 0.03983654142475941,
+   "activities:activities.write_letter.rate": 0.04259735890037045,
+   "activities:activities.art_sketch.rate": 0.04920272506322759,
+   "tune:followPull": 2.1453869737196474,
+   "tune:planChance": 0.21562509630566842,
+   "tune:planPull": 10.000000000000002,
+   "tune:workDay": 2.5700588900591423,
+   "tune:workDuty": 0.07805114801053632
+  },
+  "validation": {
+   "fitness": 3.7306454029424616,
+   "hardFail": [],
+   "metrics": {
+    "loo_share": 0.03944105406163069,
+    "eat_per_day": 4.034821428571429,
+    "shower_per_day": 1.5727678571428572,
+    "sleep_min_per_day": 512.4533068654558,
+    "zero_sleep_days": 0,
+    "acts_per_day": 51.755580357142854,
+    "max_single_act_share": 0.08118948526081987,
+    "distinct_acts_week": 28.865625,
+    "culture_share": 0.3978004442240097,
+    "chains_done_per_day": 11.028571428571428,
+    "chain_broken_ratio": 0.6095247879999683,
+    "chain_branch_ratio": 1,
+    "chain_deadend_per_day": 0,
+    "valence_mean": 0.8645772321428572,
+    "valence_day_sd": 0.07639875306582719,
+    "valence_p10": 0.749,
+    "stress_mean": 0.17221049107142852,
+    "stress_runaway_days": 0,
+    "erratic_events_per_day": 1.7022321428571427,
+    "erratic_act_share": 0.07740279904254631,
+    "fail_rate": 0.08617945787419404,
+    "between_life_sd": 0.026500336289591045,
+    "atus_gap": 57.811003994996824,
+    "social_acts_per_day": 5.031473214285715,
+    "art_pieces_per_day": 0.7435267857142858,
+    "art_satisfied_share": 0.01591113779645752,
+    "art_disappointed_share": 0.18643050135094566,
+    "art_skill": 0.26021068151979326
+   },
+   "mix": [
+    [
+     "dress",
+     0.081
+    ],
+    [
+     "eat",
+     0.078
+    ],
+    [
+     "nap_bench",
+     0.069
+    ],
+    [
+     "window",
+     0.062
+    ],
+    [
+     "work",
+     0.061
+    ],
+    [
+     "tea",
+     0.06
+    ],
+    [
+     "snake",
+     0.06
+    ],
+    [
+     "cook",
+     0.057
+    ]
+   ]
+  }
+ },
+ "runnersUp": [
+  {
+   "validation": 3.771047922122273,
+   "searchFitness": 3.2006127884471685
+  },
+  {
+   "validation": 3.8521552956188443,
+   "searchFitness": 3.7984059310809055
+  },
+  {
+   "validation": 3.8928291952185035,
+   "searchFitness": 3.8160203541185833
+  },
+  {
+   "validation": 3.9361544746542334,
+   "searchFitness": 3.7983260774699126
+  },
+  {
+   "validation": 3.983317248086069,
+   "searchFitness": 3.7049471688209534
+  },
+  {
+   "validation": 3.98345379515173,
+   "searchFitness": 3.847193999462168
+  },
+  {
+   "validation": 4.00701319488066,
+   "searchFitness": 3.8278905785626085
+  }
+ ]
+}

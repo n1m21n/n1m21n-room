@@ -25,14 +25,24 @@
   html,body { margin:0; height:100%; background:var(--paper); color:var(--ink); overflow:hidden; touch-action:none; }
   .sr { position:absolute; width:1px; height:1px; margin:-1px; padding:0; overflow:hidden; clip:rect(0 0 0 0); clip-path:inset(50%); white-space:nowrap; border:0; }  /* text twin of the room, for screen readers, crawlers and agents */
   canvas { display:block; position:fixed; inset:0; width:100%; height:100%; }
-  .chrome { position:fixed; left:calc(var(--edge) + env(safe-area-inset-left)); right:calc(var(--edge) + env(safe-area-inset-right)); top:calc(var(--edge) + env(safe-area-inset-top)); z-index:3; display:grid; grid-template-columns:auto 1fr; align-items:center; column-gap:var(--gap); pointer-events:none; }
+  .chrome { position:fixed; left:calc(var(--edge) + env(safe-area-inset-left)); right:calc(var(--edge) + env(safe-area-inset-right)); top:calc(var(--edge) + env(safe-area-inset-top)); z-index:3; display:grid; grid-template-columns:auto 1fr; align-items:center; column-gap:var(--gap); row-gap:var(--gap); pointer-events:none; }
   .chrome .row2 { grid-column:1 / -1; display:flex; justify-content:flex-end; align-items:center; height:var(--row2); }
+  .chrome .row2 > * { flex:0 0 auto; } .chrome .row2 .sign { flex:0 1 auto; }
   .mark { font:800 28px/0.9 'Bricolage Grotesque',sans-serif; font-stretch:75%; letter-spacing:-0.02em; text-transform:lowercase; position:relative; }
   .mark span { position:absolute; left:2px; top:-1px; color:var(--pink); mix-blend-mode:multiply; }
   .mark b { color:var(--blue); mix-blend-mode:multiply; font-weight:800; }
-  .meta { font:400 11px/1 "DM Mono",monospace; text-align:right; background:var(--paper); padding:0 10px; height:28px; display:inline-flex; align-items:center; border:2px solid var(--ink); border-radius:999px; box-sizing:border-box; white-space:nowrap; }
+  .meta { font:500 12px/1 "DM Mono",monospace; text-align:right; background:var(--paper); padding:0 12px; height:var(--hud); display:inline-flex; align-items:center; border:2px solid var(--ink); border-radius:999px; box-sizing:border-box; white-space:nowrap; }
   /* clock: its own chip, a little face that is paper by day and night-blue after dark */
-  .clock { gap:6px; padding:0 10px 0 6px; font-weight:500; }
+  /* top bar: logo + ? on the left; one tool capsule on the right; second row = one status capsule left, place right */
+  .chrome .right, .chrome .status { gap:0; background:var(--paper); border:2px solid var(--ink); border-radius:999px; height:var(--hud); box-sizing:border-box; overflow:hidden; display:flex; align-items:center; }
+  .chrome .right button, .chrome .status button { border:0; border-radius:0; background:none; height:100%; box-shadow:none; }
+  .chrome .right button + button, .chrome .status button:not([hidden]) ~ button:not([hidden]) { border-left:2px solid var(--ink); }
+  .chrome .right button:active, .chrome .status button:active { transform:none; background:var(--spiral); }
+  @media (max-width:640px) { #mood, #liveinfo { left:calc(var(--edge) + env(safe-area-inset-left)) !important; right:calc(var(--edge) + env(safe-area-inset-right)) !important; width:auto !important; box-sizing:border-box; } }   /* phones: the dialog spans the bar's width, equal margins, right under the pills */
+  .chrome .status:not(:has(button:not([hidden]))) { display:none; }
+  .chrome .row2 { justify-content:space-between; } .chrome .right { justify-self:end; } .chrome .right button { width:var(--hud); padding:0; } .chrome .right, .chrome .status, .chrome .sign { box-shadow:none; } .chrome .status button { padding:0 12px 0 10px; }
+  .clock { position:fixed; right:calc(var(--edge) + env(safe-area-inset-right)); bottom:calc(var(--edge) + env(safe-area-inset-bottom)); z-index:2; height:auto; padding:3px 8px; font:500 10px/1 'DM Mono',monospace; opacity:.8; pointer-events:none; border-width:1.5px; }
+  .clock svg { display:none; }
   .clock svg { width:18px; height:18px; flex:0 0 auto; }
   .clock circle:first-child { fill:var(--spiral); stroke:var(--ink); stroke-width:1.6; }
   .clock .hh, .clock .mh { stroke:var(--ink); stroke-width:2; stroke-linecap:round; transform-origin:10px 10px; } .clock .mh { stroke-width:1.4; }
@@ -40,7 +50,7 @@
   .clock.night { background:var(--ink); color:var(--spiral); } .clock.night circle:first-child { fill:var(--blue); stroke:var(--spiral); } .clock.night .hh, .clock.night .mh { stroke:var(--spiral); } .clock.night .pin { fill:var(--spiral); }
   /* room sign: a door plaque that says where he is; tap it for every place he can go */
   .row2 { gap:var(--gap); }
-  .chrome .sign { height:28px; padding:0 10px 0 9px; gap:7px; background:var(--ink); color:var(--spiral); box-shadow:2px 2px 0 var(--pink); font-size:11px; min-width:0; }
+  .chrome .sign { height:var(--hud); padding:0 10px 0 9px; gap:7px; background:var(--ink); color:var(--spiral); font-size:12px; min-width:0; }
   .sign .dot { width:8px; height:8px; border-radius:50%; background:var(--dot, var(--pink)); flex:0 0 auto; box-shadow:0 0 0 1.5px var(--spiral); }
   .sign .car { width:10px; height:10px; fill:none; stroke:currentColor; stroke-width:1.8; flex:0 0 auto; transition:transform .15s; } .sign[aria-expanded=true] .car { transform:rotate(180deg); }
   #lbl { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
@@ -55,6 +65,31 @@
   .right { display:flex; justify-content:flex-end; align-items:center; gap:var(--gap); min-width:0; }
   #prompt { position:fixed; white-space:nowrap; bottom:calc(var(--edge) + env(safe-area-inset-bottom)); height:auto; min-height:var(--hud); box-shadow:3px 3px 0 var(--pink); left:50%; transform:translateX(-50%); background:var(--ink); color:var(--spiral); border-color:var(--ink); font-size:13px; }
   #prompt kbd { font:inherit; background:var(--spiral); color:var(--ink); border-radius:4px; padding:0 5px; margin-right:6px; }
+  /* mood chip + panel: sketchbook card, ink border, hard shadow only */
+  #moodbtn { gap:6px; padding:0 12px 0 7px; font-weight:500; cursor:pointer; text-transform:lowercase; color:var(--ink); }
+  #moodbtn img { width:18px; height:18px; border-radius:50%; border:1.6px solid var(--ink); background:var(--spiral); object-fit:cover; }
+  #mood, #liveinfo { position:fixed; right:calc(var(--edge) + env(safe-area-inset-right)); top:var(--ppanel, var(--ptop, calc(var(--edge) + env(safe-area-inset-top) + var(--hud) + var(--row2) + 14px))); width:min(300px, calc(100vw - 32px)); max-height:calc(100vh - 150px); overflow:auto; z-index:6; background:var(--paper); border:2px solid var(--ink); border-radius:22px; box-shadow:4px 4px 0 var(--ink); padding:14px 16px 12px; font:400 12px/1.4 'DM Mono',monospace; text-transform:lowercase; touch-action:pan-y; }
+  #mood h3, #liveinfo h3 { margin:12px 0 5px; font:800 15px/1 'Bricolage Grotesque',sans-serif; font-stretch:75%; letter-spacing:-0.01em; color:var(--blue); }
+  #mood .mhead { display:flex; gap:12px; align-items:center; margin-bottom:6px; } #mood .mhead img { width:46px; height:46px; border-radius:50%; border:2px solid var(--ink); background:var(--spiral); object-fit:cover; }
+  #mood .mhead b { display:block; font:800 24px/1 'Bricolage Grotesque',sans-serif; font-stretch:75%; color:var(--pink); margin-bottom:3px; } #mood .mhead span { color:var(--ink); }
+  #mood .mnow { margin:0 0 10px; display:inline-block; font-weight:500; background:var(--spiral); padding:2px 9px; border-radius:999px; border:1.6px solid var(--ink); } #mood .mnow b { font-weight:500; background:var(--spiral); padding:1px 6px; border-radius:999px; border:1.6px solid var(--ink); }
+  #mood .mwins { margin:0; display:flex; flex-wrap:wrap; gap:6px; } #mood .mwins span { border:1.6px solid var(--ink); border-radius:999px; padding:2px 9px; background:var(--paper); } #mood .mwins b { color:var(--blue); font-weight:500; }
+  #mood .mmeters { display:grid; grid-template-columns:1fr 1fr; gap:6px 14px; margin-bottom:12px; } #mood .mmeters .mrow { grid-template-columns:1fr; gap:3px; margin:0; font-size:11px; opacity:.9; } #mood .mrow { display:grid; grid-template-columns:62px 1fr auto; gap:8px; align-items:center; margin:3px 0; }
+  #mood .mtabs { display:flex; gap:4px; padding:3px; border:2px solid var(--ink); border-radius:999px; margin-bottom:10px; } #mood .mtabs button { flex:1; font:500 11px 'DM Mono',monospace; text-transform:lowercase; color:var(--ink); background:none; border:0; border-radius:999px; padding:6px 4px; cursor:pointer; } #mood .mtabs button[aria-selected=true] { background:var(--ink); color:var(--spiral); }
+  #mood .mbody { min-height:84px; } #mood .mlab { margin:0 0 5px; font-size:11px; opacity:.7; } #mood .mbody .mwins + .mlab { margin-top:10px; } #mood .mrow em { font-style:normal; text-align:right; }
+  #mood .mbar { display:block; height:8px; border:1.6px solid var(--ink); border-radius:999px; background:var(--paper); overflow:hidden; } #mood .mbar i { display:block; height:100%; background:var(--blue); } #mood .mbar.bad i { background:var(--pink); }
+  #mood .mgrid { display:grid; grid-template-columns:1fr auto; gap:3px 12px; } #mood .mgrid b { font-weight:500; text-align:right; }
+  #liveinfo p { margin:0 0 8px; } #liveinfo button.go { font:inherit; text-transform:lowercase; cursor:pointer; background:var(--ink); color:var(--paper); border:2px solid var(--ink); border-radius:999px; padding:6px 14px; box-shadow:3px 3px 0 var(--pink); }
+  #livebtn { gap:7px; padding:0 11px 0 9px; font-weight:500; cursor:pointer; text-transform:lowercase; color:var(--ink); } #livebtn i { width:9px; height:9px; border-radius:50%; background:var(--pink); border:1.6px solid var(--ink); animation:livedot 1.6s ease-in-out infinite; } #livebtn.mine i { background:var(--blue); animation:none; }
+  @keyframes livedot { 50% { transform:scale(.55); opacity:.55; } }
+  @media (prefers-reduced-motion:reduce) { #livebtn i { animation:none; } }
+  #mood .mnote { margin:7px 0 0; opacity:.75; } #mood svg { width:100%; height:auto; display:block; } #mood svg .base { stroke:var(--ink); stroke-width:1; stroke-dasharray:3 4; opacity:.35; } #mood svg circle { fill:var(--pink); stroke:var(--ink); stroke-width:1.6; } #mood svg path { fill:none; stroke:var(--pink); stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }
+  #moodfloat { position:fixed; right:calc(var(--edge) + env(safe-area-inset-right)); top:calc(var(--edge) + env(safe-area-inset-top) + var(--hud) + var(--row2) + 8px); width:150px; height:0; z-index:6; pointer-events:none; }
+  #moodfloat span { position:absolute; right:0; top:0; font:500 12px/1 'DM Mono',monospace; text-transform:lowercase; padding:6px 10px; border:2px solid var(--ink); border-radius:999px; white-space:nowrap; animation:mfloat 2.5s ease-out forwards; }
+  #moodfloat .up { background:var(--spiral); color:var(--ink); } #moodfloat .down { background:var(--pink); color:var(--paper); }
+  @keyframes mfloat { 0% { opacity:0; transform:translate(var(--dx),0); } 12% { opacity:1; } 100% { opacity:0; transform:translate(var(--dx),70px); } }
+  @media (prefers-reduced-motion:reduce) { #moodfloat span { animation:mfade 2.5s forwards; } @keyframes mfade { 0%,70% { opacity:1; } 100% { opacity:0; } } }
+  body:has(#card:not([hidden])) :is(#mood, #moodfloat, #liveinfo) { display:none; }
   #thought { position:fixed; transform:translate(-30%,-100%); max-width:min(300px, calc(100vw - 32px)); pointer-events:none; z-index:5; }
   #thought p { margin:0; font:400 13px/1.45 'DM Mono',monospace; background:var(--paper); border:2px solid var(--ink); border-radius:22px; padding:12px 16px; animation:bob 3s ease-in-out infinite; }
   #thought i { position:absolute; border:2px solid var(--ink); background:var(--paper); border-radius:50%; }
@@ -112,9 +147,11 @@
   .tline .yr { font-weight:600; } .tline .k { font-size:10px; border:1.5px solid var(--ink); border-radius:999px; padding:0 6px; text-align:center; }
   .tline .k-art { background:#F6E27A; } .tline .k-music { background:#E0368F; color:var(--paper); } .tline .k-life { background:#B8B5F0; } .tline .k-dance { background:#1E6B63; color:var(--paper); } .tline .k-software { background:#2E3BDB; color:var(--paper); }
   .tline .pins a, .tline .lk { color:var(--ink); font:inherit; background:none; border:0; padding:0; text-decoration:underline; cursor:pointer; text-align:left; }
-  #stack { position:fixed; left:var(--edge); right:var(--edge); top:calc(var(--deck-bot, 0px) + 12px); display:flex; flex-direction:column; align-items:center; gap:8px; z-index:6; pointer-events:none; }
+  #stack { position:fixed; left:var(--edge); right:var(--edge); top:max(var(--ptop, 96px), calc(var(--deck-bot, 0px) + 12px)); display:flex; flex-direction:column; align-items:center; gap:8px; z-index:6; pointer-events:none; }
   #stack > * { pointer-events:auto; }
   #toast { max-width:min(520px, 100%); box-sizing:border-box; font:400 13px/1.45 'DM Mono',monospace; background:var(--paper); border:2px solid var(--ink); border-radius:8px; padding:10px 14px; text-align:center; }
+  #about { position:fixed; inset:0; z-index:20; background:var(--paper); } #about iframe { width:100%; height:100%; border:0; display:block; } #about[hidden] { display:none; }
+  #aboutx { position:absolute; top:calc(max(0px, env(safe-area-inset-top)) + 17px); right:18px; line-height:1.2; z-index:2; font:500 12px 'DM Mono',monospace; color:var(--ink); background:var(--spiral); border:2px solid var(--ink); border-radius:999px; padding:6px 16px; box-shadow:none; cursor:pointer; }
   #card { position:fixed; inset:0; margin:auto; width:min(560px, calc(100vw - 32px)); height:fit-content; max-height:calc(100dvh - 200px); overflow:auto; background:var(--paper); border:2px solid var(--ink); border-radius:10px; padding:var(--cpy) var(--cpx); --cpy:14px; --cpx:14px; box-shadow:6px 6px 0 var(--pink); z-index:10; }
   #card > img, #card > video { width:100%; max-height:60vh; object-fit:contain; background:var(--ink); border-radius:4px; display:block; }
   #card .cap { font:800 22px/1.1 'Bricolage Grotesque',sans-serif; font-stretch:75%; margin:12px 0 4px; }
@@ -155,11 +192,9 @@
     animation:warpspin 1.4s linear infinite; }
   @keyframes warpspin { to { transform:rotate(360deg); } }
   /* record player: deck (now playing), crate (sleeves), global switch */
-  #musicsw { padding:0 12px 0 14px; }
-  #musicsw .tg { position:relative; width:34px; height:18px; border-radius:999px; border:2px solid var(--ink); box-sizing:border-box; background:var(--paper); transition:background .15s; }
-  #musicsw .tg i { position:absolute; top:1px; left:1px; width:12px; height:12px; border-radius:50%; background:var(--ink); transition:transform .18s cubic-bezier(.3,1.4,.5,1); }
-  #musicsw.on .tg { background:var(--pink); } #musicsw.on .tg i { transform:translateX(16px); background:var(--paper); }
-  #musicsw .st { width:22px; text-align:left; opacity:.7; }
+  #musicsw svg, #view svg, #snd svg { width:17px; height:17px; fill:none; stroke:var(--ink); stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+  #musicsw .x { stroke:var(--pink); }
+  #musicsw.on { background:var(--pink); } #musicsw.on svg { stroke:var(--paper); }
   #deck { position:fixed; left:calc(var(--edge) + env(safe-area-inset-left)); bottom:calc(var(--edge) + env(safe-area-inset-bottom)); box-sizing:border-box; width:min(340px, calc(100vw - 2 * var(--edge))); display:grid; grid-template-columns:56px 1fr; column-gap:12px; row-gap:4px; align-items:center; background:var(--paper); border:2px solid var(--ink); border-radius:12px; padding:10px; box-shadow:5px 5px 0 var(--pink); font:400 12px 'DM Mono',monospace; z-index:5; }
   #deck button { font:inherit; color:var(--ink); background:none; border:0; cursor:pointer; padding:0; }
   #deck .vbtn { grid-column:1; grid-row:1; width:56px; height:56px; border-radius:50%; }
@@ -229,6 +264,7 @@
   .crate .atracks { max-height:none; }
   @media (max-width:480px) { .crate .ahead { flex-direction:column; align-items:flex-start; } .crate .vinyl.big { width:120px; } }
 
+  @media (max-width:640px) { .chrome .row2 { justify-content:space-between; gap:6px; } .chrome .meta { padding:0 9px; font-size:11px; } .chrome .clock { gap:5px; padding:0 9px 0 6px; } .chrome .clock svg { width:16px; height:16px; } @media (max-width:420px) { .chrome .clock svg { display:none; } .chrome .meta, .chrome .sign { font-size:10.5px; } .chrome .clock { padding:0 7px; } .chrome #livebtn { gap:5px; padding:0 8px 0 7px; } .chrome #moodbtn { gap:4px; padding:0 7px 0 5px; } .chrome .sign { gap:5px; padding:0 8px; } .chrome .row2 { gap:5px; } } .chrome #moodbtn { padding:0 9px 0 6px; } .chrome #moodbtn img { width:16px; height:16px; } .chrome .sign { font-size:11px; padding:0 9px; } }
   .left { display:flex; align-items:center; gap:var(--gap); } .left .mark { margin-right:6px; }
   .chrome .round { width:var(--hud); padding:0; font-weight:500; }
   #snd svg { width:16px; height:16px; fill:none; stroke:var(--ink); stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
@@ -244,12 +280,13 @@
     body:has(#card:not([hidden])) #joy, body:has(#boot:not([hidden])) #joy { display:none; }
     .mark { font-size:24px; }
     .pill, .chrome button { padding:0 12px; }
-    #musicsw { padding:0 10px 0 12px; } #musicsw .sl { font-size:0; } #musicsw .sl::before { content:'♪'; font-size:14px; } #musicsw .st { display:none; }
     #prompt { left:auto; right:calc(var(--edge) + env(safe-area-inset-right)); transform:none; bottom:calc(var(--edge) + 8px + 34px + env(safe-area-inset-bottom)); font-size:15px; padding:12px 20px; min-height:48px; max-width:calc(100vw - 2 * var(--edge) - 116px - 24px); }
     #prompt kbd { display:none; }
-    .chrome .row2 { padding-left:62px; } .chrome .row2 .sign { min-width:0; overflow:hidden; } .chrome .row2 .clock { flex:0 0 auto; }   /* the mini vinyl owns the left of row 2 */
+    .chrome .row2 .sign { min-width:0; overflow:hidden; } .chrome .row2 .clock { flex:0 0 auto; }
+
     @media (max-width:380px) { :root { --gap:6px; } .mark { font-size:20px; } .left .mark { margin-right:2px; } .pill, .chrome button { padding:0 9px; font-size:11px; } #musicsw { padding:0 8px 0 10px; } .chrome .round { width:var(--hud); padding:0; } }
-    :root { --row2:50px; }
+    :root { --row2:36px; }
+    #deck.mini { top:calc(var(--ptop, 96px) - 4px) !important; bottom:auto !important; }   /* the mini vinyl sits under the pills, left; a dialog simply covers it */
     #deck, #tvp { top:calc(var(--edge) + var(--hud) + var(--gap) + env(safe-area-inset-top)); bottom:auto !important; animation:drop .25s cubic-bezier(.2,.9,.3,1); }
     #deck.mini { padding:3px; } #deck.mini .vbtn { width:44px; height:44px; }
     body:has(#deck:not(.mini):not([hidden])) .row2, body.watching .row2 { visibility:hidden; }   /* an open panel takes the second row */
@@ -400,16 +437,23 @@ window.boot = (() => {
 </script>
 <canvas id="c" role="img" aria-label="A 3D room: Naman, the musician, going through his day. Arrow keys or WASD to walk."></canvas>
 <div class="chrome">
-  <div class="left"><div class="mark"><b>n1m21n</b><span>n1m21n</span></div><button id="help" class="round" aria-label="how to get around" title="how to get around">?</button><button id="snd" class="round" aria-label="sound on" title="sound on"><svg viewBox="0 0 20 20"><path d="M3 8h3l4-3.5v11L6 12H3z"/><path class="w" d="M13 7.5a3.5 3.5 0 0 1 0 5M15.5 5a7 7 0 0 1 0 10"/><path class="m" d="M13.5 8l4 4M17.5 8l-4 4"/></svg></button></div>
-  <div class="right"><button id="view">view · 3rd person</button></div>
+  <div class="left"><div class="mark"><b>n1m21n</b><span>n1m21n</span></div><button id="help" class="round" aria-label="how to get around" title="how to get around">?</button></div>
+  <div class="right"><button id="snd" class="round" aria-label="sound on" title="sound on"><svg viewBox="0 0 20 20"><path d="M3 8h3l4-3.5v11L6 12H3z"/><path class="w" d="M13 7.5a3.5 3.5 0 0 1 0 5M15.5 5a7 7 0 0 1 0 10"/><path class="m" d="M13.5 8l4 4M17.5 8l-4 4"/></svg></button><button id="view" class="round" aria-label="camera view: 3rd person" title="camera view: 3rd person"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2.5 6.5h3l1.4-2h6.2l1.4 2h3v9.5h-15z"/><circle cx="10" cy="11" r="3"/></svg></button></div>
   <div class="row2">
-    <div class="meta clock" id="clock" role="timer" aria-label="time in India"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.2"/><path class="hh" d="M10 10V5.6"/><path class="mh" d="M10 10V3.4"/><circle class="pin" cx="10" cy="10" r="1.2"/></svg><span id="clk">--:--</span></div>
+    <div class="status">
+    <button class="meta" id="livebtn" aria-haspopup="true" aria-expanded="false" aria-controls="liveinfo" hidden><i></i><span>live</span></button>
+    <button class="meta" id="moodbtn" aria-haspopup="true" aria-expanded="false" aria-controls="mood" title="how he feels · tap for the numbers" hidden></button>
+    </div>
     <button id="where" class="sign" aria-haspopup="menu" aria-expanded="false" aria-controls="places" title="where you are · go somewhere else"><i class="dot"></i><span id="lbl">the room</span><svg class="car" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3"/></svg></button>
   </div>
 </div>
+<div class="meta clock" id="clock" role="timer" aria-label="time in India"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.2"/><path class="hh" d="M10 10V5.6"/><path class="mh" d="M10 10V3.4"/><circle class="pin" cx="10" cy="10" r="1.2"/></svg><span id="clk">--:--</span></div>
 <div id="places" role="menu" aria-label="go to" hidden></div>
 <button class="pill" id="prompt" aria-live="polite" hidden><kbd>E</kbd><span id="plabel"></span></button>
 <div id="stack" aria-live="polite"><div id="toast" hidden></div></div>
+<div id="moodfloat" aria-hidden="true"></div>
+<div id="mood" role="region" aria-label="how he feels" hidden></div>
+<div id="liveinfo" role="region" aria-label="what live means" hidden></div>
 <div id="thought" hidden><p></p><i></i><i></i></div>
 <div id="card" hidden></div>
 <div id="joy" aria-hidden="true"><i></i></div>

@@ -1,0 +1,16 @@
+{
+ "doc": "Act-to-act affinity. A chain is any sequence of acts; nothing is forbidden, each step is just more or less likely given the one before. pairs: 'a>b' multipliers on b's appeal right after a (default 1). cats: same at category level, applied when no pair is given. Applied as mult ** tune.followPull.",
+ "pairs": {
+  "loo>sleep":1.6,"loo>brush":1.8,"brush>wash":1.5,"wash>dress":1.5,"brush>dress":1.3,"wash>brush":1.2,
+  "work>loo":1.8,"work>tea":2.0,"work>bench":1.3,"tea>keys":1.6,"tea>guitar":1.6,"tea>read":1.5,"tea>window":1.3,"tea>loo":1.4,
+  "read>guitar":1.5,"read>loo":1.4,"read>tea":1.3,"guitar>loo":1.5,"keys>loo":1.5,"guitar>keys":1.3,"keys>guitar":1.3,
+  "guitar>sleep":1.4,"keys>sleep":1.4,"read>sleep":1.5,"eat>loo":1.5,"eat>brush":1.4,"cook>eat":3.0,"fridge>eat":1.5,
+  "shower>dress":2.0,"shower>sleep":1.5,"sleep>loo":1.8,"window>tea":1.4,"bench>tea":1.2,"tv>sleep":1.3,"tv>snake":1.2,
+  "work>work_through":1.3,"phone_call>tea":1.3,"greet_visitor>tea":1.5,"greet_visitor>window":1.2,
+  "art_review>tea":1.4,"art_review>window":1.3,"roam>window":1.2,"roam>tea":1.2,"snake>loo":1.2
+ },
+ "cats": {
+  "maintenance>rest":1.3,"nutrition>maintenance":1.3,"creative>creative":1.3,"intellectual>intellectual":1.3,
+  "leisure>leisure":1.2,"social>leisure":1.2,"intellectual>nutrition":1.2,"creative>nutrition":1.2,"movement>nutrition":1.2,"rest>maintenance":1.3
+ }
+}

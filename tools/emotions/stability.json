@@ -1,0 +1,223 @@
+{
+ "doc": "Instability per pillar. enabled=false (slice 1) keeps behaviour deterministic and identical to today. Each stage: lambda (0 rigid .. 1 chaotic) scales sigma0; wobble is an Ornstein-Uhlenbeck drift of the stage gain (mean-reverting, clamped); leak spreads output into neighbouring channels. sigma = sigma0*lambda*(1 + a*NE + b*CORT - c*HT).",
+ "enabled": false,
+ "sigmaMods": {
+  "NE": 0.8,
+  "CORT": 0.6,
+  "HT": -0.5
+ },
+ "stages": {
+  "drives": {
+   "lambda": 0.0,
+   "sigma0": 0.02,
+   "wobbleTau": 604800,
+   "wobbleSigma": 0.05,
+   "gain": 1.0,
+   "gainClamp": [
+    0.7,
+    1.3
+   ],
+   "leak": 0.0
+  },
+  "motives": {
+   "lambda": 0.0,
+   "sigma0": 0.06,
+   "wobbleTau": 86400,
+   "wobbleSigma": 0.1,
+   "gain": 1.0,
+   "gainClamp": [
+    0.6,
+    1.5
+   ],
+   "leak": 0.1
+  },
+  "desire": {
+   "lambda": 0.0,
+   "sigma0": 0.12,
+   "wobbleTau": 21600,
+   "wobbleSigma": 0.1,
+   "gain": 1.0,
+   "gainClamp": [
+    0.6,
+    1.5
+   ],
+   "leak": 0.0,
+   "hysteresis": 0.08,
+   "impulsiveFlip": 0.02
+  },
+  "chain": {
+   "lambda": 0.0,
+   "sigma0": 0.15,
+   "wobbleTau": 21600,
+   "wobbleSigma": 0.1,
+   "gain": 1.0,
+   "gainClamp": [
+    0.5,
+    1.5
+   ],
+   "leak": 0.0,
+   "skipOptional": 0.1,
+   "reorder": 0.04,
+   "abandon": 0.03
+  },
+  "action": {
+   "lambda": 0.0,
+   "sigma0": 0.15,
+   "wobbleTau": 10800,
+   "wobbleSigma": 0.12,
+   "gain": 1.0,
+   "gainClamp": [
+    0.6,
+    1.5
+   ],
+   "leak": 0.0
+  },
+  "outcome": {
+   "lambda": 0.0,
+   "sigma0": 0.1,
+   "wobbleTau": 10800,
+   "wobbleSigma": 0.1,
+   "gain": 1.0,
+   "gainClamp": [
+    0.6,
+    1.5
+   ],
+   "leak": 0.0
+  },
+  "ledger": {
+   "lambda": 0.0,
+   "sigma0": 0.2,
+   "wobbleTau": 10800,
+   "wobbleSigma": 0.15,
+   "gain": 1.0,
+   "gainClamp": [
+    0.5,
+    1.6
+   ],
+   "leak": 0.25,
+   "delayMax": 120,
+   "ruminate": 0.05
+  },
+  "emotion": {
+   "lambda": 0.0,
+   "sigma0": 0.08,
+   "wobbleTau": 3600,
+   "wobbleSigma": 0.08,
+   "gain": 1.0,
+   "gainClamp": [
+    0.7,
+    1.4
+   ],
+   "leak": 0.0,
+   "smoothing": 0.15
+  }
+ },
+ "coupling": {
+  "doc": "misattribution matrix: share of a trace that is felt as pressure on these motives (rows sum to <=1; entries also wobble)",
+  "stress": {
+   "hunger": 0.25,
+   "energy": 0.1
+  },
+  "loneliness": {
+   "fun": 0.25,
+   "social": 0.45
+  },
+  "boredom": {
+   "fun": 0.4,
+   "focus": 0.1
+  },
+  "frustration": {
+   "energy": 0.1,
+   "hunger": 0.1
+  },
+  "fatigueDebt": {
+   "energy": 0.5,
+   "focus": 0.15
+  }
+ },
+ "regimes": {
+  "steady": {
+   "sigmaMul": 1.0,
+   "gainMul": {
+    "desire": 1.0
+   },
+   "hours": [
+    6,
+    12
+   ]
+  },
+  "restless": {
+   "sigmaMul": 1.5,
+   "gainMul": {
+    "desire": 1.15,
+    "action": 1.1
+   },
+   "neuro": {
+    "NE": 0.1
+   },
+   "hours": [
+    2,
+    5
+   ]
+  },
+  "low": {
+   "sigmaMul": 1.2,
+   "gainMul": {
+    "desire": 0.8,
+    "action": 0.85
+   },
+   "neuro": {
+    "HT": -0.1,
+    "DA": -0.08
+   },
+   "hours": [
+    3,
+    8
+   ]
+  },
+  "inspired": {
+   "sigmaMul": 1.3,
+   "gainMul": {
+    "desire": 1.2,
+    "action": 1.15
+   },
+   "neuro": {
+    "DA": 0.1
+   },
+   "hours": [
+    2,
+    4
+   ]
+  }
+ },
+ "regimeTransitions": {
+  "steady": {
+   "steady": 0.0,
+   "restless": 0.35,
+   "low": 0.3,
+   "inspired": 0.35
+  },
+  "restless": {
+   "steady": 0.6,
+   "low": 0.25,
+   "inspired": 0.15
+  },
+  "low": {
+   "steady": 0.7,
+   "restless": 0.2,
+   "inspired": 0.1
+  },
+  "inspired": {
+   "steady": 0.7,
+   "restless": 0.2,
+   "low": 0.1
+  }
+ },
+ "regimeNote": "hours = typical dwell in IST hours; transitions row-normalised on use; regime inertia comes from dwell time.",
+ "selfModel": {
+  "expectGain": 0.15,
+  "surpriseToDA": 0.5,
+  "surpriseToNE": 0.25,
+  "negSurpriseToCORT": 0.15
+ }
+}

@@ -1,0 +1,1858 @@
+kind,name,mode,V,A,ST,E,D,energy,hunger,fun,focus,hygiene,bladder,social,DA,HT,NE,CORT,OXY,SLP,nearest
+emotion,neutral,position,0.5,0.55,0.15,0.65,0.5,,,,,,,,,,,,,,awe:0.91 calm:0.889 nostalgia:0.889
+emotion,calm,position,0.62,0.35,0.1,0.7,0.55,,,,,,,,,,,,,,relieved:0.935 content:0.934 neutral:0.889
+emotion,curious,position,0.72,0.72,0.15,0.75,0.6,,,,,,,,,,,,,,amusement:0.94 absorbed:0.933 awe:0.933
+emotion,delighted,position,0.88,0.75,0.05,0.8,0.7,,,,,,,,,,,,,,triumph:0.939 joyful:0.922 amusement:0.905
+emotion,uneasy,position,0.38,0.55,0.5,0.55,0.3,,,,,,,,,,,,,,lonely:0.873 embarrassed:0.872 restless:0.855
+emotion,dazed,position,0.45,0.3,0.35,0.33,0.3,,,,,,,,,,,,,,lonely:0.899 sad:0.87 nostalgia:0.861
+emotion,given_up,position,0.2,0.2,0.55,0.2,0.15,,,,,,,,,,,,,,sad:0.897 lonely:0.829 dazed:0.826
+emotion,sleep,position,0.5,0.05,0.05,0.08,0.5,,,,,,,,,,,,,,drowsy:0.906 dazed:0.773 bored:0.753
+emotion,alarm,position,0.3,0.95,0.9,0.7,0.25,,,,,,,,,,,,,,anxious:0.878 frustrated:0.839 uneasy:0.735
+emotion,content,position,0.75,0.35,0.05,0.7,0.6,,,,,,,,,,,,,,relieved:0.941 calm:0.934 aesthetic_appreciation:0.885
+emotion,joyful,position,0.95,0.9,0.03,0.85,0.7,,,,,,,,,,,,,,delighted:0.922 triumph:0.873 curious:0.845
+emotion,absorbed,position,0.7,0.6,0.2,0.7,0.65,,,,,,,,,,,,,,awe:0.953 amusement:0.934 curious:0.933
+emotion,bored,position,0.4,0.3,0.15,0.55,0.45,,,,,,,,,,,,,,nostalgia:0.881 neutral:0.87 calm:0.869
+emotion,restless,position,0.45,0.75,0.4,0.65,0.5,,,,,,,,,,,,,,neutral:0.855 uneasy:0.855 frustrated:0.843
+emotion,anxious,position,0.3,0.75,0.75,0.6,0.2,,,,,,,,,,,,,,frustrated:0.886 alarm:0.878 uneasy:0.844
+emotion,frustrated,position,0.28,0.75,0.7,0.6,0.45,,,,,,,,,,,,,,anxious:0.886 uneasy:0.848 restless:0.843
+emotion,sad,position,0.22,0.22,0.45,0.4,0.2,,,,,,,,,,,,,,lonely:0.921 given_up:0.897 dazed:0.87
+emotion,lonely,position,0.32,0.3,0.4,0.5,0.25,,,,,,,,,,,,,,sad:0.921 dazed:0.899 uneasy:0.873
+emotion,proud,position,0.85,0.55,0.05,0.75,0.85,,,,,,,,,,,,,,triumph:0.906 delighted:0.885 amusement:0.879
+emotion,relieved,position,0.7,0.3,0.1,0.6,0.6,,,,,,,,,,,,,,content:0.941 calm:0.935 aesthetic_appreciation:0.869
+emotion,embarrassed,position,0.28,0.42,0.62,0.55,0.1,,,,,,,,,,,,,,uneasy:0.872 lonely:0.866 sad:0.855
+emotion,drowsy,position,0.5,0.15,0.1,0.25,0.45,,,,,,,,,,,,,,sleep:0.906 dazed:0.847 bored:0.842
+emotion,awe,position,0.68,0.59,0.15,0.7,0.56,,,,,,,,,,,,,,absorbed:0.953 amusement:0.942 curious:0.933
+emotion,aesthetic_appreciation,position,0.78,0.58,0.08,0.6,0.57,,,,,,,,,,,,,,amusement:0.947 awe:0.929 absorbed:0.913
+emotion,nostalgia,position,0.58,0.46,0.2,0.45,0.43,,,,,,,,,,,,,,neutral:0.889 bored:0.881 dazed:0.861
+emotion,amusement,position,0.77,0.63,0.08,0.7,0.61,,,,,,,,,,,,,,aesthetic_appreciation:0.947 awe:0.942 curious:0.94
+emotion,triumph,position,0.8,0.67,0.1,0.85,0.73,,,,,,,,,,,,,,delighted:0.939 curious:0.912 amusement:0.911
+act,sleep,offset,,,,,,1.0,,-0.05,0.25,,,-0.04,,,,,,,
+act,bench,offset,0.006,,-0.043,,,0.45,,0.08,0.65,,,-0.06,,,,,,,sleep:0.99 drowsy:0.99 calm:0.508
+act,eat,offset,0.062,,-0.081,,,,1.0,0.48,0.38,-0.05,-0.08,,,,,,,,calm:0.866 content:0.859 proud:0.803
+act,cook,offset,0.033,,-0.044,,,-0.07,0.78,0.47,0.32,-0.1,,,,,,,,,calm:0.862 content:0.854 sleep:0.8
+act,fridge,offset,0.033,,-0.044,,,-0.02,0.62,0.38,0.36,,-0.08,,,,,,,,calm:0.862 content:0.854 sleep:0.8
+act,tea,offset,0.062,,-0.081,,,0.2,0.45,0.51,0.56,,-0.5,,,,,,,,calm:0.866 content:0.859 proud:0.803
+act,guitar,offset,0.05,,-0.047,,,-0.07,,0.81,0.17,,,-0.08,,,,,,,calm:0.936 content:0.931 proud:0.889
+act,keys,offset,0.05,,-0.047,,,-0.07,,0.82,0.17,,,-0.08,,,,,,,calm:0.936 content:0.931 proud:0.889
+act,tv,offset,-0.01,,-0.074,,,0.18,,0.56,-0.26,,,-0.06,,,,,,,sleep:0.991 drowsy:0.991 calm:0.258
+act,records,offset,0.05,,-0.047,,,,,0.74,0.22,,,,,,,,,,calm:0.936 content:0.931 proud:0.889
+act,snake,offset,-0.001,,-0.087,,,,,0.53,-0.26,,,1.0,,,,,,,sleep:1.0 drowsy:1.0 calm:0.374
+act,window,offset,0.006,,-0.043,,,0.04,,0.38,0.41,,,-0.04,,,,,,,sleep:0.99 drowsy:0.99 calm:0.508
+act,read,offset,0.002,,-0.13,,,,,0.46,0.72,,-0.03,-0.1,,,,,,,sleep:1.0 drowsy:1.0 calm:0.399
+act,work,offset,-0.06,,0.147,,,-0.21,-0.08,-0.64,-0.7,,-0.05,0.18,,,,,,,frustrated:1.0 embarrassed:0.999 uneasy:0.998
+act,shower,offset,,,,,,0.15,,0.06,-0.06,1.0,,,,,,,,,
+act,brush,offset,,,,,,,,-0.03,,0.65,,,,,,,,,
+act,wash,offset,,,,,,,,-0.04,0.15,0.58,,,,,,,,,
+act,loo,offset,,,,,,,,-0.03,-0.05,,1.0,,,,,,,,
+act,dress,offset,,,,,,,,0.35,-0.06,0.38,,0.32,,,,,,,
+act,roam,offset,0.127,0.011,-0.076,-0.002,0.004,-0.19,,0.74,0.68,-0.04,,,,,,,,,aesthetic_appreciation:0.925 amusement:0.875 awe:0.788
+act,pace,offset,0.0726,0.048,0.032,-0.012,-0.042,-0.09,,0.6,0.64,,,,,,,,,,curious:0.586 awe:0.578 aesthetic_appreciation:0.554
+act,gallery_view,offset,0.173,0.001,-0.132,0.014,0.018,-0.02,,0.82,0.55,,,-0.04,,,,,,,aesthetic_appreciation:0.88 amusement:0.854 delighted:0.765
+act,build,offset,0.03,0.0065,-0.0025,0.0165,0.0545,-0.21,-0.08,0.4,0.41,-0.15,,-0.1,,,,,,,proud:0.944 triumph:0.89 absorbed:0.887
+act,gather,offset,-0.048,,-0.015,,,-0.24,-0.08,0.21,,-0.1,,,,,,,,,bored:0.954 sad:0.433 given_up:0.334
+act,yawn,offset,0.0,-0.06,-0.0075,-0.06,-0.0075,0.02,,,,,,,,,,,,,drowsy:1.0 sleep:0.993 bored:0.857
+act,stretch,offset,-0.005,-0.012,0.021,-0.032,-0.004,0.03,,,0.03,,,,,,,,,,dazed:0.915 given_up:0.881 nostalgia:0.832
+act,sigh,offset,-0.0384,-0.063,0.1035,-0.051,-0.036,,,,,,,,,,,,,,given_up:0.935 lonely:0.935 sad:0.928
+act,fidget,offset,-0.0485,0.0185,0.1155,-0.0215,-0.0465,,,,,,,,,,,,,,anxious:0.98 uneasy:0.977 frustrated:0.946
+act,sip,offset,0.062,,-0.081,,,,0.02,0.48,0.41,,-0.1,,,,,,,,calm:0.866 content:0.859 proud:0.803
+act,glance,offset,0.007,0.0515,0.078,0.0085,-0.024,,,,,,,,,,,,,,alarm:0.952 restless:0.936 anxious:0.881
+act,wall_bump,offset,,,,,,,,,,,,,,,,,,,
+act,stumble,offset,,,,,,,,,,,,,,,,,,,
+act,run_indoors,offset,0.115,0.065,-0.041,0.0125,-0.025,-0.33,-0.18,0.64,0.48,-0.3,,,,,,,,,joyful:0.842 amusement:0.834 aesthetic_appreciation:0.811
+act,night_shower,offset,-0.026,0.044,0.09,-0.005,-0.03,,,,,1.0,,,,,,,,,alarm:0.994 anxious:0.981 frustrated:0.969
+act,nap_bench,offset,0.0,-0.08,-0.01,-0.08,-0.01,0.5,,,0.12,,,,,,,,,,drowsy:1.0 sleep:0.993 bored:0.857
+act,work_through,offset,-0.1064,0.044,0.273,-0.011,-0.036,-0.31,-0.1,-0.67,-0.18,,-0.08,-0.3,,,,,,,frustrated:0.983 anxious:0.942 alarm:0.928
+act,false_start,offset,,,,,,,,,,,,,,,,,,,
+act,phone_call,offset,-0.0053,-0.1099,0.088,-0.054,-0.073,-0.03,,0.47,0.14,,,1.0,,,,,,,lonely:0.93 dazed:0.926 sad:0.906
+act,write_letter,offset,-0.0452,-0.0411,0.0615,-0.0045,-0.0195,-0.03,,0.15,0.02,,,0.6,,,,,,,lonely:0.898 sad:0.885 embarrassed:0.873
+act,greet_visitor,offset,0.111,,-0.091,,,-0.04,,0.8,0.4,,,1.0,,,,,,,calm:0.958 content:0.953 proud:0.918
+act,answer_phone,offset,0.036,,0.015,,,,,0.43,0.12,,,1.0,,,,,,,absorbed:0.989 nostalgia:0.987 curious:0.923
+act,art_sketch,offset,0.0537,0.053,0.2267,-0.024,-0.05,-0.14,-0.04,0.64,0.28,,,-0.1,,,,,,,alarm:0.86 anxious:0.85 frustrated:0.824
+act,art_refine,offset,0.1282,0.0041,-0.0065,0.0275,0.0435,-0.14,-0.04,0.56,0.36,,,-0.1,,,,,,,awe:0.983 amusement:0.956 absorbed:0.913
+act,art_render,offset,0.078,0.0065,-0.0015,0.0065,0.0195,-0.14,-0.06,0.52,0.32,,,-0.1,,,,,,,awe:0.975 amusement:0.949 aesthetic_appreciation:0.946
+act,art_review,offset,0.1001,-0.052,-0.0275,0.013,0.0195,-0.08,,0.52,0.24,,,,,,,,,,content:0.974 relieved:0.879 calm:0.862
+event,meal_done,offset,0.045,,-0.015,,0.01,,,,,,,,0.03,0.04,,,,,aesthetic_appreciation:0.997 content:0.988 calm:0.985
+event,chain_complete,offset,0.05,,-0.05,,0.03,,,,,,,,,0.05,,-0.04,,,calm:0.935 content:0.929 delighted:0.886
+event,long_shower,offset,0.045,,-0.045,,,,,,,,,,,0.02,,,,,calm:0.925 content:0.919 proud:0.874
+event,skip_meal_ok,offset,,,,,,,,,,,,,,,,,,,
+event,skip_meal_hungry,offset,-0.04,,0.05,,,,,,,,,,,,,0.0167,,,given_up:1.0 lonely:0.999 sad:0.997
+event,short_sleep,offset,,,0.08,-0.3,,,,,,,,,,,0.0167,0.02,,,nostalgia:1.0 bored:0.966 dazed:0.956
+event,wall_bump,offset,-0.0299,0.15,0.0631,,,,,,,,,,,,0.0667,0.0133,,,restless:0.882 alarm:0.784 frustrated:0.689
+event,stumble,offset,-0.006,0.1,0.044,,,,,,,,,,,,0.05,,,,restless:0.883 alarm:0.777 frustrated:0.665
+event,startle,offset,,0.3,0.03,,,,,,,,,,,,0.1,0.01,,,curious:0.995 awe:0.995 joyful:0.909
+event,interrupted_act,offset,-0.0081,,0.0189,,-0.013,,,,,,,,-0.0133,,,0.0067,,,uneasy:0.996 embarrassed:0.995 anxious:0.99
+event,interrupted_work,offset,-0.012,,0.028,,-0.04,,,,,,,,-0.0167,,,0.01,,,dazed:0.983 embarrassed:0.965 lonely:0.961
+event,wrong_time_act,offset,,,0.01,,,,,,,,,,,,,0.0033,,,uneasy:1.0 dazed:1.0 given_up:1.0
+event,pet_snake,offset,0.2,,-0.02,,,,,,,,,,,0.03,,,0.12,,triumph:0.998 curious:0.995 awe:0.995
+event,bladder_override,offset,-0.006,,0.044,,,,,,,,,,,,,0.01,,,restless:0.998 dazed:0.994 alarm:0.992
+event,boredom_quit,offset,-0.03,-0.06,,,-0.02,,,,,,,,-0.0167,,,,,,bored:0.991 sad:0.928 lonely:0.915
+event,frustration_slam,offset,-0.015,,0.065,,,,,,,,,,,,0.0333,0.0133,,,dazed:1.0 restless:1.0 alarm:0.999
+event,nap_collapse,offset,-0.01,,,0.1,,,,,,,,,,,,0.0067,,,triumph:0.469 alarm:0.338 curious:0.321
+event,false_start,offset,-0.006,-0.012,,,,,,,,,,,,,,,,,bored:0.997 lonely:0.987 sad:0.971
+event,music_made,offset,0.054,0.012,,,0.06,,,,,,,,0.08,0.03,,,,,proud:0.988 absorbed:0.98 triumph:0.971
+event,work_block_done,offset,0.03,,-0.02,,0.08,,,,,,,,0.1,0.03,,,,,proud:0.914 triumph:0.849 delighted:0.76
+event,work_through_burnout,offset,-0.012,,0.088,-0.1,,,,,,,,,,,,0.0267,,,dazed:0.986 given_up:0.931 lonely:0.855
+event,roam_new_cell,offset,0.018,0.042,,,,,,,,,,,0.04,,,,,,joyful:0.875 curious:0.874 restless:0.796
+event,roam_done,offset,0.04,0.03,,,,,,,,,,,0.03,,0.02,,,,curious:1.0 joyful:1.0 delighted:0.987
+event,build_placed,offset,0.004,0.012,,,0.05,,,,,,,,0.1,,,,,,proud:0.74 triumph:0.691 absorbed:0.677
+event,build_failed,offset,-0.015,,0.035,,-0.03,,,,,,,,-0.02,,,0.0133,,,embarrassed:1.0 dazed:0.988 lonely:0.985
+event,build_done,offset,0.1,,,,0.2,,,,,,,,0.2,0.06,,,,,proud:0.949 triumph:0.899 absorbed:0.894
+event,visitor_arrive,offset,0.06,0.136,,,,,,,,,,,0.06,,0.1,,0.1,,joyful:0.88 curious:0.879 restless:0.79
+event,visitor_interact,offset,0.06,,,,,,,,,,,,0.03,,,,0.05,,calm:1.0 curious:1.0 delighted:1.0
+event,visitor_leave,offset,-0.03,-0.012,,,,,,,,,,,,,,,-0.04,,embarrassed:0.988 uneasy:0.928 given_up:0.886
+event,good_surprise,offset,0.056,0.118,,,,,,,,,,,0.12,,0.05,,,,joyful:0.893 curious:0.892 delighted:0.8
+event,bad_surprise,offset,-0.009,0.15,0.071,,,,,,,,,,,,0.04,0.02,,,restless:0.895 alarm:0.793 frustrated:0.684
+event,sunlight,offset,0.015,,-0.005,,,,,,,,,,,0.02,,,,,proud:0.999 delighted:0.998 content:0.998
+event,tea_break,offset,0.01,,-0.02,,,,,,,,,,,,,-0.02,,,sleep:0.894 drowsy:0.894 calm:0.757
+event,rumination,offset,-0.015,,0.02,,,,,,,,,,,,,0.0067,,,given_up:1.0 lonely:1.0 sad:0.994
+event,comfort_binge,offset,0.03,,-0.06,-0.02,-0.03,,,,,,,,0.0167,,,-0.0067,,,aesthetic_appreciation:0.501 content:0.428 drowsy:0.404
+event,pacing_release,offset,,-0.05,-0.03,,,,,,,,,,,,-0.0167,,,,content:0.997 calm:0.957 sleep:0.942
+event,night_work_done,offset,,,0.04,-0.15,0.05,,,,,,,,0.0167,,,0.0167,,,sleep:0.863 drowsy:0.838 nostalgia:0.803
+event,skipped_hygiene_bed,offset,-0.015,,0.015,,-0.02,,,,,,,,,,,,,,sad:0.992 lonely:0.99 given_up:0.983
+event,restless_roam_done,offset,0.03,0.054,-0.03,,,,,,,,,,0.01,,-0.01,,,,joyful:0.9 delighted:0.832 curious:0.826
+event,chain_broken,offset,-0.009,,0.041,,,,,,,,,,,,,0.0067,,,dazed:1.0 restless:1.0 alarm:0.999
+event,music_relief,offset,0.02,-0.05,-0.08,,,,,,,,,,,0.03,,-0.04,,,calm:0.713 content:0.711 sleep:0.671
+event,art_done,offset,0.03,,-0.02,,0.02,,,,,,,,0.04,,,,,,calm:0.975 content:0.971 delighted:0.957
+event,art_proud,offset,0.06,,-0.03,,0.08,,,,,,,,0.08,0.03,,,,,proud:0.986 triumph:0.952 delighted:0.908
+event,art_disappointed,offset,-0.094,,0.096,,,,,,,,,,-0.04,,,0.03,,,sad:1.0 given_up:0.991 lonely:0.989
+event,art_satisfied,offset,0.14,-0.08,-0.12,,0.15,,,,,,,,0.12,0.1,,-0.08,0.04,,proud:0.896 content:0.889 relieved:0.811
+event,free_chain,offset,0.03,,-0.03,,0.01,,,,,,,,,0.02,,-0.02,,,calm:0.922 content:0.919 joyful:0.865
+object,phone,offset,0.0153,-0.1099,0.0515,-0.054,-0.073,-0.03,,0.45,0.13,,,1.0,,,,,,,dazed:0.909 lonely:0.853 sad:0.829
+object,door,offset,0.111,,-0.091,,,-0.04,,0.8,0.4,,,1.0,,,,,,,calm:0.958 content:0.953 proud:0.918
+object,desk,offset,-0.0452,-0.0411,0.0615,-0.0045,-0.0195,-0.03,,0.15,0.02,,,0.6,,,,,,,lonely:0.898 sad:0.885 embarrassed:0.873
+object,keys,offset,0.05,,-0.047,,,-0.07,,0.82,0.17,,,-0.08,,,,,,,calm:0.936 content:0.931 proud:0.889
+object,guitar,offset,0.05,,-0.047,,,-0.07,,0.81,0.17,,,-0.08,,,,,,,calm:0.936 content:0.931 proud:0.889
+object,easel,offset,,,,,,,,,,,,,,,,,,,
+chain,wake_up,offset,0.05,,-0.05,,0.03,,,0.0625,0.0133,0.5367,1.0,0.32,,0.05,,-0.04,,,calm:0.935 content:0.929 delighted:0.886
+chain,shower,offset,0.05,,-0.05,,0.03,0.15,,0.205,-0.06,0.69,,0.32,,0.05,,-0.04,,,calm:0.935 content:0.929 delighted:0.886
+chain,meal,offset,0.0927,,-0.1063,,0.03,-0.045,0.8,0.3225,0.3025,0.1433,-0.08,,,0.05,,-0.04,,,calm:0.893 content:0.889 aesthetic_appreciation:0.829
+chain,sleep_routine,offset,0.052,,-0.18,,0.03,1.0,,0.062,0.2675,0.615,0.485,-0.07,,0.05,,-0.04,,,sleep:0.949 calm:0.633 content:0.624
+chain,work_block,offset,0.0327,,-0.0123,,0.08,0.01,0.185,0.0833,0.09,,-0.275,0.07,0.1,0.03,,,,,proud:0.923 triumph:0.866 absorbed:0.805
+chain,creative_evening,offset,0.108,0.012,-0.0583,,0.06,0.02,0.45,0.7133,0.3,,-0.5,-0.08,0.08,0.03,,,,,amusement:0.959 aesthetic_appreciation:0.95 proud:0.933
+chain,explore,offset,0.1423,0.0512,-0.0433,0.0068,-0.0007,-0.105,,0.78,0.615,-0.04,,-0.04,0.03,,0.02,,,,amusement:0.926 aesthetic_appreciation:0.924 awe:0.887
+chain,build_session,offset,0.1018,0.0003,0.0003,0.0003,0.235,-0.1575,-0.08,0.3367,0.2833,-0.1333,,-0.1,0.2,0.06,,,,,proud:0.894 absorbed:0.821 triumph:0.74
+chain,comfort_binge,offset,0.0583,,-0.1263,-0.02,-0.03,0.12,0.535,0.4833,0.22,,-0.29,-0.06,0.0167,,,-0.0067,,,aesthetic_appreciation:0.556 content:0.554 calm:0.508
+chain,stress_pacing,offset,0.0282,-0.039,0.0011,-0.025,-0.04,-0.0467,,0.5267,0.5633,,,-0.04,,,-0.0167,,,,nostalgia:0.812 dazed:0.733 drowsy:0.717
+chain,midnight_snack,offset,0.0583,,-0.1263,-0.02,-0.03,0.08,0.81,0.4733,0.16,-0.05,-0.08,-0.06,0.0167,,,-0.0067,,,aesthetic_appreciation:0.556 content:0.554 calm:0.508
+chain,night_work,offset,-0.0222,0.044,0.136,-0.161,0.014,-0.055,0.175,-0.08,0.19,,-0.29,-0.3,0.0167,,,0.0167,,,frustrated:0.702 uneasy:0.678 given_up:0.625
+chain,skip_hygiene_sleep,offset,-0.015,,0.015,,-0.02,1.0,,-0.05,0.25,,,-0.04,,,,,,,sad:0.992 lonely:0.99 given_up:0.983
+chain,restless_roam,offset,0.0995,0.0761,-0.0311,-0.0094,-0.0201,-0.1567,,0.6933,0.6667,-0.04,,,0.01,,-0.01,,,,joyful:0.816 aesthetic_appreciation:0.792 amusement:0.788
+chain,night_shower,offset,-0.026,0.044,0.1,-0.005,-0.03,,,0.35,-0.06,0.69,,0.32,,,,0.0033,,,alarm:0.993 anxious:0.981 frustrated:0.974
+chain,breather,offset,0.0747,,-0.1057,,0.03,0.23,0.45,0.3233,0.54,,-0.5,-0.05,,0.05,,-0.04,,,calm:0.851 content:0.845 sleep:0.796
+chain,regroup,offset,0.082,,-0.1555,,0.03,0.2,0.45,0.485,0.64,,-0.265,-0.1,,0.05,,-0.04,,,sleep:0.872 calm:0.77 content:0.762
+chain,art_session,offset,0.12,0.0029,0.0278,0.0057,0.0281,-0.125,-0.0467,0.56,0.3,,,-0.1,0.04,,,,,,awe:0.935 absorbed:0.897 aesthetic_appreciation:0.873
+chain,serene_savour,offset,0.0347,,-0.0757,,,0.23,0.45,0.3233,0.54,,-0.5,-0.05,,,,-0.02,,,sleep:0.909 drowsy:0.909 calm:0.734
+piece,aguado-op03n01,position,0.78,0.87,,0.87,,0.2,,0.84,0.17,,,,,,,,,,delighted:0.901 joyful:0.9 curious:0.884
+piece,aguado-op03n02,position,0.49,0.82,,0.85,,0.2,,0.7,0.19,,,,,,,,,,restless:0.876 curious:0.844 alarm:0.841
+piece,aguado-op03n03,position,0.8,0.87,,0.87,,0.2,,0.85,0.17,,,,,,,,,,joyful:0.911 delighted:0.907 triumph:0.884
+piece,aguado-op03n04,position,0.46,0.92,,0.89,,0.2,,0.68,0.14,,,,,,,,,,alarm:0.856 restless:0.83 curious:0.794
+piece,aguado-op03n05,position,0.73,0.67,,0.7,,0.2,,0.81,0.27,,,,,,,,,,amusement:0.967 curious:0.959 absorbed:0.956
+piece,aguado-op03n06,position,0.76,0.87,,0.87,,0.2,,0.83,0.17,,,,,,,,,,delighted:0.894 joyful:0.888 curious:0.887
+piece,aguado-op03n07,position,0.49,0.84,,0.86,,0.2,,0.7,0.18,,,,,,,,,,restless:0.866 alarm:0.843 curious:0.837
+piece,aguado-op03n08,position,0.78,0.88,,0.87,,0.2,,0.84,0.16,,,,,,,,,,joyful:0.901 delighted:0.897 curious:0.879
+piece,aguado-op11n01,position,0.73,0.5,,0.59,,0.2,,0.81,0.35,,,,,,,,,,aesthetic_appreciation:0.945 awe:0.913 absorbed:0.912
+piece,aguado-op11n02,position,0.8,0.77,,0.82,,0.2,,0.85,0.21,,,,,,,,,,delighted:0.951 triumph:0.94 curious:0.932
+piece,aguado-op11n03,position,0.79,0.75,,0.8,,0.2,,0.84,0.23,,,,,,,,,,delighted:0.948 curious:0.947 triumph:0.945
+piece,aguado-op11n04__aguado-op11n04,position,0.77,0.59,,0.68,,0.2,,0.83,0.31,,,,,,,,,,amusement:0.974 absorbed:0.958 aesthetic_appreciation:0.953
+piece,aguado-op11n05,position,0.73,0.53,,0.62,,0.2,,0.81,0.33,,,,,,,,,,aesthetic_appreciation:0.958 absorbed:0.936 awe:0.935
+piece,aguado-op11n06,position,0.79,0.72,,0.79,,0.2,,0.84,0.24,,,,,,,,,,triumph:0.955 curious:0.953 delighted:0.945
+piece,aguado-op11n07,position,0.77,0.55,,0.62,,0.2,,0.83,0.32,,,,,,,,,,aesthetic_appreciation:0.978 amusement:0.935 absorbed:0.932
+piece,aguado-op11n08,position,0.8,0.75,,0.8,,0.2,,0.85,0.23,,,,,,,,,,delighted:0.954 triumph:0.946 curious:0.943
+piece,aguado-op11n09,position,0.78,0.72,,0.79,,0.2,,0.84,0.24,,,,,,,,,,curious:0.958 triumph:0.953 delighted:0.939
+piece,aguado-op11n10,position,0.76,0.58,,0.65,,0.2,,0.83,0.31,,,,,,,,,,aesthetic_appreciation:0.969 amusement:0.959 absorbed:0.953
+piece,aguadoop4no3__aguadoop4no3,position,0.76,0.63,,0.68,,0.2,,0.83,0.29,,,,,,,,,,amusement:0.987 absorbed:0.96 awe:0.947
+piece,aguadoop4no5__aguadoop4no5,position,0.79,0.86,,0.87,,0.2,,0.84,0.17,,,,,,,,,,delighted:0.909 joyful:0.904 triumph:0.89
+piece,aminor-study,position,0.48,0.82,,0.85,,0.2,,0.69,0.19,,,,,,,,,,restless:0.876 alarm:0.845 curious:0.839
+piece,archangelsky-let-us-hasten__archangelsky-let-us-hasten,position,0.43,0.44,,0.61,,0.2,,0.67,0.38,,,,,,,,,,uneasy:0.922 neutral:0.921 bored:0.91
+piece,bm-beatles-yesterday,position,0.4,0.25,,0.3,,0.2,,0.67,0.12,,,,,,,,,,dazed:0.956 drowsy:0.913 sad:0.88
+piece,bm-blackbird-1,position,0.75,0.4,,0.4,,0.2,,0.85,0.14,,,,,,,,,,nostalgia:0.892 relieved:0.868 aesthetic_appreciation:0.844
+piece,bm-bohemian-rhapsody-1,position,0.55,0.55,,0.55,,0.2,,0.8,0.36,,,,,,,,,,neutral:0.935 nostalgia:0.92 uneasy:0.902
+piece,bm-clapton-tears-in-heaven-k,position,0.35,0.3,,0.3,,0.2,,0.8,0.29,,,,,,,,,,dazed:0.94 sad:0.895 lonely:0.883
+piece,bm-coldplay-clocks,position,0.55,0.6,,0.6,,0.2,,0.8,0.16,,,,,,,,,,neutral:0.95 awe:0.905 absorbed:0.896
+piece,bm-fields-of-gold,position,0.7,0.3,,0.35,,0.2,,0.84,0.13,,,,,,,,,,nostalgia:0.871 relieved:0.856 dazed:0.855
+piece,bm-gymnopedie-no-1,position,0.55,0.15,,0.15,,-0.05,,0.81,0.4,,,,,,,,,,drowsy:0.935 sleep:0.924 dazed:0.853
+piece,bm-hotel-california-unplugged,position,0.45,0.5,,0.5,,0.2,,0.82,0.13,,,,,,,,,,uneasy:0.943 nostalgia:0.916 neutral:0.904
+piece,bm-jasper-folks-river-flows-in-you,position,0.7,0.45,,0.45,,0.2,,0.88,0.19,,,,,,,,,,nostalgia:0.93 relieved:0.878 aesthetic_appreciation:0.876
+piece,bm-led-zeppelin-stairway-to-heaven-k,position,0.5,0.5,,0.5,,0.2,,0.68,0.13,,,,,,,,,,nostalgia:0.941 uneasy:0.92 neutral:0.909
+piece,bm-radiohead-creep,position,0.3,0.4,,0.4,,0.2,,0.8,0.12,,,,,,,,,,lonely:0.918 embarrassed:0.912 dazed:0.888
+piece,bm-yann-tiersen-une-comptine-dun-autre,position,0.45,0.3,,0.35,,0.2,,0.71,0.13,,,,,,,,,,dazed:0.988 drowsy:0.892 lonely:0.885
+piece,bwv-117a__bwv-117a,position,0.83,0.74,,0.84,,0.2,,0.86,0.23,,,,,,,,,,delighted:0.963 triumph:0.956 curious:0.917
+piece,bwv-941__bwv-941,position,0.43,0.49,,0.64,,0.2,,0.67,0.35,,,,,,,,,,neutral:0.946 uneasy:0.931 embarrassed:0.891
+piece,bwv604__bwv604,position,0.79,0.83,,0.86,,0.2,,0.84,0.19,,,,,,,,,,delighted:0.922 triumph:0.907 curious:0.902
+piece,bwv661__bwv661,position,0.5,0.92,,0.96,,0.2,,0.7,0.14,,,,,,,,,,alarm:0.81 restless:0.794 curious:0.79
+piece,bwv665__bwv665,position,0.45,0.88,,0.92,,0.2,,0.68,0.16,,,,,,,,,,alarm:0.841 restless:0.827 curious:0.794
+piece,bwv666__bwv666,position,0.51,0.93,,0.96,,0.2,,0.71,0.13,,,,,,,,,,alarm:0.807 curious:0.79 restless:0.79
+piece,bwv861_praeludium16__bwv861_praeludium16,position,0.44,0.46,,0.63,,0.2,,0.67,0.37,,,,,,,,,,neutral:0.936 uneasy:0.922 bored:0.894
+piece,clair-de-lune,position,0.6,0.25,,0.3,,-0.02,,0.9,0.4,,,,,,,,,,drowsy:0.913 dazed:0.907 nostalgia:0.851
+piece,comfortably-numb,position,0.46,0.91,,0.86,,0.2,,0.68,0.14,,,,,,,,,,alarm:0.867 restless:0.847 curious:0.804
+piece,curious-etude,position,0.74,0.57,,0.58,,0.2,,0.82,0.32,,,,,,,,,,aesthetic_appreciation:0.974 absorbed:0.925 awe:0.922
+piece,dazed-drift,position,0.36,0.36,,0.43,,-0.05,,0.63,0.42,,,,,,,,,,lonely:0.942 bored:0.919 dazed:0.915
+piece,emopia-q1_1vjy9omfa8c_5,position,0.72,0.69,,0.65,,0.2,,0.81,0.26,,,,,,,,,,amusement:0.946 curious:0.94 absorbed:0.939
+piece,emopia-q1_7yw9c7t8hq0_1,position,0.78,0.93,,0.89,,0.2,,0.84,0.13,,,,,,,,,,joyful:0.898 delighted:0.87 curious:0.85
+piece,emopia-q1__8v0mfbzoco_0,position,0.51,0.93,,0.87,,0.2,,0.71,0.13,,,,,,,,,,alarm:0.844 restless:0.832 curious:0.815
+piece,emopia-q1_ie5koh4qvjc_12,position,0.75,0.89,,0.8,,0.2,,0.82,0.15,,,,,,,,,,curious:0.896 delighted:0.89 joyful:0.881
+piece,emopia-q1_ih2krgjkxw0_3,position,0.74,0.83,,0.75,,0.2,,0.82,0.19,,,,,,,,,,curious:0.935 delighted:0.903 triumph:0.886
+piece,emopia-q1_jn9r0avp0fy_1,position,0.83,0.94,,0.88,,0.2,,0.86,0.13,,,,,,,,,,joyful:0.925 delighted:0.878 triumph:0.842
+piece,emopia-q1_jzii_cun_h8_2,position,0.42,0.94,,0.88,,0.2,,0.66,0.13,,,,,,,,,,alarm:0.875 restless:0.827 anxious:0.793
+piece,emopia-q1_k4dxali5n-k_1,position,0.83,0.94,,0.87,,0.2,,0.86,0.13,,,,,,,,,,joyful:0.926 delighted:0.88 triumph:0.843
+piece,emopia-q1_o5aip2yc01m_1,position,0.81,0.93,,0.88,,0.2,,0.85,0.13,,,,,,,,,,joyful:0.916 delighted:0.879 triumph:0.849
+piece,emopia-q1_s5b8vifsvje_1,position,0.74,0.83,,0.75,,0.2,,0.82,0.19,,,,,,,,,,curious:0.935 delighted:0.903 triumph:0.886
+piece,emopia-q1_uqrlebye6pu_0,position,0.81,0.91,,0.84,,0.2,,0.85,0.14,,,,,,,,,,joyful:0.919 delighted:0.897 curious:0.868
+piece,emopia-q1_xsn9zt-05ns_1,position,0.84,0.95,,0.9,,0.2,,0.87,0.13,,,,,,,,,,joyful:0.925 delighted:0.869 triumph:0.834
+piece,emopia-q1_y5jczq0xg4y_3,position,0.76,0.82,,0.77,,0.2,,0.83,0.19,,,,,,,,,,curious:0.937 delighted:0.918 triumph:0.899
+piece,emopia-q1_yfw_ko7df-y_2,position,0.82,0.95,,0.9,,0.2,,0.86,0.13,,,,,,,,,,joyful:0.915 delighted:0.866 triumph:0.835
+piece,emopia-q1_zmzhny9t8pg_1,position,0.43,0.9,,0.83,,0.2,,0.67,0.15,,,,,,,,,,alarm:0.89 restless:0.864 anxious:0.825
+piece,emopia-q2_--2b4d4lqhs_2,position,0.53,0.95,,0.91,,0.2,,0.72,0.13,,,,,,,,,,alarm:0.82 curious:0.805 restless:0.805
+piece,emopia-q2_1kny88w533q_2,position,0.71,0.64,,0.64,,0.2,,0.8,0.28,,,,,,,,,,absorbed:0.958 awe:0.952 amusement:0.951
+piece,emopia-q2_3_mxhss86ou_0,position,0.45,0.92,,0.86,,0.2,,0.68,0.14,,,,,,,,,,alarm:0.872 restless:0.844 anxious:0.801
+piece,emopia-q2_61ea0xrx8ge_0,position,0.44,0.93,,0.86,,0.2,,0.67,0.13,,,,,,,,,,alarm:0.877 restless:0.84 anxious:0.8
+piece,emopia-q2_anzf1qxsnry_7,position,0.44,0.74,,0.72,,0.2,,0.67,0.23,,,,,,,,,,restless:0.959 anxious:0.893 frustrated:0.884
+piece,emopia-q2_dg935ibdggo_1,position,0.42,0.9,,0.84,,0.2,,0.66,0.15,,,,,,,,,,alarm:0.89 restless:0.859 anxious:0.823
+piece,emopia-q2_f2bxxa7lpue_2,position,0.41,0.92,,0.85,,0.2,,0.66,0.14,,,,,,,,,,alarm:0.891 restless:0.847 anxious:0.814
+piece,emopia-q2_ie5koh4qvjc_13,position,0.52,0.88,,0.83,,0.2,,0.71,0.16,,,,,,,,,,restless:0.866 alarm:0.847 curious:0.845
+piece,emopia-q2_ijfxkqpaqde_1,position,0.5,0.91,,0.83,,0.2,,0.7,0.14,,,,,,,,,,alarm:0.86 restless:0.858 curious:0.826
+piece,emopia-q2_jikx3shvlxo_2,position,0.43,0.93,,0.87,,0.2,,0.67,0.13,,,,,,,,,,alarm:0.876 restless:0.835 anxious:0.798
+piece,emopia-q2_l3_tadjsqq0_0,position,0.52,0.91,,0.85,,0.2,,0.71,0.14,,,,,,,,,,restless:0.847 alarm:0.845 curious:0.831
+piece,emopia-q2_p-we4q3goku_3,position,0.7,0.89,,0.83,,0.2,,0.8,0.15,,,,,,,,,,curious:0.891 delighted:0.867 triumph:0.86
+piece,emopia-q2_q5b5unyp8bm_1,position,0.81,0.94,,0.88,,0.2,,0.85,0.13,,,,,,,,,,joyful:0.914 delighted:0.874 curious:0.844
+piece,emopia-q2_s7bo4-ncedk_0,position,0.47,0.9,,0.83,,0.2,,0.69,0.15,,,,,,,,,,alarm:0.873 restless:0.864 curious:0.816
+piece,emopia-q2_seqf5lcnj_o_3,position,0.82,0.92,,0.86,,0.2,,0.86,0.14,,,,,,,,,,joyful:0.924 delighted:0.89 curious:0.856
+piece,emopia-q3_g4rl_otffau_1,position,0.86,0.88,,0.8,,0.2,,0.88,0.16,,,,,,,,,,joyful:0.939 delighted:0.924 curious:0.874
+piece,emopia-q3_ijfxkqpaqde_0,position,0.75,0.89,,0.82,,0.2,,0.82,0.15,,,,,,,,,,curious:0.892 delighted:0.889 joyful:0.883
+piece,emopia-q3_itgnjm6skm4_0,position,0.36,0.75,,0.68,,0.2,,0.63,0.23,,,,,,,,,,restless:0.945 anxious:0.942 frustrated:0.935
+piece,emopia-q3_uj3gif77sym_8,position,0.45,0.89,,0.8,,0.2,,0.68,0.15,,,,,,,,,,alarm:0.89 restless:0.882 anxious:0.835
+piece,emopia-q3_zvd8qso7npw_2,position,0.73,0.89,,0.79,,0.2,,0.81,0.15,,,,,,,,,,curious:0.899 delighted:0.881 joyful:0.868
+piece,emopia-q4_fshawhxiits_0,position,0.39,0.72,,0.7,,0.2,,0.65,0.24,,,,,,,,,,restless:0.952 anxious:0.92 frustrated:0.912
+piece,emopia-q4_fyk_c-ticca_2,position,0.77,0.87,,0.77,,0.2,,0.83,0.17,,,,,,,,,,curious:0.908 delighted:0.904 joyful:0.885
+piece,emopia-q4_ie5koh4qvjc_21,position,0.52,0.74,,0.71,,0.2,,0.71,0.23,,,,,,,,,,restless:0.946 neutral:0.884 curious:0.882
+piece,emopia-q4_uayymrkhmyc_1,position,0.7,0.74,,0.63,,0.2,,0.8,0.23,,,,,,,,,,curious:0.929 amusement:0.915 absorbed:0.91
+piece,g-major-allegro,position,0.77,0.63,,0.67,,0.2,,0.83,0.29,,,,,,,,,,amusement:0.983 absorbed:0.953 aesthetic_appreciation:0.95
+piece,gen-001,position,0.05,0.07,,0.3,,-0.05,,0.48,0.56,,,,,,,,,,given_up:0.872 sad:0.857 lonely:0.765
+piece,gen-002,position,0.18,0.09,,0.3,,-0.05,,0.54,0.56,,,,,,,,,,given_up:0.913 sad:0.903 lonely:0.814
+piece,gen-003,position,0.25,0.07,,0.29,,-0.05,,0.57,0.56,,,,,,,,,,given_up:0.904 sad:0.891 drowsy:0.847
+piece,gen-004,position,0.35,0.05,,0.28,,-0.05,,0.63,0.57,,,,,,,,,,drowsy:0.894 given_up:0.869 sad:0.858
+piece,gen-005,position,0.45,0.06,,0.29,,-0.05,,0.68,0.57,,,,,,,,,,drowsy:0.936 sleep:0.875 dazed:0.86
+piece,gen-006,position,0.55,0.04,,0.28,,-0.05,,0.73,0.58,,,,,,,,,,drowsy:0.928 sleep:0.881 dazed:0.837
+piece,gen-007,position,0.67,0.06,,0.29,,-0.05,,0.79,0.57,,,,,,,,,,drowsy:0.887 sleep:0.844 dazed:0.811
+piece,gen-008,position,0.74,0.04,,0.27,,-0.05,,0.82,0.58,,,,,,,,,,drowsy:0.847 sleep:0.823 dazed:0.772
+piece,gen-009,position,0.82,0.04,,0.27,,-0.05,,0.86,0.58,,,,,,,,,,drowsy:0.804 sleep:0.785 relieved:0.748
+piece,gen-010,position,0.91,0.07,,0.29,,-0.05,,0.91,0.56,,,,,,,,,,drowsy:0.758 relieved:0.746 sleep:0.734
+piece,gen-011,position,0.04,0.13,,0.34,,-0.05,,0.47,0.54,,,,,,,,,,sad:0.879 given_up:0.871 lonely:0.79
+piece,gen-012,position,0.16,0.14,,0.35,,-0.05,,0.53,0.53,,,,,,,,,,sad:0.935 given_up:0.904 lonely:0.843
+piece,gen-013,position,0.25,0.12,,0.33,,-0.05,,0.57,0.54,,,,,,,,,,sad:0.927 given_up:0.907 lonely:0.851
+piece,gen-014,position,0.34,0.15,,0.35,,-0.05,,0.62,0.53,,,,,,,,,,sad:0.915 dazed:0.892 drowsy:0.891
+piece,gen-015,position,0.47,0.12,,0.33,,-0.05,,0.69,0.54,,,,,,,,,,drowsy:0.948 dazed:0.895 sleep:0.849
+piece,gen-016,position,0.58,0.13,,0.34,,-0.05,,0.74,0.54,,,,,,,,,,drowsy:0.93 dazed:0.876 sleep:0.836
+piece,gen-017,position,0.68,0.16,,0.36,,-0.05,,0.79,0.52,,,,,,,,,,drowsy:0.878 dazed:0.844 relieved:0.839
+piece,gen-018,position,0.75,0.16,,0.36,,-0.05,,0.82,0.52,,,,,,,,,,drowsy:0.842 relieved:0.837 dazed:0.808
+piece,gen-019,position,0.83,0.13,,0.34,,-0.05,,0.86,0.54,,,,,,,,,,relieved:0.806 drowsy:0.802 dazed:0.76
+piece,gen-020,position,0.96,0.19,,0.38,,-0.05,,0.93,0.51,,,,,,,,,,relieved:0.793 content:0.76 nostalgia:0.728
+piece,gen-021,position,0.04,0.24,,0.42,,-0.05,,0.47,0.48,,,,,,,,,,sad:0.895 given_up:0.841 lonely:0.828
+piece,gen-022,position,0.16,0.26,,0.43,,-0.05,,0.53,0.47,,,,,,,,,,sad:0.955 lonely:0.897 embarrassed:0.865
+piece,gen-023,position,0.26,0.24,,0.42,,-0.05,,0.58,0.48,,,,,,,,,,sad:0.972 lonely:0.933 bored:0.884
+piece,gen-024,position,0.37,0.24,,0.41,,-0.05,,0.64,0.48,,,,,,,,,,lonely:0.931 dazed:0.926 sad:0.912
+piece,gen-025,position,0.45,0.29,,0.45,,-0.05,,0.68,0.45,,,,,,,,,,bored:0.935 dazed:0.93 lonely:0.919
+piece,gen-026,position,0.59,0.28,,0.45,,-0.05,,0.74,0.46,,,,,,,,,,nostalgia:0.896 dazed:0.893 relieved:0.892
+piece,gen-027,position,0.65,0.24,,0.41,,-0.05,,0.78,0.48,,,,,,,,,,relieved:0.881 dazed:0.871 nostalgia:0.865
+piece,gen-028,position,0.79,0.22,,0.4,,-0.05,,0.84,0.49,,,,,,,,,,relieved:0.865 nostalgia:0.814 content:0.81
+piece,gen-029,position,0.84,0.25,,0.42,,-0.05,,0.87,0.47,,,,,,,,,,relieved:0.865 content:0.821 nostalgia:0.806
+piece,gen-030,position,0.96,0.23,,0.41,,-0.05,,0.93,0.48,,,,,,,,,,relieved:0.81 content:0.782 aesthetic_appreciation:0.748
+piece,gen-031,position,0.08,0.33,,0.47,,-0.05,,0.49,0.43,,,,,,,,,,sad:0.89 embarrassed:0.865 lonely:0.859
+piece,gen-032,position,0.14,0.37,,0.51,,-0.05,,0.52,0.42,,,,,,,,,,embarrassed:0.911 lonely:0.888 sad:0.883
+piece,gen-033,position,0.29,0.37,,0.51,,-0.05,,0.59,0.42,,,,,,,,,,embarrassed:0.963 lonely:0.956 bored:0.921
+piece,gen-034,position,0.33,0.33,,0.48,,-0.05,,0.61,0.43,,,,,,,,,,lonely:0.978 bored:0.94 embarrassed:0.928
+piece,gen-035,position,0.46,0.32,,0.47,,-0.05,,0.68,0.44,,,,,,,,,,bored:0.941 dazed:0.918 lonely:0.917
+piece,gen-036,position,0.56,0.38,,0.52,,-0.05,,0.73,0.41,,,,,,,,,,nostalgia:0.938 relieved:0.896 bored:0.895
+piece,gen-037,position,0.69,0.32,,0.47,,-0.05,,0.79,0.44,,,,,,,,,,relieved:0.924 nostalgia:0.897 content:0.862
+piece,gen-038,position,0.77,0.32,,0.47,,-0.05,,0.83,0.44,,,,,,,,,,relieved:0.914 content:0.866 nostalgia:0.863
+piece,gen-039,position,0.83,0.34,,0.48,,-0.05,,0.86,0.43,,,,,,,,,,relieved:0.895 content:0.865 aesthetic_appreciation:0.842
+piece,gen-040,position,0.92,0.34,,0.48,,-0.05,,0.91,0.43,,,,,,,,,,relieved:0.853 content:0.839 aesthetic_appreciation:0.825
+piece,gen-041,position,0.04,0.49,,0.59,,0.2,,0.47,0.35,,,,,,,,,,embarrassed:0.854 uneasy:0.799 lonely:0.798
+piece,gen-042,position,0.13,0.46,,0.57,,0.2,,0.52,0.37,,,,,,,,,,embarrassed:0.91 lonely:0.851 uneasy:0.846
+piece,gen-043,position,0.25,0.45,,0.56,,0.2,,0.57,0.38,,,,,,,,,,embarrassed:0.975 uneasy:0.905 lonely:0.898
+piece,gen-044,position,0.36,0.47,,0.58,,0.2,,0.63,0.36,,,,,,,,,,uneasy:0.949 embarrassed:0.943 neutral:0.899
+piece,gen-045,position,0.45,0.42,,0.54,,-0.05,,0.68,0.39,,,,,,,,,,bored:0.925 uneasy:0.915 nostalgia:0.906
+piece,gen-046,position,0.55,0.43,,0.55,,-0.05,,0.73,0.39,,,,,,,,,,nostalgia:0.937 neutral:0.905 calm:0.894
+piece,gen-047,position,0.64,0.43,,0.55,,-0.05,,0.77,0.39,,,,,,,,,,nostalgia:0.93 relieved:0.912 calm:0.901
+piece,gen-048,position,0.77,0.42,,0.54,,-0.05,,0.83,0.39,,,,,,,,,,relieved:0.913 aesthetic_appreciation:0.901 content:0.899
+piece,gen-049,position,0.87,0.42,,0.54,,-0.05,,0.89,0.39,,,,,,,,,,aesthetic_appreciation:0.888 content:0.878 relieved:0.875
+piece,gen-050,position,0.93,0.45,,0.56,,0.2,,0.92,0.38,,,,,,,,,,aesthetic_appreciation:0.883 proud:0.868 content:0.856
+piece,gen-051,position,0.04,0.53,,0.62,,0.2,,0.47,0.33,,,,,,,,,,embarrassed:0.842 frustrated:0.812 anxious:0.803
+piece,gen-052,position,0.12,0.57,,0.64,,0.2,,0.51,0.32,,,,,,,,,,embarrassed:0.863 frustrated:0.859 anxious:0.851
+piece,gen-053,position,0.24,0.56,,0.64,,0.2,,0.57,0.32,,,,,,,,,,uneasy:0.904 embarrassed:0.901 frustrated:0.886
+piece,gen-054,position,0.35,0.57,,0.65,,0.2,,0.63,0.32,,,,,,,,,,uneasy:0.939 neutral:0.913 anxious:0.888
+piece,gen-055,position,0.44,0.53,,0.62,,0.2,,0.67,0.33,,,,,,,,,,neutral:0.96 uneasy:0.946 embarrassed:0.881
+piece,gen-056,position,0.54,0.54,,0.63,,0.2,,0.72,0.33,,,,,,,,,,neutral:0.974 awe:0.905 uneasy:0.897
+piece,gen-057,position,0.64,0.54,,0.63,,0.2,,0.77,0.33,,,,,,,,,,awe:0.945 absorbed:0.936 neutral:0.918
+piece,gen-058,position,0.74,0.58,,0.65,,0.2,,0.82,0.31,,,,,,,,,,aesthetic_appreciation:0.963 absorbed:0.961 amusement:0.956
+piece,gen-059,position,0.83,0.55,,0.63,,0.2,,0.86,0.32,,,,,,,,,,aesthetic_appreciation:0.962 proud:0.93 amusement:0.93
+piece,gen-060,position,0.91,0.53,,0.62,,0.2,,0.91,0.33,,,,,,,,,,aesthetic_appreciation:0.919 proud:0.917 amusement:0.89
+piece,gen-061,position,0.06,0.64,,0.69,,0.2,,0.48,0.28,,,,,,,,,,frustrated:0.849 anxious:0.839 embarrassed:0.803
+piece,gen-062,position,0.12,0.66,,0.71,,0.2,,0.51,0.27,,,,,,,,,,frustrated:0.876 anxious:0.868 uneasy:0.813
+piece,gen-063,position,0.26,0.64,,0.69,,0.2,,0.58,0.28,,,,,,,,,,frustrated:0.917 anxious:0.915 uneasy:0.882
+piece,gen-064,position,0.37,0.67,,0.72,,0.2,,0.64,0.27,,,,,,,,,,restless:0.923 anxious:0.907 frustrated:0.902
+piece,gen-065,position,0.45,0.61,,0.68,,0.2,,0.68,0.3,,,,,,,,,,neutral:0.952 restless:0.917 uneasy:0.908
+piece,gen-066,position,0.57,0.62,,0.69,,0.2,,0.73,0.29,,,,,,,,,,neutral:0.938 awe:0.934 absorbed:0.924
+piece,gen-067,position,0.66,0.61,,0.68,,0.2,,0.78,0.3,,,,,,,,,,awe:0.98 absorbed:0.974 amusement:0.934
+piece,gen-068,position,0.71,0.68,,0.72,,0.2,,0.8,0.26,,,,,,,,,,curious:0.971 amusement:0.953 absorbed:0.952
+piece,gen-069,position,0.86,0.66,,0.71,,0.2,,0.88,0.27,,,,,,,,,,amusement:0.945 proud:0.932 delighted:0.926
+piece,gen-070,position,0.95,0.64,,0.69,,0.2,,0.93,0.28,,,,,,,,,,proud:0.915 delighted:0.902 amusement:0.896
+piece,gen-071,position,0.04,0.72,,0.75,,0.2,,0.47,0.24,,,,,,,,,,frustrated:0.836 anxious:0.826 alarm:0.798
+piece,gen-072,position,0.16,0.78,,0.79,,0.2,,0.53,0.21,,,,,,,,,,frustrated:0.869 alarm:0.863 anxious:0.863
+piece,gen-073,position,0.21,0.76,,0.78,,0.2,,0.56,0.22,,,,,,,,,,frustrated:0.888 anxious:0.884 alarm:0.87
+piece,gen-074,position,0.32,0.78,,0.79,,0.2,,0.61,0.21,,,,,,,,,,alarm:0.888 restless:0.888 anxious:0.888
+piece,gen-075,position,0.41,0.72,,0.75,,0.2,,0.66,0.24,,,,,,,,,,restless:0.935 anxious:0.891 frustrated:0.884
+piece,gen-076,position,0.53,0.78,,0.79,,0.2,,0.72,0.21,,,,,,,,,,restless:0.905 curious:0.883 awe:0.851
+piece,gen-077,position,0.68,0.73,,0.76,,0.2,,0.79,0.24,,,,,,,,,,curious:0.976 absorbed:0.917 amusement:0.915
+piece,gen-078,position,0.79,0.73,,0.76,,0.2,,0.84,0.24,,,,,,,,,,curious:0.959 delighted:0.942 triumph:0.937
+piece,gen-079,position,0.86,0.75,,0.77,,0.2,,0.88,0.23,,,,,,,,,,delighted:0.979 triumph:0.926 curious:0.917
+piece,gen-080,position,0.96,0.78,,0.79,,0.2,,0.93,0.21,,,,,,,,,,delighted:0.95 joyful:0.922 triumph:0.883
+piece,gen-081,position,0.04,0.82,,0.82,,0.2,,0.47,0.19,,,,,,,,,,alarm:0.818 frustrated:0.808 anxious:0.799
+piece,gen-082,position,0.14,0.85,,0.84,,0.2,,0.52,0.18,,,,,,,,,,alarm:0.864 frustrated:0.83 anxious:0.824
+piece,gen-083,position,0.25,0.86,,0.85,,0.2,,0.57,0.17,,,,,,,,,,alarm:0.895 frustrated:0.841 anxious:0.84
+piece,gen-084,position,0.36,0.88,,0.87,,0.2,,0.63,0.16,,,,,,,,,,alarm:0.888 restless:0.844 anxious:0.824
+piece,gen-085,position,0.45,0.83,,0.83,,0.2,,0.68,0.19,,,,,,,,,,restless:0.886 alarm:0.866 anxious:0.835
+piece,gen-086,position,0.58,0.85,,0.85,,0.2,,0.74,0.18,,,,,,,,,,curious:0.876 restless:0.851 triumph:0.836
+piece,gen-087,position,0.68,0.85,,0.85,,0.2,,0.79,0.18,,,,,,,,,,curious:0.903 triumph:0.875 delighted:0.868
+piece,gen-088,position,0.74,0.83,,0.83,,0.2,,0.82,0.19,,,,,,,,,,curious:0.921 delighted:0.905 triumph:0.901
+piece,gen-089,position,0.83,0.89,,0.87,,0.2,,0.86,0.15,,,,,,,,,,joyful:0.93 delighted:0.905 triumph:0.871
+piece,gen-090,position,0.96,0.82,,0.82,,0.2,,0.93,0.19,,,,,,,,,,joyful:0.95 delighted:0.938 triumph:0.872
+piece,gen-091,position,0.04,0.96,,0.92,,0.2,,0.47,0.12,,,,,,,,,,alarm:0.803 frustrated:0.739 anxious:0.733
+piece,gen-092,position,0.13,0.96,,0.92,,0.2,,0.52,0.12,,,,,,,,,,alarm:0.839 frustrated:0.763 anxious:0.758
+piece,gen-093,position,0.29,0.96,,0.92,,0.2,,0.59,0.12,,,,,,,,,,alarm:0.873 restless:0.782 anxious:0.779
+piece,gen-094,position,0.31,0.93,,0.9,,0.2,,0.6,0.13,,,,,,,,,,alarm:0.884 restless:0.805 anxious:0.798
+piece,gen-095,position,0.42,0.92,,0.89,,0.2,,0.66,0.14,,,,,,,,,,alarm:0.869 restless:0.829 anxious:0.794
+piece,gen-096,position,0.54,0.91,,0.89,,0.2,,0.72,0.14,,,,,,,,,,curious:0.829 restless:0.826 alarm:0.822
+piece,guitar-gen-001,position,0.05,0.06,,0.29,,-0.05,,0.48,0.57,,,,,,,,,,given_up:0.871 sad:0.851 lonely:0.759
+piece,guitar-gen-002,position,0.18,0.04,,0.27,,-0.05,,0.54,0.58,,,,,,,,,,given_up:0.899 sad:0.87 drowsy:0.804
+piece,guitar-gen-003,position,0.31,0.08,,0.3,,-0.05,,0.6,0.56,,,,,,,,,,given_up:0.89 sad:0.888 drowsy:0.88
+piece,guitar-gen-004,position,0.5,0.04,,0.27,,-0.05,,0.7,0.58,,,,,,,,,,drowsy:0.935 sleep:0.89 dazed:0.843
+piece,guitar-gen-005,position,0.69,0.08,,0.3,,-0.05,,0.79,0.56,,,,,,,,,,drowsy:0.88 sleep:0.831 dazed:0.811
+piece,guitar-gen-006,position,0.78,0.04,,0.27,,-0.05,,0.84,0.58,,,,,,,,,,drowsy:0.826 sleep:0.805 dazed:0.755
+piece,guitar-gen-007,position,0.92,0.13,,0.34,,-0.05,,0.91,0.54,,,,,,,,,,relieved:0.78 drowsy:0.752 content:0.737
+piece,guitar-gen-008,position,0.04,0.2,,0.38,,-0.05,,0.47,0.5,,,,,,,,,,sad:0.895 given_up:0.861 lonely:0.815
+piece,guitar-gen-009,position,0.21,0.16,,0.36,,-0.05,,0.56,0.52,,,,,,,,,,sad:0.958 given_up:0.905 lonely:0.869
+piece,guitar-gen-010,position,0.41,0.19,,0.38,,-0.05,,0.66,0.51,,,,,,,,,,dazed:0.927 drowsy:0.906 lonely:0.893
+piece,guitar-gen-011,position,0.47,0.19,,0.38,,-0.05,,0.69,0.51,,,,,,,,,,dazed:0.929 drowsy:0.92 bored:0.876
+piece,guitar-gen-012,position,0.63,0.23,,0.41,,-0.05,,0.77,0.48,,,,,,,,,,dazed:0.879 relieved:0.876 drowsy:0.872
+piece,guitar-gen-013,position,0.76,0.24,,0.41,,-0.05,,0.83,0.48,,,,,,,,,,relieved:0.88 nostalgia:0.834 content:0.821
+piece,guitar-gen-014,position,0.91,0.18,,0.37,,-0.05,,0.91,0.51,,,,,,,,,,relieved:0.807 content:0.767 drowsy:0.753
+piece,guitar-gen-015,position,0.04,0.34,,0.48,,-0.05,,0.47,0.43,,,,,,,,,,sad:0.867 embarrassed:0.848 lonely:0.836
+piece,guitar-gen-016,position,0.19,0.37,,0.5,,-0.05,,0.55,0.42,,,,,,,,,,embarrassed:0.934 lonely:0.915 sad:0.894
+piece,guitar-gen-017,position,0.35,0.37,,0.51,,-0.05,,0.63,0.42,,,,,,,,,,lonely:0.956 bored:0.945 embarrassed:0.945
+piece,guitar-gen-018,position,0.51,0.35,,0.49,,-0.05,,0.71,0.43,,,,,,,,,,bored:0.922 nostalgia:0.921 dazed:0.897
+piece,guitar-gen-019,position,0.67,0.41,,0.53,,-0.05,,0.79,0.4,,,,,,,,,,nostalgia:0.925 relieved:0.923 calm:0.892
+piece,guitar-gen-020,position,0.81,0.31,,0.46,,-0.05,,0.85,0.44,,,,,,,,,,relieved:0.897 content:0.855 nostalgia:0.841
+piece,guitar-gen-021,position,0.93,0.39,,0.52,,-0.05,,0.92,0.41,,,,,,,,,,aesthetic_appreciation:0.853 content:0.851 relieved:0.85
+piece,guitar-gen-022,position,0.09,0.5,,0.6,,0.2,,0.49,0.35,,,,,,,,,,embarrassed:0.878 uneasy:0.828 frustrated:0.819
+piece,guitar-gen-023,position,0.26,0.47,,0.57,,0.2,,0.58,0.36,,,,,,,,,,embarrassed:0.967 uneasy:0.916 lonely:0.888
+piece,guitar-gen-024,position,0.36,0.51,,0.6,,0.2,,0.63,0.34,,,,,,,,,,uneasy:0.961 embarrassed:0.925 neutral:0.911
+piece,guitar-gen-025,position,0.46,0.47,,0.58,,0.2,,0.68,0.36,,,,,,,,,,neutral:0.934 uneasy:0.932 nostalgia:0.898
+piece,guitar-gen-026,position,0.68,0.49,,0.59,,0.2,,0.79,0.35,,,,,,,,,,aesthetic_appreciation:0.922 awe:0.914 absorbed:0.909
+piece,guitar-gen-027,position,0.73,0.47,,0.58,,0.2,,0.81,0.36,,,,,,,,,,aesthetic_appreciation:0.929 content:0.901 relieved:0.9
+piece,guitar-gen-028,position,0.9,0.5,,0.59,,0.2,,0.9,0.35,,,,,,,,,,aesthetic_appreciation:0.917 proud:0.899 amusement:0.876
+piece,guitar-gen-029,position,0.1,0.59,,0.66,,0.2,,0.5,0.31,,,,,,,,,,frustrated:0.857 anxious:0.848 embarrassed:0.844
+piece,guitar-gen-030,position,0.27,0.7,,0.74,,0.2,,0.58,0.25,,,,,,,,,,frustrated:0.914 anxious:0.912 restless:0.88
+piece,guitar-gen-031,position,0.31,0.68,,0.72,,0.2,,0.6,0.26,,,,,,,,,,anxious:0.92 frustrated:0.918 restless:0.901
+piece,guitar-gen-032,position,0.48,0.64,,0.7,,0.2,,0.69,0.28,,,,,,,,,,neutral:0.939 restless:0.928 uneasy:0.884
+piece,guitar-gen-033,position,0.66,0.64,,0.7,,0.2,,0.78,0.28,,,,,,,,,,awe:0.969 absorbed:0.967 amusement:0.936
+piece,guitar-gen-034,position,0.76,0.6,,0.67,,0.2,,0.83,0.3,,,,,,,,,,amusement:0.975 absorbed:0.961 aesthetic_appreciation:0.956
+piece,guitar-gen-035,position,0.91,0.69,,0.73,,0.2,,0.91,0.26,,,,,,,,,,delighted:0.944 proud:0.911 amusement:0.91
+piece,guitar-gen-036,position,0.1,0.81,,0.82,,0.2,,0.5,0.19,,,,,,,,,,alarm:0.843 frustrated:0.832 anxious:0.825
+piece,guitar-gen-037,position,0.19,0.83,,0.83,,0.2,,0.55,0.19,,,,,,,,,,alarm:0.88 frustrated:0.85 anxious:0.846
+piece,guitar-gen-038,position,0.35,0.82,,0.82,,0.2,,0.63,0.19,,,,,,,,,,alarm:0.894 restless:0.879 anxious:0.864
+piece,guitar-gen-039,position,0.47,0.8,,0.81,,0.2,,0.69,0.2,,,,,,,,,,restless:0.903 alarm:0.855 curious:0.845
+piece,guitar-gen-040,position,0.6,0.75,,0.77,,0.2,,0.75,0.23,,,,,,,,,,curious:0.928 restless:0.889 awe:0.889
+piece,guitar-gen-041,position,0.78,0.83,,0.83,,0.2,,0.84,0.19,,,,,,,,,,delighted:0.924 curious:0.914 triumph:0.906
+piece,guitar-gen-042,position,0.96,0.77,,0.79,,0.2,,0.93,0.21,,,,,,,,,,delighted:0.952 joyful:0.917 triumph:0.886
+piece,guitar-gen-043,position,0.07,0.95,,0.91,,0.2,,0.48,0.13,,,,,,,,,,alarm:0.82 frustrated:0.755 anxious:0.749
+piece,guitar-gen-044,position,0.18,0.92,,0.89,,0.2,,0.54,0.14,,,,,,,,,,alarm:0.869 frustrated:0.798 anxious:0.794
+piece,guitar-gen-045,position,0.32,0.88,,0.86,,0.2,,0.61,0.16,,,,,,,,,,alarm:0.899 restless:0.839 anxious:0.832
+piece,guitar-gen-046,position,0.55,0.96,,0.92,,0.2,,0.73,0.12,,,,,,,,,,alarm:0.808 curious:0.804 restless:0.794
+piece,guitar-gen-047,position,0.66,0.96,,0.92,,0.2,,0.78,0.12,,,,,,,,,,curious:0.827 joyful:0.824 delighted:0.811
+piece,guitar-gen-048,position,0.84,0.9,,0.88,,0.2,,0.87,0.15,,,,,,,,,,joyful:0.934 delighted:0.899 triumph:0.864
+piece,happy-prelude,position,0.79,0.82,,0.78,,0.2,,0.84,0.19,,,,,,,,,,delighted:0.933 curious:0.927 triumph:0.904
+piece,imagine-lennon,position,0.71,0.69,,0.68,,0.2,,0.8,0.26,,,,,,,,,,curious:0.956 amusement:0.95 absorbed:0.946
+piece,lobe_den_herren__lobe_den_herren,position,0.74,0.44,,0.62,,0.2,,0.82,0.38,,,,,,,,,,content:0.93 relieved:0.915 aesthetic_appreciation:0.915
+piece,mit_freuden_zart__mit_freuden_zart,position,0.75,0.43,,0.61,,0.2,,0.82,0.39,,,,,,,,,,content:0.93 relieved:0.919 aesthetic_appreciation:0.911
+piece,spanish-romance,position,0.79,0.77,,0.88,,0.2,,0.84,0.21,,,,,,,,,,triumph:0.939 delighted:0.93 curious:0.91
+piece,spirit-of-god-bellow-falls__spirit-of-god-bellow-falls,position,0.78,0.47,,0.63,,0.2,,0.84,0.36,,,,,,,,,,aesthetic_appreciation:0.934 content:0.918 proud:0.907
+piece,tired-lullaby,position,0.34,0.27,,0.34,,-0.05,,0.62,0.46,,,,,,,,,,dazed:0.934 sad:0.917 lonely:0.905
+piece,uneasy-nocturne,position,0.46,0.59,,0.63,,0.2,,0.68,0.31,,,,,,,,,,neutral:0.965 uneasy:0.931 restless:0.907
+piece,youre-only-lonely,position,0.69,0.77,,0.75,,0.2,,0.79,0.21,,,,,,,,,,curious:0.966 amusement:0.903 absorbed:0.898
+hazard,startle,offset,,0.3,0.03,,,,,,,,,,,,0.1,0.01,,,curious:0.995 awe:0.995 joyful:0.909
+hazard,stumble,offset,-0.006,0.1,0.044,,,,,,,,,,,,0.05,,,,restless:0.883 alarm:0.777 frustrated:0.665
+hazard,boredom_quit,offset,-0.03,-0.06,,,-0.02,,,,,,,,-0.0167,,,,,,bored:0.991 sad:0.928 lonely:0.915
+hazard,frustration_slam,offset,-0.015,,0.065,,,,,,,,,,,,0.0333,0.0133,,,dazed:1.0 restless:1.0 alarm:0.999
+hazard,nap_collapse,offset,-0.01,,,0.1,,,,,,,,,,,,0.0067,,,triumph:0.469 alarm:0.338 curious:0.321
+hazard,bladder_override,offset,-0.006,,0.044,,,,,,,,,,,,,0.01,,,restless:0.998 dazed:0.994 alarm:0.992
+hazard,false_start,offset,-0.006,-0.012,,,,,,,,,,,,,,,,,bored:0.997 lonely:0.987 sad:0.971
+hazard,knock,offset,0.06,0.136,,,,,,,,,,,0.06,,0.1,,0.1,,joyful:0.88 curious:0.879 restless:0.79
+hazard,phone_ring,offset,0.06,0.136,,,,,,,,,,,0.06,,0.1,,0.1,,joyful:0.88 curious:0.879 restless:0.79
+param,Slideshow.transitionDuration,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Slideshow.width,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Slideshow.height,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,Slideshow,offset,,0.1,,0.3,0.7,,,,,,,,,,,,,,proud:0.984 absorbed:0.981 triumph:0.926
+param,Shape.width,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Shape.height,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Shape.sizeX,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Shape.sizeY,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Shape.posX,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Shape.posY,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Shape.fillOpacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Shape.strokeWidth,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Shape.feather,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Shape.bgOpacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Shape,offset,0.4,0.1,-0.5,0.3857,0.6143,,,,,,,,,,,,,,proud:0.886 triumph:0.863 delighted:0.817
+param,Circle.width,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Circle.height,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Circle.sizeX,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Circle.sizeY,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Circle.posX,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Circle.posY,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Circle.fillOpacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Circle.strokeWidth,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Circle.feather,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Circle.bgOpacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Circle,offset,0.4,0.1,-0.5,0.3857,0.6143,,,,,,,,,,,,,,proud:0.886 triumph:0.863 delighted:0.817
+param,Ellipse.width,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Ellipse.height,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Ellipse.sizeX,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Ellipse.sizeY,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Ellipse.posX,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Ellipse.posY,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Ellipse.fillOpacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Ellipse.strokeWidth,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Ellipse.feather,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Ellipse.bgOpacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Ellipse,offset,0.4,0.1,-0.5,0.3857,0.6143,,,,,,,,,,,,,,proud:0.886 triumph:0.863 delighted:0.817
+param,Rectangle.width,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Rectangle.height,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Rectangle.sizeX,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Rectangle.sizeY,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Rectangle.posX,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Rectangle.posY,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Rectangle.fillOpacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Rectangle.strokeWidth,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Rectangle.feather,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Rectangle.bgOpacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Rectangle,offset,0.4,0.1,-0.5,0.3857,0.6143,,,,,,,,,,,,,,proud:0.886 triumph:0.863 delighted:0.817
+param,Rounded Rect.width,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Rounded Rect.height,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Rounded Rect.sizeX,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Rounded Rect.sizeY,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Rounded Rect.cornerRadius,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Rounded Rect.posX,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Rounded Rect.posY,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Rounded Rect.fillOpacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Rounded Rect.strokeWidth,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Rounded Rect.feather,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Rounded Rect.bgOpacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Rounded Rect,offset,0.4,0.1,-0.5,0.375,0.625,,,,,,,,,,,,,,proud:0.889 triumph:0.862 delighted:0.816
+param,Triangle.width,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Triangle.height,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Triangle.sizeX,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Triangle.sizeY,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Triangle.posX,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Triangle.posY,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Triangle.fillOpacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Triangle.strokeWidth,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Triangle.feather,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Triangle.bgOpacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Triangle,offset,0.4,0.1,-0.5,0.3857,0.6143,,,,,,,,,,,,,,proud:0.886 triumph:0.863 delighted:0.817
+param,Polygon.width,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Polygon.height,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Polygon.sizeX,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Polygon.sizeY,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Polygon.posX,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Polygon.posY,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Polygon.fillOpacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Polygon.strokeWidth,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Polygon.feather,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Polygon.bgOpacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Polygon,offset,0.4,0.1,-0.5,0.3857,0.6143,,,,,,,,,,,,,,proud:0.886 triumph:0.863 delighted:0.817
+param,Star.width,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Star.height,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Star.sizeX,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Star.sizeY,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Star.posX,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Star.posY,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Star.fillOpacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Star.strokeWidth,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Star.feather,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Star.bgOpacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Star,offset,0.4,0.1,-0.5,0.3857,0.6143,,,,,,,,,,,,,,proud:0.886 triumph:0.863 delighted:0.817
+param,Ring.width,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Ring.height,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Ring.sizeX,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Ring.sizeY,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Ring.cornerRadius,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Ring.posX,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Ring.posY,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Ring.fillOpacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Ring.strokeWidth,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Ring.feather,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Ring.bgOpacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Ring,offset,0.4,0.1,-0.5,0.375,0.625,,,,,,,,,,,,,,proud:0.889 triumph:0.862 delighted:0.816
+param,Cross.width,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Cross.height,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Cross.sizeX,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Cross.sizeY,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Cross.posX,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Cross.posY,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Cross.fillOpacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Cross.strokeWidth,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Cross.feather,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Cross.bgOpacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Cross,offset,0.4,0.1,-0.5,0.3857,0.6143,,,,,,,,,,,,,,proud:0.886 triumph:0.863 delighted:0.817
+param,Line.width,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Line.height,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Line.sizeX,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Line.sizeY,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Line.cornerRadius,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Line.posX,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Line.posY,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Line.fillOpacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Line.strokeWidth,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Line.feather,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Line.bgOpacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Line,offset,0.4,0.1,-0.5,0.375,0.625,,,,,,,,,,,,,,proud:0.889 triumph:0.862 delighted:0.816
+param,Hexagon.width,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Hexagon.height,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Hexagon.sizeX,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Hexagon.sizeY,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Hexagon.posX,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Hexagon.posY,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Hexagon.fillOpacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Hexagon.strokeWidth,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Hexagon.feather,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Hexagon.bgOpacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Hexagon,offset,0.4,0.1,-0.5,0.3857,0.6143,,,,,,,,,,,,,,proud:0.886 triumph:0.863 delighted:0.817
+param,Heart.width,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Heart.height,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Heart.sizeX,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Heart.sizeY,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Heart.posX,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Heart.posY,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Heart.fillOpacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Heart.strokeWidth,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Heart.feather,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Heart.bgOpacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Heart,offset,0.4,0.1,-0.5,0.3857,0.6143,,,,,,,,,,,,,,proud:0.886 triumph:0.863 delighted:0.817
+param,Arrow.width,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Arrow.height,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Arrow.sizeX,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Arrow.sizeY,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Arrow.posX,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Arrow.posY,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Arrow.fillOpacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Arrow.strokeWidth,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Arrow.feather,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Arrow.bgOpacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Arrow,offset,0.4,0.1,-0.5,0.3857,0.6143,,,,,,,,,,,,,,proud:0.886 triumph:0.863 delighted:0.817
+param,Crescent.width,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Crescent.height,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Crescent.sizeX,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Crescent.sizeY,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Crescent.posX,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Crescent.posY,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Crescent.fillOpacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Crescent.strokeWidth,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Crescent.feather,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Crescent.bgOpacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Crescent,offset,0.4,0.1,-0.5,0.3857,0.6143,,,,,,,,,,,,,,proud:0.886 triumph:0.863 delighted:0.817
+param,Gear.width,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Gear.height,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Gear.sizeX,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Gear.sizeY,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Gear.posX,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Gear.posY,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Gear.fillOpacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Gear.strokeWidth,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Gear.feather,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Gear.bgOpacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Gear,offset,0.4,0.1,-0.5,0.3857,0.6143,,,,,,,,,,,,,,proud:0.886 triumph:0.863 delighted:0.817
+param,Superellipse.width,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Superellipse.height,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Superellipse.sizeX,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Superellipse.sizeY,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Superellipse.posX,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Superellipse.posY,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Superellipse.fillOpacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Superellipse.strokeWidth,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Superellipse.feather,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Superellipse.bgOpacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Superellipse,offset,0.4,0.1,-0.5,0.3857,0.6143,,,,,,,,,,,,,,proud:0.886 triumph:0.863 delighted:0.817
+param,Pie.width,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Pie.height,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Pie.sizeX,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Pie.sizeY,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Pie.posX,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Pie.posY,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Pie.fillOpacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Pie.strokeWidth,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Pie.feather,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Pie.bgOpacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Pie,offset,0.4,0.1,-0.5,0.3857,0.6143,,,,,,,,,,,,,,proud:0.886 triumph:0.863 delighted:0.817
+param,Teardrop.width,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Teardrop.height,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Teardrop.sizeX,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Teardrop.sizeY,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Teardrop.posX,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Teardrop.posY,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Teardrop.fillOpacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Teardrop.strokeWidth,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Teardrop.feather,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Teardrop.bgOpacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Teardrop,offset,0.4,0.1,-0.5,0.3857,0.6143,,,,,,,,,,,,,,proud:0.886 triumph:0.863 delighted:0.817
+param,Chevron.width,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Chevron.height,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Chevron.sizeX,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Chevron.sizeY,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Chevron.cornerRadius,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Chevron.posX,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Chevron.posY,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Chevron.fillOpacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Chevron.strokeWidth,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Chevron.feather,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Chevron.bgOpacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Chevron,offset,0.4,0.1,-0.5,0.375,0.625,,,,,,,,,,,,,,proud:0.889 triumph:0.862 delighted:0.816
+param,Blob.width,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Blob.height,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Blob.sizeX,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Blob.sizeY,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Blob.posX,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Blob.posY,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Blob.fillOpacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Blob.strokeWidth,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Blob.feather,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Blob.bgOpacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Blob,offset,0.4,0.1,-0.5,0.3857,0.6143,,,,,,,,,,,,,,proud:0.886 triumph:0.863 delighted:0.817
+param,Formula.width,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Formula.height,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,Formula,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,FieldPixel.width,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,FieldPixel.height,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,FieldPixel.exposeAuxTexture,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+node,FieldPixel,offset,,0.1,,0.3,0.7,,,,,,,,,,,,,,proud:0.984 absorbed:0.981 triumph:0.926
+param,Sketch.width,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Sketch.height,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,Sketch,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Text.fontSize,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Text.posX,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Text.posY,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Text.scaleX,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Text.scaleY,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Text.outlineWidth,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Text.width,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Text.height,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,Text,offset,,0.1,,0.3,0.7,,,,,,,,,,,,,,proud:0.984 absorbed:0.981 triumph:0.926
+param,Video.speed,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+node,Video,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Noise.noiseType,offset,,0.4,0.8,,,,,,,,,,,,,,,,alarm:1.0 frustrated:0.993 anxious:0.99
+param,Noise.width,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Noise.height,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Noise.scale,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Noise.octaves,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Noise.gain,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Noise.warp,offset,,0.4,0.8,,,,,,,,,,,,,,,,alarm:1.0 frustrated:0.993 anxious:0.99
+param,Noise.speed,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Noise.contrast,offset,,,0.5,,0.5,,,,,,,,,,,,,,absorbed:0.894 curious:0.707 restless:0.707
+param,Noise.brightness,offset,0.7,,,0.3,,,,,,,,,,,,,,,calm:1.0 curious:1.0 delighted:1.0
+param,Noise.seed,offset,,0.4,0.8,,,,,,,,,,,,,,,,alarm:1.0 frustrated:0.993 anxious:0.99
+param,Noise.colorNoise,offset,,0.4,0.8,,,,,,,,,,,,,,,,alarm:1.0 frustrated:0.993 anxious:0.99
+node,Noise,offset,0.45,0.4571,0.74,0.3667,0.6,,,,,,,,,,,,,,absorbed:0.809 curious:0.727 triumph:0.676
+param,Texture.width,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Texture.height,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Texture.scale,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Texture.seed,offset,,0.4,0.8,,,,,,,,,,,,,,,,alarm:1.0 frustrated:0.993 anxious:0.99
+param,Texture.contrast,offset,,,0.5,,0.5,,,,,,,,,,,,,,absorbed:0.894 curious:0.707 restless:0.707
+param,Texture.brightness,offset,0.7,,,0.3,,,,,,,,,,,,,,,calm:1.0 curious:1.0 delighted:1.0
+param,Texture.voronoiRandomness,offset,,0.4,0.8,,,,,,,,,,,,,,,,alarm:1.0 frustrated:0.993 anxious:0.99
+param,Texture.voronoiCellColor,offset,0.4,0.3,,,,,,,,,,,,,,,,,curious:1.0 joyful:1.0 delighted:0.987
+node,Texture,offset,0.55,0.3667,0.7,0.3,0.65,,,,,,,,,,,,,,absorbed:0.869 curious:0.744 triumph:0.715
+param,Ramp.repeat,offset,0.2,,-0.4,,0.2,,,,,,,,,,,,,,sleep:0.816 calm:0.791 content:0.782
+param,Ramp.width,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Ramp.height,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Ramp.centerX,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Ramp.centerY,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Ramp.scale,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Ramp.offset,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Ramp.gamma,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Ramp.stopCount,offset,0.2,,-0.4,,0.2,,,,,,,,,,,,,,sleep:0.816 calm:0.791 content:0.782
+node,Ramp,offset,0.2,0.15,-0.4,0.375,0.4833,,,,,,,,,,,,,,triumph:0.823 proud:0.796 delighted:0.763
+param,Draw.playSpeed,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Draw.brushSize,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Draw.opacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Draw.hardness,offset,,,0.5,,0.5,,,,,,,,,,,,,,absorbed:0.894 curious:0.707 restless:0.707
+param,Draw.jitter,offset,,0.4,0.8,,,,,,,,,,,,,,,,alarm:1.0 frustrated:0.993 anxious:0.99
+param,Draw.canvasWidth,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Draw.canvasHeight,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,Draw,offset,,0.5,0.65,0.38,0.6,,,,,,,,,,,,,,absorbed:0.886 awe:0.788 curious:0.763
+param,Audio Texture.windowSizeIndex,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Audio Texture.gain,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Audio Texture.smoothing,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+node,Audio Texture,offset,0.4,0.0,-0.5,0.45,0.55,,,,,,,,,,,,,,proud:0.868 triumph:0.845 delighted:0.783
+param,Projection.width,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Projection.height,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,Projection,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Gain.gainDb,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Gain,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Mixer.gain0,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Mixer.gain1,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Mixer.gain2,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Mixer.gain3,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Mixer.gain4,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Mixer.gain5,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Mixer.gain6,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Mixer.gain7,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Mixer,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Spatial Mixer.width0,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Spatial Mixer.gain0,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Spatial Mixer.width1,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Spatial Mixer.gain1,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Spatial Mixer.width2,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Spatial Mixer.gain2,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Spatial Mixer.width3,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Spatial Mixer.gain3,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Spatial Mixer.width4,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Spatial Mixer.gain4,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Spatial Mixer.width5,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Spatial Mixer.gain5,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Spatial Mixer.width6,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Spatial Mixer.gain6,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Spatial Mixer.width7,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Spatial Mixer.gain7,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Spatial Mixer.width8,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Spatial Mixer.gain8,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Spatial Mixer.width9,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Spatial Mixer.gain9,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Spatial Mixer.width10,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Spatial Mixer.gain10,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Spatial Mixer.width11,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Spatial Mixer.gain11,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Spatial Mixer.bassHz,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+node,Spatial Mixer,offset,,0.3385,,0.448,0.55,,,,,,,,,,,,,,awe:1.0 triumph:0.997 delighted:0.973
+param,MIDI Out.offsetMs,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,MIDI Out.cc1Val,offset,0.7,,,0.3,,,,,,,,,,,,,,,calm:1.0 curious:1.0 delighted:1.0
+param,MIDI Out.cc2Val,offset,0.7,,,0.3,,,,,,,,,,,,,,,calm:1.0 curious:1.0 delighted:1.0
+param,MIDI Out.cc3Val,offset,0.7,,,0.3,,,,,,,,,,,,,,,calm:1.0 curious:1.0 delighted:1.0
+param,MIDI Out.cc4Val,offset,0.7,,,0.3,,,,,,,,,,,,,,,calm:1.0 curious:1.0 delighted:1.0
+node,MIDI Out,offset,0.7,0.1,,0.3,,,,,,,,,,,,,,,awe:0.988 proud:0.984 absorbed:0.982
+param,Torus Knot.knotQ,offset,,,0.5,,0.5,,,,,,,,,,,,,,absorbed:0.894 curious:0.707 restless:0.707
+node,Torus Knot,offset,,,0.5,,0.5,,,,,,,,,,,,,,absorbed:0.894 curious:0.707 restless:0.707
+param,Tube.tube,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,Tube,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Helix.knotQ,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,Helix,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Rounded Cube.tube,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,Rounded Cube,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Mobius Strip.tube,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,Mobius Strip,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Gear 3D.tube,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Gear 3D.superN2,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Gear 3D,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Star 3D.tube,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Star 3D,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Disc.discInner,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,Disc,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Arrow 3D.tube,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Arrow 3D.superN2,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,Arrow 3D,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Model 3D.normalize,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Model 3D.recenter,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+node,Model 3D,offset,,0.1,,0.3,0.7,,,,,,,,,,,,,,proud:0.984 absorbed:0.981 triumph:0.926
+param,Text 3D.depth,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Text 3D,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Ocean.size,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Ocean.amplitude,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Ocean.wavelength,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Ocean.octaves,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Ocean.speed,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+node,Ocean,offset,0.2,0.5333,,0.4,0.6,,,,,,,,,,,,,,triumph:0.838 curious:0.819 joyful:0.815
+param,Material.roughness,offset,,0.4,0.8,,,,,,,,,,,,,,,,alarm:1.0 frustrated:0.993 anxious:0.99
+param,Material.opacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Material.emission,offset,0.7,,,0.3,,,,,,,,,,,,,,,calm:1.0 curious:1.0 delighted:1.0
+param,Material.textureAlpha,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Material,offset,0.7,0.3333,0.8,0.5,0.4,,,,,,,,,,,,,,absorbed:0.829 curious:0.75 awe:0.732
+param,Displacement.strength,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Displacement.midlevel,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Displacement,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Audio Displacement.strength,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Audio Displacement.frequency,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Audio Displacement.speed,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Audio Displacement.damping,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Audio Displacement.decay,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Audio Displacement.midlevel,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Audio Displacement,offset,0.4,0.3667,-0.5,0.52,0.4,,,,,,,,,,,,,,triumph:0.872 delighted:0.866 joyful:0.864
+param,Audio Ribbon.width,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Audio Ribbon.heightScale,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Audio Ribbon.segments,offset,0.2,,-0.4,,0.2,,,,,,,,,,,,,,sleep:0.816 calm:0.791 content:0.782
+param,Audio Ribbon.gain,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Audio Ribbon.smoothing,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Audio Ribbon.posX,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Audio Ribbon.posY,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Audio Ribbon.posZ,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Audio Ribbon.scaleX,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Audio Ribbon.scaleY,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Audio Ribbon.scaleZ,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Audio Ribbon.uniformScale,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Audio Ribbon.roughness,offset,,0.4,0.8,,,,,,,,,,,,,,,,alarm:1.0 frustrated:0.993 anxious:0.99
+param,Audio Ribbon.opacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Audio Ribbon.emission,offset,0.7,,,0.3,,,,,,,,,,,,,,,calm:1.0 curious:1.0 delighted:1.0
+node,Audio Ribbon,offset,0.4333,0.1429,-0.0333,0.3667,0.5778,,,,,,,,,,,,,,triumph:0.965 proud:0.93 absorbed:0.905
+param,Mapping.translateX,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Mapping.translateY,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Mapping.scaleX,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Mapping.scaleY,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,Mapping,offset,,0.1,,0.3,0.7,,,,,,,,,,,,,,proud:0.984 absorbed:0.981 triumph:0.926
+param,Particle System.emitRate,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Particle System.emitRadius,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Particle System.lifetime,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Particle System.lifetimeRandom,offset,,0.4,0.8,,,,,,,,,,,,,,,,alarm:1.0 frustrated:0.993 anxious:0.99
+param,Particle System.initialSpeed,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Particle System.speedRandom,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Particle System.spread,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Particle System.turbulence,offset,,0.4,0.8,,,,,,,,,,,,,,,,alarm:1.0 frustrated:0.993 anxious:0.99
+param,Particle System.turbulenceScale,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Particle System.startSize,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Particle System.endSize,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Particle System.seed,offset,,0.4,0.8,,,,,,,,,,,,,,,,alarm:1.0 frustrated:0.993 anxious:0.99
+node,Particle System,offset,,0.5286,0.8,0.3375,0.7,,,,,,,,,,,,,,absorbed:0.881 restless:0.774 awe:0.739
+param,Cloth.damping,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Cloth.windTurbulence,offset,,0.4,0.8,,,,,,,,,,,,,,,,alarm:1.0 frustrated:0.993 anxious:0.99
+node,Cloth,offset,,0.35,0.8,0.6,0.4,,,,,,,,,,,,,,absorbed:0.752 restless:0.745 frustrated:0.689
+param,Rigid Bodies.linearDamping,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Rigid Bodies.angularDamping,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Rigid Bodies.groundHeight,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Rigid Bodies.spinX,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Rigid Bodies.spinY,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Rigid Bodies.spinZ,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Rigid Bodies.kickTime,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+node,Rigid Bodies,offset,,0.5167,,0.45,0.5,,,,,,,,,,,,,,delighted:0.997 awe:0.983 curious:0.975
+param,L-System.length,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,L-System.lengthScale,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,L-System.radius,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,L-System.radiusScale,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,L-System,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Metaballs.ballCount,offset,0.2,,-0.4,,0.2,,,,,,,,,,,,,,sleep:0.816 calm:0.791 content:0.782
+param,Metaballs.threshold,offset,,,0.5,,0.5,,,,,,,,,,,,,,absorbed:0.894 curious:0.707 restless:0.707
+param,Metaballs.radius,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Metaballs.spread,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Metaballs.spin,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+node,Metaballs,offset,0.2,0.8,0.05,0.3333,0.525,,,,,,,,,,,,,,curious:0.824 joyful:0.8 triumph:0.738
+param,Resynthesize 3D.wJitter,offset,,0.4,0.8,,,,,,,,,,,,,,,,alarm:1.0 frustrated:0.993 anxious:0.99
+param,Resynthesize 3D.wSmooth,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Resynthesize 3D.chaos,offset,,0.4,0.8,,,,,,,,,,,,,,,,alarm:1.0 frustrated:0.993 anxious:0.99
+param,Resynthesize 3D.seed,offset,,0.4,0.8,,,,,,,,,,,,,,,,alarm:1.0 frustrated:0.993 anxious:0.99
+node,Resynthesize 3D,offset,0.4,0.225,0.475,,,,,,,,,,,,,,,,absorbed:0.821 curious:0.688 restless:0.672
+param,Image to Points.width,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Image to Points.height,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Image to Points.depthSource,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Image to Points.depthScale,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Image to Points.pointSize,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Image to Points.threshold,offset,,,0.5,,0.5,,,,,,,,,,,,,,absorbed:0.894 curious:0.707 restless:0.707
+param,Image to Points.useImageColor,offset,0.4,0.3,,,,,,,,,,,,,,,,,curious:1.0 joyful:1.0 delighted:0.987
+param,Image to Points.sizeFromLuma,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,Image to Points,offset,0.4,0.3,0.5,0.4,0.5857,,,,,,,,,,,,,,absorbed:0.86 triumph:0.772 curious:0.76
+param,Depth Projection.depthSource,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Depth Projection.colorMode,offset,0.4,0.3,,,,,,,,,,,,,,,,,curious:1.0 joyful:1.0 delighted:0.987
+param,Depth Projection.focalScale,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Depth Projection.principalPointX,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Depth Projection.principalPointY,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Depth Projection.nearDepth,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Depth Projection.farDepth,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Depth Projection.depthScale,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Depth Projection.depthCurve,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Depth Projection.clipNear,offset,,,0.5,,0.5,,,,,,,,,,,,,,absorbed:0.894 curious:0.707 restless:0.707
+param,Depth Projection.clipFar,offset,,,0.5,,0.5,,,,,,,,,,,,,,absorbed:0.894 curious:0.707 restless:0.707
+param,Depth Projection.pointSize,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Depth Projection.roughness,offset,,0.4,0.8,,,,,,,,,,,,,,,,alarm:1.0 frustrated:0.993 anxious:0.99
+node,Depth Projection,offset,0.4,0.2667,0.6,0.5143,0.4889,,,,,,,,,,,,,,absorbed:0.803 triumph:0.721 curious:0.716
+param,Curve.pointCount,offset,0.2,,-0.4,,0.2,,,,,,,,,,,,,,sleep:0.816 calm:0.791 content:0.782
+param,Curve.segments,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Curve.spread,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Curve.height,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Curve.radius,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,Curve,offset,0.3,-0.3,-0.45,0.3,0.575,,,,,,,,,,,,,,proud:0.826 content:0.797 calm:0.728
+param,Mesh to Points.mode,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Mesh to Points.pointSize,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,Mesh to Points,offset,,0.3,,0.45,0.55,,,,,,,,,,,,,,triumph:0.999 awe:0.997 delighted:0.962
+param,Mesh to Edges.mode,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Mesh to Edges.pointSize,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,Mesh to Edges,offset,,0.3,,0.45,0.55,,,,,,,,,,,,,,triumph:0.999 awe:0.997 delighted:0.962
+param,Mesh to Faces.mode,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Mesh to Faces.pointSize,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,Mesh to Faces,offset,,0.3,,0.45,0.55,,,,,,,,,,,,,,triumph:0.999 awe:0.997 delighted:0.962
+param,Transform.offsetX,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Transform.offsetY,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Transform.offsetZ,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Transform.scaleX,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Transform.scaleY,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Transform.scaleZ,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Transform.pivotX,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Transform.pivotY,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Transform.pivotZ,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Transform.spin,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+node,Transform,offset,,0.2,,0.325,0.7,,,,,,,,,,,,,,absorbed:0.993 triumph:0.957 proud:0.956
+param,Array.count,offset,0.2,,-0.4,,0.2,,,,,,,,,,,,,,sleep:0.816 calm:0.791 content:0.782
+param,Array.offsetX,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Array.offsetY,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Array.offsetZ,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Array.scaleStep,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,Array,offset,0.2,0.1,-0.4,0.3,0.45,,,,,,,,,,,,,,proud:0.815 triumph:0.806 delighted:0.754
+param,Subdivide.levels,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Subdivide.smooth,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+node,Subdivide,offset,0.4,0.0,-0.5,0.6,0.4,,,,,,,,,,,,,,triumph:0.828 proud:0.786 delighted:0.761
+param,Solidify.thickness,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Solidify.keepOriginal,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+node,Solidify,offset,,0.1,,0.3,0.7,,,,,,,,,,,,,,proud:0.984 absorbed:0.981 triumph:0.926
+param,Extrude.thickness,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,Extrude,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Wireframe.thickness,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,Wireframe,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Triangulate.amount,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Triangulate,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Explode.amount,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Explode.seed,offset,,0.4,0.8,,,,,,,,,,,,,,,,alarm:1.0 frustrated:0.993 anxious:0.99
+node,Explode,offset,,0.35,0.8,0.6,0.4,,,,,,,,,,,,,,absorbed:0.752 restless:0.745 frustrated:0.689
+param,Twist.amount,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Twist,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Smooth.amount,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Smooth.levels,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Smooth,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Mirror.keepOriginal,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Mirror.mirrorOffset,offset,0.2,,-0.4,,0.2,,,,,,,,,,,,,,sleep:0.816 calm:0.791 content:0.782
+node,Mirror,offset,0.2,0.1,-0.4,,0.2,,,,,,,,,,,,,,delighted:0.727 amusement:0.722 proud:0.713
+param,Screw.screwSteps,offset,0.2,,-0.4,,0.2,,,,,,,,,,,,,,sleep:0.816 calm:0.791 content:0.782
+param,Screw.radiusOffset,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,Screw,offset,0.2,,-0.4,0.3,0.45,,,,,,,,,,,,,,proud:0.823 triumph:0.806 calm:0.785
+param,Transform Selected.offsetX,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Transform Selected.offsetY,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Transform Selected.offsetZ,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Transform Selected.scaleX,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Transform Selected.scaleY,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Transform Selected.scaleZ,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Transform Selected.spin,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Transform Selected.normalAmount,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Transform Selected,offset,,0.28,,0.38,0.625,,,,,,,,,,,,,,triumph:0.988 awe:0.985 absorbed:0.976
+param,Extrude Selected.thickness,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,Extrude Selected,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Bevel.bevelWidth,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Bevel.bevelSegments,offset,0.2,,-0.4,,0.2,,,,,,,,,,,,,,sleep:0.816 calm:0.791 content:0.782
+param,Bevel.bevelAngle,offset,,,0.5,,0.5,,,,,,,,,,,,,,absorbed:0.894 curious:0.707 restless:0.707
+node,Bevel,offset,0.2,,0.05,0.3,0.4667,,,,,,,,,,,,,,triumph:0.882 proud:0.848 absorbed:0.829
+param,Inset.insetWidth,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Inset.insetDepth,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Inset,offset,,0.3,,0.45,0.55,,,,,,,,,,,,,,triumph:0.999 awe:0.997 delighted:0.962
+param,Instance on Points.instanceScale,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Instance on Points.scaleRandom,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Instance on Points.rotationRandom,offset,,0.4,0.8,,,,,,,,,,,,,,,,alarm:1.0 frustrated:0.993 anxious:0.99
+param,Instance on Points.normalOffset,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Instance on Points.seed,offset,,0.4,0.8,,,,,,,,,,,,,,,,alarm:1.0 frustrated:0.993 anxious:0.99
+node,Instance on Points,offset,,0.3,0.8,0.3,0.7,,,,,,,,,,,,,,absorbed:0.883 restless:0.71 awe:0.687
+param,Wrap.radius,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Wrap.offset,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+node,Wrap,offset,,0.1,,0.3,0.7,,,,,,,,,,,,,,proud:0.984 absorbed:0.981 triumph:0.926
+param,Field Modifier.generateCount,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Field Modifier.p.amp,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Field Modifier.p.freq,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Field Modifier.p.speed,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+node,Field Modifier,offset,,0.675,,0.45,0.4,,,,,,,,,,,,,,curious:0.999 joyful:0.998 delighted:0.976
+param,Field Primitive.count,offset,0.2,,-0.4,,0.2,,,,,,,,,,,,,,sleep:0.816 calm:0.791 content:0.782
+param,Field Primitive.p.size,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Field Primitive.p.height,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Field Primitive.p.freq,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Field Primitive.p.speed,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+node,Field Primitive,offset,0.2,0.8,-0.4,0.35,0.5333,,,,,,,,,,,,,,joyful:0.822 curious:0.77 delighted:0.769
+param,Distribute Points on Faces.pointSize,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Distribute Points on Faces.seed,offset,,0.4,0.8,,,,,,,,,,,,,,,,alarm:1.0 frustrated:0.993 anxious:0.99
+node,Distribute Points on Faces,offset,,0.4,0.8,0.3,0.7,,,,,,,,,,,,,,absorbed:0.885 restless:0.744 awe:0.708
+param,Proximity Lines.radius,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Proximity Lines.thickness,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,Proximity Lines,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Curve Ops.count,offset,0.2,,-0.4,,0.2,,,,,,,,,,,,,,sleep:0.816 calm:0.791 content:0.782
+param,Curve Ops.radius,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,Curve Ops,offset,0.2,,-0.4,0.3,0.45,,,,,,,,,,,,,,proud:0.823 triumph:0.806 calm:0.785
+param,Sweep.startScale,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Sweep.endScale,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Sweep.profileRadius,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,Sweep,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Revolve.segments,offset,0.2,,-0.4,,0.2,,,,,,,,,,,,,,sleep:0.816 calm:0.791 content:0.782
+node,Revolve,offset,0.2,,-0.4,,0.2,,,,,,,,,,,,,,sleep:0.816 calm:0.791 content:0.782
+param,Distribute Points in Grid.countX,offset,0.2,,-0.4,,0.2,,,,,,,,,,,,,,sleep:0.816 calm:0.791 content:0.782
+param,Distribute Points in Grid.countY,offset,0.2,,-0.4,,0.2,,,,,,,,,,,,,,sleep:0.816 calm:0.791 content:0.782
+param,Distribute Points in Grid.jitter,offset,,0.4,0.8,,,,,,,,,,,,,,,,alarm:1.0 frustrated:0.993 anxious:0.99
+param,Distribute Points in Grid.pointSize,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Distribute Points in Grid.seed,offset,,0.4,0.8,,,,,,,,,,,,,,,,alarm:1.0 frustrated:0.993 anxious:0.99
+node,Distribute Points in Grid,offset,0.2,0.4,0.2,0.3,0.3667,,,,,,,,,,,,,,curious:0.84 triumph:0.796 absorbed:0.776
+param,Merge by Distance.threshold,offset,,,0.5,,0.5,,,,,,,,,,,,,,absorbed:0.894 curious:0.707 restless:0.707
+node,Merge by Distance,offset,,,0.5,,0.5,,,,,,,,,,,,,,absorbed:0.894 curious:0.707 restless:0.707
+param,Light.intensity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Light.areaWidth,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Light.areaHeight,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,Light,offset,,0.3,,0.4,0.6,,,,,,,,,,,,,,triumph:0.993 awe:0.992 amusement:0.972
+param,HDRI.intensity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,HDRI,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Render 3D.aoRadius,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Render 3D.dofAperture,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Render 3D.supersample,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Render 3D.width,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Render 3D.height,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Render 3D.lightAzimuth,offset,0.7,,,0.3,,,,,,,,,,,,,,,calm:1.0 curious:1.0 delighted:1.0
+param,Render 3D.lightElevation,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Render 3D.lightIntensity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Render 3D.envIntensity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Render 3D.bgOpacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Render 3D.depthTest,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Render 3D.spriteSizeMode,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Render 3D.samples,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Render 3D.tonemap,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Render 3D.exposure,offset,0.7,,,0.3,,,,,,,,,,,,,,,calm:1.0 curious:1.0 delighted:1.0
+param,Render 3D.shadowSoftness,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Render 3D.shadowStrength,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Render 3D,offset,0.5,0.26,-0.5,0.46,0.5154,,,,,,,,,,,,,,triumph:0.912 delighted:0.896 joyful:0.863
+param,Resynthesize.chaos,offset,,0.4,0.8,,,,,,,,,,,,,,,,alarm:1.0 frustrated:0.993 anxious:0.99
+param,Resynthesize.feedback,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Resynthesize.autoIterate,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Resynthesize.seed,offset,,0.4,0.8,,,,,,,,,,,,,,,,alarm:1.0 frustrated:0.993 anxious:0.99
+node,Resynthesize,offset,0.4,0.325,0.3667,0.4,,,,,,,,,,,,,,,curious:0.829 absorbed:0.825 triumph:0.769
+param,gaussianblur.uRadius,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,gaussianblur,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,boxblur.uRadius,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,boxblur,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,radialblur.uAmount,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,radialblur.uCenterX,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,radialblur.uCenterY,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+node,radialblur,offset,,0.1667,,0.6,0.4,,,,,,,,,,,,,,triumph:0.957 awe:0.934 delighted:0.858
+param,unsharpmask.uAmount,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,unsharpmask.uRadius,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,unsharpmask,offset,,0.3,,0.45,0.55,,,,,,,,,,,,,,triumph:0.999 awe:0.997 delighted:0.962
+param,twirl.uRadius,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,twirl.uCenterX,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,twirl.uCenterY,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+node,twirl,offset,,0.1,,0.3,0.7,,,,,,,,,,,,,,proud:0.984 absorbed:0.981 triumph:0.926
+param,pinchpunch.uAmount,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,pinchpunch.uRadius,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,pinchpunch.uCenterX,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,pinchpunch.uCenterY,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+node,pinchpunch,offset,,0.1667,,0.45,0.55,,,,,,,,,,,,,,triumph:0.989 awe:0.971 absorbed:0.936
+param,ripple.uAmplitude,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,ripple.uWavelength,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,ripple.uPhase,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,ripple.uCenterX,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,ripple.uCenterY,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+node,ripple,offset,,0.15,,0.45,0.55,,,,,,,,,,,,,,triumph:0.986 awe:0.965 absorbed:0.934
+param,pixelate.uBlockSize,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,pixelate,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,addnoise.uAmount,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,addnoise,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,vignette.uAmount,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,vignette.uRadius,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,vignette.uSoftness,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,vignette.uCenterX,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,vignette.uCenterY,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+node,vignette,offset,0.4,0.05,-0.5,0.45,0.55,,,,,,,,,,,,,,proud:0.867 triumph:0.858 delighted:0.802
+param,bloom.uThreshold,offset,,,0.5,,0.5,,,,,,,,,,,,,,absorbed:0.894 curious:0.707 restless:0.707
+param,bloom.uIntensity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,bloom.uRadius,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,bloom,offset,,0.3,0.5,0.45,0.5333,,,,,,,,,,,,,,absorbed:0.905 awe:0.833 curious:0.743
+param,diffuseglow.uAmount,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,diffuseglow.uRadius,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,diffuseglow,offset,,0.3,,0.45,0.55,,,,,,,,,,,,,,triumph:0.999 awe:0.997 delighted:0.962
+param,glitch.uAmount,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,glitch.uSpeed,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,glitch.uSeed,offset,,0.4,0.8,,,,,,,,,,,,,,,,alarm:1.0 frustrated:0.993 anxious:0.99
+node,glitch,offset,,0.5,0.8,0.5,0.4,,,,,,,,,,,,,,restless:0.822 absorbed:0.76 frustrated:0.736
+param,lensdistortion.uChroma,offset,0.4,0.3,,,,,,,,,,,,,,,,,curious:1.0 joyful:1.0 delighted:0.987
+param,lensdistortion.uZoom,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,lensdistortion,offset,0.4,0.3,,0.3,0.7,,,,,,,,,,,,,,triumph:0.932 absorbed:0.908 proud:0.902
+param,displace.uAmount,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,displace.uScale,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,displace,offset,,0.3,,0.45,0.55,,,,,,,,,,,,,,triumph:0.999 awe:0.997 delighted:0.962
+param,liquify.uAmount,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,liquify.uScale,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,liquify.uSpeed,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+node,liquify,offset,,0.55,,0.4333,0.55,,,,,,,,,,,,,,delighted:1.0 awe:0.981 amusement:0.978
+param,symmetry.uCenterX,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,symmetry.uCenterY,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+node,symmetry,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,kaleidoscope.uSegments,offset,0.2,,-0.4,,0.2,,,,,,,,,,,,,,sleep:0.816 calm:0.791 content:0.782
+param,kaleidoscope.uZoom,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,kaleidoscope.uCenterX,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,kaleidoscope.uCenterY,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+node,kaleidoscope,offset,0.2,0.1,-0.4,0.3,0.45,,,,,,,,,,,,,,proud:0.815 triumph:0.806 delighted:0.754
+param,mirror tile.uTiles,offset,0.2,,-0.4,,0.2,,,,,,,,,,,,,,sleep:0.816 calm:0.791 content:0.782
+node,mirror tile,offset,0.2,,-0.4,,0.2,,,,,,,,,,,,,,sleep:0.816 calm:0.791 content:0.782
+param,emboss.uAmount,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,emboss,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,normal map.uStrength,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,normal map,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,convolve.uSpread,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,convolve.uMix,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,convolve,offset,,0.3,,0.45,0.55,,,,,,,,,,,,,,triumph:0.999 awe:0.997 delighted:0.962
+param,halftone.uScale,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,halftone,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,edge sobel.uAmount,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,edge sobel,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,edge outline.uThickness,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,edge outline.uThreshold,offset,,,0.5,,0.5,,,,,,,,,,,,,,absorbed:0.894 curious:0.707 restless:0.707
+node,edge outline,offset,,,0.5,0.3,0.6,,,,,,,,,,,,,,absorbed:0.937 awe:0.78 curious:0.761
+param,Fit.width,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Fit.height,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Fit.offsetX,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Fit.offsetY,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Fit.bgOpacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Fit,offset,,0.1667,,0.4,0.6,,,,,,,,,,,,,,triumph:0.982 awe:0.965 absorbed:0.964
+param,Curves.mix,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Curves,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Color Ramp.mix,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Color Ramp,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Remove Background.feather,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Remove Background.threshold,offset,,,0.5,,0.5,,,,,,,,,,,,,,absorbed:0.894 curious:0.707 restless:0.707
+param,Remove Background.contrast,offset,,,0.5,,0.5,,,,,,,,,,,,,,absorbed:0.894 curious:0.707 restless:0.707
+param,Remove Background.bgOpacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Remove Background,offset,0.4,0.0,0.1667,0.6,0.4667,,,,,,,,,,,,,,triumph:0.867 absorbed:0.814 proud:0.77
+param,Trails.decay,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Trails.zoom,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Trails.hueShift,offset,0.4,0.3,,,,,,,,,,,,,,,,,curious:1.0 joyful:1.0 delighted:0.987
+node,Trails,offset,0.4,0.0,-0.5,0.3,0.7,,,,,,,,,,,,,,proud:0.908 triumph:0.823 delighted:0.767
+param,Optical Flow.levels,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Optical Flow.gain,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Optical Flow,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Time Machine.length,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,Time Machine,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Fluid.velocityDamping,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Fluid.forceGain,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Fluid.stirrerStrength,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Fluid.stirrerSize,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,Fluid,offset,,0.3,,0.525,0.475,,,,,,,,,,,,,,triumph:0.994 awe:0.989 delighted:0.95
+param,Volume.size,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Volume.height,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Volume.centerX,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Volume.centerY,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Volume.centerZ,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Volume.noiseScale,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Volume.noiseAmount,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Volume.seed,offset,,0.4,0.8,,,,,,,,,,,,,,,,alarm:1.0 frustrated:0.993 anxious:0.99
+param,Volume.speed,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Volume.lightAzimuth,offset,0.7,,,0.3,,,,,,,,,,,,,,,calm:1.0 curious:1.0 delighted:1.0
+param,Volume.lightElevation,offset,0.7,,,0.3,,,,,,,,,,,,,,,calm:1.0 curious:1.0 delighted:1.0
+param,Volume.lightIntensity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Volume.scatter,offset,,0.4,0.8,,,,,,,,,,,,,,,,alarm:1.0 frustrated:0.993 anxious:0.99
+param,Volume.lightSteps,offset,0.7,,,0.3,,,,,,,,,,,,,,,calm:1.0 curious:1.0 delighted:1.0
+param,Volume.steps,offset,0.2,,-0.4,,0.2,,,,,,,,,,,,,,sleep:0.816 calm:0.791 content:0.782
+param,Volume.renderSteps,offset,0.2,,-0.4,,0.2,,,,,,,,,,,,,,sleep:0.816 calm:0.791 content:0.782
+node,Volume,offset,0.5,0.3125,0.2,0.3778,0.4714,,,,,,,,,,,,,,absorbed:0.938 triumph:0.932 curious:0.917
+param,Reaction Diffusion.width,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Reaction Diffusion.height,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Reaction Diffusion.diffuseA,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Reaction Diffusion.diffuseB,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Reaction Diffusion.stepsPerFrame,offset,0.2,,-0.4,,0.2,,,,,,,,,,,,,,sleep:0.816 calm:0.791 content:0.782
+node,Reaction Diffusion,offset,0.3333,-0.3,-0.4667,0.3,0.5333,,,,,,,,,,,,,,proud:0.829 content:0.82 calm:0.745
+param,Blend.mix,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Blend.linear,offset,0.7,,,0.3,,,,,,,,,,,,,,,calm:1.0 curious:1.0 delighted:1.0
+node,Blend,offset,0.7,0.3,,0.45,0.4,,,,,,,,,,,,,,triumph:0.993 delighted:0.982 curious:0.958
+param,Layer Stack.linear,offset,0.7,,,0.3,,,,,,,,,,,,,,,calm:1.0 curious:1.0 delighted:1.0
+param,Layer Stack.opacity0,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Layer Stack.opacity1,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Layer Stack.opacity2,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Layer Stack.opacity3,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Layer Stack,offset,0.7,0.3,,0.54,0.4,,,,,,,,,,,,,,triumph:0.989 delighted:0.965 curious:0.944
+param,Audio Color Ramp.bandCount,offset,0.2,,-0.4,,0.2,,,,,,,,,,,,,,sleep:0.816 calm:0.791 content:0.782
+param,Audio Color Ramp.gain,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Audio Color Ramp.minBrightness,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+node,Audio Color Ramp,offset,0.3,0.0,-0.45,0.6,0.3,,,,,,,,,,,,,,triumph:0.783 proud:0.71 delighted:0.708
+param,transform.uTranslateX,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,transform.uTranslateY,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,transform.uScale,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,transform.uScaleX,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,transform.uScaleY,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,transform,offset,,0.1,,0.3,0.7,,,,,,,,,,,,,,proud:0.984 absorbed:0.981 triumph:0.926
+param,posterize.uLevels,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,posterize,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,dither.uLevels,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,dither.uMix,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,dither,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,threshold.uThreshold,offset,,,0.5,,0.5,,,,,,,,,,,,,,absorbed:0.894 curious:0.707 restless:0.707
+node,threshold,offset,,,0.5,,0.5,,,,,,,,,,,,,,absorbed:0.894 curious:0.707 restless:0.707
+param,exposure.uExposure,offset,0.7,,,0.3,,,,,,,,,,,,,,,calm:1.0 curious:1.0 delighted:1.0
+node,exposure,offset,0.7,,,0.3,,,,,,,,,,,,,,,calm:1.0 curious:1.0 delighted:1.0
+param,opacity.uOpacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,opacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,alpha levels.uGamma,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,alpha levels,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,chroma key.uSoftness,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+node,chroma key,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,luma key.uSoftness,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+node,luma key,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,lookup.uOffset,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,lookup.uMix,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,lookup,offset,,0.2,,0.6,0.4,,,,,,,,,,,,,,triumph:0.963 awe:0.944 delighted:0.877
+param,lut.uSize,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,lut.uMix,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,lut,offset,,0.3,,0.45,0.55,,,,,,,,,,,,,,triumph:0.999 awe:0.997 delighted:0.962
+param,gradientmap.uMix,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,gradientmap,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,color adjustments.uBrightness,offset,0.7,,,0.3,,,,,,,,,,,,,,,calm:1.0 curious:1.0 delighted:1.0
+param,color adjustments.uContrast,offset,,,0.5,,0.5,,,,,,,,,,,,,,absorbed:0.894 curious:0.707 restless:0.707
+param,color adjustments.uWhitePoint,offset,0.7,,,0.3,,,,,,,,,,,,,,,calm:1.0 curious:1.0 delighted:1.0
+param,color adjustments.uGamma,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,color adjustments.uHueShift,offset,0.4,0.3,,,,,,,,,,,,,,,,,curious:1.0 joyful:1.0 delighted:0.987
+param,color adjustments.uSaturation,offset,0.4,0.3,,,,,,,,,,,,,,,,,curious:1.0 joyful:1.0 delighted:0.987
+param,color adjustments.uLightness,offset,0.7,,,0.3,,,,,,,,,,,,,,,calm:1.0 curious:1.0 delighted:1.0
+param,color adjustments.uVibrance,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,color adjustments.uMidtones,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,color adjustments.uHighlights,offset,0.7,,,0.3,,,,,,,,,,,,,,,calm:1.0 curious:1.0 delighted:1.0
+param,color adjustments.uContrastPivot,offset,,,0.5,,0.5,,,,,,,,,,,,,,absorbed:0.894 curious:0.707 restless:0.707
+param,color adjustments.uOffsetR,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,color adjustments.uOffsetG,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,color adjustments.uOffsetB,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,color adjustments.uCdlSat,offset,0.4,0.3,,,,,,,,,,,,,,,,,curious:1.0 joyful:1.0 delighted:0.987
+node,color adjustments,offset,0.525,0.2556,0.5,0.4,0.45,,,,,,,,,,,,,,absorbed:0.891 curious:0.801 triumph:0.794
+param,outerglow.uAmount,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,outerglow,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,coloroverlay.uOpacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,coloroverlay,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,dropshadow.uOffsetX,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,dropshadow.uOffsetY,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,dropshadow.uOpacity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,dropshadow,offset,,0.1667,,0.6,0.4,,,,,,,,,,,,,,triumph:0.957 awe:0.934 delighted:0.858
+param,LFO.rateBeats,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,LFO.phase,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,LFO.rateMode,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,LFO.rateHz,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,LFO.seed,offset,,0.4,0.8,,,,,,,,,,,,,,,,alarm:1.0 frustrated:0.993 anxious:0.99
+node,LFO,offset,,0.58,0.8,0.4,,,,,,,,,,,,,,,absorbed:0.964 alarm:0.939 restless:0.926
+param,Random.rate,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Random.smooth,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Random.seed,offset,,0.4,0.8,,,,,,,,,,,,,,,,alarm:1.0 frustrated:0.993 anxious:0.99
+param,Random.rateMode,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Random.rateHz,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+node,Random,offset,0.4,0.5,0.15,0.4,,,,,,,,,,,,,,,curious:0.937 joyful:0.88 triumph:0.856
+param,Pattern.length,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Pattern.stepBeats,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Pattern.smoothSteps,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+node,Pattern,offset,0.4,0.25,-0.5,0.35,0.7,,,,,,,,,,,,,,proud:0.877 triumph:0.872 delighted:0.842
+param,Math.gain,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Math.offset,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Math.clampOutput,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Math,offset,,0.2333,,0.6,0.4,,,,,,,,,,,,,,triumph:0.967 awe:0.952 delighted:0.893
+param,Range to Range.clampOutput,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Range to Range,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Smoothing.amount,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Smoothing,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Mod Depth.depth,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Mod Depth,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Mod Curve.mix,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Mod Curve,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,MSEG.rateMode,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,MSEG.rateBeats,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,MSEG.rateHz,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+node,MSEG,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Voice Spread.count,offset,0.2,,-0.4,,0.2,,,,,,,,,,,,,,sleep:0.816 calm:0.791 content:0.782
+node,Voice Spread,offset,0.2,,-0.4,,0.2,,,,,,,,,,,,,,sleep:0.816 calm:0.791 content:0.782
+param,CV to Pitch.scale,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,CV to Pitch.glideMs,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+node,CV to Pitch,offset,0.4,-0.3,-0.5,0.3,0.7,,,,,,,,,,,,,,proud:0.869 content:0.803 triumph:0.71
+param,Path.speed,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Path.phase,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Path.sizeX,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Path.sizeY,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Path.sizeZ,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,Path,offset,,0.45,,0.325,0.7,,,,,,,,,,,,,,amusement:0.998 delighted:0.975 awe:0.973
+param,Geometry Table.sampleMode,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Geometry Table.offset,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Geometry Table.smooth,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+node,Geometry Table,offset,0.4,0.0333,-0.5,0.6,0.4,,,,,,,,,,,,,,triumph:0.837 proud:0.785 delighted:0.774
+param,Constant.value,offset,0.7,,,0.3,,,,,,,,,,,,,,,calm:1.0 curious:1.0 delighted:1.0
+node,Constant,offset,0.7,,,0.3,,,,,,,,,,,,,,,calm:1.0 curious:1.0 delighted:1.0
+param,Image Analyze.sampleMode,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Image Analyze.gain,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Image Analyze.offset,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Image Analyze.clamp01,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Image Analyze.smoothing,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Image Analyze.sampleRate,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Image Analyze.sampleSize,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Image Analyze,offset,0.4,0.2571,-0.5,0.56,0.4,,,,,,,,,,,,,,triumph:0.872 delighted:0.845 joyful:0.827
+param,Hand Track.mirror,offset,0.2,,-0.4,,0.2,,,,,,,,,,,,,,sleep:0.816 calm:0.791 content:0.782
+param,Hand Track.smoothing,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+node,Hand Track,offset,0.3,-0.3,-0.45,,0.2,,,,,,,,,,,,,,content:0.879 calm:0.811 relieved:0.805
+param,Face Track.mirror,offset,0.2,,-0.4,,0.2,,,,,,,,,,,,,,sleep:0.816 calm:0.791 content:0.782
+param,Face Track.smoothing,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+node,Face Track,offset,0.3,-0.3,-0.45,,0.2,,,,,,,,,,,,,,content:0.879 calm:0.811 relieved:0.805
+param,Pose Track.mirror,offset,0.2,,-0.4,,0.2,,,,,,,,,,,,,,sleep:0.816 calm:0.791 content:0.782
+param,Pose Track.smoothing,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+node,Pose Track,offset,0.3,-0.3,-0.45,,0.2,,,,,,,,,,,,,,content:0.879 calm:0.811 relieved:0.805
+param,Palette.swatchCount,offset,0.2,,-0.4,,0.2,,,,,,,,,,,,,,sleep:0.816 calm:0.791 content:0.782
+param,Palette.minChroma,offset,0.4,0.3,,,,,,,,,,,,,,,,,curious:1.0 joyful:1.0 delighted:0.987
+param,Palette.hueShift,offset,0.4,0.3,,,,,,,,,,,,,,,,,curious:1.0 joyful:1.0 delighted:0.987
+param,Palette.saturation,offset,0.4,0.3,,,,,,,,,,,,,,,,,curious:1.0 joyful:1.0 delighted:0.987
+param,Palette.brightness,offset,0.7,,,0.3,,,,,,,,,,,,,,,calm:1.0 curious:1.0 delighted:1.0
+param,Palette.spread,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Palette.sampleRate,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Palette.sampleSize,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Palette.seed,offset,,0.4,0.8,,,,,,,,,,,,,,,,alarm:1.0 frustrated:0.993 anxious:0.99
+node,Palette,offset,0.42,0.4,0.2,0.4,0.4333,,,,,,,,,,,,,,curious:0.918 triumph:0.903 absorbed:0.884
+param,Audio Analyze.gain,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Audio Analyze.release,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+node,Audio Analyze,offset,0.4,0.0,-0.5,0.6,0.4,,,,,,,,,,,,,,triumph:0.828 proud:0.786 delighted:0.761
+param,Vibrato.rateHz,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+node,Vibrato,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Envelope.decayMs,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Envelope.sustainLevel,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Envelope.releaseMs,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Envelope.threshold,offset,,,0.5,,0.5,,,,,,,,,,,,,,absorbed:0.894 curious:0.707 restless:0.707
+param,Envelope.decayCurve,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Envelope.releaseCurve,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+node,Envelope,offset,0.4,-0.18,-0.3,0.6,0.45,,,,,,,,,,,,,,triumph:0.82 proud:0.819 content:0.742
+param,Note to CV.glideMs,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+node,Note to CV,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,CV Recorder.speed,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+node,CV Recorder,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Audio to CV.gain,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Audio to CV.releaseMs,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+node,Audio to CV,offset,0.4,0.0,-0.5,0.6,0.4,,,,,,,,,,,,,,triumph:0.828 proud:0.786 delighted:0.761
+param,Drift.speed,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Drift.smoothness,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Drift.depth,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Drift,offset,0.4,0.2667,-0.5,0.5,0.4,,,,,,,,,,,,,,triumph:0.875 delighted:0.858 joyful:0.84
+param,Predictive Modulator.speed,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+node,Predictive Modulator,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Predictive Coloring.mix,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Predictive Coloring,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Predictive Notes.lengthSpread,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Predictive Notes.velocitySpread,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,Predictive Notes,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Predictive Quantize.mix,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Predictive Quantize,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Predictive Velocity.mix,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Predictive Velocity,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Predictive Rhythm.mix,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Predictive Rhythm,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Macro XY.speed,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+node,Macro XY,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Macro Radio Selector.count,offset,0.2,,-0.4,,0.2,,,,,,,,,,,,,,sleep:0.816 calm:0.791 content:0.782
+node,Macro Radio Selector,offset,0.2,,-0.4,,0.2,,,,,,,,,,,,,,sleep:0.816 calm:0.791 content:0.782
+param,Macro Step Gate.rateBeats,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+node,Macro Step Gate,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Oscillator.frequency,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Oscillator.glide,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Oscillator.pitchBend,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Oscillator.fmDepth,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Oscillator.volume,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Oscillator.phase,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Oscillator.cutoff,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Oscillator.resonance,offset,,,0.5,,0.5,,,,,,,,,,,,,,absorbed:0.894 curious:0.707 restless:0.707
+param,Oscillator.ampAttack,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Oscillator.ampDecay,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Oscillator.ampSustain,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Oscillator.ampRelease,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Oscillator,offset,0.2667,0.3091,0.0,0.5714,0.4143,,,,,,,,,,,,,,triumph:0.896 curious:0.825 joyful:0.806
+param,Wavetable.mix,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Wavetable.volume,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Wavetable.frequency,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Wavetable.glide,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Wavetable.pitchBend,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Wavetable.fmDepth,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Wavetable.a.position,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Wavetable.a.volume,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Wavetable.a.stereoWidth,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Wavetable.a.phase,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Wavetable.a.phaseRandomize,offset,,0.4,0.8,,,,,,,,,,,,,,,,alarm:1.0 frustrated:0.993 anxious:0.99
+param,Wavetable.a.warpMode,offset,,0.4,0.8,,,,,,,,,,,,,,,,alarm:1.0 frustrated:0.993 anxious:0.99
+param,Wavetable.a.warpAmount,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Wavetable.a.warpRatio,offset,,0.4,0.8,,,,,,,,,,,,,,,,alarm:1.0 frustrated:0.993 anxious:0.99
+param,Wavetable.a.cutoff,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Wavetable.a.resonance,offset,,,0.5,,0.5,,,,,,,,,,,,,,absorbed:0.894 curious:0.707 restless:0.707
+param,Wavetable.a.ampAttack,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Wavetable.a.ampDecay,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Wavetable.a.ampSustain,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Wavetable.a.ampRelease,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Wavetable.a.pitchAmount,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Wavetable.a.pitchAttack,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Wavetable.a.pitchDecay,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Wavetable.a.pitchSustain,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Wavetable.a.pitchRelease,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Wavetable.a.filterAmount,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Wavetable.a.filterAttack,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Wavetable.a.filterDecay,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Wavetable.a.filterSustain,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Wavetable.a.filterRelease,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Wavetable.b.position,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Wavetable.b.volume,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Wavetable.b.stereoWidth,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Wavetable.b.phase,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Wavetable.b.phaseRandomize,offset,,0.4,0.8,,,,,,,,,,,,,,,,alarm:1.0 frustrated:0.993 anxious:0.99
+param,Wavetable.b.warpMode,offset,,0.4,0.8,,,,,,,,,,,,,,,,alarm:1.0 frustrated:0.993 anxious:0.99
+param,Wavetable.b.warpAmount,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Wavetable.b.warpRatio,offset,,0.4,0.8,,,,,,,,,,,,,,,,alarm:1.0 frustrated:0.993 anxious:0.99
+param,Wavetable.b.cutoff,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Wavetable.b.resonance,offset,,,0.5,,0.5,,,,,,,,,,,,,,absorbed:0.894 curious:0.707 restless:0.707
+param,Wavetable.b.ampAttack,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Wavetable.b.ampDecay,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Wavetable.b.ampSustain,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Wavetable.b.ampRelease,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Wavetable.b.pitchAmount,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Wavetable.b.pitchAttack,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Wavetable.b.pitchDecay,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Wavetable.b.pitchSustain,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Wavetable.b.pitchRelease,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Wavetable.b.filterAmount,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Wavetable.b.filterAttack,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Wavetable.b.filterDecay,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Wavetable.b.filterSustain,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Wavetable.b.filterRelease,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+node,Wavetable,offset,0.29,0.242,0.0765,0.5636,0.4348,,,,,,,,,,,,,,triumph:0.898 curious:0.811 delighted:0.786
+param,Analog.volume,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Analog.freq,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Analog.glide,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Analog.pitchBend,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Analog.spread,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Analog.oscMix,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Analog.noise,offset,,0.4,0.8,,,,,,,,,,,,,,,,alarm:1.0 frustrated:0.993 anxious:0.99
+param,Analog.cutoff,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Analog.resonance,offset,,,0.5,,0.5,,,,,,,,,,,,,,absorbed:0.894 curious:0.707 restless:0.707
+param,Analog.drive,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Analog.decay,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Analog.release,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+node,Analog,offset,0.32,0.22,-0.04,0.5,0.48,,,,,,,,,,,,,,triumph:0.942 delighted:0.845 curious:0.829
+param,FM.feedback,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,FM.volume,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,FM.level1,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,FM.decay1,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,FM.release1,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,FM.level2,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,FM.decay2,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,FM.release2,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,FM.level3,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,FM.decay3,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,FM.release3,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,FM.level4,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,FM.decay4,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,FM.release4,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+node,FM,offset,0.4,-0.0857,-0.5,0.6,0.4,,,,,,,,,,,,,,triumph:0.801 proud:0.783 delighted:0.723
+param,Partials.pitch,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Partials.speed,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Partials.noise,offset,,0.4,0.8,,,,,,,,,,,,,,,,alarm:1.0 frustrated:0.993 anxious:0.99
+param,Partials.release,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Partials.volume,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Partials,offset,0.3,0.34,0.15,0.5,0.4,,,,,,,,,,,,,,triumph:0.883 curious:0.858 joyful:0.804
+param,String.position,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,String.tone,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,String.decay,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,String.release,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,String.volume,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,String,offset,0.3333,0.06,-0.5,0.6,0.4,,,,,,,,,,,,,,triumph:0.819 proud:0.757 delighted:0.752
+param,Wave Terrain.centerX,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Wave Terrain.centerY,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Wave Terrain.radiusX,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Wave Terrain.radiusY,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Wave Terrain.scanSpeed,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Wave Terrain.position,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Wave Terrain.volume,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Wave Terrain.frequency,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Wave Terrain.glide,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Wave Terrain.ampAttack,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Wave Terrain.ampDecay,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Wave Terrain.ampSustain,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Wave Terrain.ampRelease,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Wave Terrain.cutoff,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Wave Terrain.resonance,offset,,,0.5,,0.5,,,,,,,,,,,,,,absorbed:0.894 curious:0.707 restless:0.707
+param,Wave Terrain.drive,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Wave Terrain,offset,0.3,0.3,0.0,0.5,0.4778,,,,,,,,,,,,,,triumph:0.926 curious:0.849 delighted:0.838
+param,Equation Synth.volume,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Equation Synth.glide,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Equation Synth.ampAttack,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Equation Synth.ampDecay,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Equation Synth.ampSustain,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Equation Synth.ampRelease,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Equation Synth.cutoff,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Equation Synth.resonance,offset,,,0.5,,0.5,,,,,,,,,,,,,,absorbed:0.894 curious:0.707 restless:0.707
+param,Equation Synth.drive,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Equation Synth,offset,0.3,0.25,0.0,0.6,0.4143,,,,,,,,,,,,,,triumph:0.907 curious:0.814 delighted:0.804
+param,Spectral Synth.rate,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Spectral Synth.scanSpeed,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Spectral Synth.freqScale,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Spectral Synth.minFreq,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Spectral Synth.maxFreq,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Spectral Synth.rootFreq,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Spectral Synth.glide,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Spectral Synth.colorMode,offset,0.4,0.3,,,,,,,,,,,,,,,,,curious:1.0 joyful:1.0 delighted:0.987
+param,Spectral Synth.threshold,offset,,,0.5,,0.5,,,,,,,,,,,,,,absorbed:0.894 curious:0.707 restless:0.707
+param,Spectral Synth.contrast,offset,,,0.5,,0.5,,,,,,,,,,,,,,absorbed:0.894 curious:0.707 restless:0.707
+param,Spectral Synth.brightness,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Spectral Synth.volume,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Spectral Synth.stereoWidth,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Spectral Synth.cutoff,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Spectral Synth.resonance,offset,,,0.5,,0.5,,,,,,,,,,,,,,absorbed:0.894 curious:0.707 restless:0.707
+param,Spectral Synth.drive,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Spectral Synth.ampAttack,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Spectral Synth.ampDecay,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Spectral Synth.ampSustain,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Spectral Synth.ampRelease,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Spectral Synth,offset,0.3333,0.4625,0.25,0.4929,0.4545,,,,,,,,,,,,,,curious:0.864 triumph:0.846 absorbed:0.806
+param,Metallic.decay,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Metallic.frequency,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Metallic.glide,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Metallic.filterCutoff,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Metallic.filterResonance,offset,,,0.5,,0.5,,,,,,,,,,,,,,absorbed:0.894 curious:0.707 restless:0.707
+param,Metallic.drive,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Metallic.width,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Metallic.volume,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Metallic,offset,0.3333,0.2167,-0.1667,0.475,0.5,,,,,,,,,,,,,,triumph:0.947 delighted:0.868 proud:0.85
+param,Sampler.pitch,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Sampler.speed,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Sampler.position,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Sampler.decay,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Sampler.volume,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Sampler,offset,0.3,0.28,-0.5,0.5,0.4,,,,,,,,,,,,,,triumph:0.837 delighted:0.813 joyful:0.802
+param,Slicer.onsets,offset,0.2,,-0.4,,0.2,,,,,,,,,,,,,,sleep:0.816 calm:0.791 content:0.782
+param,Slicer.pitch,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Slicer.decay,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Slicer.speed,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Slicer.volume,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Slicer.crossthrough,offset,,0.4,0.8,,,,,,,,,,,,,,,,alarm:1.0 frustrated:0.993 anxious:0.99
+node,Slicer,offset,0.2667,0.34,-0.0333,0.5,0.3,,,,,,,,,,,,,,triumph:0.898 curious:0.867 joyful:0.857
+param,PaulStretch.window_size,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,PaulStretch.phase_rand,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,PaulStretch.pitch_shift,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,PaulStretch.freq_shift,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,PaulStretch.volume,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,PaulStretch.position,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+node,PaulStretch,offset,0.2,0.36,,0.4333,0.55,,,,,,,,,,,,,,triumph:0.877 curious:0.803 delighted:0.8
+param,Molder.chaos,offset,,0.4,0.8,,,,,,,,,,,,,,,,alarm:1.0 frustrated:0.993 anxious:0.99
+param,Molder.pitch,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Molder.tone,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Molder.time,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Molder.level,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Molder,offset,0.2,0.36,0.8,0.6,0.4,,,,,,,,,,,,,,restless:0.701 absorbed:0.616 alarm:0.604
+param,Grain Molder.grain,offset,,0.4,0.8,,,,,,,,,,,,,,,,alarm:1.0 frustrated:0.993 anxious:0.99
+param,Grain Molder.amount,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Grain Molder.level,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Grain Molder.pitch,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Grain Molder.decay,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Grain Molder.position,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+node,Grain Molder,offset,0.3,0.2167,0.15,0.6,0.4,,,,,,,,,,,,,,triumph:0.87 curious:0.789 absorbed:0.772
+param,Granular.position,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Granular.grainLength,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Granular.randomPos,offset,,0.4,0.8,,,,,,,,,,,,,,,,alarm:1.0 frustrated:0.993 anxious:0.99
+param,Granular.randomLength,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Granular.randomPitch,offset,,0.4,0.8,,,,,,,,,,,,,,,,alarm:1.0 frustrated:0.993 anxious:0.99
+param,Granular.randomPan,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Granular.pitchShift,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Granular.width,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Granular.mix,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Granular.volume,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Granular,offset,0.2,0.3333,0.8,0.4,0.6,,,,,,,,,,,,,,restless:0.692 absorbed:0.682 frustrated:0.573
+param,Field Synth.exposeRmsOutput,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Field Synth.p.cutoff,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+node,Field Synth,offset,0.2,0.3,,,,,,,,,,,,,,,,,joyful:0.949 curious:0.948 delighted:0.878
+param,Drum Sequencer.lane0_volume,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Drum Sequencer.lane0_pitch,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Drum Sequencer.lane0_decay,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Drum Sequencer.lane0_accentPitch,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Drum Sequencer.lane1_volume,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Drum Sequencer.lane1_pitch,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Drum Sequencer.lane1_decay,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Drum Sequencer.lane1_accentPitch,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Drum Sequencer.lane2_volume,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Drum Sequencer.lane2_pitch,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Drum Sequencer.lane2_decay,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Drum Sequencer.lane2_accentPitch,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Drum Sequencer.lane3_volume,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Drum Sequencer.lane3_pitch,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Drum Sequencer.lane3_decay,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Drum Sequencer.lane3_accentPitch,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Drum Sequencer.lane4_volume,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Drum Sequencer.lane4_pitch,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Drum Sequencer.lane4_decay,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Drum Sequencer.lane4_accentPitch,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Drum Sequencer.lane5_volume,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Drum Sequencer.lane5_pitch,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Drum Sequencer.lane5_decay,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Drum Sequencer.lane5_accentPitch,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Drum Sequencer.lane6_volume,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Drum Sequencer.lane6_pitch,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Drum Sequencer.lane6_decay,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Drum Sequencer.lane6_accentPitch,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Drum Sequencer.lane7_volume,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Drum Sequencer.lane7_pitch,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Drum Sequencer.lane7_decay,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Drum Sequencer.lane7_accentPitch,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Drum Sequencer.rate,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Drum Sequencer.steps,offset,0.2,,-0.4,,0.2,,,,,,,,,,,,,,sleep:0.816 calm:0.791 content:0.782
+param,Drum Sequencer.volume,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Drum Sequencer.globalDecay,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Drum Sequencer.globalPitch,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+node,Drum Sequencer,offset,0.2667,0.2583,-0.49,0.58,0.38,,,,,,,,,,,,,,triumph:0.818 delighted:0.777 joyful:0.769
+param,MPC.pad0_volume,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,MPC.pad0_pitch,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,MPC.pad0_speed,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,MPC.pad1_volume,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,MPC.pad1_pitch,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,MPC.pad1_speed,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,MPC.pad1_div,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,MPC.pad2_volume,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,MPC.pad2_pitch,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,MPC.pad2_speed,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,MPC.pad2_div,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,MPC.pad3_volume,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,MPC.pad3_pitch,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,MPC.pad3_speed,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,MPC.pad3_div,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,MPC.pad4_volume,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,MPC.pad4_pitch,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,MPC.pad4_speed,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,MPC.pad4_div,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,MPC.pad5_volume,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,MPC.pad5_pitch,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,MPC.pad5_speed,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,MPC.pad5_div,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,MPC.pad6_volume,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,MPC.pad6_pitch,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,MPC.pad6_speed,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,MPC.pad6_div,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,MPC.pad7_volume,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,MPC.pad7_pitch,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,MPC.pad7_speed,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,MPC.pad7_div,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,MPC.pad8_volume,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,MPC.pad8_pitch,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,MPC.pad8_speed,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,MPC.pad8_div,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,MPC.pad9_volume,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,MPC.pad9_pitch,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,MPC.pad9_speed,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,MPC.pad9_div,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,MPC.pad10_volume,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,MPC.pad10_pitch,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,MPC.pad10_speed,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,MPC.pad10_div,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,MPC.pad11_volume,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,MPC.pad11_pitch,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,MPC.pad11_speed,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,MPC.pad11_div,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,MPC.pad12_volume,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,MPC.pad12_pitch,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,MPC.pad12_speed,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,MPC.pad12_div,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,MPC.pad13_volume,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,MPC.pad13_pitch,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,MPC.pad13_speed,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,MPC.pad13_div,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,MPC.pad14_volume,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,MPC.pad14_pitch,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,MPC.pad14_speed,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,MPC.pad14_div,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,MPC.pad15_volume,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,MPC.pad15_pitch,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,MPC.pad15_speed,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,MPC.pad15_div,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+node,MPC,offset,0.2,0.5968,,0.4681,0.4,,,,,,,,,,,,,,curious:0.846 joyful:0.843 triumph:0.811
+param,Looper.pitch,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Looper.speed,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Looper.volume,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Looper,offset,0.2,0.5333,,0.5,0.4,,,,,,,,,,,,,,curious:0.84 joyful:0.837 triumph:0.83
+param,Field Notes.scale,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,Field Notes,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Keyboard.baseOctave,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Keyboard.transpose,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Keyboard.velocityScale,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,Keyboard,offset,0.2,0.3,,0.3,0.7,,,,,,,,,,,,,,triumph:0.847 proud:0.811 absorbed:0.799
+param,Note Filter.scale,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,Note Filter,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Note Transpose.semitones,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+node,Note Transpose,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Pitch Bend.bendSemitones,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+node,Pitch Bend,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Humanizer.timingMs,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+node,Humanizer,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Glide.glideMs,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+node,Glide,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Note Echo.rateMode,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Note Echo.rateSeconds,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Note Echo.repeats,offset,0.2,,-0.4,,0.2,,,,,,,,,,,,,,sleep:0.816 calm:0.791 content:0.782
+param,Note Echo.decay,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Note Echo.transposePerRepeat,offset,0.2,,-0.4,,0.2,,,,,,,,,,,,,,sleep:0.816 calm:0.791 content:0.782
+node,Note Echo,offset,0.2667,0.4333,-0.4333,0.4,0.2,,,,,,,,,,,,,,joyful:0.852 delighted:0.813 triumph:0.778
+param,Note Switcher.rateMode,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Note Switcher.rateSeconds,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+node,Note Switcher,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Arpeggiator.octaves,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Arpeggiator.rateMode,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Arpeggiator.rateSeconds,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+node,Arpeggiator,offset,0.2,0.7,,0.4,,,,,,,,,,,,,,,curious:0.827 joyful:0.827 restless:0.759
+param,Note Sequencer.steps,offset,0.2,,-0.4,,0.2,,,,,,,,,,,,,,sleep:0.816 calm:0.791 content:0.782
+param,Note Sequencer.rateMode,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Note Sequencer.rateSeconds,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+node,Note Sequencer,offset,0.2,0.8,-0.4,0.4,0.2,,,,,,,,,,,,,,joyful:0.815 curious:0.754 delighted:0.727
+param,Random Note Generator.scale,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Random Note Generator.rateMode,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Random Note Generator.rateSeconds,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+node,Random Note Generator,offset,,0.8,,0.3667,0.7,,,,,,,,,,,,,,delighted:0.986 amusement:0.978 curious:0.976
+param,MIDI File.transpose,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,MIDI File.position,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,MIDI File.speed,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+node,MIDI File,offset,,0.3333,,0.4,,,,,,,,,,,,,,,awe:1.0 absorbed:0.996 triumph:0.988
+param,Chorder.scale,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Chorder.chordSize,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Chorder.humanizeTimingMs,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+node,Chorder,offset,,0.1,,0.3,0.7,,,,,,,,,,,,,,proud:0.984 absorbed:0.981 triumph:0.926
+param,Note Stack.semi0,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Note Stack.semi1,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Note Stack.semi2,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Note Stack.semi3,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Note Stack.semi4,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Note Stack.semi5,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Note Stack.semi6,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Note Stack.semi7,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+node,Note Stack,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Bouncing Balls.ballSize,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Bouncing Balls.ballSpeed,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+node,Bouncing Balls,offset,,0.8,,0.35,0.7,,,,,,,,,,,,,,delighted:0.984 amusement:0.977 curious:0.974
+param,Field Effect.exposeRmsOutput,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Field Effect.p.drive,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Field Effect.p.tone,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Field Effect.p.mix,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Field Effect,offset,0.2,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.86 curious:0.775 joyful:0.77
+param,Audio Filter.mix,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Audio Filter.freq,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Audio Filter.q,offset,,,0.5,,0.5,,,,,,,,,,,,,,absorbed:0.894 curious:0.707 restless:0.707
+param,Audio Filter.gain,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Audio Filter.envAmount,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Audio Filter.rate,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+node,Audio Filter,offset,,0.5,0.5,0.52,0.425,,,,,,,,,,,,,,awe:0.836 curious:0.832 absorbed:0.827
+param,EQ.band1Freq,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,EQ.band1Q,offset,,,0.5,,0.5,,,,,,,,,,,,,,absorbed:0.894 curious:0.707 restless:0.707
+param,EQ.band1Gain,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,EQ.band2Freq,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,EQ.band2Q,offset,,,0.5,,0.5,,,,,,,,,,,,,,absorbed:0.894 curious:0.707 restless:0.707
+param,EQ.band2Gain,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,EQ.band3Freq,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,EQ.band3Q,offset,,,0.5,,0.5,,,,,,,,,,,,,,absorbed:0.894 curious:0.707 restless:0.707
+param,EQ.band3Gain,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,EQ.band4Freq,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,EQ.band4Q,offset,,,0.5,,0.5,,,,,,,,,,,,,,absorbed:0.894 curious:0.707 restless:0.707
+param,EQ.band4Gain,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,EQ.band5Freq,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,EQ.band5Q,offset,,,0.5,,0.5,,,,,,,,,,,,,,absorbed:0.894 curious:0.707 restless:0.707
+param,EQ.band5Gain,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,EQ,offset,,0.55,0.5,0.5,0.45,,,,,,,,,,,,,,curious:0.85 awe:0.841 absorbed:0.835
+param,Dynamics.mix,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Dynamics.threshold,offset,,,0.5,,0.5,,,,,,,,,,,,,,absorbed:0.894 curious:0.707 restless:0.707
+param,Dynamics.release,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+node,Dynamics,offset,0.4,0.0,0.0,0.6,0.45,,,,,,,,,,,,,,triumph:0.904 proud:0.817 absorbed:0.789
+param,Limiter.threshold,offset,,,0.5,,0.5,,,,,,,,,,,,,,absorbed:0.894 curious:0.707 restless:0.707
+param,Limiter.release,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Limiter.inGain,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Limiter.outGain,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Limiter,offset,0.4,0.1,0.0,0.6,0.4333,,,,,,,,,,,,,,triumph:0.929 delighted:0.812 proud:0.806
+param,Delay.mix,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Delay.timeMs,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Delay.feedback,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Delay.tone,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Delay.saturation,offset,0.4,0.3,,,,,,,,,,,,,,,,,curious:1.0 joyful:1.0 delighted:0.987
+param,Delay.diffusion,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+node,Delay,offset,0.35,0.1,-0.5,0.6,0.4,,,,,,,,,,,,,,triumph:0.834 delighted:0.775 proud:0.762
+param,Reverb.mix,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Reverb.size,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Reverb.decay,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Reverb.damping,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Reverb.predelay,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Reverb.width,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,Reverb,offset,0.4,0.1,-0.5,0.45,0.55,,,,,,,,,,,,,,triumph:0.869 proud:0.863 delighted:0.82
+param,Drive.mix,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Drive.drive,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Drive.tone,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Drive.color,offset,0.4,0.3,,,,,,,,,,,,,,,,,curious:1.0 joyful:1.0 delighted:0.987
+node,Drive,offset,0.3,0.35,,0.6,0.4,,,,,,,,,,,,,,triumph:0.905 curious:0.845 joyful:0.84
+param,Saturator.mix,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Saturator.amount1,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Saturator.amount2,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Saturator.amount3,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Saturator.feedback,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+node,Saturator,offset,0.4,0.18,-0.5,0.6,0.4,,,,,,,,,,,,,,triumph:0.863 delighted:0.821 joyful:0.792
+param,Stereo.width,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,Stereo,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Pitch Shifter.mix,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Pitch Shifter.pitch,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Pitch Shifter.grain,offset,,0.4,0.8,,,,,,,,,,,,,,,,alarm:1.0 frustrated:0.993 anxious:0.99
+node,Pitch Shifter,offset,0.2,0.4,0.8,0.6,0.4,,,,,,,,,,,,,,restless:0.714 absorbed:0.616 alarm:0.613
+param,Chorus.mix,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Chorus.delay,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Chorus.spread,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Chorus.depth,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Chorus.feedback,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Chorus.rate,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+node,Chorus,offset,0.4,0.24,-0.5,0.475,0.5,,,,,,,,,,,,,,triumph:0.884 delighted:0.856 joyful:0.825
+param,Flanger.mix,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Flanger.delay,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Flanger.depth,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Flanger.feedback,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Flanger.rate,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Flanger.spread,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,Flanger,offset,0.4,0.24,-0.5,0.475,0.5,,,,,,,,,,,,,,triumph:0.884 delighted:0.856 joyful:0.825
+param,Phaser.mix,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Phaser.cutoff,offset,0.2,0.5,,,,,,,,,,,,,,,,,joyful:0.863 curious:0.862 restless:0.811
+param,Phaser.depth,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Phaser.spread,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Phaser.rate,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+node,Phaser,offset,0.2,0.475,,0.475,0.5,,,,,,,,,,,,,,triumph:0.855 curious:0.828 joyful:0.824
+param,Bitcrush.mix,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Bitcrush.rate,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+node,Bitcrush,offset,,0.55,,0.5,0.4,,,,,,,,,,,,,,curious:0.983 delighted:0.981 joyful:0.981
+param,Transient Shaper.mix,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Transient Shaper,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Stutter.steps,offset,0.2,,-0.4,,0.2,,,,,,,,,,,,,,sleep:0.816 calm:0.791 content:0.782
+node,Stutter,offset,0.2,,-0.4,,0.2,,,,,,,,,,,,,,sleep:0.816 calm:0.791 content:0.782
+param,Ring Mod.mix,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Ring Mod.freq,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+node,Ring Mod,offset,,0.55,,0.5,0.4,,,,,,,,,,,,,,curious:0.983 delighted:0.981 joyful:0.981
+param,Frequency Shifter.mix,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Frequency Shifter.feedback,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Frequency Shifter.spread,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,Frequency Shifter,offset,0.4,0.0,-0.5,0.45,0.55,,,,,,,,,,,,,,proud:0.868 triumph:0.845 delighted:0.783
+param,Tremolo.mix,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Tremolo.depth,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Tremolo.stereoPhase,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Tremolo.rate,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+node,Tremolo,offset,,0.375,,0.5333,0.4,,,,,,,,,,,,,,awe:0.978 triumph:0.973 delighted:0.96
+param,Formant Filter.mix,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Formant Filter.q,offset,,,0.5,,0.5,,,,,,,,,,,,,,absorbed:0.894 curious:0.707 restless:0.707
+node,Formant Filter,offset,,0.3,0.5,0.6,0.45,,,,,,,,,,,,,,absorbed:0.836 awe:0.828 triumph:0.745
+param,Wavetable Shaper.mix,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Wavetable Shaper.position,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+param,Wavetable Shaper.drive,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Wavetable Shaper.smooth,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+node,Wavetable Shaper,offset,0.4,0.1,-0.5,0.6,0.4,,,,,,,,,,,,,,triumph:0.851 delighted:0.798 proud:0.781
+param,Resonator Bank.mix,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Resonator Bank.rootFreq,offset,,0.8,,0.4,,,,,,,,,,,,,,,curious:0.998 joyful:0.998 amusement:0.995
+param,Resonator Bank.decay,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Resonator Bank.scatter,offset,,0.4,0.8,,,,,,,,,,,,,,,,alarm:1.0 frustrated:0.993 anxious:0.99
+param,Resonator Bank.spread,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Resonator Bank.damp,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Resonator Bank,offset,0.4,0.3,0.15,0.475,0.5,,,,,,,,,,,,,,triumph:0.927 absorbed:0.879 curious:0.877
+param,Cycle Shaper.mix,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Cycle Shaper.threshold,offset,,,0.5,,0.5,,,,,,,,,,,,,,absorbed:0.894 curious:0.707 restless:0.707
+param,Cycle Shaper.smooth,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+node,Cycle Shaper,offset,0.4,0.0,0.0,0.6,0.45,,,,,,,,,,,,,,triumph:0.904 proud:0.817 absorbed:0.789
+param,Spec Blur.mix,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Spec Blur.blurTime,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Spec Blur.diffusion,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+node,Spec Blur,offset,0.4,-0.1,-0.5,0.6,0.4,,,,,,,,,,,,,,triumph:0.796 proud:0.781 delighted:0.716
+param,Key-Snap.mix,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Key-Snap.glide,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+node,Key-Snap,offset,0.4,0.0,-0.5,0.6,0.4,,,,,,,,,,,,,,triumph:0.828 proud:0.786 delighted:0.761
+param,Spectrum Slide.mix,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+node,Spectrum Slide,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Shape Resonator.mix,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Shape Resonator.decay,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Shape Resonator.damping,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Shape Resonator.pos,offset,,0.1,,,,,,,,,,,,,,,,,curious:1.0 delighted:1.0 alarm:1.0
+node,Shape Resonator,offset,0.4,0.1,-0.5,0.6,0.4,,,,,,,,,,,,,,triumph:0.851 delighted:0.798 proud:0.781
+param,Convolution Reverb.mix,offset,,0.3,,0.6,0.4,,,,,,,,,,,,,,triumph:0.969 awe:0.963 delighted:0.92
+param,Convolution Reverb.size,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+param,Convolution Reverb.decay,offset,0.4,-0.3,-0.5,,,,,,,,,,,,,,,,content:0.885 calm:0.789 relieved:0.786
+param,Convolution Reverb.spread,offset,,,,0.3,0.7,,,,,,,,,,,,,,amusement:1.0 content:0.998 absorbed:0.997
+node,Convolution Reverb,offset,0.4,0.0,-0.5,0.4,0.6,,,,,,,,,,,,,,proud:0.886 triumph:0.842 delighted:0.782

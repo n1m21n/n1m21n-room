@@ -1,0 +1,85 @@
+{
+ "doc": "Physical objects the character uses. status: built = exists in site/src; todo = needs a 3D model/placement. Each object lists the acts it enables and the motives those acts pay.",
+ "objects": {
+  "phone": {
+   "status": "built",
+   "acts": [
+    "phone_call",
+    "answer_phone"
+   ],
+   "motives": [
+    "social",
+    "fun"
+   ],
+   "placement": "side table at (1.25, 1.2); rings (hazard phone_ring); site/src/props.js"
+  },
+  "door": {
+   "status": "built",
+   "acts": [
+    "greet_visitor"
+   ],
+   "motives": [
+    "social",
+    "fun"
+   ],
+   "placement": "room door; greet spot (3.25, 1.6); knock (hazard knock)"
+  },
+  "desk": {
+   "status": "built",
+   "acts": [
+    "write_letter"
+   ],
+   "motives": [
+    "social",
+    "focus",
+    "fun"
+   ],
+   "placement": "desk; sheet + pen (WRITE in acts.js)"
+  },
+  "keys": {
+   "status": "built",
+   "acts": [
+    "keys"
+   ],
+   "motives": [
+    "fun"
+   ],
+   "midi": true
+  },
+  "guitar": {
+   "status": "built",
+   "acts": [
+    "guitar"
+   ],
+   "motives": [
+    "fun"
+   ],
+   "midi": true
+  },
+  "easel": {
+   "status": "built",
+   "acts": [
+    "art_refine",
+    "art_render",
+    "art_review",
+    "art_sketch"
+   ],
+   "motives": [
+    "fun",
+    "focus"
+   ],
+   "placement": "(0.9, 2.3); white canvas painted in stages sketch/refine/render/review; palette + brush; site/src/props.js"
+  },
+  "plant": {
+   "status": "built",
+   "acts": [
+    "water_plant"
+   ],
+   "motives": [
+    "comfort",
+    "fun"
+   ],
+   "placement": "monstera corner (-2.79, 1.88); stool + watering can; site/src/props.js"
+  }
+ }
+}

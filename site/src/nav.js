@@ -42,13 +42,22 @@ export function makeNav(solids, radius) {
     return true;
   }
 
+  // wall proximity per cell (0 open .. 1 touching a solid): an emotion can pull routes along walls or out into the open
+  const NEAR = 6, wall = new Float32Array(nx * nz);
+  { const d = new Int16Array(nx * nz).fill(NEAR), q = [];
+    for (let k = 0; k < block.length; k++) if (block[k]) { d[k] = 0; q.push(k); }
+    for (let h = 0; h < q.length; h++) { const k = q[h], i = k % nx, j = Math.floor(k / nx);
+      for (const [di, dj] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) { const a = i + di, b = j + dj; if (inside(a, b) && d[b * nx + a] > d[k] + 1) { d[b * nx + a] = d[k] + 1; q.push(b * nx + a); } } }
+    for (let k = 0; k < wall.length; k++) wall[k] = 1 - Math.min(d[k], NEAR) / NEAR; }
+  let bias = 0;                                                       // >0 keep to open floor, <0 hug the walls
+
   // A* with a binary heap
   const g = new Float32Array(nx * nz), from = new Int32Array(nx * nz), seen = new Uint8Array(nx * nz);
   const NB = [[1, 0, 1], [-1, 0, 1], [0, 1, 1], [0, -1, 1], [1, 1, Math.SQRT2], [1, -1, Math.SQRT2], [-1, 1, Math.SQRT2], [-1, -1, Math.SQRT2]];
   function astar(s, t) {
     g.fill(Infinity); seen.fill(0); from.fill(-1);
     const tx = t % nx, tz = Math.floor(t / nx);
-    const h = k => { const dx = Math.abs(k % nx - tx), dz = Math.abs(Math.floor(k / nx) - tz); return Math.max(dx, dz) + (Math.SQRT2 - 1) * Math.min(dx, dz); };
+    const h = k => { const dx = Math.abs(k % nx - tx), dz = Math.abs(Math.floor(k / nx) - tz); return (Math.max(dx, dz) + (Math.SQRT2 - 1) * Math.min(dx, dz)) * Math.max(0.2, 1 + Math.min(0, bias)); };   // scaled so it stays admissible when walls are cheaper
     const heap = [[h(s), s]]; g[s] = 0;
     const push = it => { heap.push(it); let i = heap.length - 1; while (i) { const p = (i - 1) >> 1; if (heap[p][0] <= heap[i][0]) break; [heap[p], heap[i]] = [heap[i], heap[p]]; i = p; } };
     const pop = () => { const top = heap[0], last = heap.pop(); if (heap.length) { heap[0] = last; let i = 0; for (;;) { const l = 2 * i + 1, r = l + 1; let m = i; if (l < heap.length && heap[l][0] < heap[m][0]) m = l; if (r < heap.length && heap[r][0] < heap[m][0]) m = r; if (m === i) break; [heap[m], heap[i]] = [heap[i], heap[m]]; i = m; } } return top; };
@@ -60,7 +69,7 @@ export function makeNav(solids, radius) {
       for (const [di, dj, c] of NB) {
         const a = i + di, b = j + dj;
         if (!free(a, b) || (di && dj && (!free(i + di, j) || !free(i, j + dj)))) continue;
-        const n = b * nx + a, ng = g[k] + c;
+        const n = b * nx + a, ng = g[k] + c * (1 + bias * wall[n]);
         if (ng < g[n]) { g[n] = ng; from[n] = k; push([ng + h(n), n]); }
       }
     }
@@ -85,5 +94,5 @@ export function makeNav(solids, radius) {
     return out;
   }
 
-  return { path, free: (x, z) => free(ci(x), cj(z)) };
+  return { path, free: (x, z) => free(ci(x), cj(z)), setBias: v => { bias = Math.max(-0.7, Math.min(1, v || 0)); } };
 }

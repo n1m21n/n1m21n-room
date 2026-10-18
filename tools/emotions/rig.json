@@ -1,0 +1,267 @@
+{
+ "doc": "Structural face/body rig. Each landmark = clamp(bias + v*V + a*A + st*ST + f*F + d*D) with V,A,D in -1..1 (value-0.5)*2, ST stress 0..1, F fatigue 0..1. Units: *_y up positive unless noted; 0..1 for openness/curl/etc. Per-emotion `coords` overrides win.",
+ "inputs": {
+  "v": "valence",
+  "a": "arousal",
+  "st": "stress",
+  "f": "fatigue (1-energy)",
+  "d": "dominance"
+ },
+ "landmarks": {
+  "brow_inner_y": {
+   "part": "brows",
+   "bias": 0,
+   "v": 0.1,
+   "a": 0,
+   "st": 0.3,
+   "f": 0,
+   "d": -0.9,
+   "lo": -1,
+   "hi": 1
+  },
+  "brow_outer_y": {
+   "part": "brows",
+   "bias": 0,
+   "v": 0.15,
+   "a": 0.25,
+   "st": 0,
+   "f": -0.35,
+   "d": 0.1,
+   "lo": -1,
+   "hi": 1
+  },
+  "eyelid_open": {
+   "part": "eyes",
+   "bias": 1.05,
+   "v": 0,
+   "a": 0.25,
+   "st": 0,
+   "f": -0.75,
+   "d": 0.05,
+   "lo": 0,
+   "hi": 1
+  },
+  "pupil_size": {
+   "part": "eyes",
+   "bias": 0.5,
+   "v": 0.1,
+   "a": 0.4,
+   "st": 0.1,
+   "f": -0.1,
+   "d": 0,
+   "lo": 0,
+   "hi": 1
+  },
+  "gaze_x": {
+   "part": "eyes",
+   "bias": 0,
+   "v": 0,
+   "a": 0,
+   "st": -0.35,
+   "f": 0,
+   "d": 0,
+   "lo": -1,
+   "hi": 1
+  },
+  "gaze_y": {
+   "part": "eyes",
+   "bias": 0.05,
+   "v": 0,
+   "a": 0,
+   "st": 0,
+   "f": 0.45,
+   "d": 0,
+   "lo": -1,
+   "hi": 1
+  },
+  "mouth_corner_y": {
+   "part": "mouth",
+   "bias": 0,
+   "v": 0.85,
+   "a": 0,
+   "st": -0.35,
+   "f": 0,
+   "d": 0.05,
+   "lo": -1,
+   "hi": 1
+  },
+  "mouth_open": {
+   "part": "mouth",
+   "bias": 0,
+   "v": 0,
+   "a": 0.45,
+   "st": 0.05,
+   "f": 0,
+   "d": 0,
+   "lo": 0,
+   "hi": 1
+  },
+  "mouth_width": {
+   "part": "mouth",
+   "bias": 0.5,
+   "v": 0.3,
+   "a": 0.1,
+   "st": 0,
+   "f": 0,
+   "d": 0,
+   "lo": 0,
+   "hi": 1
+  },
+  "ear_forward": {
+   "part": "ears",
+   "bias": 0,
+   "v": 0.1,
+   "a": 0.6,
+   "st": 0,
+   "f": -0.3,
+   "d": 0,
+   "lo": -1,
+   "hi": 1
+  },
+  "shoulder_lift": {
+   "part": "shoulders",
+   "bias": 0,
+   "v": 0,
+   "a": 0.1,
+   "st": 0.6,
+   "f": -0.2,
+   "d": -0.2,
+   "lo": -1,
+   "hi": 1
+  },
+  "spine_slump": {
+   "part": "spine",
+   "bias": 0,
+   "v": -0.2,
+   "a": 0,
+   "st": 0.1,
+   "f": 0.75,
+   "d": -0.2,
+   "lo": 0,
+   "hi": 1
+  },
+  "chest_expand": {
+   "part": "spine",
+   "bias": 0,
+   "v": 0.3,
+   "a": 0.2,
+   "st": 0,
+   "f": -0.4,
+   "d": 0.2,
+   "lo": -1,
+   "hi": 1
+  },
+  "head_pitch": {
+   "part": "head",
+   "bias": 0,
+   "v": -0.15,
+   "a": 0,
+   "st": 0.05,
+   "f": 0.5,
+   "d": -0.25,
+   "lo": -1,
+   "hi": 1
+  },
+  "hand_curl": {
+   "part": "fingers",
+   "bias": 0.3,
+   "v": -0.25,
+   "a": 0.1,
+   "st": 0.6,
+   "f": 0,
+   "d": 0.25,
+   "lo": 0,
+   "hi": 1
+  },
+  "hand_height": {
+   "part": "hands",
+   "bias": 0.1,
+   "v": 0.1,
+   "a": 0.5,
+   "st": 0.1,
+   "f": -0.4,
+   "d": 0,
+   "lo": 0,
+   "hi": 1
+  },
+  "finger_tremor": {
+   "part": "fingers",
+   "bias": 0,
+   "v": 0,
+   "a": 0.15,
+   "st": 0.5,
+   "f": 0.1,
+   "d": -0.3,
+   "lo": 0,
+   "hi": 1
+  },
+  "knee_bend": {
+   "part": "legs",
+   "bias": 0.05,
+   "v": 0,
+   "a": 0,
+   "st": 0.1,
+   "f": 0.35,
+   "d": -0.1,
+   "lo": 0,
+   "hi": 1
+  },
+  "stance_width": {
+   "part": "legs",
+   "bias": 0.3,
+   "v": 0,
+   "a": 0.15,
+   "st": 0.2,
+   "f": 0,
+   "d": 0.25,
+   "lo": 0,
+   "hi": 1
+  },
+  "stride_len": {
+   "part": "legs",
+   "bias": 0.5,
+   "v": 0.1,
+   "a": 0.5,
+   "st": -0.1,
+   "f": -0.35,
+   "d": 0.1,
+   "lo": 0,
+   "hi": 1
+  },
+  "foot_tap": {
+   "part": "legs",
+   "bias": 0,
+   "v": 0,
+   "a": 0.2,
+   "st": 0.35,
+   "f": 0,
+   "d": -0.1,
+   "lo": 0,
+   "hi": 1
+  }
+ },
+ "derive": {
+  "expression": {
+   "lid": "(1-eyelid_open)*0.9",
+   "slant": "-brow_inner_y",
+   "crease": "clamp(brow_outer_y*1.6,0,1)",
+   "lower": "clamp(mouth_corner_y*0.9,0,1)",
+   "iris": "0.35+pupil_size*0.75",
+   "wide": "min(1.35,1+0.4*max(0,st*0.6+a*0.5-0.4))",
+   "sp_r": "38+12*mouth_corner_y-8*st",
+   "sp_turns": "3+1.5*st-0.8*max(0,mouth_corner_y)",
+   "sp_sq": "0.8+0.2*st-0.2*mouth_corner_y",
+   "mouth": "mouth_open",
+   "flush": "clamp(st*0.35,0,1)"
+  },
+  "posture": {
+   "spineSlumpRad": "spine_slump*0.08",
+   "chestExpandRad": "-chest_expand*0.035"
+  },
+  "tempo": "0.6+0.55*arousal+0.2*(valence-0.5)",
+  "velocity": "0.5+0.5*arousal+0.2*valence",
+  "breathLo": "1.1+0.9*arousal",
+  "breathSpan": 0.35,
+  "gait": "0.6+0.5*arousal-0.3*fatigue"
+ }
+}

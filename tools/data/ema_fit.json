@@ -1,0 +1,54 @@
+{
+ "source": "EmotionTimeSeries (6 EMA longitudinal studies) + EmoBank (10,062 contextual VAD ratings)",
+ "ema_study_rows": {
+  "Bringmann2013": 28600,
+  "Bringmann2016": 6329,
+  "Fisher2017": 5327,
+  "Fried2021": 4372,
+  "Rowland2020": 30000,
+  "Wright2017": 29024
+ },
+ "total_ema_rows": 103652,
+ "fisher2017_lag1_autocorr": {
+  "positive": 0.325,
+  "energetic": 0.256,
+  "fatigue": 0.257,
+  "worried": 0.377,
+  "irritable": 0.314,
+  "restless": 0.264,
+  "content": 0.31,
+  "down": 0.396,
+  "tension": 0.358,
+  "concentrate": 0.246,
+  "ruminate": 0.314,
+  "anhedonia": 0.32
+ },
+ "fisher2017_cross_correlations": {
+  "tension_to_fatigue": 0.501,
+  "worried_to_restless": 0.403,
+  "irritable_to_tension": 0.359,
+  "down_to_fatigue": 0.428,
+  "down_to_anhedonia": 0.632,
+  "fatigue_to_concentrate": 0.416,
+  "tension_to_ruminate": 0.255,
+  "worried_to_avoid_act": 0.338,
+  "fatigue_to_procrast": 0.405,
+  "positive_to_energetic": 0.515,
+  "content_to_tension": -0.189
+ },
+ "rowland2020_valence": {
+  "lag1_autocorr": 0.387,
+  "within_person_day_sd_mean": 0.0913,
+  "between_person_sd": 0.1122,
+  "overall_mean": 0.6996
+ },
+ "emobank_vad_01": {
+  "n": 10062,
+  "valence_mean": 0.4942,
+  "valence_sd": 0.0872,
+  "arousal_mean": 0.5104,
+  "arousal_sd": 0.0649,
+  "dominance_mean": 0.5157,
+  "dominance_sd": 0.0524
+ }
+}

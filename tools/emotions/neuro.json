@@ -1,0 +1,135 @@
+{
+ "doc": "Six slow chemical-style variables in 0..1 (sim seconds). Not literal neurochemistry: game-grade abstraction (Doya 2002, Lovheim 2012, Panksepp). Event deltas live in ledger_events.json under `neuro`.",
+ "vars": {
+  "DA": {
+   "name": "dopamine",
+   "role": "wanting / seeking / anticipation",
+   "base": 0.5,
+   "tau": 351,
+   "min": 0,
+   "max": 1
+  },
+  "HT": {
+   "name": "serotonin",
+   "role": "mood stability, contentment, patience",
+   "base": 0.55,
+   "tau": 3331,
+   "min": 0,
+   "max": 1
+  },
+  "NE": {
+   "name": "noradrenaline",
+   "role": "alertness, arousal, exploration noise",
+   "base": 0.4,
+   "tau": 67.54,
+   "min": 0,
+   "max": 1
+  },
+  "CORT": {
+   "name": "cortisol",
+   "role": "stress load",
+   "base": 0.2,
+   "tau": 426.9,
+   "min": 0,
+   "max": 1
+  },
+  "OXY": {
+   "name": "oxytocin",
+   "role": "bonding, social safety",
+   "base": 0.4,
+   "tau": 1800,
+   "min": 0,
+   "max": 1
+  },
+  "SLP": {
+   "name": "sleep pressure",
+   "role": "adenosine / melatonin; rises awake, falls asleep",
+   "base": 0.2,
+   "tau": 0,
+   "min": 0,
+   "max": 1,
+   "riseAwake": 4e-05,
+   "fallAsleep": 0.00012
+  }
+ },
+ "affect": {
+  "valence": {
+   "bias": 0.5,
+   "DA": 0.35,
+   "HT": 0.45,
+   "CORT": -0.2868,
+   "OXY": 0.15,
+   "SLP": -0.1,
+   "mood": 0.25
+  },
+  "arousal": {
+   "bias": 0.5,
+   "NE": 0.6,
+   "DA": 0.25,
+   "SLP": -0.45,
+   "CORT": 0.15
+  },
+  "stress": {
+   "bias": 0,
+   "CORT": 1.227
+  },
+  "dominance": {
+   "bias": 0.5,
+   "DA": 0.3,
+   "HT": 0.3,
+   "CORT": -0.4
+  }
+ },
+ "effects": {
+  "doChance": {
+   "DA": 0.8,
+   "CORT": -0.3
+  },
+  "walkSpeed": {
+   "NE": 0.25,
+   "DA": 0.15,
+   "SLP": -0.3
+  },
+  "patience": {
+   "HT": 0.7,
+   "CORT": -0.5
+  },
+  "noiseGain": {
+   "NE": 0.8,
+   "CORT": 0.6,
+   "HT": -0.5
+  },
+  "cancelPlan": {
+   "CORT": 0.9,
+   "HT": -0.5,
+   "DA": -0.3
+  },
+  "socialReward": {
+   "OXY": 1
+  }
+ },
+ "lovheimCube": {
+  "doc": "Lovheim 2012 cube: (HT,DA,NE) high/low -> the 8 basic affects, translated to this character's emotion set. Key order HT,DA,NE. Used only as a gentle prior on emotion choice, and only when chemistry is clearly away from baseline (deadZone).",
+  "deadZone": 0.04,
+  "corners": {
+   "000": "embarrassed",
+   "001": "anxious",
+   "010": "uneasy",
+   "011": "frustrated",
+   "100": "bored",
+   "101": "awe",
+   "110": "content",
+   "111": "curious"
+  },
+  "lovheim": {
+   "000": "shame/humiliation",
+   "001": "distress/anguish",
+   "010": "fear/terror",
+   "011": "anger/rage",
+   "100": "contempt/disgust",
+   "101": "surprise",
+   "110": "enjoyment/joy",
+   "111": "interest/excitement"
+  }
+ }
+}

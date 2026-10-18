@@ -3,6 +3,7 @@
 // Web Audio. A vinyl crackle runs under the room whenever no record is playing; footsteps, bumps, chairs, typing, keys, guitar, pages, doors, the portal, the remote, the snake and
 // the HUD each get a small effect. main.js calls tick() every frame with what is going on and fx(name) for one-offs.
 import { parseMidi } from './midi.js';
+import { MUSIC_EXTRA } from './sim/data/emotions.gen.js';
 
 const KEY = 'n1m21n-sound';
 export function makeSfx() {
@@ -171,6 +172,7 @@ export function makeSfx() {
       hiss({ t: t + 2.2, f: 1500, f2: 2600, q: 3, gain: 0.04, a: 0.4, d: 2.5 });
     },
     fridge() { const t = now(); hiss({ t, type: 'lowpass', f: 300, gain: 0.12, d: 0.08 }); tone({ t: t + 0.05, f: 62, gain: 0.05, a: 0.3, d: 2.5 }); tone({ t: t + 0.05, f: 124, gain: 0.015, a: 0.3, d: 2.5 }); },
+    ring() { const t = now(); for (let i = 0; i < 2; i++) for (let k = 0; k < 6; k++) tone({ t: t + i * 0.45 + k * 0.05, f: k % 2 ? 1320 : 1760, gain: 0.03, a: 0.005, d: 0.045 }); },   // a phone's double trill
     whistle() { const t = now(); tone({ t, f: 1900, f2: 2250, gain: 0.04, a: 0.4, d: 1.1 }); tone({ t: t + 0.02, f: 2850, f2: 3300, gain: 0.012, a: 0.4, d: 1.0 }); },
     clink() { const t = now(); tone({ t, f: 2900, gain: 0.05, d: 0.25 }); tone({ t, f: 4400, gain: 0.02, d: 0.12 }); },
     cricket() { const t = now(); for (let i = 0; i < 3; i++) tone({ t: t + i * 0.05, f: 4600, gain: 0.015, d: 0.03 }); },
@@ -264,6 +266,7 @@ export function makeSfx() {
       guitar: [[45, 52, 57, 60], [50, 57, 62, 65], [40, 47, 52, 55], [45, 52, 57, 60]], // Am - Dm - Em - Am
     },
   };
+  for (const [name, x] of Object.entries(MUSIC_EXTRA)) if (!EMOTION_MUSIC[name] && EMOTION_MUSIC[x.like]) EMOTION_MUSIC[name] = { ...EMOTION_MUSIC[x.like], tempo: x.tempo, vel: x.vel };   // generated emotions borrow a bank
   const midiCache = new Map();
   let song = null, activeMidiUrl = null;
   function loadSong(emotionName = 'calm') {
@@ -302,6 +305,21 @@ export function makeSfx() {
     ord.forEach((m, k) => pluck(hz(m), t + k * spread, (down ? 0.16 : 0.09) * vel));
   }
 
+  // the piece the sim chose for what he is feeling (core.pickPiece / suggestPiece): fetched once, then played note by note
+  const pend = new Set();
+  function songAt(url) {
+    if (midiCache.has(url)) return midiCache.get(url);
+    if (!pend.has(url)) { pend.add(url); fetch(url).then(r => (r.ok ? r.arrayBuffer() : null)).then(b => { if (b) midiCache.set(url, parseMidi(b)); }).catch(() => {}); }
+    return null;
+  }
+  function playSong(sg, sp, u, t, tempo, velScale, voice) {          // on the audio clock, looped, scaled by the piece's own tempo and loudness
+    const L = sg.length + 3, at = (sp.tt ?? u * tempo) - 0.6 * tempo, loop = Math.floor(Math.max(0, at) / L), pos = at - loop * L;
+    if (seen.song !== sg) { seen.song = sg; seen.loop = -1; }
+    if (loop !== seen.loop) { seen.loop = loop; seen.mi = sg.notes.findIndex(o => o.t >= pos); if (seen.mi < 0) seen.mi = sg.notes.length; }
+    const N = sg.notes;
+    while (at >= 0 && seen.mi < N.length && N[seen.mi].t < pos + 0.25) { const o = N[seen.mi++]; voice(o, t + Math.max(0, (o.t - pos) / tempo), o.d / tempo, Math.min(1, o.v * velScale)); }
+  }
+
   // ---------- per frame
   const seen = { seat: null, stepN: 0, bumps: 0, pressed: 0, portal: false, doors: new Map(), next: 0, chord: -1, strum: -1, flip: 0, opened: false, ambT: -1 };
   function tick(dt, s) {
@@ -319,6 +337,7 @@ export function makeSfx() {
     if (sp?.act === 'shower') pour(wu > 0.3 ? 0.32 : 0, 1400, 0.5);
     else if (sp?.act === 'wash') pour(st.spec?.tap ? 0.14 : 0, 2600, 0.9);
     else if (sp?.act === 'loo') pour(wu > 1.5 && wu < 6 ? 0.05 : 0, 3200, 2.5);
+    else if (sp?.act === 'water') pour(st.spec?.pour ? 0.08 : 0, 3000, 1.2);              // the can's rose over the soil
     else if (sp?.act === 'tea') pour(st.spec?.pour ? 0.1 : wu > 0.5 && wu < 3 ? 0.035 : 0, st.spec?.pour ? 2100 : 260, st.spec?.pour ? 1.6 : 0.6);   // pouring, else the boil's rumble
     else pour(0);
 
@@ -332,7 +351,7 @@ export function makeSfx() {
       const was = seen.seat; seen.seat = sp; seen.next = t + 0.4; seen.chord = seen.strum = -1; seen.loop = -1; seen.mi = 0; seen.since = t; seen.flip = 0; seen.opened = false;
       if (sp) {
         const a = sp.act;
-        if (a === 'bed') FX.bed(); else if (['desk', 'stool', 'bench'].includes(a)) FX.sit();
+        if (a === 'bed') FX.bed(); else if (['desk', 'stool', 'bench', 'write', 'nap'].includes(a)) FX.sit();
         else if (a === 'guitar') { FX.rustle(); pluck(hz(40), t + 0.1, 0.05); }
         else if (a === 'tv') FX.click(); else if (a === 'pin') FX.rustle(0.05);
         else if (['wash', 'shower', 'tea'].includes(a)) FX.click();
@@ -347,11 +366,14 @@ export function makeSfx() {
           if (t > seen.next && u > 0.5) { const sp_ = Math.random() < 0.12; FX.key(sp_); seen.next = t + (Math.random() < 0.08 ? rnd(0.5, 1.2) : rnd(0.07, 0.17)); }
           break;
         case 'keys': {                                             // emotion-mapped MIDI piece or affective chord progression
+          const ps = s.piece && songAt(s.piece.url);
+          if (ps?.notes) { playSong(ps, sp, u, t, s.piece.tempo, s.piece.vel, (o, at, d, v) => { piano(hz(o.n), at, d, v); heard.push('piano'); }); break; }
           loadSong(emoFace);
           const useMidi = song?.notes && (emoFace === 'calm' || emoFace === 'neutral' || midiCache.has(bank.midi?.[0]));
           if (useMidi) {                                           // on the audio clock, scaled by emotional tempo & velocity
             const tempo = bank.tempo || 1.0, velScale = bank.vel || 1.0;
-            const L = song.length + 3, at = (t - seen.since - 0.6) * tempo, loop = Math.floor(Math.max(0, at) / L), pos = at - loop * L;
+            const L = song.length + 3, at = (sp.tt ?? u * tempo) - 0.6 * tempo, loop = Math.floor(Math.max(0, at) / L), pos = at - loop * L;   // sp.tt: act clock integrated at his tempo (no jump when the mood changes)
+            if (seen.song !== song) { seen.song = song; seen.loop = -1; }                                                                        // a different piece: re-find the note cursor
             if (loop !== seen.loop) { seen.loop = loop; seen.mi = song.notes.findIndex(o => o.t >= pos); if (seen.mi < 0) seen.mi = song.notes.length; }
             const N = song.notes;
             while (at >= 0 && seen.mi < N.length && N[seen.mi].t < pos + 0.25) {
@@ -359,7 +381,7 @@ export function makeSfx() {
             }
             break;
           }
-          const rate = 1.6 * (bank.tempo || 1.0), c = Math.floor(u * rate);
+          const c = Math.floor((sp.tt ?? u * (bank.tempo || 1.0)) * 1.6);          // same 1.6 chords/s on the same clock as ACTS.keys
           const kChords = bank.keys || EMOTION_MUSIC.calm.keys;
           if (c !== seen.chord && u > 0.3) {
             seen.chord = c; heard.push('piano');
@@ -369,8 +391,11 @@ export function makeSfx() {
           }
           break;
         }
-        case 'guitar': {                                           // down-up strums, chord progression & tempo matched to emotion
-          const k = Math.floor(u * 2.6 * (bank.tempo || 1.0));
+        case 'guitar': {
+          const gs = s.piece && songAt(s.piece.url);
+          if (gs?.notes) { playSong(gs, sp, u, t, s.piece.tempo, s.piece.vel, (o, at, d, v) => { pluck(hz(o.n), at, 0.05 + 0.16 * v); heard.push('pluck'); }); break; }
+          // down-up strums, chord progression & tempo matched to emotion
+          const k = Math.floor((sp.tt ?? u * (bank.tempo || 1.0)) * 9 / Math.PI);   // a stroke every half cycle of ACTS.guitar's S(tt * 9), so strums land with the hand
           if (k !== seen.strum && u > 0.5) { seen.strum = k; strum(Math.floor(k / 4), k % 2 === 0, emoFace); }
           break;
         }
@@ -396,6 +421,15 @@ export function makeSfx() {
           break;
         case 'pin':
           if (t > seen.next) { FX.rustle(0.025); seen.next = t + rnd(1.5, 3); }
+          break;
+        case 'phone':                                              // it rings on the table till he picks it up (answering)
+          if (st.spec?.ringing && t > seen.next) { FX.ring(); seen.next = t + 1.6; }
+          break;
+        case 'paint':                                              // the brush on canvas: a soft dry scratch now and then
+          if (st.spec?.paint && t > seen.next) { FX.rustle(0.012); seen.next = t + rnd(0.5, 1.4); }
+          break;
+        case 'write':
+          if (t > seen.next && u > 0.6) { FX.rustle(0.01); seen.next = t + rnd(0.3, 0.9); }
           break;
       }
     }

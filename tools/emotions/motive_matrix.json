@@ -1,0 +1,394 @@
+{
+ "doc": "Motive x act weights, percent. + feeds the motive, - drains it. 100% = the strongest effect in the sim (reward 1.0 / drain 0.012 per minute). Every act may touch every motive; blank = 0. Edit here, then python3 tools/emotions/gen.py. fun/focus/energy cells of ATUS-mapped acts are blended 60% toward ATUS Well-Being Module means (happy/stress/tired/meaning z-scores); hunger, hygiene, bladder, social and sleep/rest stay hand-set (see sources).",
+ "drainUnit": 0.012,
+ "motives": [
+  "energy",
+  "hunger",
+  "fun",
+  "focus",
+  "hygiene",
+  "bladder",
+  "social"
+ ],
+ "matrix": {
+  "sleep": {
+   "energy": 100,
+   "fun": -5,
+   "focus": 25,
+   "social": -4
+  },
+  "bench": {
+   "energy": 45,
+   "fun": 8,
+   "focus": 65,
+   "social": -6
+  },
+  "eat": {
+   "hunger": 100,
+   "focus": 38,
+   "hygiene": -5,
+   "bladder": -8,
+   "fun": 48
+  },
+  "cook": {
+   "energy": -7,
+   "hunger": 78,
+   "fun": 47,
+   "focus": 32,
+   "hygiene": -10
+  },
+  "fridge": {
+   "hunger": 62,
+   "bladder": -8,
+   "fun": 38,
+   "focus": 36,
+   "energy": -2
+  },
+  "tea": {
+   "energy": 20,
+   "hunger": 45,
+   "fun": 51,
+   "focus": 56,
+   "bladder": -50
+  },
+  "guitar": {
+   "energy": -7,
+   "fun": 81,
+   "focus": 17,
+   "social": -8
+  },
+  "keys": {
+   "energy": -7,
+   "fun": 82,
+   "focus": 17,
+   "social": -8
+  },
+  "tv": {
+   "energy": 18,
+   "fun": 56,
+   "focus": -26,
+   "social": -6
+  },
+  "records": {
+   "fun": 74,
+   "focus": 22
+  },
+  "snake": {
+   "fun": 53,
+   "focus": -26,
+   "social": 100
+  },
+  "window": {
+   "energy": 4,
+   "fun": 38,
+   "focus": 41,
+   "social": -4
+  },
+  "read": {
+   "fun": 46,
+   "focus": 72,
+   "bladder": -3,
+   "social": -10
+  },
+  "work": {
+   "energy": -21,
+   "hunger": -8,
+   "fun": -64,
+   "focus": -70,
+   "bladder": -5,
+   "social": 18
+  },
+  "shower": {
+   "energy": 15,
+   "fun": 6,
+   "focus": -6,
+   "hygiene": 100
+  },
+  "brush": {
+   "fun": -3,
+   "hygiene": 65
+  },
+  "wash": {
+   "fun": -4,
+   "focus": 15,
+   "hygiene": 58
+  },
+  "loo": {
+   "fun": -3,
+   "focus": -5,
+   "bladder": 100
+  },
+  "dress": {
+   "fun": 35,
+   "focus": -6,
+   "hygiene": 38,
+   "social": 32
+  },
+  "roam": {
+   "energy": -19,
+   "fun": 74,
+   "focus": 68,
+   "hygiene": -4
+  },
+  "pace": {
+   "energy": -9,
+   "focus": 64,
+   "fun": 60
+  },
+  "gallery_view": {
+   "energy": -2,
+   "fun": 82,
+   "focus": 55,
+   "social": -4
+  },
+  "build": {
+   "energy": -21,
+   "hunger": -8,
+   "fun": 40,
+   "focus": 41,
+   "hygiene": -15,
+   "social": -10
+  },
+  "gather": {
+   "energy": -24,
+   "hunger": -8,
+   "fun": 21,
+   "hygiene": -10
+  },
+  "yawn": {
+   "energy": 2
+  },
+  "stretch": {
+   "energy": 3,
+   "focus": 3
+  },
+  "sigh": {},
+  "fidget": {},
+  "sip": {
+   "hunger": 2,
+   "bladder": -10,
+   "fun": 48,
+   "focus": 41
+  },
+  "glance": {},
+  "wall_bump": {},
+  "stumble": {},
+  "run_indoors": {
+   "energy": -33,
+   "hunger": -18,
+   "fun": 64,
+   "focus": 48,
+   "hygiene": -30
+  },
+  "night_shower": {
+   "hygiene": 100
+  },
+  "nap_bench": {
+   "energy": 50,
+   "focus": 12
+  },
+  "work_through": {
+   "energy": -31,
+   "hunger": -10,
+   "fun": -67,
+   "focus": -18,
+   "bladder": -8,
+   "social": -30
+  },
+  "false_start": {},
+  "phone_call": {
+   "energy": -3,
+   "fun": 47,
+   "focus": 14,
+   "social": 100
+  },
+  "write_letter": {
+   "energy": -3,
+   "fun": 15,
+   "focus": 2,
+   "social": 60
+  },
+  "greet_visitor": {
+   "energy": -4,
+   "fun": 80,
+   "focus": 40,
+   "social": 100
+  },
+  "answer_phone": {
+   "fun": 43,
+   "focus": 12,
+   "social": 100
+  },
+  "art_sketch": {
+   "energy": -14,
+   "hunger": -4,
+   "fun": 64,
+   "focus": 28,
+   "social": -10
+  },
+  "art_refine": {
+   "energy": -14,
+   "hunger": -4,
+   "fun": 56,
+   "focus": 36,
+   "social": -10
+  },
+  "art_render": {
+   "energy": -14,
+   "hunger": -6,
+   "fun": 52,
+   "focus": 32,
+   "social": -10
+  },
+  "art_review": {
+   "energy": -8,
+   "fun": 52,
+   "focus": 24
+  },
+  "water_plant": {
+   "fun": 20,
+   "focus": 25,
+   "social": 8,
+   "energy": -3
+  }
+ },
+ "sources": {
+  "eat": {
+   "fun": "atus-wb class eat (blend 0.6)",
+   "focus": "atus-wb class eat (blend 0.6)",
+   "energy": "atus-wb class eat (blend 0.6)"
+  },
+  "cook": {
+   "fun": "atus-wb class cook (blend 0.6)",
+   "focus": "atus-wb class cook (blend 0.6)",
+   "energy": "atus-wb class cook (blend 0.6)"
+  },
+  "fridge": {
+   "fun": "atus-wb class cook (blend 0.6)",
+   "focus": "atus-wb class cook (blend 0.6)",
+   "energy": "atus-wb class cook (blend 0.6)"
+  },
+  "tea": {
+   "fun": "atus-wb class eat (blend 0.6)",
+   "focus": "atus-wb class eat (blend 0.6)"
+  },
+  "guitar": {
+   "fun": "atus-wb class music (blend 0.6)",
+   "focus": "atus-wb class music (blend 0.6)",
+   "energy": "atus-wb class music (blend 0.6)"
+  },
+  "keys": {
+   "fun": "atus-wb class music (blend 0.6)",
+   "focus": "atus-wb class music (blend 0.6)",
+   "energy": "atus-wb class music (blend 0.6)"
+  },
+  "tv": {
+   "fun": "atus-wb class tv (blend 0.6)",
+   "focus": "atus-wb class tv (blend 0.6)"
+  },
+  "records": {
+   "fun": "atus-wb class music (blend 0.6)",
+   "focus": "atus-wb class music (blend 0.6)",
+   "energy": "atus-wb class music (blend 0.6)"
+  },
+  "snake": {
+   "fun": "atus-wb class game (blend 0.6)",
+   "focus": "atus-wb class game (blend 0.6)",
+   "energy": "atus-wb class game (blend 0.6)"
+  },
+  "window": {
+   "fun": "atus-wb class relax (blend 0.6)",
+   "focus": "atus-wb class relax (blend 0.6)"
+  },
+  "read": {
+   "fun": "atus-wb class read (blend 0.6)",
+   "focus": "atus-wb class read (blend 0.6)",
+   "energy": "atus-wb class read (blend 0.6)"
+  },
+  "work": {
+   "fun": "atus-wb class work (blend 0.6)",
+   "focus": "atus-wb class work (blend 0.6)",
+   "energy": "atus-wb class work (blend 0.6)"
+  },
+  "roam": {
+   "fun": "atus-wb class walk (blend 0.6)",
+   "focus": "atus-wb class walk (blend 0.6)",
+   "energy": "atus-wb class walk (blend 0.6)"
+  },
+  "pace": {
+   "fun": "atus-wb class walk (blend 0.6)",
+   "focus": "atus-wb class walk (blend 0.6)",
+   "energy": "atus-wb class walk (blend 0.6)"
+  },
+  "gallery_view": {
+   "fun": "atus-wb class gallery (blend 0.6)",
+   "focus": "atus-wb class gallery (blend 0.6)",
+   "energy": "atus-wb class gallery (blend 0.6)"
+  },
+  "build": {
+   "fun": "atus-wb class diy (blend 0.6)",
+   "focus": "atus-wb class diy (blend 0.6)",
+   "energy": "atus-wb class diy (blend 0.6)"
+  },
+  "gather": {
+   "fun": "atus-wb class chores (blend 0.6)",
+   "focus": "atus-wb class chores (blend 0.6)",
+   "energy": "atus-wb class chores (blend 0.6)"
+  },
+  "sip": {
+   "fun": "atus-wb class eat (blend 0.6)",
+   "focus": "atus-wb class eat (blend 0.6)",
+   "energy": "atus-wb class eat (blend 0.6)"
+  },
+  "run_indoors": {
+   "fun": "atus-wb class exercise (blend 0.6)",
+   "focus": "atus-wb class exercise (blend 0.6)",
+   "energy": "atus-wb class exercise (blend 0.6)"
+  },
+  "work_through": {
+   "fun": "atus-wb class work (blend 0.6)",
+   "focus": "atus-wb class work (blend 0.6)",
+   "energy": "atus-wb class work (blend 0.6)"
+  },
+  "phone_call": {
+   "fun": "atus-wb class phone (blend 0.6)",
+   "focus": "atus-wb class phone (blend 0.6)",
+   "energy": "atus-wb class phone (blend 0.6)"
+  },
+  "write_letter": {
+   "fun": "atus-wb class write (blend 0.6)",
+   "focus": "atus-wb class write (blend 0.6)",
+   "energy": "atus-wb class write (blend 0.6)"
+  },
+  "greet_visitor": {
+   "fun": "atus-wb class social (blend 0.6)",
+   "focus": "atus-wb class social (blend 0.6)",
+   "energy": "atus-wb class social (blend 0.6)"
+  },
+  "answer_phone": {
+   "fun": "atus-wb class phone (blend 0.6)",
+   "focus": "atus-wb class phone (blend 0.6)",
+   "energy": "atus-wb class phone (blend 0.6)"
+  },
+  "art_sketch": {
+   "fun": "atus-wb class hobby (blend 0.6)",
+   "focus": "atus-wb class hobby (blend 0.6)",
+   "energy": "atus-wb class hobby (blend 0.6)"
+  },
+  "art_refine": {
+   "fun": "atus-wb class hobby (blend 0.6)",
+   "focus": "atus-wb class hobby (blend 0.6)",
+   "energy": "atus-wb class hobby (blend 0.6)"
+  },
+  "art_render": {
+   "fun": "atus-wb class hobby (blend 0.6)",
+   "focus": "atus-wb class hobby (blend 0.6)",
+   "energy": "atus-wb class hobby (blend 0.6)"
+  },
+  "art_review": {
+   "fun": "atus-wb class hobby (blend 0.6)",
+   "focus": "atus-wb class hobby (blend 0.6)",
+   "energy": "atus-wb class hobby (blend 0.6)"
+  }
+ }
+}

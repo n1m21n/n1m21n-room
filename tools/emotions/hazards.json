@@ -1,0 +1,79 @@
+{
+ "doc": "Erratic event hazards: rate per sim-second = h0 + kStress*stress + kFatigue*fatigue + trigger. Seeded by (world seed, day, minute bucket). interrupt: hard = breaks every chain in flight; soft = suspends them (he may come back, odds fall with the length of the break, TUNE.resumeTau); none = the act goes on.",
+ "events": {
+  "startle": {
+   "h0": 0.0001049,
+   "kStress": 0.0002186,
+   "kFatigue": 0,
+   "ledger": "startle",
+   "face": "alarm",
+   "hold": 1.2,
+   "interrupt": "hard"
+  },
+  "stumble": {
+   "h0": 0,
+   "kStress": 0.0004,
+   "kFatigue": 0.0008,
+   "requires": "running",
+   "ledger": "stumble",
+   "interrupt": "soft"
+  },
+  "boredom_quit": {
+   "h0": 0,
+   "kStress": 0,
+   "kFatigue": 0,
+   "trigger": "fun<0.22&&act==work",
+   "ledger": "boredom_quit",
+   "interrupt": "hard"
+  },
+  "frustration_slam": {
+   "h0": 0,
+   "trigger": "frustration>0.7",
+   "ledger": "frustration_slam",
+   "interrupt": "hard"
+  },
+  "nap_collapse": {
+   "h0": 0,
+   "trigger": "energy<0.15&&!sleeping",
+   "ledger": "nap_collapse",
+   "interrupt": "hard"
+  },
+  "bladder_override": {
+   "h0": 0,
+   "trigger": "bladder<0.1",
+   "ledger": "bladder_override",
+   "interrupt": "hard"
+  },
+  "false_start": {
+   "h0": 5e-05,
+   "kStress": 0.0003056,
+   "kFatigue": 0,
+   "ledger": "false_start",
+   "interrupt": "none"
+  },
+  "knock": {
+   "h0": 0.0004034,
+   "kStress": 0,
+   "kFatigue": 0,
+   "ledger": "visitor_arrive",
+   "face": null,
+   "hold": 1,
+   "requires": "awake",
+   "social": true,
+   "forces": "greet_visitor",
+   "interrupt": "soft"
+  },
+  "phone_ring": {
+   "h0": 0.0001225,
+   "kStress": 0,
+   "kFatigue": 0,
+   "ledger": "visitor_arrive",
+   "face": null,
+   "hold": 1,
+   "requires": "awake",
+   "social": true,
+   "forces": "answer_phone",
+   "interrupt": "soft"
+  }
+ }
+}

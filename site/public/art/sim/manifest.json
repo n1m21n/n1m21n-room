@@ -1,0 +1,170 @@
+[
+ {
+  "file": "piece-0.webp",
+  "axes": {
+   "brightness": 0.466,
+   "hue": 0.782,
+   "contrast": 0.509,
+   "speed": 0.262,
+   "noise": 0.431,
+   "softness": 0.321,
+   "symmetry": 0.887,
+   "amount": 0.278,
+   "size": 0.603
+  }
+ },
+ {
+  "file": "piece-1.webp",
+  "axes": {
+   "brightness": 0.478,
+   "hue": 0.415,
+   "contrast": 0.906,
+   "speed": 0.568,
+   "noise": 0.205,
+   "softness": 0.541,
+   "symmetry": 0.772,
+   "amount": 0.444,
+   "size": 0.425
+  }
+ },
+ {
+  "file": "piece-2.webp",
+  "axes": {
+   "brightness": 0.313,
+   "hue": 0.633,
+   "contrast": 0.583,
+   "speed": 0.128,
+   "noise": 0.44,
+   "softness": 0.376,
+   "symmetry": 0.673,
+   "amount": 0.624,
+   "size": 0.461
+  }
+ },
+ {
+  "file": "piece-3.webp",
+  "axes": {
+   "brightness": 0.298,
+   "hue": 0.596,
+   "contrast": 0.883,
+   "speed": 0.318,
+   "noise": 0.422,
+   "softness": 0.016,
+   "symmetry": 0.501,
+   "amount": 0.485,
+   "size": 0.471
+  }
+ },
+ {
+  "file": "piece-4.webp",
+  "axes": {
+   "brightness": 0.253,
+   "hue": 0.966,
+   "contrast": 0.818,
+   "speed": 0.466,
+   "noise": 0.455,
+   "softness": 0.113,
+   "symmetry": 0.798,
+   "amount": 0.707,
+   "size": 0.326
+  }
+ },
+ {
+  "file": "piece-5.webp",
+  "axes": {
+   "brightness": 0.29,
+   "hue": 0.921,
+   "contrast": 0.772,
+   "speed": 0.576,
+   "noise": 0.494,
+   "softness": 0.597,
+   "symmetry": 0.514,
+   "amount": 0.597,
+   "size": 0.493
+  }
+ },
+ {
+  "file": "piece-6.webp",
+  "axes": {
+   "brightness": 0.208,
+   "hue": 0.517,
+   "contrast": 0.457,
+   "speed": 0.608,
+   "noise": 0.344,
+   "softness": 0.0,
+   "symmetry": 0.426,
+   "amount": 0.511,
+   "size": 0.658
+  }
+ },
+ {
+  "file": "piece-7.webp",
+  "axes": {
+   "brightness": 0.514,
+   "hue": 0.86,
+   "contrast": 0.806,
+   "speed": 0.582,
+   "noise": 0.595,
+   "softness": 0.486,
+   "symmetry": 0.435,
+   "amount": 0.786,
+   "size": 0.58
+  }
+ },
+ {
+  "file": "piece-8.webp",
+  "axes": {
+   "brightness": 0.312,
+   "hue": 0.955,
+   "contrast": 0.654,
+   "speed": 0.475,
+   "noise": 0.705,
+   "softness": 0.03,
+   "symmetry": 0.697,
+   "amount": 0.696,
+   "size": 0.724
+  }
+ },
+ {
+  "file": "piece-9.webp",
+  "axes": {
+   "brightness": 0.108,
+   "hue": 0.672,
+   "contrast": 0.497,
+   "speed": 0.364,
+   "noise": 0.702,
+   "softness": 0.526,
+   "symmetry": 0.602,
+   "amount": 0.69,
+   "size": 0.684
+  }
+ },
+ {
+  "file": "piece-10.webp",
+  "axes": {
+   "brightness": 0.403,
+   "hue": 0.894,
+   "contrast": 0.598,
+   "speed": 0.1,
+   "noise": 0.411,
+   "softness": 0.099,
+   "symmetry": 0.562,
+   "amount": 0.637,
+   "size": 0.323
+  }
+ },
+ {
+  "file": "piece-11.webp",
+  "axes": {
+   "brightness": 0.22,
+   "hue": 0.398,
+   "contrast": 0.556,
+   "speed": 0.315,
+   "noise": 0.62,
+   "softness": 0.266,
+   "symmetry": 0.603,
+   "amount": 0.307,
+   "size": 0.479
+  }
+ }
+]

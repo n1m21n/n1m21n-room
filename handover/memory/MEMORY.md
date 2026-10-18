@@ -1,0 +1,6 @@
+- [Ek pinjare mai video](ek-pinjare-mai-video.md) — owner's music video: design signed off; start from START_HERE.md in the project
+- [Owner film review workflow](owner-film-review-workflow.md) — per-part sheets, A/B stills, save pasted refs to assets/refs
+- [Film skill library](film-skill-library.md) — skills must be general/adaptable; 21-skill library, hub film-studio (2026-10-05)
+- [Render progress mod](render-progress-mod.md) — /film dashboard mod (render %, ref previews); storyboard tab next
+- [n1m21n room website](n1m21n-room-website.md) — 3D portfolio site; man is Blender 3D toon; start from n1m21n-room/BRIEF.md
+- [n1m21n sim design](n1m21n-sim-design.md) — drive>motive>chain>emotion loop; 2026-10-18 review in SIM_REVIEW.md, simkit.py, character-sim skill

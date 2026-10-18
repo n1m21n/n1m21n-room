@@ -1,0 +1,53 @@
+{
+ "doc": "Param axis -> weights over emotion coordinates V (valence) A (arousal) ST (stress) E (energy) D (dominance). A positive weight means: higher coordinate pushes the param value up.",
+ "axes": {
+  "other": {},
+  "position": {
+   "A": 0.1
+  },
+  "shape": {},
+  "size": {
+   "D": 0.7,
+   "E": 0.3
+  },
+  "amount": {
+   "E": 0.6,
+   "D": 0.4,
+   "A": 0.3
+  },
+  "softness": {
+   "V": 0.4,
+   "ST": -0.5,
+   "A": -0.3
+  },
+  "speed": {
+   "A": 0.8,
+   "E": 0.4
+  },
+  "noise": {
+   "ST": 0.8,
+   "A": 0.4
+  },
+  "pitch": {
+   "A": 0.5,
+   "V": 0.2
+  },
+  "contrast": {
+   "ST": 0.5,
+   "D": 0.5
+  },
+  "brightness": {
+   "V": 0.7,
+   "E": 0.3
+  },
+  "hue": {
+   "V": 0.4,
+   "A": 0.3
+  },
+  "symmetry": {
+   "D": 0.2,
+   "ST": -0.4,
+   "V": 0.2
+  }
+ }
+}

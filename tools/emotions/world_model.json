@@ -1,0 +1,267 @@
+{
+ "doc": "World state the acts read and change, so chains are PLANNED instead of listed. A fluent is a fact about him or the room (teeth clean, food cooked, dishes dirty, caffeine in the blood). Per act: guard = must already hold or the act makes no sense (no brushing clean teeth); pre = must hold, and if not the planner inserts acts that make it hold (no eating without food -> cook -> fridge); pre_any = one of these must hold; soft = wanted but skippable (brush before sleep), kept with a probability that falls with tiredness and stress; eff = what the act changes; fail = what changes instead when the act fails (burnt food uses the ingredients). Values: 0/1, '+n' / '-n' add or take away (portions), ttl = minutes a fact stays true, halfLife = minutes for a level to halve. needs: a fact in the world that pulls an act up by itself (dirty dishes ask to be washed; being undressed in the day asks to dress). The named chains in chains.json stay as recognised motifs (labels and ledger bonuses); they no longer have to list every way a day can go. pay_any = how much the act pays with each pre_any option (a cooked meal fills more than a snack from the fridge); the planner weighs it when choosing.",
+ "fluents": {
+  "teeth": {
+   "init": 1,
+   "label": "teeth clean"
+  },
+  "face": {
+   "init": 1,
+   "label": "face washed"
+  },
+  "dressed": {
+   "init": 0,
+   "label": "dressed (not pyjamas)"
+  },
+  "ingredients": {
+   "init": 0,
+   "ttl": 180,
+   "label": "something out of the fridge"
+  },
+  "food": {
+   "init": 0,
+   "ttl": 720,
+   "label": "cooked portions left (leftovers keep about 12 h)"
+  },
+  "dishes": {
+   "init": 0,
+   "label": "dirty dishes in the sink"
+  },
+  "voided": {
+   "init": 0,
+   "ttl": 40,
+   "label": "been to the loo just now"
+  },
+  "caffeine": {
+   "init": 0,
+   "halfLife": 300,
+   "label": "caffeine level (cups)"
+  }
+ },
+ "acts": {
+  "brush": {
+   "guard": {
+    "teeth": 0
+   },
+   "eff": {
+    "teeth": 1
+   }
+  },
+  "wash": {
+   "guard_any": [
+    {
+     "face": 0
+    },
+    {
+     "dishes": 1
+    }
+   ],
+   "eff": {
+    "face": 1,
+    "dishes": 0
+   }
+  },
+  "dress": {
+   "guard": {
+    "dressed": 0
+   },
+   "eff": {
+    "dressed": 1
+   }
+  },
+  "shower": {
+   "eff": {
+    "dressed": 0,
+    "face": 1
+   }
+  },
+  "night_shower": {
+   "eff": {
+    "dressed": 0,
+    "face": 1
+   }
+  },
+  "fridge": {
+   "eff": {
+    "ingredients": 1
+   }
+  },
+  "cook": {
+   "guard": {
+    "food": 0
+   },
+   "pre": {
+    "ingredients": 1
+   },
+   "soft": {
+    "dishes": 0
+   },
+   "eff": {
+    "food": "+2",
+    "ingredients": 0,
+    "dishes": 1
+   },
+   "fail": {
+    "ingredients": 0
+   }
+  },
+  "eat": {
+   "pre_any": [
+    {
+     "food": 1
+    },
+    {
+     "ingredients": 1
+    }
+   ],
+   "eff": {
+    "food": "-1",
+    "ingredients": 0,
+    "teeth": 0,
+    "dishes": 1
+   },
+   "pay_any": [
+    1,
+    0.6
+   ]
+  },
+  "tea": {
+   "eff": {
+    "caffeine": "+1"
+   }
+  },
+  "loo": {
+   "eff": {
+    "voided": 1
+   }
+  },
+  "sleep": {
+   "soft": {
+    "teeth": 1,
+    "face": 1,
+    "voided": 1
+   },
+   "softAt": [
+    21,
+    5
+   ],
+   "eff": {
+    "teeth": 0,
+    "face": 0,
+    "dressed": 0
+   }
+  },
+  "nap_bench": {
+   "eff": {
+    "face": 0
+   }
+  },
+  "work": {
+   "soft": {
+    "dressed": 1
+   },
+   "softAt": [
+    6,
+    21
+   ]
+  },
+  "greet_visitor": {
+   "soft": {
+    "dressed": 1
+   }
+  },
+  "phone_call": {},
+  "art_sketch": {
+   "soft": {
+    "dressed": 1
+   },
+   "softAt": [
+    6,
+    21
+   ]
+  }
+ },
+ "needs": [
+  {
+   "when": {
+    "food": 1
+   },
+   "act": "eat",
+   "afterMin": 0,
+   "growMin": 25,
+   "max": 3,
+   "why": "food is ready and getting cold"
+  },
+  {
+   "when": {
+    "dressed": 0
+   },
+   "act": "dress",
+   "hours": [
+    7,
+    22
+   ],
+   "afterMin": 20,
+   "growMin": 90,
+   "max": 3,
+   "why": "still in pyjamas in the day"
+  },
+  {
+   "when": {
+    "dishes": 1
+   },
+   "act": "wash",
+   "afterMin": 30,
+   "growMin": 240,
+   "max": 2.5,
+   "why": "dishes in the sink"
+  },
+  {
+   "when": {
+    "teeth": 0
+   },
+   "act": "brush",
+   "hours": [
+    6,
+    11
+   ],
+   "afterMin": 10,
+   "growMin": 60,
+   "max": 2.5,
+   "why": "morning breath"
+  },
+  {
+   "when": {
+    "face": 0
+   },
+   "act": "wash",
+   "hours": [
+    6,
+    11
+   ],
+   "afterMin": 5,
+   "growMin": 60,
+   "max": 2,
+   "why": "just woke up"
+  }
+ ],
+ "caffeine": {
+  "appealK": 0.9,
+  "lateFrom": 16,
+  "lateMul": 0.45,
+  "doc": "tea appeal / (1 + appealK * caffeine level); after lateFrom it is also multiplied by lateMul (people avoid caffeine before bed)"
+ },
+ "soft": {
+  "base": 0.68,
+  "energy": 0.45,
+  "stress": -0.35,
+  "habit": 0.15,
+  "doc": "chance he keeps a soft step = base + energy*(energy motive) + stress*(stress) + habit*(how often he kept it), clamped .1-.98"
+ },
+ "planner": {
+  "maxDepth": 3,
+  "habitW": 1.2,
+  "habitTau": 10080,
+  "doc": "means-ends planning to depth maxDepth; the order of independent steps is drawn from act-to-act affinity times (1 + habitW * learned pair habit), habits fade over habitTau minutes"
+ }
+}

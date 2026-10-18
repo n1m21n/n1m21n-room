@@ -1,0 +1,640 @@
+{
+ "version": 1,
+ "inputs": [
+  "valence",
+  "arousal",
+  "stress",
+  "energy",
+  "dominance"
+ ],
+ "emotions": {
+  "neutral": {
+   "prototype": {
+    "valence": 0.5,
+    "arousal": 0.55,
+    "stress": 0.15,
+    "energy": 0.65,
+    "dominance": 0.5
+   },
+   "margin": 0.12,
+   "hold": 0.0,
+   "existing": true,
+   "face": {
+    "expression": "neutral",
+    "eyes_open": 1.0,
+    "gaze": [
+     0,
+     0.1
+    ]
+   },
+   "legacy": {
+    "condition": "0.44 <= valence < 0.54 && energy >= 0.38",
+    "midi": "/media/midi/clair-de-lune.mid",
+    "keysProgression": "Am -> Fmaj7 -> C -> G",
+    "guitarProgression": "Em -> C -> G -> D",
+    "tempo": 1,
+    "velocity": 0.9,
+    "breathHzRange": [
+     1.45,
+     1.8
+    ],
+    "spineSlumpRad": 0.02,
+    "chestExpandRad": 0
+   }
+  },
+  "calm": {
+   "prototype": {
+    "valence": 0.62,
+    "arousal": 0.35,
+    "stress": 0.1,
+    "energy": 0.7,
+    "dominance": 0.55
+   },
+   "margin": 0.12,
+   "hold": 0.0,
+   "existing": true,
+   "face": {
+    "expression": "calm",
+    "eyes_open": 0.8,
+    "gaze": [
+     0,
+     0.2
+    ]
+   },
+   "legacy": {
+    "condition": "valence >= 0.54 && arousal < 0.66",
+    "midi": "/media/midi/clair-de-lune.mid",
+    "keysProgression": "Am -> Fmaj7 -> C -> G",
+    "guitarProgression": "Em -> C -> G -> D",
+    "tempo": 1,
+    "velocity": 0.92,
+    "breathHzRange": [
+     1.45,
+     1.85
+    ],
+    "spineSlumpRad": 0.015,
+    "chestExpandRad": -0.008
+   },
+   "audit": "arousal 0.45->0.35: data mean 0.24 (NRC .05, Warriner .08, CK .58 compressed)"
+  },
+  "curious": {
+   "prototype": {
+    "valence": 0.72,
+    "arousal": 0.72,
+    "stress": 0.15,
+    "energy": 0.75,
+    "dominance": 0.6
+   },
+   "margin": 0.12,
+   "hold": 0.0,
+   "existing": true,
+   "face": {
+    "expression": "curious",
+    "eyes_open": 1.0,
+    "gaze": [
+     0.2,
+     -0.2
+    ]
+   },
+   "legacy": {
+    "condition": "(valence >= 0.64 && arousal >= 0.66) || (glancing && arousal >= 0.48)",
+    "midi": "/media/midi/curious-etude.mid",
+    "keysProgression": "Dm9 -> G13 -> Cmaj9 -> A7sus4",
+    "guitarProgression": "Em9 -> Cmaj7 -> Am -> Dsus2",
+    "tempo": 1.08,
+    "velocity": 1,
+    "breathHzRange": [
+     1.65,
+     2.05
+    ],
+    "spineSlumpRad": 0.01,
+    "chestExpandRad": -0.012
+   }
+  },
+  "delighted": {
+   "prototype": {
+    "valence": 0.88,
+    "arousal": 0.75,
+    "stress": 0.05,
+    "energy": 0.8,
+    "dominance": 0.7
+   },
+   "margin": 0.12,
+   "hold": 0.0,
+   "existing": true,
+   "face": {
+    "expression": "delighted",
+    "eyes_open": 1.0,
+    "gaze": [
+     0,
+     0.1
+    ]
+   },
+   "legacy": {
+    "condition": "valence >= 0.80 && arousal >= 0.56",
+    "midi": "/media/midi/happy-prelude.mid",
+    "keysProgression": "Cmaj9 -> Gmaj7 -> Fmaj7 -> G6",
+    "guitarProgression": "G -> Dadd9 -> Cadd9 -> G",
+    "tempo": 1.22,
+    "velocity": 1.15,
+    "breathHzRange": [
+     1.75,
+     2.2
+    ],
+    "spineSlumpRad": 0,
+    "chestExpandRad": -0.025
+   }
+  },
+  "uneasy": {
+   "prototype": {
+    "valence": 0.38,
+    "arousal": 0.55,
+    "stress": 0.5,
+    "energy": 0.55,
+    "dominance": 0.3
+   },
+   "margin": 0.12,
+   "hold": 0.0,
+   "existing": true,
+   "face": {
+    "expression": "uneasy",
+    "eyes_open": 1.0,
+    "gaze": [
+     -0.3,
+     0.1
+    ]
+   },
+   "legacy": {
+    "condition": "0.30 <= valence < 0.44 || (valence < 0.30 && energy >= 0.50)",
+    "midi": "/media/midi/uneasy-nocturne.mid",
+    "keysProgression": "Fm(maj7) -> E7b9 -> Am(maj7) -> D7b5",
+    "guitarProgression": "Em -> Fmaj7 -> Am -> B7",
+    "tempo": 0.92,
+    "velocity": 0.85,
+    "breathHzRange": [
+     1.4,
+     1.75
+    ],
+    "spineSlumpRad": 0.035,
+    "chestExpandRad": 0.015
+   }
+  },
+  "dazed": {
+   "prototype": {
+    "valence": 0.45,
+    "arousal": 0.3,
+    "stress": 0.35,
+    "energy": 0.33,
+    "dominance": 0.3
+   },
+   "margin": 0.12,
+   "hold": 0.0,
+   "existing": true,
+   "face": {
+    "expression": "dazed",
+    "eyes_open": 0.75,
+    "gaze": [
+     0.2,
+     0.2
+    ]
+   },
+   "legacy": {
+    "condition": "0.28 <= energy < 0.38 && valence >= 0.36",
+    "midi": "/media/midi/dazed-drift.mid",
+    "keysProgression": "Em9 -> Cmaj7 -> Am9 -> B7sus4",
+    "guitarProgression": "Am7 -> Dm7 -> Em7 -> Am",
+    "tempo": 0.76,
+    "velocity": 0.72,
+    "breathHzRange": [
+     1.28,
+     1.5
+    ],
+    "spineSlumpRad": 0.045,
+    "chestExpandRad": 0.018
+   }
+  },
+  "given_up": {
+   "prototype": {
+    "valence": 0.2,
+    "arousal": 0.2,
+    "stress": 0.55,
+    "energy": 0.2,
+    "dominance": 0.15
+   },
+   "margin": 0.12,
+   "hold": 0.0,
+   "existing": true,
+   "face": {
+    "expression": "given_up",
+    "eyes_open": 0.6,
+    "gaze": [
+     0,
+     0.3
+    ]
+   },
+   "legacy": {
+    "condition": "energy < 0.28 || (energy < 0.50 && valence < 0.30)",
+    "midi": "/media/midi/tired-lullaby.mid",
+    "keysProgression": "Am -> F -> Dm7 -> E",
+    "guitarProgression": "Am -> Dm -> Em -> Am",
+    "tempo": 0.68,
+    "velocity": 0.65,
+    "breathHzRange": [
+     1.2,
+     1.38
+    ],
+    "spineSlumpRad": 0.06,
+    "chestExpandRad": 0.025
+   }
+  },
+  "sleep": {
+   "prototype": {
+    "valence": 0.5,
+    "arousal": 0.05,
+    "stress": 0.05,
+    "energy": 0.08,
+    "dominance": 0.5
+   },
+   "margin": 0.1,
+   "hold": 0.0,
+   "existing": true,
+   "face": {
+    "expression": "calm",
+    "eyes_open": 0.0,
+    "gaze": [
+     0,
+     0
+    ]
+   },
+   "legacy": {
+    "condition": "sleeping || energy < 0.14",
+    "midi": "/media/midi/tired-lullaby.mid",
+    "keysProgression": "Am -> F -> Dm7 -> E",
+    "guitarProgression": "Am -> Dm -> Em -> Am",
+    "tempo": 0.6,
+    "velocity": 0.5,
+    "breathHzRange": [
+     1.1,
+     1.25
+    ],
+    "spineSlumpRad": 0,
+    "chestExpandRad": 0
+   }
+  },
+  "alarm": {
+   "prototype": {
+    "valence": 0.3,
+    "arousal": 0.95,
+    "stress": 0.9,
+    "energy": 0.7,
+    "dominance": 0.25
+   },
+   "margin": 0.15,
+   "hold": 1.2,
+   "existing": true,
+   "face": {
+    "expression": "alarm",
+    "eyes_open": 1.0,
+    "gaze": [
+     0,
+     0
+    ]
+   },
+   "transient": true
+  },
+  "content": {
+   "prototype": {
+    "valence": 0.75,
+    "arousal": 0.35,
+    "stress": 0.05,
+    "energy": 0.7,
+    "dominance": 0.6
+   },
+   "margin": 0.12,
+   "hold": 0.0,
+   "existing": false,
+   "musicLike": "calm",
+   "coords": {
+    "eyelid_open": 0.75
+   }
+  },
+  "joyful": {
+   "prototype": {
+    "valence": 0.95,
+    "arousal": 0.9,
+    "stress": 0.03,
+    "energy": 0.85,
+    "dominance": 0.7
+   },
+   "margin": 0.12,
+   "hold": 0.0,
+   "existing": false,
+   "musicLike": "delighted",
+   "coords": {
+    "mouth_corner_y": 1.0,
+    "mouth_open": 0.45,
+    "stride_len": 0.95,
+    "hand_height": 0.55
+   },
+   "audit": "dominance 0.8->0.7: data mean 0.63"
+  },
+  "absorbed": {
+   "prototype": {
+    "valence": 0.7,
+    "arousal": 0.6,
+    "stress": 0.2,
+    "energy": 0.7,
+    "dominance": 0.65
+   },
+   "margin": 0.12,
+   "hold": 0.0,
+   "existing": false,
+   "musicLike": "curious",
+   "coords": {
+    "eyelid_open": 0.7,
+    "gaze_y": 0.35,
+    "head_pitch": 0.2
+   }
+  },
+  "bored": {
+   "prototype": {
+    "valence": 0.4,
+    "arousal": 0.3,
+    "stress": 0.15,
+    "energy": 0.55,
+    "dominance": 0.45
+   },
+   "margin": 0.12,
+   "hold": 0.0,
+   "existing": false,
+   "musicLike": "neutral",
+   "coords": {
+    "gaze_x": 0.35,
+    "gaze_y": 0.15,
+    "foot_tap": 0.4
+   }
+  },
+  "restless": {
+   "prototype": {
+    "valence": 0.45,
+    "arousal": 0.75,
+    "stress": 0.4,
+    "energy": 0.65,
+    "dominance": 0.5
+   },
+   "margin": 0.12,
+   "hold": 0.0,
+   "existing": false,
+   "musicLike": "uneasy",
+   "coords": {
+    "gaze_x": -0.4,
+    "foot_tap": 0.8,
+    "finger_tremor": 0.3
+   }
+  },
+  "anxious": {
+   "prototype": {
+    "valence": 0.3,
+    "arousal": 0.75,
+    "stress": 0.75,
+    "energy": 0.6,
+    "dominance": 0.2
+   },
+   "margin": 0.12,
+   "hold": 0.0,
+   "existing": false,
+   "musicLike": "uneasy",
+   "coords": {
+    "brow_inner_y": 0.7,
+    "eyelid_open": 1.0,
+    "finger_tremor": 0.7,
+    "gaze_x": -0.4
+   }
+  },
+  "frustrated": {
+   "prototype": {
+    "valence": 0.28,
+    "arousal": 0.75,
+    "stress": 0.7,
+    "energy": 0.6,
+    "dominance": 0.45
+   },
+   "margin": 0.12,
+   "hold": 0.0,
+   "existing": false,
+   "musicLike": "uneasy",
+   "coords": {
+    "brow_inner_y": -0.6,
+    "mouth_corner_y": -0.5,
+    "hand_curl": 0.85,
+    "foot_tap": 0.7,
+    "gaze_x": 0.0
+   },
+   "audit": "dominance 0.75->0.45: data mean 0.35 (NRC .26, Warriner .36, CK .43)"
+  },
+  "sad": {
+   "prototype": {
+    "valence": 0.22,
+    "arousal": 0.22,
+    "stress": 0.45,
+    "energy": 0.4,
+    "dominance": 0.2
+   },
+   "margin": 0.12,
+   "hold": 0.0,
+   "existing": false,
+   "musicLike": "given_up"
+  },
+  "lonely": {
+   "prototype": {
+    "valence": 0.32,
+    "arousal": 0.3,
+    "stress": 0.4,
+    "energy": 0.5,
+    "dominance": 0.25
+   },
+   "margin": 0.12,
+   "hold": 0.0,
+   "existing": false,
+   "musicLike": "calm",
+   "coords": {
+    "gaze_x": 0.5,
+    "gaze_y": 0.2
+   }
+  },
+  "proud": {
+   "prototype": {
+    "valence": 0.85,
+    "arousal": 0.55,
+    "stress": 0.05,
+    "energy": 0.75,
+    "dominance": 0.85
+   },
+   "margin": 0.12,
+   "hold": 0.0,
+   "existing": false,
+   "musicLike": "delighted",
+   "coords": {
+    "chest_expand": 0.8,
+    "head_pitch": -0.25,
+    "mouth_corner_y": 0.55
+   }
+  },
+  "relieved": {
+   "prototype": {
+    "valence": 0.7,
+    "arousal": 0.3,
+    "stress": 0.1,
+    "energy": 0.6,
+    "dominance": 0.6
+   },
+   "margin": 0.12,
+   "hold": 0.0,
+   "existing": false,
+   "musicLike": "calm",
+   "coords": {
+    "eyelid_open": 0.55,
+    "chest_expand": 0.1,
+    "shoulder_lift": -0.3
+   }
+  },
+  "embarrassed": {
+   "prototype": {
+    "valence": 0.28,
+    "arousal": 0.42,
+    "stress": 0.62,
+    "energy": 0.55,
+    "dominance": 0.1
+   },
+   "margin": 0.12,
+   "hold": 0.0,
+   "existing": false,
+   "musicLike": "uneasy",
+   "coords": {
+    "gaze_y": 0.6,
+    "gaze_x": 0.4,
+    "head_pitch": 0.45,
+    "flush": 0.8
+   }
+  },
+  "drowsy": {
+   "prototype": {
+    "valence": 0.5,
+    "arousal": 0.15,
+    "stress": 0.1,
+    "energy": 0.25,
+    "dominance": 0.45
+   },
+   "margin": 0.12,
+   "hold": 0.0,
+   "existing": false,
+   "musicLike": "dazed",
+   "coords": {
+    "eyelid_open": 0.4,
+    "head_pitch": 0.4
+   }
+  },
+  "awe": {
+   "prototype": {
+    "valence": 0.68,
+    "arousal": 0.59,
+    "stress": 0.15,
+    "energy": 0.7,
+    "dominance": 0.56
+   },
+   "margin": 0.12,
+   "hold": 25,
+   "existing": false,
+   "transient": true,
+   "musicLike": "curious",
+   "coords": {
+    "eyelid_open": 1.0,
+    "gaze_y": -0.25,
+    "head_pitch": -0.3,
+    "chest_expand": 0.4
+   },
+   "source": "valence/arousal/dominance mean of NRC VAD, Warriner, Cowen-Keltner (tools/data/candidates.py); triggered by events, not by nearest-prototype, because they overlap delighted/curious in VAD space"
+  },
+  "aesthetic_appreciation": {
+   "prototype": {
+    "valence": 0.78,
+    "arousal": 0.58,
+    "stress": 0.08,
+    "energy": 0.6,
+    "dominance": 0.57
+   },
+   "margin": 0.12,
+   "hold": 25,
+   "existing": false,
+   "transient": true,
+   "musicLike": "calm",
+   "coords": {
+    "eyelid_open": 0.75,
+    "head_pitch": -0.1,
+    "mouth_corner_y": 0.3
+   },
+   "source": "valence/arousal/dominance mean of NRC VAD, Warriner, Cowen-Keltner (tools/data/candidates.py); triggered by events, not by nearest-prototype, because they overlap delighted/curious in VAD space"
+  },
+  "nostalgia": {
+   "prototype": {
+    "valence": 0.58,
+    "arousal": 0.46,
+    "stress": 0.2,
+    "energy": 0.45,
+    "dominance": 0.43
+   },
+   "margin": 0.12,
+   "hold": 25,
+   "existing": false,
+   "transient": true,
+   "musicLike": "calm",
+   "coords": {
+    "eyelid_open": 0.6,
+    "gaze_y": -0.2,
+    "mouth_corner_y": 0.2,
+    "shoulder_lift": -0.1
+   },
+   "source": "valence/arousal/dominance mean of NRC VAD, Warriner, Cowen-Keltner (tools/data/candidates.py); triggered by events, not by nearest-prototype, because they overlap delighted/curious in VAD space"
+  },
+  "amusement": {
+   "prototype": {
+    "valence": 0.77,
+    "arousal": 0.63,
+    "stress": 0.08,
+    "energy": 0.7,
+    "dominance": 0.61
+   },
+   "margin": 0.12,
+   "hold": 25,
+   "existing": false,
+   "transient": true,
+   "musicLike": "delighted",
+   "coords": {
+    "mouth_corner_y": 0.8,
+    "eyelid_open": 0.8,
+    "head_pitch": -0.1
+   },
+   "source": "valence/arousal/dominance mean of NRC VAD, Warriner, Cowen-Keltner (tools/data/candidates.py); triggered by events, not by nearest-prototype, because they overlap delighted/curious in VAD space"
+  },
+  "triumph": {
+   "prototype": {
+    "valence": 0.8,
+    "arousal": 0.67,
+    "stress": 0.1,
+    "energy": 0.85,
+    "dominance": 0.73
+   },
+   "margin": 0.12,
+   "hold": 25,
+   "existing": false,
+   "transient": true,
+   "musicLike": "delighted",
+   "coords": {
+    "chest_expand": 1.0,
+    "head_pitch": -0.4,
+    "mouth_corner_y": 0.7
+   },
+   "source": "valence/arousal/dominance mean of NRC VAD, Warriner, Cowen-Keltner (tools/data/candidates.py); triggered by events, not by nearest-prototype, because they overlap delighted/curious in VAD space"
+  }
+ }
+}

@@ -18,104 +18,9 @@ export const DEFAULT_POI = {
 };
 
 // Master Matrix: Emotion -> Affective Thresholds, Facial Expression, Musical MIDI/Chords, Tempo, and Skeleton Posture
-export const POSTURE_EMOTION_MATRIX = {
-  delighted: {
-    face: 'delighted',
-    condition: 'valence >= 0.80 && arousal >= 0.56',
-    midi: '/media/midi/happy-prelude.mid',
-    keysProgression: 'Cmaj9 -> Gmaj7 -> Fmaj7 -> G6',
-    guitarProgression: 'G -> Dadd9 -> Cadd9 -> G',
-    tempo: 1.22,
-    velocity: 1.15,
-    breathHzRange: [1.75, 2.20],
-    spineSlumpRad: 0.0,
-    chestExpandRad: -0.025,
-  },
-  curious: {
-    face: 'curious',
-    condition: '(valence >= 0.64 && arousal >= 0.66) || (glancing && arousal >= 0.48)',
-    midi: '/media/midi/curious-etude.mid',
-    keysProgression: 'Dm9 -> G13 -> Cmaj9 -> A7sus4',
-    guitarProgression: 'Em9 -> Cmaj7 -> Am -> Dsus2',
-    tempo: 1.08,
-    velocity: 1.00,
-    breathHzRange: [1.65, 2.05],
-    spineSlumpRad: 0.01,
-    chestExpandRad: -0.012,
-  },
-  calm: {
-    face: 'calm',
-    condition: 'valence >= 0.54 && arousal < 0.66',
-    midi: '/media/midi/clair-de-lune.mid',
-    keysProgression: 'Am -> Fmaj7 -> C -> G',
-    guitarProgression: 'Em -> C -> G -> D',
-    tempo: 1.00,
-    velocity: 0.92,
-    breathHzRange: [1.45, 1.85],
-    spineSlumpRad: 0.015,
-    chestExpandRad: -0.008,
-  },
-  neutral: {
-    face: 'neutral',
-    condition: '0.44 <= valence < 0.54 && energy >= 0.38',
-    midi: '/media/midi/clair-de-lune.mid',
-    keysProgression: 'Am -> Fmaj7 -> C -> G',
-    guitarProgression: 'Em -> C -> G -> D',
-    tempo: 1.00,
-    velocity: 0.90,
-    breathHzRange: [1.45, 1.80],
-    spineSlumpRad: 0.02,
-    chestExpandRad: 0.0,
-  },
-  uneasy: {
-    face: 'uneasy',
-    condition: '0.30 <= valence < 0.44 || (valence < 0.30 && energy >= 0.50)',
-    midi: '/media/midi/uneasy-nocturne.mid',
-    keysProgression: 'Fm(maj7) -> E7b9 -> Am(maj7) -> D7b5',
-    guitarProgression: 'Em -> Fmaj7 -> Am -> B7',
-    tempo: 0.92,
-    velocity: 0.85,
-    breathHzRange: [1.40, 1.75],
-    spineSlumpRad: 0.035,
-    chestExpandRad: 0.015,
-  },
-  dazed: {
-    face: 'dazed',
-    condition: '0.28 <= energy < 0.38 && valence >= 0.36',
-    midi: '/media/midi/dazed-drift.mid',
-    keysProgression: 'Em9 -> Cmaj7 -> Am9 -> B7sus4',
-    guitarProgression: 'Am7 -> Dm7 -> Em7 -> Am',
-    tempo: 0.76,
-    velocity: 0.72,
-    breathHzRange: [1.28, 1.50],
-    spineSlumpRad: 0.045,
-    chestExpandRad: 0.018,
-  },
-  given_up: {
-    face: 'given_up',
-    condition: 'energy < 0.28 || (energy < 0.50 && valence < 0.30)',
-    midi: '/media/midi/tired-lullaby.mid',
-    keysProgression: 'Am -> F -> Dm7 -> E',
-    guitarProgression: 'Am -> Dm -> Em -> Am',
-    tempo: 0.68,
-    velocity: 0.65,
-    breathHzRange: [1.20, 1.38],
-    spineSlumpRad: 0.060,
-    chestExpandRad: 0.025,
-  },
-  sleep: {
-    face: 'sleep',
-    condition: 'sleeping || energy < 0.14',
-    midi: '/media/midi/tired-lullaby.mid',
-    keysProgression: 'Am -> F -> Dm7 -> E',
-    guitarProgression: 'Am -> Dm -> Em -> Am',
-    tempo: 0.60,
-    velocity: 0.50,
-    breathHzRange: [1.10, 1.25],
-    spineSlumpRad: 0.0,
-    chestExpandRad: 0.0,
-  },
-};
+// generated from tools/emotions/emotions.json (legacy subset keeps today's behaviour; POSTURE_MATRIX_FULL has all emotions)
+import { POSTURE_MATRIX_LEGACY, EMOTIONS, FACE_TEXTURES } from './data/emotions.gen.js';
+export const POSTURE_EMOTION_MATRIX = POSTURE_MATRIX_LEGACY;
 
 // Compute affective state from motives vector
 export function computeAffect(motives = {}) {
@@ -168,14 +73,29 @@ export const ACT_POSTURE_SCALE = {
   stool:    0.85,
 };
 
+// Gait by emotion, from Bandai-Namco Motiondataset-2 walks (tools/data/fit_gait.py -> tools/data/gait_fit.json; CC BY-NC).
+// speed = measured style ratio pulled halfway to 1 (a room is small); headDown = measured head pitch delta in radians (~0.5 weight).
+const GAIT = {
+  active:    { speed: 1.14, headDown: 0.056 },   // 1.28x, head -6.4 deg
+  exhausted: { speed: 0.98, headDown: 0.117 },   // 0.95x, head -13.4 deg
+  elderly:   { speed: 0.84, headDown: 0.067 },   // 0.69x, head -7.6 deg
+};
+const GAIT_OF = { joyful: 'active', delighted: 'active', proud: 'active', triumph: 'active', amusement: 'active', excited: 'active', restless: 'active',
+  drowsy: 'exhausted', dazed: 'exhausted', bored: 'exhausted', anxious: 'exhausted', frustrated: 'exhausted', sad: 'elderly', given_up: 'elderly', lonely: 'elderly' };
+
 export function makePosture({ getMotives, getSnakePos } = {}) {
+  let simEmotion = null;
   const state = {
+    gait: 1,
     arousal: 0.76,
     valence: 0.77,
     fatigue: 0.22,
     breathHz: 1.96,
     breathPhase: 0,
     face: 'calm',
+    blink: false,
+    blinkIn: 3,
+    blinkFor: 0,
     tempo: 1.0,
     glance: {
       active: false,
@@ -192,6 +112,10 @@ export function makePosture({ getMotives, getSnakePos } = {}) {
       chest: [0, 0, 0],
       neck: [0, 0, 0],
       head: [0, 0, 0],
+      upperarmL: [0, 0, 0], upperarmR: [0, 0, 0],
+      handL: [0, 0, 0], handR: [0, 0, 0],
+      thighL: [0, 0, 0], thighR: [0, 0, 0], shinL: [0, 0, 0], shinR: [0, 0, 0], footL: [0, 0, 0], footR: [0, 0, 0],
+      fingers: 0, fingersT: 0,
     },
   };
 
@@ -206,9 +130,10 @@ export function makePosture({ getMotives, getSnakePos } = {}) {
 
   function updateGlance(dt, t, pos, heading, canGlance) {
     const g = state.glance;
-    if (!canGlance || dt <= 0) {
-      g.yaw *= Math.exp(-8 * Math.max(0, dt));
-      g.pitch *= Math.exp(-8 * Math.max(0, dt));
+    if (dt <= 0) return;                                  // a zero-length frame must not reset glance state
+    if (!canGlance) {
+      g.yaw *= Math.exp(-8 * dt);
+      g.pitch *= Math.exp(-8 * dt);
       g.active = Math.abs(g.yaw) > 0.01;
       return;
     }
@@ -276,11 +201,8 @@ export function makePosture({ getMotives, getSnakePos } = {}) {
 
     // Breathing frequency: 1.2 Hz when tired (arousal = 0) up to 2.2 Hz when active (arousal = 1)
     state.breathHz = 1.2 + aff.arousal * 1.0;
-    if (dt > 0 && dt < 0.5) {
-      state.breathPhase = (state.breathPhase + dt * state.breathHz * TWO_PI) % TWO_PI;
-    } else {
-      state.breathPhase = (t * state.breathHz * TWO_PI) % TWO_PI;
-    }
+    // integrate the phase (never t * hz, which jumps whenever hz changes); dt = 0 holds it, a long stall is clamped
+    if (dt > 0) state.breathPhase = (state.breathPhase + Math.min(dt, 0.1) * state.breathHz * TWO_PI) % TWO_PI;
     const breathWave = Math.sin(state.breathPhase);
 
     const actName = seated?.act || null;
@@ -331,6 +253,47 @@ export function makePosture({ getMotives, getSnakePos } = {}) {
       sleeping: actName === 'bed',
       glancing: state.glance.active,
     });
+    // the sim core's emotion (all 27) overrides the legacy 8-face ladder when present; its rig coords tilt head/spine
+    const g = GAIT[GAIT_OF[simEmotion]];
+    state.gait = g ? g.speed : 1;
+    if (g && actName !== 'bed') state.deltas.head[0] += g.headDown * actScale * 0.5;
+    const sc = simEmotion && EMOTIONS[simEmotion]?.coords;
+    if (sc && actName !== 'bed') {
+      if (FACE_TEXTURES.includes(simEmotion)) state.face = simEmotion;
+      const k = actScale * 0.35;
+      state.deltas.head[0] += (sc.head_pitch || 0) * 0.25 * k;
+      state.deltas.spine[0] += (sc.spine_slump || 0) * 0.12 * k;
+      state.deltas.neck[0] += (sc.shoulder_lift || 0) * -0.06 * k;
+    }
+    // 6. Shoulders, fingers, feet and knees from the emotion's rig coords (shoulder_lift, hand_curl, finger_tremor, foot_tap, knee_bend)
+    {
+      const c = (simEmotion && EMOTIONS[simEmotion]?.coords) || {};
+      const ph = t * TWO_PI;
+      const calmAct = !actName || ['stool', 'bench', 'desk', 'tv', 'keys', 'think', 'read'].includes(actName);
+      const lift = (c.shoulder_lift || 0) * 0.12 * actScale;                           // shoulders rise with tension, drop with sadness
+      state.deltas.upperarmL = [0, 0, -lift]; state.deltas.upperarmR = [0, 0, lift];
+      state.deltas.fingers = clamp((c.hand_curl ?? 0.3) - 0.3, -0.3, 0.7) * 0.5 * (actName ? 0.4 : 1);   // extra finger curl, radians
+      state.deltas.fingersT = (c.finger_tremor || 0) * 0.04 * (0.6 + 0.4 * Math.sin(ph * 7.3)) * (actName ? 0.4 : 1);
+      const tap = calmAct && actName && actName !== 'bed' ? Math.max(0, c.foot_tap || 0) : 0;
+      const tapW = tap * Math.max(0, Math.sin(ph * (1.6 + 1.2 * aff.arousal))) * 0.22;
+      state.deltas.footR = [-tapW, 0, 0];
+      const knee = !actName ? clamp(c.knee_bend || 0, -0.5, 0.8) * 0.1 * stillFactor : 0;
+      state.deltas.thighL = [knee, 0, 0]; state.deltas.thighR = [knee, 0, 0];
+      state.deltas.shinL = [-knee * 1.4, 0, 0]; state.deltas.shinR = [-knee * 1.4, 0, 0];
+    }
+
+    // 7. Blink: a 0.12 s eyes-shut flash. Anxious blinks fast, absorbed/calm slowly, asleep never (the sleep face is already shut).
+    if (dt > 0) {
+      if (state.blinkFor > 0) { state.blinkFor -= dt; if (state.blinkFor <= 0) state.blink = false; }
+      else {
+        state.blinkIn -= dt;
+        if (state.blinkIn <= 0) {
+          const nerv = clamp((1 - (aff.valence)) + aff.fatigue * 0.5, 0, 1);
+          state.blink = true; state.blinkFor = 0.12;
+          state.blinkIn = 2.2 + (1 - nerv) * 3.4 + ((Math.sin(t * 91.7) + 1) * 0.5) * 2.2;
+        }
+      }
+    }
     state.tempo = POSTURE_EMOTION_MATRIX[state.face]?.tempo || 1.0;
     if (seated) seated.tempo = state.tempo;
 
@@ -346,12 +309,13 @@ export function makePosture({ getMotives, getSnakePos } = {}) {
 
     if (scale > 0) {
       const fk = { ...(spec.fk || {}) };
-      for (const bone of ['hips', 'spine', 'chest', 'neck', 'head']) {
+      for (const bone of ['hips', 'spine', 'chest', 'neck', 'head', 'upperarmL', 'upperarmR', 'thighL', 'thighR', 'shinL', 'shinR', 'footR']) {
         const d = state.deltas[bone];
         if (!d) continue;
         const base = fk[bone] || [0, 0, 0];
         fk[bone] = [base[0] + d[0], base[1] + d[1], base[2] + d[2]];
       }
+      spec.fingers = state.deltas.fingers + state.deltas.fingersT;                 // acts.js adds it on top of the grip
       spec.fk = fk;
     }
 
@@ -374,5 +338,7 @@ export function makePosture({ getMotives, getSnakePos } = {}) {
     actScales: ACT_POSTURE_SCALE,
     computeAffect: () => computeAffect(getMotives?.()),
     mapEmotionToFace,
+    shownFace: face => (state.blink && face !== 'sleep' && face !== 'alarm' && face !== 'drowsy' ? 'sleep' : face),
+    setSimEmotion: n => { simEmotion = n || null; },
   };
 }

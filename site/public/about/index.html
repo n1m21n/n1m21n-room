@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>how n1m21n lives · about the simulation</title>
+<meta name="description" content="How the man in the room works: drives, motives, chemistry, emotions, a ledger of events, chains of actions, and how it was tuned.">
+<meta name="theme-color" content="#0A0618">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75,800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --paper:#F1E9D2; --ink:#0A0618; --blue:#2E3BDB; --pink:#E0368F; --spiral:#F6E27A; --deep:#14104A; --mute:rgba(10,6,24,.62); }
+  * { box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { margin:0; background:var(--paper); color:var(--ink); font:400 14px/1.6 'DM Mono',monospace; -webkit-text-size-adjust:100%; }
+  a { color:var(--blue); }
+  .wrap { max-width:860px; margin:0 auto; padding:0 18px calc(60px + env(safe-area-inset-bottom)); }
+  header.top { position:sticky; top:0; z-index:5; background:var(--paper); border-bottom:2px solid var(--ink); }
+  header.top .in { max-width:860px; margin:0 auto; padding:10px 18px; display:flex; align-items:center; gap:12px; }
+  .mark { font:800 22px/1 'Bricolage Grotesque',sans-serif; font-stretch:75%; color:var(--blue); text-shadow:2px 2px 0 var(--pink); letter-spacing:.01em; }
+  .back { margin-left:auto; font:500 12px 'DM Mono',monospace; text-decoration:none; color:var(--ink); background:var(--spiral); border:2px solid var(--ink); border-radius:999px; padding:6px 14px; box-shadow:2px 2px 0 var(--ink); }
+  .framed .back { display:none; } .framed header.top .in { height:68px; padding:0 112px 0 18px; }
+  h1,h2,h3 { font-family:'Bricolage Grotesque',sans-serif; font-stretch:75%; font-weight:800; line-height:1.02; margin:0; }
+  h1 { font-size:clamp(40px,9vw,68px); margin:34px 0 10px; }
+  h2 { font-size:clamp(28px,6vw,38px); margin:52px 0 6px; scroll-margin-top:64px; }
+  h2 i { font:500 12px 'DM Mono',monospace; font-style:normal; background:var(--ink); color:var(--spiral); border-radius:999px; padding:3px 10px; vertical-align:middle; margin-right:8px; letter-spacing:.05em; }
+  h3 { font-size:20px; margin:26px 0 6px; }
+  p { margin:8px 0; max-width:68ch; }
+  .lede { font-size:16px; max-width:56ch; }
+  .muted { color:var(--mute); font-size:12px; }
+  .toc { display:flex; flex-wrap:wrap; gap:8px; margin:22px 0 0; }
+  .toc a { text-decoration:none; color:var(--ink); border:2px solid var(--ink); border-radius:999px; padding:4px 12px; font-size:12px; background:#fff8; }
+  .toc a:hover { background:var(--spiral); }
+  .card { background:#FBF6E6; border:2px solid var(--ink); border-radius:10px; padding:14px 16px; box-shadow:4px 4px 0 var(--ink); margin:16px 0; overflow:hidden; }
+  .card.dark { background:var(--ink); color:var(--paper); box-shadow:4px 4px 0 var(--pink); }
+  .card.dark .muted { color:rgba(241,233,210,.7); }
+  .card h4 { margin:0 0 8px; font:500 12px 'DM Mono',monospace; letter-spacing:.08em; text-transform:uppercase; color:var(--pink); }
+  .scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+  table { border-collapse:collapse; width:100%; font-size:12.5px; }
+  th,td { text-align:left; padding:6px 8px; border-bottom:1px solid rgba(10,6,24,.18); vertical-align:top; }
+  th { font-weight:500; text-transform:uppercase; letter-spacing:.06em; font-size:11px; background:var(--ink); color:var(--paper); white-space:nowrap; position:sticky; top:0; }
+  td.n { font-weight:500; white-space:nowrap; }
+  td.num, th.num { text-align:right; font-variant-numeric:tabular-nums; }
+  .pill { display:inline-block; border:2px solid var(--ink); border-radius:999px; padding:1px 9px; margin:2px 3px 2px 0; font-size:11.5px; background:#fff; white-space:nowrap; }
+  .pill.n { background:var(--spiral); } .pill.e { background:var(--pink); color:#fff; } .pill.b { background:var(--blue); color:#fff; }
+  svg { display:block; width:100%; height:auto; }
+  svg text { font-family:'DM Mono',monospace; fill:var(--ink); }
+  .dark svg text { fill:var(--paper); }
+  .legend { display:flex; flex-wrap:wrap; gap:6px 14px; font-size:11.5px; margin-top:8px; }
+  .legend span::before { content:''; display:inline-block; width:10px; height:10px; border:2px solid var(--ink); border-radius:50%; margin-right:6px; vertical-align:-1px; background:var(--c); }
+  code, .f { font:500 12.5px 'DM Mono',monospace; background:rgba(46,59,219,.1); padding:1px 6px; border-radius:5px; }
+  .formula { display:block; padding:10px 12px; background:var(--ink); color:var(--spiral); border-radius:8px; margin:10px 0; overflow-x:auto; white-space:pre; font:500 12.5px/1.6 'DM Mono',monospace; }
+  .kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:10px; margin:18px 0; }
+  .kpi { background:var(--paper); border:2px solid var(--ink); border-radius:10px; padding:10px 12px; box-shadow:3px 3px 0 var(--ink); }
+  .kpi b { display:block; font:800 34px/1 'Bricolage Grotesque',sans-serif; font-stretch:75%; color:var(--blue); }
+  .kpi span { font-size:11.5px; color:var(--mute); }
+  .loop { display:grid; grid-template-columns:1fr; gap:0; max-width:420px; margin:0 auto; }
+  .loop .step { display:flex; gap:12px; align-items:center; background:#fff; border:2px solid var(--ink); border-radius:10px; padding:8px 12px; box-shadow:3px 3px 0 var(--ink); }
+  .loop .step.led { background:var(--spiral); } .loop .step.emo { background:var(--pink); color:#fff; }
+  .loop .step b { font:800 22px/1 'Bricolage Grotesque',sans-serif; font-stretch:75%; width:24px; text-align:center; }
+  .loop .step strong { display:block; font-weight:500; font-size:14px; } .loop .step span { font-size:12px; opacity:.8; }
+  .loop .arr { text-align:center; font-size:16px; line-height:1.3; }
+  .hm td { text-align:center; font-variant-numeric:tabular-nums; }
+  .note { border-left:4px solid var(--pink); padding:4px 12px; margin:14px 0; background:rgba(224,54,143,.07); }
+  details summary { cursor:pointer; font-weight:500; }
+  footer { margin-top:60px; font-size:12px; color:var(--mute); }
+  @media (max-width:560px) { body { font-size:13.5px; } .card { padding:12px; } }
+</style>
+</head>
+<body>
+<header class="top"><div class="in"><span class="mark">n1m21n</span><span class="muted">how he lives</span><a class="back" href="/">back to the room</a></div></header>
+<div class="wrap">
+
+<h1>he is not an animation.<br>he is a small system.</h1>
+<p class="lede">Everything the man in the room does is decided by a stack of simple rules: what his body wants, how he feels, what just happened to him, and a little luck. This page explains each layer, with the real numbers the room is running on. The charts are drawn from the simulation's own data files, so they cannot drift from the code.</p>
+
+<div class="card"><h4>getting around</h4><p style="margin:0"><b>computer:</b> arrow keys or WASD to walk, <code>E</code> or Enter to use what is near you, <code>V</code> to change the camera, <code>M</code> for music, Esc to close things. <b>phone:</b> drag the round stick at the bottom left to walk, tap the big pill at the bottom right to use what is near you, the camera icon at the top changes the view.</p></div>
+<div class="kpis" id="kpis"></div>
+
+<nav class="toc" id="toc"></nav>
+
+<h2 id="loop"><i>01</i>the loop</h2>
+<p>One pipeline, always in this order. Emotion is never an input to the first step: it is the <b>result</b> of what he did, and it only reaches back into his choices through mood and memory (so there are no instant feedback spirals).</p>
+<div class="card"><div id="loopfig"></div></div>
+
+<h2 id="drives"><i>02</i>drives and needs</h2>
+<p>Six slow, nearly fixed <b>drives</b> make up his personality. They push on faster-moving <b>needs</b> (motives). A drive's weight (0.5 to 1.5) multiplies how urgent its needs feel, so changing a weight changes his character without new code.</p>
+<div class="card scroll"><table><thead><tr><th>drive</th><th>wants</th><th>feeds</th></tr></thead><tbody>
+<tr><td class="n">vitality</td><td>body upkeep</td><td>energy, hunger, hygiene, bladder</td></tr>
+<tr><td class="n">stimulation</td><td>novelty, things to do</td><td>fun, curiosity, boredom</td></tr>
+<tr><td class="n">mastery</td><td>make and finish things</td><td>focus, pride</td></tr>
+<tr><td class="n">connection</td><td>company</td><td>social</td></tr>
+<tr><td class="n">security</td><td>a predictable safe place</td><td>comfort, stress</td></tr>
+<tr><td class="n">autonomy</td><td>roam and choose</td><td>restlessness, building</td></tr>
+</tbody></table></div>
+<p>Each need drains over time and is refilled by acts, with diminishing returns (the last 20% takes the longest):</p>
+<span class="formula">drain    m  -=  rate_m * (1 + a * stress) * dt
+refill   m  +=  reward * rate * (1 - m) * dt
+urgency  u(m) = (1 - m)^2 * driveWeight</span>
+<div class="card"><h4>how fast each need drains (relative, from the tuned constants)</h4><div id="decay"></div></div>
+
+<h2 id="chem"><i>03</i>chemistry</h2>
+<p>Under valence and arousal sit six slow variables, loosely inspired by neuromodulators. They are a <b>game-grade abstraction</b>, not real neuroscience: one molecule does not equal one emotion. Each one relaxes back to a baseline with its own time constant, and is pushed by events from the ledger.</p>
+<span class="formula">dx/dt = (base - x) / tau  +  sum( event_i * weight_i )</span>
+<div class="card scroll"><table><thead><tr><th>variable</th><th>plays the role of</th><th class="num">baseline</th><th class="num">tau</th></tr></thead><tbody id="neurot"></tbody></table></div>
+<h3>how chemistry becomes feeling</h3>
+<p>Four read-outs (valence, arousal, stress, dominance) are weighted sums of these variables. Blue pushes up, pink pulls down.</p>
+<div class="card scroll"><table class="hm"><thead><tr><th>read-out</th><th>bias</th><th>DA</th><th>HT</th><th>NE</th><th>CORT</th><th>OXY</th><th>SLP</th><th>mood</th></tr></thead><tbody id="affect"></tbody></table></div>
+<h3>and straight into behaviour</h3>
+<div class="card scroll"><table class="hm"><thead><tr><th>effect</th><th>DA</th><th>HT</th><th>NE</th><th>CORT</th><th>OXY</th><th>SLP</th></tr></thead><tbody id="effects"></tbody></table></div>
+
+<h2 id="memory"><i>04</i>memory</h2>
+<p>Feelings are traces that fade. Each event adds a bump that decays exponentially, so a bad bump is felt for seconds, a bad stretch for minutes, a good day for the better part of an hour. Time keeps running while you are away, so a returning visitor finds him still carrying the day.</p>
+<span class="formula">trace(t) = sum_i  delta_i * exp( -(t - t_i) / tau )</span>
+<div class="card"><h4>how long each feeling lingers (log time axis)</h4><div id="traces"></div><div class="legend" id="tlegend"></div></div>
+
+<h2 id="emotions"><i>05</i>27 emotions</h2>
+<p>An emotion is a point in a five-number space (valence, arousal, stress, energy, dominance). The face you see is the <b>nearest prototype</b>, with hysteresis: he must cross a boundary by a margin before the face changes, so it never flickers. Dots below are the prototypes; colour is stress, size is how wide its territory is.</p>
+<div class="card"><div id="emomap"></div><div class="legend"><span style="--c:#2E3BDB">calm</span><span style="--c:#9A3A9F">some stress</span><span style="--c:#E0368F">high stress</span><span style="--c:#fff">first 9 (original)</span></div></div>
+<div class="card scroll"><table><thead><tr><th>emotion</th><th class="num">valence</th><th class="num">arousal</th><th class="num">stress</th><th class="num">energy</th><th class="num">dominance</th></tr></thead><tbody id="emot"></tbody></table></div>
+<h3>the chemistry cube</h3>
+<p>Three variables (dopamine, serotonin, noradrenaline) each high or low give eight corners, a rough starting map from chemistry to feeling (after Lövheim 2012), blended with what just happened. It only counts when his chemistry is clearly away from its resting level.</p>
+<div class="card scroll"><table><thead><tr><th>HT</th><th>DA</th><th>NE</th><th>Lövheim affect</th><th>leans toward</th></tr></thead><tbody id="cube"></tbody></table></div>
+<p class="muted">Frustrated, the one people ask about, sits at high arousal and high stress (valence .28, arousal .75, stress .7). Wall bumps and interrupted acts feed it; it fades in about 25 to 45 seconds.</p>
+
+<h2 id="ledger"><i>06</i>the ledger (the reward system)</h2>
+<p>Every event writes one entry to the ledger: some points on needs and feelings, some chemistry, then it fades. The ledger is also the explanation: any mood can be traced back to the entries that caused it. <b>Normal</b> events are small and mostly pleasant. <b>Erratic</b> events (outside his pattern: hitting a wall, skipping a meal while starving, a 3 am shower) weigh about <b id="kw"></b> times more per point.</p>
+<div class="card"><h4>an erratic point counts</h4><div id="kwbar"></div></div>
+<div class="card"><h4>what events do (change per event; blue up, pink down)</h4>
+<details open><summary>show / hide all <span id="evn"></span> events</summary><div class="scroll" style="max-height:420px;overflow-y:auto;margin-top:8px"><table><thead><tr><th>event</th><th>kind</th><th>effect on feelings</th></tr></thead><tbody id="events"></tbody></table></div></details></div>
+
+<h2 id="acts"><i>07</i>actions</h2>
+<p>He has <b id="nacts"></b> things he can do. Each one is tagged <b>normal or erratic</b>, <b>trivial or not</b> (a sigh versus cooking), and a category. Every act has its own formulas for whether he does it, how long it takes and how intense it is.</p>
+<div class="card"><h4>acts per category</h4><div id="cats"></div></div>
+<span class="formula">chance     = sigmoid( k * (score - threshold) )      he may refuse for hours
+duration   = base * moodFactor
+moodFactor = clamp( 1 + .4(valence-.6) - .3 fatigue - .2 stress + .2 absorbed, .4, 2 )
+intensity  = base * (.6 + .6 arousal) * (1 - .3 fatigue) * (1 - .2 stress)
+walkSpeed  = 1.7 * (.6 + .6 arousal) * (1 - .3 fatigue)      slower in clutter</span>
+<p>What he picks next is a weighted draw over every act's score. The score blends how much each act refills his most urgent needs, what he was just doing, how often he did it lately, and which acts naturally follow which (a table learned from public time-use diaries, so showers tend to follow sleep and meals tend to follow the fridge).</p>
+
+<h2 id="chains"><i>08</i>chains</h2>
+<p>Chains are not a fixed list; they are <b>planned</b>. The room has a state (teeth clean or not, food cooked, dishes in the sink, caffeine in him, dressed or in pyjamas), and every act reads and changes it. What he wants most becomes a <b>goal</b>, and the planner puts in front of it whatever the world needs first: to eat he needs food, food needs cooking, cooking needs something from the fridge. Some steps are soft (brush before bed), kept more often when he is rested and calm. The order of steps that do not depend on each other is drawn from which acts tend to follow which and from his own habits, which strengthen each time he uses an order. So any permutation can happen, and each run of his life grows its own routine.</p>
+<span class="formula">goal = draw(score)    plan = fill(unmet preconditions of goal, recursively)    order ~ affinity x (1 + habit)</span>
+<p><b>Interruptions and branches fall out of the same rule.</b> A detour or a knock suspends the goal; he comes back with odds that fade with time away and with every restart, and replans from the state the room is in then, so steps already done stay done. A step that fails (food burnt) leaves a precondition unmet, and the replan is the branch (eat a snack instead). Over 200 simulated weeks he lives thousands of distinct sequences. The named chains below are just recognised motifs: finishing one pays a bonus into the ledger; breaking one costs, scaled by how many steps were left, and the next sequence is drawn from its branches (filtered by what broke it and how he feels).</p>
+<div class="card"><div class="scroll"><table><thead><tr><th>chain</th><th>kind</th><th>steps</th></tr></thead><tbody id="chainst"></tbody></table></div></div>
+<div class="card"><h4>when a chain breaks</h4><div id="branchfig"></div></div>
+
+<h2 id="luck"><i>09</i>luck and mishaps</h2>
+<p>Not everything goes to plan. Seeded random events (so everyone watching sees the same one at the same moment) fire at a rate that rises with stress and fatigue:</p>
+<span class="formula">rate(t) = h0 + kStress * stress + kFatigue * fatigue + trigger(t)    events per second</span>
+<div class="card scroll"><table><thead><tr><th>event</th><th class="num">base rate</th><th class="num">stress adds</th><th class="num">fatigue adds</th><th>trigger</th></tr></thead><tbody id="haz"></tbody></table></div>
+<p>Even a normal act can go well or badly. Each act has a distribution over outcomes, nudged by fatigue, stress, skill and clutter:</p>
+<div class="card"><h4>outcome odds by kind of act</h4><div id="out"></div><div class="legend"><span style="--c:#2E3BDB">as intended</span><span style="--c:#8AA0FF">partial</span><span style="--c:#E0368F">failed</span><span style="--c:#F6E27A">side effect</span><span style="--c:#0A0618">surprise</span></div></div>
+
+<h2 id="instab"><i>10</i>instability</h2>
+<p>No stage is a pure function of the one before it. Each carries <b>noise</b>, a slowly drifting <b>gain</b> that wanders and returns to centre, and some cross-talk into its neighbours (stress mistaken for hunger, loneliness for boredom). He also keeps a <b>self-model</b> of what he expects to happen; the gap between expectation and outcome feeds dopamine (good surprise) and cortisol (bad surprise). Four hidden <b>regimes</b> shift all the noise levels, and emotion labels describe the regime rather than choosing it.</p>
+<div class="card scroll"><table><thead><tr><th>regime</th><th class="num">noise x</th><th class="num">typical stay (hours)</th></tr></thead><tbody id="reg"></tbody></table></div>
+<div class="note">Honest status: the instability layer is built and tested, but it ships <b>switched off</b> by default. The day-to-day variety you see comes from the seeded randomness in choices, outcomes and hazards.</div>
+
+<h2 id="tuned"><i>11</i>how it was tuned</h2>
+<p>Hand-set numbers made a believable person only by luck, so the numbers were searched. About 20 targets describe a believable, varied, stable life (sleep 6 to 9 hours, 2 to 4 meals, no single act hogging the day, never stuck asleep or starving). Each target has a band; being outside costs a penalty and "hard" targets must hold on every test run. A search over 50 factors (decay rates, pulls, penalties) minimised the total penalty, then the winner was re-checked on 480 simulated lives of 14 to 20 days using seeds it had never seen.</p>
+<div class="card"><h4>total penalty (lower is better, log scale)</h4><div id="fit"></div></div>
+<div class="note">Still outside the bands: valence runs a little happy (about .71 to .78 versus .5 to .7), chains break more often than the target ratio, art he is satisfied with is rarer than hoped. These are listed, not hidden.</div>
+
+<h2 id="shared"><i>12</i>one shared life</h2>
+<p>He is one person for everyone. His life is a pure function of a fixed seed and the real clock, with a saved checkpoint every four weeks, so any two visitors see the same man doing the same thing. What you do (bump him, startle him, knock at the door) is a small private layer on top that never changes his real life. While nobody is looking, time still passes and he lives it, up to two weeks act by act and in bulk beyond that.</p>
+
+<h2 id="music"><i>13</i>music as reward</h2>
+<p>Each of the <b id="nmidi"></b> piano and guitar pieces was analysed for how it feels (calm, tense, bright, nostalgic) and stored with the emotions it suits and how much it relieves stress. When he plays keys or guitar he picks the piece whose feeling is closest to his mood, and leans toward soothing pieces when stress is above .45. Pieces are public-domain or openly licensed scores; each is credited where it plays.</p>
+
+<h2 id="made"><i>14</i>how it was made</h2>
+<div class="card scroll"><table><thead><tr><th>layer</th><th>made with</th></tr></thead><tbody>
+<tr><td class="n">the man</td><td>a 3D toon figure built in Blender, faces drawn per emotion, posture driven by the same numbers</td></tr>
+<tr><td class="n">the room</td><td>three.js, hand-built furniture, riso-print look</td></tr>
+<tr><td class="n">the sim</td><td>plain JavaScript modules that run in your browser and in node for testing; data lives in JSON files and a generator bakes them into the site</td></tr>
+<tr><td class="n">checks</td><td>47 simulation tests (determinism, bounds, decay, hysteresis, catch-up), 200-life Monte Carlo runs, and a design test of the page itself</td></tr>
+<tr><td class="n">hosting</td><td>Cloudflare Pages, with a small database that keeps the shared state</td></tr>
+</tbody></table></div>
+
+<footer>numbers on this page are read from the simulation's data files when the page is built. <a href="/">back to the room</a></footer>
+</div>
+
+<script>
+const D = {"emotions":[{"n":"neutral","v":0.5,"a":0.55,"s":0.15,"e":0.65,"d":0.5,"m":0.12,"new":false},{"n":"calm","v":0.62,"a":0.35,"s":0.1,"e":0.7,"d":0.55,"m":0.12,"new":false},{"n":"curious","v":0.72,"a":0.72,"s":0.15,"e":0.75,"d":0.6,"m":0.12,"new":false},{"n":"delighted","v":0.88,"a":0.75,"s":0.05,"e":0.8,"d":0.7,"m":0.12,"new":false},{"n":"uneasy","v":0.38,"a":0.55,"s":0.5,"e":0.55,"d":0.3,"m":0.12,"new":false},{"n":"dazed","v":0.45,"a":0.3,"s":0.35,"e":0.33,"d":0.3,"m":0.12,"new":false},{"n":"given_up","v":0.2,"a":0.2,"s":0.55,"e":0.2,"d":0.15,"m":0.12,"new":false},{"n":"sleep","v":0.5,"a":0.05,"s":0.05,"e":0.08,"d":0.5,"m":0.1,"new":false},{"n":"alarm","v":0.3,"a":0.95,"s":0.9,"e":0.7,"d":0.25,"m":0.15,"new":false},{"n":"content","v":0.75,"a":0.35,"s":0.05,"e":0.7,"d":0.6,"m":0.12,"new":true},{"n":"joyful","v":0.95,"a":0.9,"s":0.03,"e":0.85,"d":0.7,"m":0.12,"new":true},{"n":"absorbed","v":0.7,"a":0.6,"s":0.2,"e":0.7,"d":0.65,"m":0.12,"new":true},{"n":"bored","v":0.4,"a":0.3,"s":0.15,"e":0.55,"d":0.45,"m":0.12,"new":true},{"n":"restless","v":0.45,"a":0.75,"s":0.4,"e":0.65,"d":0.5,"m":0.12,"new":true},{"n":"anxious","v":0.3,"a":0.75,"s":0.75,"e":0.6,"d":0.2,"m":0.12,"new":true},{"n":"frustrated","v":0.28,"a":0.75,"s":0.7,"e":0.6,"d":0.45,"m":0.12,"new":true},{"n":"sad","v":0.22,"a":0.22,"s":0.45,"e":0.4,"d":0.2,"m":0.12,"new":true},{"n":"lonely","v":0.32,"a":0.3,"s":0.4,"e":0.5,"d":0.25,"m":0.12,"new":true},{"n":"proud","v":0.85,"a":0.55,"s":0.05,"e":0.75,"d":0.85,"m":0.12,"new":true},{"n":"relieved","v":0.7,"a":0.3,"s":0.1,"e":0.6,"d":0.6,"m":0.12,"new":true},{"n":"embarrassed","v":0.28,"a":0.42,"s":0.62,"e":0.55,"d":0.1,"m":0.12,"new":true},{"n":"drowsy","v":0.5,"a":0.15,"s":0.1,"e":0.25,"d":0.45,"m":0.12,"new":true},{"n":"awe","v":0.68,"a":0.59,"s":0.15,"e":0.7,"d":0.56,"m":0.12,"new":true},{"n":"aesthetic_appreciation","v":0.78,"a":0.58,"s":0.08,"e":0.6,"d":0.57,"m":0.12,"new":true},{"n":"nostalgia","v":0.58,"a":0.46,"s":0.2,"e":0.45,"d":0.43,"m":0.12,"new":true},{"n":"amusement","v":0.77,"a":0.63,"s":0.08,"e":0.7,"d":0.61,"m":0.12,"new":true},{"n":"triumph","v":0.8,"a":0.67,"s":0.1,"e":0.85,"d":0.73,"m":0.12,"new":true}],"neuro":[{"k":"DA","name":"dopamine","role":"wanting / seeking / anticipation","base":0.5,"tau":351},{"k":"HT","name":"serotonin","role":"mood stability, contentment, patience","base":0.55,"tau":3331},{"k":"NE","name":"noradrenaline","role":"alertness, arousal, exploration noise","base":0.4,"tau":67.54},{"k":"CORT","name":"cortisol","role":"stress load","base":0.2,"tau":426.9},{"k":"OXY","name":"oxytocin","role":"bonding, social safety","base":0.4,"tau":1800},{"k":"SLP","name":"sleep pressure","role":"adenosine / melatonin; rises awake, falls asleep","base":0.2,"tau":0}],"affect":{"valence":{"bias":0.5,"DA":0.35,"HT":0.45,"CORT":-0.2868,"OXY":0.15,"SLP":-0.1,"mood":0.25},"arousal":{"bias":0.5,"NE":0.6,"DA":0.25,"SLP":-0.45,"CORT":0.15},"stress":{"bias":0,"CORT":1.227},"dominance":{"bias":0.5,"DA":0.3,"HT":0.3,"CORT":-0.4}},"effects":{"doChance":{"DA":0.8,"CORT":-0.3},"walkSpeed":{"NE":0.25,"DA":0.15,"SLP":-0.3},"patience":{"HT":0.7,"CORT":-0.5},"noiseGain":{"NE":0.8,"CORT":0.6,"HT":-0.5},"cancelPlan":{"CORT":0.9,"HT":-0.5,"DA":-0.3},"socialReward":{"OXY":1}},"cube":{"000":"embarrassed","001":"anxious","010":"uneasy","011":"frustrated","100":"bored","101":"awe","110":"content","111":"curious"},"lovheim":{"000":"shame/humiliation","001":"distress/anguish","010":"fear/terror","011":"anger/rage","100":"contempt/disgust","101":"surprise","110":"enjoyment/joy","111":"interest/excitement"},"traces":{"arousal":20,"frustration":23.16,"stress":722,"valence":300,"pride":1800,"fatigueDebt":10800,"loneliness":3600,"boredom":600,"curiosity":480,"comfort":1200},"kw":{"normal":1,"erratic":3.061},"events":[{"n":"meal_done","kind":"normal","d":{"valence":0.03,"pride":0.01,"comfort":0.03},"nu":{"HT":0.04,"DA":0.03}},{"n":"chain_complete","kind":"normal","d":{"valence":0.05,"stress":-0.05,"pride":0.03},"nu":{"HT":0.05,"CORT":-0.04}},{"n":"long_shower","kind":"normal","d":{"comfort":0.05,"valence":0.02,"stress":-0.02},"nu":{"HT":0.02}},{"n":"skip_meal_ok","kind":"normal","d":{},"nu":{}},{"n":"skip_meal_hungry","kind":"erratic","d":{"stress":0.05,"valence":-0.04},"nu":{"CORT":0.0167}},{"n":"short_sleep","kind":"erratic","d":{"fatigueDebt":0.3,"stress":0.08},"nu":{"CORT":0.02,"NE":0.0167}},{"n":"wall_bump","kind":"erratic","d":{"stress":0.04,"frustration":0.033,"valence":-0.02,"arousal":0.15},"nu":{"NE":0.0667,"CORT":0.0133}},{"n":"stumble","kind":"erratic","d":{"stress":0.03,"frustration":0.02,"arousal":0.1},"nu":{"NE":0.05}},{"n":"startle","kind":"erratic","d":{"arousal":0.3,"stress":0.03},"nu":{"NE":0.1,"CORT":0.01}},{"n":"interrupted_act","kind":"erratic","d":{"frustration":0.027,"pride":-0.013},"nu":{"DA":-0.0133,"CORT":0.0067}},{"n":"interrupted_work","kind":"erratic","d":{"frustration":0.04,"pride":-0.04},"nu":{"DA":-0.0167,"CORT":0.01}},{"n":"wrong_time_act","kind":"erratic","d":{"stress":0.01},"nu":{"CORT":0.0033}},{"n":"pet_snake","kind":"normal","d":{"loneliness":-0.2,"valence":0.06,"comfort":0.04},"nu":{"OXY":0.12,"HT":0.03}},{"n":"bladder_override","kind":"erratic","d":{"stress":0.03,"frustration":0.02},"nu":{"CORT":0.01}},{"n":"boredom_quit","kind":"erratic","d":{"boredom":0.1,"pride":-0.02},"nu":{"DA":-0.0167}},{"n":"frustration_slam","kind":"erratic","d":{"frustration":0.05,"stress":0.03},"nu":{"NE":0.0333,"CORT":0.0133}},{"n":"nap_collapse","kind":"erratic","d":{"fatigueDebt":-0.1,"valence":-0.01},"nu":{"CORT":0.0067}},{"n":"false_start","kind":"normal","d":{"boredom":0.02},"nu":{}},{"n":"music_made","kind":"normal","d":{"pride":0.06,"valence":0.05,"curiosity":0.02},"nu":{"DA":0.08,"HT":0.03}},{"n":"work_block_done","kind":"normal","d":{"pride":0.08,"valence":0.03,"stress":-0.02},"nu":{"DA":0.1,"HT":0.03}},{"n":"work_through_burnout","kind":"erratic","d":{"stress":0.06,"frustration":0.04,"fatigueDebt":0.1},"nu":{"CORT":0.0267}},{"n":"roam_new_cell","kind":"normal","d":{"curiosity":0.03,"boredom":-0.04},"nu":{"DA":0.04}},{"n":"roam_done","kind":"normal","d":{"curiosity":-0.05,"boredom":-0.1,"valence":0.02},"nu":{"DA":0.03,"NE":0.02}},{"n":"build_placed","kind":"normal","d":{"pride":0.05,"curiosity":0.02},"nu":{"DA":0.1}},{"n":"build_failed","kind":"erratic","d":{"frustration":0.05,"pride":-0.03},"nu":{"DA":-0.02,"CORT":0.0133}},{"n":"build_done","kind":"normal","d":{"pride":0.2,"valence":0.1},"nu":{"DA":0.2,"HT":0.06}},{"n":"visitor_arrive","kind":"normal","d":{"curiosity":0.06,"loneliness":-0.08,"arousal":0.1},"nu":{"OXY":0.1,"DA":0.06,"NE":0.1}},{"n":"visitor_interact","kind":"normal","d":{"loneliness":-0.05,"valence":0.03},"nu":{"OXY":0.05,"DA":0.03}},{"n":"visitor_leave","kind":"normal","d":{"loneliness":0.04,"boredom":0.02},"nu":{"OXY":-0.04}},{"n":"good_surprise","kind":"normal","d":{"valence":0.05,"curiosity":0.03,"arousal":0.1},"nu":{"DA":0.12,"NE":0.05}},{"n":"bad_surprise","kind":"erratic","d":{"stress":0.05,"frustration":0.03,"arousal":0.15},"nu":{"NE":0.04,"CORT":0.02}},{"n":"sunlight","kind":"normal","d":{"valence":0.01,"comfort":0.01},"nu":{"HT":0.02}},{"n":"tea_break","kind":"normal","d":{"comfort":0.02,"stress":-0.01},"nu":{"CORT":-0.02}},{"n":"rumination","kind":"erratic","d":{"stress":0.02,"valence":-0.015},"nu":{"CORT":0.0067}},{"n":"comfort_binge","kind":"erratic","d":{"comfort":0.06,"stress":-0.03,"pride":-0.03,"fatigueDebt":0.02},"nu":{"DA":0.0167,"CORT":-0.0067}},{"n":"pacing_release","kind":"erratic","d":{"stress":-0.03,"arousal":-0.05},"nu":{"NE":-0.0167}},{"n":"night_work_done","kind":"erratic","d":{"pride":0.05,"fatigueDebt":0.15,"stress":0.04},"nu":{"DA":0.0167,"CORT":0.0167}},{"n":"skipped_hygiene_bed","kind":"erratic","d":{"comfort":-0.03,"pride":-0.02},"nu":{}},{"n":"restless_roam_done","kind":"erratic","d":{"boredom":-0.12,"stress":-0.03,"curiosity":-0.03},"nu":{"NE":-0.01,"DA":0.01}},{"n":"chain_broken","kind":"erratic","d":{"frustration":0.03,"stress":0.02},"nu":{"CORT":0.0067}},{"n":"music_relief","kind":"normal","d":{"stress":-0.08,"arousal":-0.05,"valence":0.02},"nu":{"CORT":-0.04,"HT":0.03}},{"n":"art_done","kind":"normal","d":{"valence":0.03,"pride":0.02,"stress":-0.02},"nu":{"DA":0.04}},{"n":"art_proud","kind":"normal","d":{"valence":0.06,"pride":0.08,"stress":-0.03},"nu":{"DA":0.08,"HT":0.03}},{"n":"art_disappointed","kind":"normal","d":{"valence":-0.07,"frustration":0.08,"stress":0.04},"nu":{"DA":-0.04,"CORT":0.03}},{"n":"art_satisfied","kind":"normal","d":{"valence":0.14,"pride":0.15,"stress":-0.12,"arousal":-0.08},"nu":{"DA":0.12,"HT":0.1,"CORT":-0.08,"OXY":0.04}},{"n":"free_chain","kind":"normal","d":{"valence":0.03,"stress":-0.03,"pride":0.01},"nu":{"HT":0.02,"CORT":-0.02}},{"n":"goal_done","kind":"normal","d":{"valence":0.03,"stress":-0.02,"pride":0.02},"nu":{"DA":0.02,"CORT":-0.01}},{"n":"goal_dropped","kind":"erratic","d":{"frustration":0.02,"pride":-0.01},"nu":{"CORT":0.005}}],"chains":[{"n":"wake_up","kind":"normal","steps":["loo","brush","wash","dress"]},{"n":"shower","kind":"normal","steps":["shower","dress"]},{"n":"meal","kind":"normal","steps":["fridge","cook","eat","wash"]},{"n":"sleep_routine","kind":"normal","steps":["wash","brush","loo","read","sleep"]},{"n":"work_block","kind":"normal","steps":["tea","work","window"]},{"n":"creative_evening","kind":"normal","steps":["keys","guitar","tea"]},{"n":"explore","kind":"normal","steps":["roam","gallery_view","glance"]},{"n":"build_session","kind":"normal","steps":["gather","build","stretch","build"]},{"n":"comfort_binge","kind":"abnormal","steps":["fridge","tea","tv"]},{"n":"stress_pacing","kind":"abnormal","steps":["pace","window","pace","sigh"]},{"n":"midnight_snack","kind":"abnormal","steps":["fridge","eat","tv"]},{"n":"night_work","kind":"abnormal","steps":["work_through","tea"]},{"n":"skip_hygiene_sleep","kind":"abnormal","steps":["sleep"]},{"n":"restless_roam","kind":"abnormal","steps":["pace","roam","fidget","roam"]},{"n":"night_shower","kind":"abnormal","steps":["night_shower","dress"]},{"n":"breather","kind":"normal","steps":["bench","window","tea"]},{"n":"regroup","kind":"normal","steps":["tea","read"]},{"n":"art_session","kind":"normal","steps":["art_sketch","art_refine","art_render","art_review"]},{"n":"serene_savour","kind":"normal","steps":["window","tea","bench"]},{"n":"plant_care","kind":"normal","steps":["water_plant","window"]}],"haz":[{"n":"startle","h0":0.0001049,"ks":0.0002186,"kf":0,"trig":"","req":""},{"n":"stumble","h0":0,"ks":0.0004,"kf":0.0008,"trig":"","req":"running"},{"n":"boredom_quit","h0":0,"ks":0,"kf":0,"trig":"fun<0.22&&act==work","req":""},{"n":"frustration_slam","h0":0,"ks":0,"kf":0,"trig":"frustration>0.7","req":""},{"n":"nap_collapse","h0":0,"ks":0,"kf":0,"trig":"energy<0.15&&!sleeping","req":""},{"n":"bladder_override","h0":0,"ks":0,"kf":0,"trig":"bladder<0.1","req":""},{"n":"false_start","h0":5e-05,"ks":0.0003056,"kf":0,"trig":"","req":""},{"n":"knock","h0":0.0004034,"ks":0,"kf":0,"trig":"","req":"awake"},{"n":"phone_ring","h0":0.0001225,"ks":0,"kf":0,"trig":"","req":"awake"}],"outcomes":{"rest":{"ok":0.86,"partial":0.09,"fail":0.02,"side":0.02,"surprise":0.01},"nutrition":{"ok":0.8,"partial":0.1,"fail":0.04,"side":0.04,"surprise":0.02},"maintenance":{"ok":0.88,"partial":0.08,"fail":0.01,"side":0.02,"surprise":0.01},"creative":{"ok":0.62,"partial":0.18,"fail":0.08,"side":0.04,"surprise":0.08},"intellectual":{"ok":0.68,"partial":0.18,"fail":0.08,"side":0.03,"surprise":0.03},"leisure":{"ok":0.82,"partial":0.1,"fail":0.02,"side":0.02,"surprise":0.04},"social":{"ok":0.78,"partial":0.1,"fail":0.03,"side":0.03,"surprise":0.06},"movement":{"ok":0.8,"partial":0.08,"fail":0.04,"side":0.04,"surprise":0.04},"expressive":{"ok":0.84,"partial":0.08,"fail":0.02,"side":0.03,"surprise":0.03},"micro":{"ok":0.94,"partial":0.04,"fail":0.01,"side":0.005,"surprise":0.005},"accident":{"ok":1,"partial":0,"fail":0,"side":0,"surprise":0}},"oscale":{"ok":1,"partial":0.6,"fail":0.05,"side":0.9,"surprise":1.4},"cats":{"rest":3,"nutrition":4,"creative":8,"leisure":4,"social":4,"intellectual":3,"maintenance":6,"expressive":1,"movement":4,"micro":7,"accident":2},"nActs":46,"decay":{"energy":0.0003195,"hunger":0.0004267,"fun":0.0014,"focus":0.0004319,"hygiene":0.0003042,"bladder":0.0002046,"social":0.0002824},"midi":238,"regimes":{"steady":{"sigma":1.0,"hours":[6,12]},"restless":{"sigma":1.5,"hours":[2,5]},"low":{"sigma":1.2,"hours":[3,8]},"inspired":{"sigma":1.3,"hours":[2,4]}},"stages":{"drives":{"sigma":0.02,"tau":604800,"clamp":[0.7,1.3]},"motives":{"sigma":0.06,"tau":86400,"clamp":[0.6,1.5]},"desire":{"sigma":0.12,"tau":21600,"clamp":[0.6,1.5]},"chain":{"sigma":0.15,"tau":21600,"clamp":[0.5,1.5]},"action":{"sigma":0.15,"tau":10800,"clamp":[0.6,1.5]},"outcome":{"sigma":0.1,"tau":10800,"clamp":[0.6,1.5]},"ledger":{"sigma":0.2,"tau":10800,"clamp":[0.5,1.6]},"emotion":{"sigma":0.08,"tau":3600,"clamp":[0.7,1.4]}}};
+const $ = id => document.getElementById(id);
+if (self !== top) document.documentElement.classList.add('framed');
+const CW = Math.max(320, Math.min(720, document.documentElement.clientWidth - 70));
+const C = { blue:'#2E3BDB', pink:'#E0368F', yel:'#F6E27A', ink:'#0A0618', lav:'#8AA0FF' };
+const svg = (w, h, inner) => `<svg viewBox="0 0 ${w} ${h}" role="img" xmlns="http://www.w3.org/2000/svg">${inner}</svg>`;
+const fmtT = s => s < 90 ? Math.round(s) + ' s' : s < 5400 ? Math.round(s / 60) + ' min' : (s / 3600).toFixed(1) + ' h';
+const esc = s => String(s).replace(/_/g, ' ');
+const sgn = v => (v > 0 ? '+' : '') + (+v.toFixed(3));
+const tint = v => v > 0 ? `rgba(46,59,219,${Math.min(.55, Math.abs(v) * .9)})` : v < 0 ? `rgba(224,54,143,${Math.min(.55, Math.abs(v) * .9)})` : 'transparent';
+
+// kpis + toc
+$('kpis').innerHTML = [[D.emotions.length, 'emotions'], [D.nActs, 'things he can do'], [D.chains.length, 'chains of acts'], [D.neuro.length, 'chemistry variables'], [D.events.length, 'ledger events'], [D.midi, 'music pieces']].map(([b, s]) => `<div class="kpi"><b>${b}</b><span>${s}</span></div>`).join('');
+$('toc').innerHTML = [...document.querySelectorAll('h2')].map(h => `<a href="#${h.id}">${h.textContent.replace(/^\d+/, '')}</a>`).join('');
+$('kw').textContent = (+D.kw.erratic).toFixed(1); $('nacts').textContent = D.nActs; $('nmidi').textContent = D.midi; $('evn').textContent = '(' + D.events.length + ')';
+
+// the loop
+{ const steps = [['drive', 'what he is built to want'], ['need', 'how empty he is right now'], ['desire', 'a score for every act, plus mood'], ['chain', 'ordered steps, normal or broken'], ['outcome', 'it goes well, badly, or oddly'], ['ledger', 'points are written, then fade'], ['emotion', 'felt, and remembered']];
+  $('loopfig').innerHTML = '<div class="loop">' + steps.map(([t, d], i) => `<div class="step ${i == 5 ? 'led' : i == 6 ? 'emo' : ''}"><b>${i + 1}</b><div><strong>${t}</strong><span>${d}</span></div></div>`).join('<div class="arr">&darr;</div>') + '</div><p class="muted" style="margin:10px 0 0;color:#E0368F">&#8635; memory feeds the next pass of drive and need, never instantly.</p>'; }
+
+// horizontal bars helper
+function hbars(rows, { w = CW, lab = 130, max, fmt = v => v, color = C.blue, row = 26 } = {}) {
+  const m = max || Math.max(...rows.map(r => r.v)); const bw = w - lab - 70; let s = '';
+  rows.forEach((r, i) => { const y = i * row + 4, L = Math.max(2, r.v / m * bw);
+    s += `<text x="${lab - 8}" y="${y + 15}" text-anchor="end" font-size="11.5">${esc(r.n)}</text><rect x="${lab + 2}" y="${y + 3}" width="${L}" height="${row - 8}" rx="4" fill="${C.ink}"/><rect x="${lab}" y="${y}" width="${L}" height="${row - 8}" rx="4" fill="${r.c || color}" stroke="${C.ink}" stroke-width="1.5"/><text x="${lab + L + 8}" y="${y + 15}" font-size="11.5">${fmt(r.v)}</text>`; });
+  return svg(w, rows.length * row + 8, s);
+}
+
+// needs drain
+$('decay').innerHTML = hbars(Object.entries(D.decay).sort((a, b) => b[1] - a[1]).map(([n, v]) => ({ n, v: v * 1e4 })), { fmt: v => v.toFixed(1), lab: 70 });
+
+// chemistry
+$('neurot').innerHTML = D.neuro.map(v => `<tr><td class="n">${v.name} <span class="muted">(${v.k})</span></td><td>${v.role}</td><td class="num">${v.base}</td><td class="num">${v.tau ? fmtT(v.tau) : 'slow drift'}</td></tr>`).join('');
+{ const cols = ['DA', 'HT', 'NE', 'CORT', 'OXY', 'SLP', 'mood'];
+  $('affect').innerHTML = Object.entries(D.affect).map(([k, w]) => `<tr><td class="n">${k}</td><td>${w.bias}</td>${cols.map(c => w[c] == null ? '<td></td>' : `<td style="background:${tint(w[c])}">${sgn(w[c])}</td>`).join('')}</tr>`).join('');
+  const c6 = ['DA', 'HT', 'NE', 'CORT', 'OXY', 'SLP'];
+  $('effects').innerHTML = Object.entries(D.effects).map(([k, w]) => `<tr><td class="n">${esc(k)}</td>${c6.map(c => w[c] == null ? '<td></td>' : `<td style="background:${tint(w[c])}">${sgn(w[c])}</td>`).join('')}</tr>`).join(''); }
+
+// memory curves (log time)
+{ const keys = Object.keys(D.traces), W = CW, H = Math.round(Math.max(260, CW * .42)), px = 46, py = 18, pw = W - px - 16, ph = H - py - 36, t0 = Math.log10(5), t1 = Math.log10(36000);
+  const cols = [C.blue, C.pink, '#9A3A9F', '#1B8F6A', '#E58A00', C.ink, '#00A3C4', '#7A5BFF', '#B03030', '#6B6B2A'];
+  const X = t => px + (Math.log10(t) - t0) / (t1 - t0) * pw, Y = f => py + (1 - f) * ph; let s = '';
+  (CW < 500 ? [10, 60, 600, 3600, 36000] : [5, 10, 30, 60, 300, 900, 3600, 10800, 36000]).forEach(t => s += `<path d="M${X(t)} ${py}V${py + ph}" stroke="rgba(10,6,24,.15)"/><text x="${X(t)}" y="${H - 18}" text-anchor="middle" font-size="10">${fmtT(t)}</text>`);
+  [0, .25, .5, .75, 1].forEach(f => s += `<path d="M${px} ${Y(f)}H${W - 16}" stroke="rgba(10,6,24,.15)"/><text x="${px - 6}" y="${Y(f) + 3}" text-anchor="end" font-size="10">${Math.round(f * 100)}%</text>`);
+  keys.forEach((k, i) => { let d = ''; for (let j = 0; j <= 80; j++) { const t = Math.pow(10, t0 + (t1 - t0) * j / 80); d += (j ? 'L' : 'M') + X(t).toFixed(1) + ' ' + Y(Math.exp(-t / D.traces[k])).toFixed(1); }
+    s += `<path d="${d}" fill="none" stroke="${cols[i % 10]}" stroke-width="2.2"/>`; });
+  s += `<text x="${px + pw / 2}" y="${H - 3}" text-anchor="middle" font-size="10" style="opacity:.6">time after the event</text><text x="12" y="${py + ph / 2}" font-size="10" transform="rotate(-90 12 ${py + ph / 2})" text-anchor="middle" style="opacity:.6">strength left</text>`;
+  $('traces').innerHTML = svg(W, H, s);
+  $('tlegend').innerHTML = keys.map((k, i) => `<span style="--c:${cols[i % 10]}">${esc(k)} (${fmtT(D.traces[k])})</span>`).join(''); }
+
+// emotions map
+{ const W = CW, H = Math.round(Math.max(380, CW * .74)), px = 44, py = 14, pw = W - px - 16, ph = H - py - 40; const X = v => px + v * pw, Y = a => py + (1 - a) * ph; let s = '';
+  [0, .25, .5, .75, 1].forEach(f => s += `<path d="M${X(f)} ${py}V${py + ph}" stroke="rgba(10,6,24,.15)"/><path d="M${px} ${Y(f)}H${px + pw}" stroke="rgba(10,6,24,.15)"/><text x="${X(f)}" y="${H - 22}" text-anchor="middle" font-size="10">${f}</text><text x="${px - 6}" y="${Y(f) + 3}" text-anchor="end" font-size="10">${f}</text>`);
+  s += `<text x="${px + pw / 2}" y="${H - 6}" text-anchor="middle" font-size="11">valence (unpleasant to pleasant)</text><text x="12" y="${py + ph / 2}" font-size="11" transform="rotate(-90 12 ${py + ph / 2})" text-anchor="middle">arousal (low to high)</text>`;
+  const mix = (a, b, t) => a.map((x, i) => Math.round(x + (b[i] - x) * t)); const A = [46, 59, 219], B = [224, 54, 143];
+  const sorted = [...D.emotions].sort((a, b) => b.s - a.s);
+  sorted.forEach((e, i) => { const c = mix(A, B, Math.min(1, e.s / .8)), r = 5 + e.m * 28;
+    s += `<circle cx="${X(e.v)}" cy="${Y(e.a)}" r="${r}" fill="rgb(${c})" fill-opacity=".85" stroke="${C.ink}" stroke-width="${e.new ? 1.5 : 3}"/>`; });
+  const placed = []; sorted.forEach(e => { const end = X(e.v) > W * .7; let x = X(e.v) + (end ? -10 : 10), y = Y(e.a) - 9; for (const p of placed) if (Math.abs(p[0] - x) < 80 && Math.abs(p[1] - y) < 11) y += 12; placed.push([x, y]);
+    s += `<text x="${x}" y="${y}" text-anchor="${end ? 'end' : 'start'}" font-size="10" paint-order="stroke" stroke="#FBF6E6" stroke-width="3">${esc(e.n)}</text>`; });
+  $('emomap').innerHTML = svg(W, H, s);
+  $('emot').innerHTML = D.emotions.map(e => `<tr><td class="n">${esc(e.n)}${e.new ? '' : ' <span class="pill n">original</span>'}</td><td class="num">${e.v}</td><td class="num">${e.a}</td><td class="num">${e.s}</td><td class="num">${e.e}</td><td class="num">${e.d}</td></tr>`).join('');
+  $('cube').innerHTML = Object.entries(D.cube).sort().map(([k, v]) => `<tr>${[...k].map(b => `<td>${b == 1 ? '<span class="pill b">high</span>' : '<span class="pill">low</span>'}</td>`).join('')}<td>${esc((D.lovheim || {})[k] || '')}</td><td class="n">${esc(v)}</td></tr>`).join(''); }
+
+// ledger
+$('kwbar').innerHTML = hbars([{ n: 'normal', v: 1, c: C.yel }, { n: 'erratic', v: D.kw.erratic, c: C.pink }], { fmt: v => '× ' + v.toFixed(2), lab: 70, max: Math.max(3.5, D.kw.erratic) });
+$('events').innerHTML = D.events.map(e => { const all = { ...e.d }; const bits = Object.entries(all).map(([k, v]) => `<span class="pill" style="background:${tint(v * (k === 'stress' || k === 'frustration' ? -1 : 1) * 6)}">${esc(k)} ${sgn(v)}</span>`).join('') + Object.entries(e.nu).map(([k, v]) => `<span class="pill" style="border-style:dashed">${k} ${sgn(v)}</span>`).join('');
+  return `<tr><td class="n">${esc(e.n)}</td><td><span class="pill ${e.kind === 'erratic' ? 'e' : 'n'}">${e.kind}</span></td><td>${bits || '<span class="muted">nothing yet</span>'}</td></tr>`; }).join('');
+
+// acts
+$('cats').innerHTML = hbars(Object.entries(D.cats).sort((a, b) => b[1] - a[1]).map(([n, v]) => ({ n, v })), { fmt: v => v + ' acts', lab: 100 });
+
+// chains
+$('chainst').innerHTML = D.chains.map(c => `<tr><td class="n">${esc(c.n)}</td><td><span class="pill ${c.kind === 'abnormal' ? 'e' : 'n'}">${c.kind}</span></td><td>${c.steps.map((s, i) => `<span class="pill">${i + 1}. ${esc(s)}</span>`).join('')}</td></tr>`).join('');
+$('branchfig').innerHTML = '<div class="loop">' + [['a step breaks', 'cause is recorded: interrupt, skipped or timeout', 'emo'], ['1. its own branch', 'chosen by cause and by how he feels', 'led'], ['2. resume the same chain', 'allowed once', ''], ['3. the default for that kind', 'normal or abnormal fallback', ''], ['a new sequence starts', 'after 3 nested breaks he just settles; a branch he never started is dropped silently', '']].map(([t, d, c], i) => `<div class="step ${c}"><div><strong>${t}</strong><span>${d}</span></div></div>`).join('<div class="arr">&darr;</div>') + '</div>';
+
+// hazards
+$('haz').innerHTML = D.haz.map(h => `<tr><td class="n">${esc(h.n)}</td><td class="num">${h.h0 ? (h.h0 * 1440).toFixed(2) + '/day' : '-'}</td><td class="num">${h.ks ? '+' + (h.ks * 1440).toFixed(2) + '/day' : '-'}</td><td class="num">${h.kf ? '+' + (h.kf * 1440).toFixed(2) + '/day' : '-'}</td><td>${h.trig ? '<code>' + h.trig.replace(/</g, '&lt;') + '</code>' : h.req ? 'needs: ' + h.req : ''}</td></tr>`).join('');
+// outcomes
+{ const ks = ['ok', 'partial', 'fail', 'side', 'surprise'], cols = [C.blue, C.lav, C.pink, C.yel, C.ink], W = CW, lab = 100, bw = W - lab - 20, rowH = 28; let s = '';
+  Object.entries(D.outcomes).forEach(([n, p], i) => { const tot = ks.reduce((t, k) => t + (p[k] || 0), 0); let x = lab; const y = i * rowH + 4;
+    s += `<text x="${lab - 8}" y="${y + 15}" text-anchor="end" font-size="11.5">${esc(n)}</text>`;
+    ks.forEach((k, j) => { const w = (p[k] || 0) / tot * bw; s += `<rect x="${x}" y="${y}" width="${w}" height="${rowH - 8}" fill="${cols[j]}" stroke="${C.ink}" stroke-width="1.5"/>`; if (w > 34) s += `<text x="${x + w / 2}" y="${y + 14}" text-anchor="middle" font-size="9.5" style="fill:${j == 0 || j == 2 || j == 4 ? '#fff' : C.ink}">${Math.round(p[k] / tot * 100)}%</text>`; x += w; }); });
+  $('out').innerHTML = svg(W, Object.keys(D.outcomes).length * rowH + 8, s); }
+// regimes
+$('reg').innerHTML = Object.entries(D.regimes).map(([k, r]) => `<tr><td class="n">${k}</td><td class="num">${r.sigma}</td><td class="num">${r.hours[0]} to ${r.hours[1]}</td></tr>`).join('');
+// tuning history (from the tuning log)
+{ const pts = [['hand-set', 102.4], ['round 1', 5.3], ['round 2', 1.57], ['round 4', 1.9]]; const W = CW, H = 240, px = 40, py = 16, pw = W - px - 40, ph = H - py - 40; const Y = v => py + (1 - (Math.log10(v) - Math.log10(1)) / (Math.log10(150) - Math.log10(1))) * ph, X = i => px + 30 + i * (pw - 60) / 3; let s = '';
+  [1, 3, 10, 30, 100].forEach(v => s += `<path d="M${px} ${Y(v)}H${px + pw}" stroke="rgba(10,6,24,.15)"/><text x="${px - 6}" y="${Y(v) + 3}" text-anchor="end" font-size="10">${v}</text>`);
+  s += `<path d="${pts.map((p, i) => (i ? 'L' : 'M') + X(i) + ' ' + Y(p[1])).join('')}" fill="none" stroke="${C.pink}" stroke-width="3"/>`;
+  pts.forEach((p, i) => s += `<circle cx="${X(i)}" cy="${Y(p[1])}" r="7" fill="${C.yel}" stroke="${C.ink}" stroke-width="2"/><text x="${X(i)}" y="${Y(p[1]) - 13}" text-anchor="middle" font-size="11.5" font-weight="500">${p[1]}</text><text x="${X(i)}" y="${H - 14}" text-anchor="middle" font-size="10.5">${p[0]}</text>`);
+  $('fit').innerHTML = svg(W, H, s); }
+// scrollspy-free: close hint for framed mode
+if (self !== top) document.addEventListener('keydown', e => { if (e.key === 'Escape') parent.postMessage('about-close', '*'); });
+</script>
+</body>
+</html>

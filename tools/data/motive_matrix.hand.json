@@ -1,0 +1,243 @@
+{
+ "doc": "Motive x act weights, percent. + feeds the motive, - drains it. 100% = the strongest effect in the sim (reward 1.0 / drain 0.012 per minute). Every act may touch every motive; blank = 0. Edit here, then python3 tools/emotions/gen.py.",
+ "drainUnit": 0.012,
+ "motives": [
+  "energy",
+  "hunger",
+  "fun",
+  "focus",
+  "hygiene",
+  "bladder",
+  "social"
+ ],
+ "matrix": {
+  "sleep": {
+   "energy": 100,
+   "fun": -5,
+   "focus": 25,
+   "social": -4
+  },
+  "bench": {
+   "energy": 45,
+   "fun": 8,
+   "focus": 65,
+   "social": -6
+  },
+  "eat": {
+   "hunger": 100,
+   "focus": -6,
+   "hygiene": -5,
+   "bladder": -8
+  },
+  "cook": {
+   "energy": -12,
+   "hunger": 78,
+   "fun": 22,
+   "focus": -10,
+   "hygiene": -10
+  },
+  "fridge": {
+   "hunger": 62,
+   "bladder": -8
+  },
+  "tea": {
+   "energy": 20,
+   "hunger": 45,
+   "fun": 8,
+   "focus": 38,
+   "bladder": -50
+  },
+  "guitar": {
+   "energy": -17,
+   "fun": 92,
+   "focus": -25,
+   "social": -8
+  },
+  "keys": {
+   "energy": -17,
+   "fun": 95,
+   "focus": -25,
+   "social": -8
+  },
+  "tv": {
+   "energy": 18,
+   "fun": 82,
+   "focus": -30,
+   "social": -6
+  },
+  "records": {
+   "fun": 75,
+   "focus": -12
+  },
+  "snake": {
+   "fun": 65,
+   "focus": -35,
+   "social": 100
+  },
+  "window": {
+   "energy": 4,
+   "fun": 22,
+   "focus": 85,
+   "social": -4
+  },
+  "read": {
+   "fun": 45,
+   "focus": 88,
+   "bladder": -3,
+   "social": -10
+  },
+  "work": {
+   "energy": -25,
+   "hunger": -8,
+   "fun": -75,
+   "focus": -100,
+   "bladder": -5,
+   "social": 18
+  },
+  "shower": {
+   "energy": 15,
+   "fun": 6,
+   "focus": -6,
+   "hygiene": 100
+  },
+  "brush": {
+   "fun": -3,
+   "hygiene": 65
+  },
+  "wash": {
+   "fun": -4,
+   "focus": 15,
+   "hygiene": 58
+  },
+  "loo": {
+   "fun": -3,
+   "focus": -5,
+   "bladder": 100
+  },
+  "dress": {
+   "fun": 35,
+   "focus": -6,
+   "hygiene": 38,
+   "social": 32
+  },
+  "roam": {
+   "energy": -33,
+   "fun": 35,
+   "focus": 20,
+   "hygiene": -4
+  },
+  "pace": {
+   "energy": -8,
+   "focus": 10
+  },
+  "gallery_view": {
+   "energy": -4,
+   "fun": 55,
+   "focus": 30,
+   "social": -4
+  },
+  "build": {
+   "energy": -50,
+   "hunger": -8,
+   "fun": 60,
+   "focus": 50,
+   "hygiene": -15,
+   "social": -10
+  },
+  "gather": {
+   "energy": -42,
+   "hunger": -8,
+   "fun": 25,
+   "focus": -12,
+   "hygiene": -10
+  },
+  "yawn": {
+   "energy": 2
+  },
+  "stretch": {
+   "energy": 3,
+   "focus": 3
+  },
+  "sigh": {},
+  "fidget": {},
+  "sip": {
+   "hunger": 2,
+   "bladder": -10
+  },
+  "glance": {},
+  "wall_bump": {},
+  "stumble": {},
+  "run_indoors": {
+   "energy": -83,
+   "hunger": -18,
+   "fun": 10,
+   "focus": -30,
+   "hygiene": -30
+  },
+  "night_shower": {
+   "hygiene": 100
+  },
+  "nap_bench": {
+   "energy": 50,
+   "focus": 12
+  },
+  "work_through": {
+   "energy": -50,
+   "hunger": -10,
+   "fun": -83,
+   "focus": 30,
+   "bladder": -8,
+   "social": -30
+  },
+  "false_start": {},
+  "phone_call": {
+   "energy": -8,
+   "fun": 30,
+   "focus": -40,
+   "social": 100
+  },
+  "write_letter": {
+   "energy": -8,
+   "fun": 40,
+   "focus": 30,
+   "social": 60
+  },
+  "greet_visitor": {
+   "energy": -10,
+   "fun": 50,
+   "focus": -50,
+   "social": 100
+  },
+  "answer_phone": {
+   "fun": 20,
+   "focus": -45,
+   "social": 100
+  },
+  "art_sketch": {
+   "energy": -17,
+   "hunger": -4,
+   "fun": 50,
+   "focus": 20,
+   "social": -10
+  },
+  "art_refine": {
+   "energy": -17,
+   "hunger": -4,
+   "fun": 30,
+   "focus": 40,
+   "social": -10
+  },
+  "art_render": {
+   "energy": -17,
+   "hunger": -6,
+   "fun": 20,
+   "focus": 30,
+   "social": -10
+  },
+  "art_review": {
+   "energy": -3,
+   "fun": 20,
+   "focus": 10
+  }
+ }
+}

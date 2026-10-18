@@ -1,0 +1,10 @@
+name = "naman-room"
+pages_build_output_dir = "dist"
+compatibility_date = "2026-10-01"
+
+# shared-life nudge log. Create once:  npx wrangler@4 d1 create naman-room-nudges   then paste its database_id here
+[[d1_databases]]
+binding = "DB"
+database_name = "naman-room-nudges"
+database_id = "0f031eee-9a17-477f-a28c-8f3bc1323066"
+migrations_dir = "migrations"

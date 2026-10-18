@@ -1,0 +1,1044 @@
+{
+ "version": 1,
+ "timeScale": 1,
+ "activities": {
+  "sleep": {
+   "kind": "normal",
+   "trivial": false,
+   "category": "rest",
+   "label": "Primary Restorative",
+   "rewards": {
+    "energy": 1
+   },
+   "drain": {},
+   "rate": 0.04889,
+   "minDur": 18,
+   "cooldown": 60,
+   "baseMinutes": 420,
+   "spread": 0.15,
+   "intensity": "sleepSpeed",
+   "station": true,
+   "requires": [],
+   "emotionPull": {}
+  },
+  "bench": {
+   "kind": "normal",
+   "trivial": false,
+   "category": "rest",
+   "label": "Focus + Rest",
+   "rewards": {
+    "energy": 0.45,
+    "focus": 0.65
+   },
+   "drain": {},
+   "rate": 0.01408,
+   "minDur": 12,
+   "cooldown": 35,
+   "baseMinutes": 25,
+   "spread": 0.4,
+   "intensity": null,
+   "station": true,
+   "requires": [],
+   "emotionPull": {}
+  },
+  "eat": {
+   "kind": "normal",
+   "trivial": false,
+   "category": "nutrition",
+   "label": "Primary Restorative",
+   "rewards": {
+    "hunger": 1
+   },
+   "drain": {},
+   "rate": 0.07,
+   "minDur": 12,
+   "cooldown": 45,
+   "baseMinutes": 15,
+   "spread": 0.3,
+   "intensity": null,
+   "station": true,
+   "requires": [],
+   "emotionPull": {}
+  },
+  "cook": {
+   "kind": "normal",
+   "trivial": false,
+   "category": "nutrition",
+   "label": "Hunger + Fun",
+   "rewards": {
+    "fun": 0.3,
+    "hunger": 0.25
+   },
+   "drain": {},
+   "rate": 0.02949,
+   "minDur": 12,
+   "cooldown": 50,
+   "baseMinutes": 16,
+   "spread": 0.3,
+   "intensity": null,
+   "station": true,
+   "requires": [],
+   "emotionPull": {},
+   "baseMinutesHand": 12,
+   "durationSource": "blend 0.5 hand 12 + ATUS cook median 20"
+  },
+  "fridge": {
+   "kind": "normal",
+   "trivial": true,
+   "category": "nutrition",
+   "label": "Quick Hunger",
+   "rewards": {
+    "hunger": 0.06
+   },
+   "drain": {},
+   "rate": 0.05,
+   "minDur": 8,
+   "cooldown": 35,
+   "baseMinutes": 2,
+   "spread": 0.5,
+   "intensity": null,
+   "station": true,
+   "requires": [],
+   "emotionPull": {}
+  },
+  "tea": {
+   "kind": "normal",
+   "trivial": false,
+   "category": "nutrition",
+   "label": "Break / Multi-motive",
+   "rewards": {
+    "focus": 0.38,
+    "energy": 0.2,
+    "hunger": 0.12
+   },
+   "drain": {
+    "bladder": 0.006
+   },
+   "rate": 0.045,
+   "minDur": 10,
+   "cooldown": 40,
+   "baseMinutes": 8,
+   "spread": 0.4,
+   "intensity": null,
+   "station": true,
+   "requires": [],
+   "emotionPull": {}
+  },
+  "guitar": {
+   "kind": "normal",
+   "trivial": false,
+   "category": "creative",
+   "label": "Creative / Fun",
+   "rewards": {
+    "fun": 0.92
+   },
+   "drain": {
+    "energy": 0.002
+   },
+   "rate": 0.0147,
+   "minDur": 14,
+   "cooldown": 35,
+   "baseMinutes": 40,
+   "spread": 0.5,
+   "intensity": "strumSpeed",
+   "station": true,
+   "requires": [],
+   "emotionPull": {}
+  },
+  "keys": {
+   "kind": "normal",
+   "trivial": false,
+   "category": "creative",
+   "label": "Creative / Fun",
+   "rewards": {
+    "fun": 0.95
+   },
+   "drain": {
+    "energy": 0.002
+   },
+   "rate": 0.0374,
+   "minDur": 14,
+   "cooldown": 35,
+   "baseMinutes": 40,
+   "spread": 0.5,
+   "intensity": "tempo",
+   "station": true,
+   "requires": [],
+   "emotionPull": {}
+  },
+  "tv": {
+   "kind": "normal",
+   "trivial": false,
+   "category": "leisure",
+   "label": "Passive Fun",
+   "rewards": {
+    "fun": 0.82,
+    "energy": 0.18
+   },
+   "drain": {},
+   "rate": 0.114,
+   "minDur": 14,
+   "cooldown": 40,
+   "baseMinutes": 67.5,
+   "spread": 0.5,
+   "intensity": null,
+   "station": true,
+   "requires": [],
+   "emotionPull": {},
+   "baseMinutesHand": 45,
+   "durationSource": "blend 0.5 hand 45 + ATUS tv median 90"
+  },
+  "records": {
+   "kind": "normal",
+   "trivial": false,
+   "category": "leisure",
+   "label": "Music / Fun",
+   "rewards": {
+    "fun": 0.75
+   },
+   "drain": {},
+   "rate": 0.03359,
+   "minDur": 8,
+   "cooldown": 35,
+   "baseMinutes": 12,
+   "spread": 0.5,
+   "intensity": null,
+   "station": true,
+   "requires": [],
+   "emotionPull": {}
+  },
+  "snake": {
+   "kind": "normal",
+   "trivial": false,
+   "category": "social",
+   "label": "Social + Fun",
+   "rewards": {
+    "fun": 0.65,
+    "social": 1
+   },
+   "drain": {},
+   "rate": 0.05171,
+   "minDur": 6,
+   "cooldown": 30,
+   "baseMinutes": 34,
+   "spread": 0.5,
+   "intensity": null,
+   "station": true,
+   "requires": [],
+   "emotionPull": {},
+   "baseMinutesHand": 8,
+   "durationSource": "blend 0.5 hand 8 + ATUS game median 60"
+  },
+  "window": {
+   "kind": "normal",
+   "trivial": false,
+   "category": "leisure",
+   "label": "Focus Restorative",
+   "rewards": {
+    "focus": 0.85,
+    "fun": 0.22
+   },
+   "drain": {},
+   "rate": 0.05677,
+   "minDur": 10,
+   "cooldown": 30,
+   "baseMinutes": 8,
+   "spread": 0.5,
+   "intensity": null,
+   "station": true,
+   "requires": [],
+   "emotionPull": {}
+  },
+  "read": {
+   "kind": "normal",
+   "trivial": false,
+   "category": "intellectual",
+   "label": "Focus + Fun",
+   "rewards": {
+    "focus": 0.88,
+    "fun": 0.45
+   },
+   "drain": {},
+   "rate": 0.08055,
+   "minDur": 14,
+   "cooldown": 35,
+   "baseMinutes": 45,
+   "spread": 0.5,
+   "intensity": null,
+   "station": true,
+   "requires": [],
+   "emotionPull": {},
+   "baseMinutesHand": 30,
+   "durationSource": "blend 0.5 hand 30 + ATUS read median 60"
+  },
+  "work": {
+   "kind": "normal",
+   "trivial": false,
+   "category": "intellectual",
+   "label": "Productive (Drains Focus/Fun)",
+   "rewards": {
+    "focus": 0.62,
+    "social": 0.18
+   },
+   "drain": {
+    "focus": 0.012,
+    "fun": 0.009,
+    "energy": 0.003
+   },
+   "rate": 0.03646,
+   "minDur": 16,
+   "cooldown": 25,
+   "baseMinutes": 115,
+   "spread": 0.3,
+   "intensity": "typeSpeed",
+   "station": true,
+   "requires": [],
+   "emotionPull": {},
+   "baseMinutesHand": 60,
+   "durationSource": "blend 0.5 hand 60 + ATUS work median 170"
+  },
+  "shower": {
+   "kind": "normal",
+   "trivial": false,
+   "category": "maintenance",
+   "label": "Primary Restorative",
+   "rewards": {
+    "hygiene": 1,
+    "energy": 0.15
+   },
+   "drain": {},
+   "rate": 0.02001,
+   "minDur": 12,
+   "cooldown": 60,
+   "baseMinutes": 9,
+   "spread": 0.25,
+   "intensity": "showerSpeed",
+   "station": true,
+   "requires": [],
+   "emotionPull": {},
+   "habTau": 720,
+   "habK": 3
+  },
+  "brush": {
+   "kind": "normal",
+   "trivial": true,
+   "category": "maintenance",
+   "label": "Hygiene",
+   "rewards": {
+    "hygiene": 0.65
+   },
+   "drain": {},
+   "rate": 0.07114,
+   "minDur": 10,
+   "cooldown": 45,
+   "baseMinutes": 3,
+   "spread": 0.3,
+   "intensity": null,
+   "station": true,
+   "requires": [],
+   "emotionPull": {},
+   "habTau": 420,
+   "habK": 4
+  },
+  "wash": {
+   "kind": "normal",
+   "trivial": true,
+   "category": "maintenance",
+   "label": "Hygiene + Refresh",
+   "rewards": {
+    "hygiene": 0.58,
+    "focus": 0.15
+   },
+   "drain": {},
+   "rate": 0.07184,
+   "minDur": 8,
+   "cooldown": 40,
+   "baseMinutes": 2,
+   "spread": 0.3,
+   "intensity": null,
+   "station": true,
+   "requires": [],
+   "emotionPull": {}
+  },
+  "loo": {
+   "kind": "normal",
+   "trivial": true,
+   "category": "maintenance",
+   "label": "Primary Restorative",
+   "rewards": {
+    "bladder": 1
+   },
+   "drain": {},
+   "rate": 0.04355,
+   "minDur": 8,
+   "cooldown": 45,
+   "baseMinutes": 4,
+   "spread": 0.4,
+   "intensity": null,
+   "station": true,
+   "requires": [],
+   "emotionPull": {}
+  },
+  "dress": {
+   "kind": "normal",
+   "trivial": false,
+   "category": "expressive",
+   "label": "Expressive",
+   "rewards": {
+    "hygiene": 0.38,
+    "fun": 0.35,
+    "social": 0.32
+   },
+   "drain": {},
+   "rate": 0.03903,
+   "minDur": 8,
+   "cooldown": 55,
+   "baseMinutes": 4,
+   "spread": 0.4,
+   "intensity": null,
+   "station": true,
+   "requires": [],
+   "emotionPull": {},
+   "habTau": 720,
+   "habK": 8
+  },
+  "roam": {
+   "kind": "normal",
+   "trivial": false,
+   "category": "movement",
+   "label": "Roam / explore",
+   "rewards": {
+    "fun": 0.35,
+    "focus": 0.2
+   },
+   "drain": {
+    "energy": 0.004
+   },
+   "rate": 0.03,
+   "minDur": 20,
+   "cooldown": 30,
+   "baseMinutes": 15,
+   "spread": 0.6,
+   "intensity": "walkSpeed",
+   "station": false,
+   "requires": [
+    "grid"
+   ],
+   "emotionPull": {
+    "curious": 1,
+    "restless": 1.2,
+    "bored": 1.2
+   }
+  },
+  "pace": {
+   "kind": "normal",
+   "trivial": false,
+   "category": "movement",
+   "label": "Pace",
+   "rewards": {
+    "focus": 0.1
+   },
+   "drain": {},
+   "rate": 0.02,
+   "minDur": 6,
+   "cooldown": 20,
+   "baseMinutes": 3,
+   "spread": 0.6,
+   "intensity": "walkSpeed",
+   "station": false,
+   "requires": [],
+   "emotionPull": {
+    "anxious": 1.2,
+    "frustrated": 1.2
+   }
+  },
+  "gallery_view": {
+   "kind": "normal",
+   "trivial": false,
+   "category": "leisure",
+   "label": "Gallery viewing",
+   "rewards": {
+    "fun": 0.55,
+    "focus": 0.3
+   },
+   "drain": {},
+   "rate": 0.035,
+   "minDur": 15,
+   "cooldown": 40,
+   "baseMinutes": 15,
+   "spread": 0.5,
+   "intensity": null,
+   "station": false,
+   "requires": [],
+   "emotionPull": {
+    "curious": 1,
+    "content": 0.8
+   }
+  },
+  "build": {
+   "kind": "normal",
+   "trivial": false,
+   "category": "creative",
+   "label": "Build (materials)",
+   "rewards": {
+    "fun": 0.6,
+    "focus": 0.5
+   },
+   "drain": {
+    "energy": 0.006
+   },
+   "rate": 0.04055,
+   "minDur": 30,
+   "cooldown": 60,
+   "baseMinutes": 45,
+   "spread": 0.5,
+   "intensity": "buildSpeed",
+   "station": false,
+   "requires": [
+    "grid",
+    "inventory"
+   ],
+   "emotionPull": {
+    "absorbed": 1.3,
+    "proud": 1
+   }
+  },
+  "gather": {
+   "kind": "normal",
+   "trivial": false,
+   "category": "movement",
+   "label": "Gather materials",
+   "rewards": {
+    "fun": 0.25
+   },
+   "drain": {
+    "energy": 0.005
+   },
+   "rate": 0.03176,
+   "minDur": 20,
+   "cooldown": 30,
+   "baseMinutes": 27.5,
+   "spread": 0.5,
+   "intensity": "walkSpeed",
+   "station": false,
+   "requires": [
+    "grid"
+   ],
+   "emotionPull": {},
+   "baseMinutesHand": 15,
+   "durationSource": "blend 0.5 hand 15 + ATUS chores median 40"
+  },
+  "yawn": {
+   "kind": "normal",
+   "trivial": true,
+   "category": "micro",
+   "label": "Yawn",
+   "rewards": {
+    "energy": 0.02
+   },
+   "drain": {},
+   "rate": 0.02,
+   "minDur": 1,
+   "cooldown": 15,
+   "baseMinutes": 0.1,
+   "spread": 0.3,
+   "intensity": null,
+   "station": false,
+   "requires": [],
+   "emotionPull": {
+    "drowsy": 1.5
+   }
+  },
+  "stretch": {
+   "kind": "normal",
+   "trivial": true,
+   "category": "micro",
+   "label": "Stretch",
+   "rewards": {
+    "energy": 0.03,
+    "focus": 0.03
+   },
+   "drain": {},
+   "rate": 0.02,
+   "minDur": 1,
+   "cooldown": 20,
+   "baseMinutes": 0.2,
+   "spread": 0.3,
+   "intensity": null,
+   "station": false,
+   "requires": [],
+   "emotionPull": {
+    "restless": 1,
+    "drowsy": 0.8
+   }
+  },
+  "sigh": {
+   "kind": "normal",
+   "trivial": true,
+   "category": "micro",
+   "label": "Sigh",
+   "rewards": {},
+   "drain": {},
+   "rate": 0,
+   "minDur": 1,
+   "cooldown": 15,
+   "baseMinutes": 0.1,
+   "spread": 0.3,
+   "intensity": null,
+   "station": false,
+   "requires": [],
+   "emotionPull": {
+    "sad": 1.5,
+    "relieved": 1.5,
+    "frustrated": 1.2
+   }
+  },
+  "fidget": {
+   "kind": "normal",
+   "trivial": true,
+   "category": "micro",
+   "label": "Fidget",
+   "rewards": {},
+   "drain": {},
+   "rate": 0,
+   "minDur": 1,
+   "cooldown": 15,
+   "baseMinutes": 0.2,
+   "spread": 0.3,
+   "intensity": null,
+   "station": false,
+   "requires": [],
+   "emotionPull": {
+    "bored": 1.5,
+    "anxious": 1.3,
+    "restless": 1.5
+   }
+  },
+  "sip": {
+   "kind": "normal",
+   "trivial": true,
+   "category": "micro",
+   "label": "Sip tea",
+   "rewards": {
+    "hunger": 0.02
+   },
+   "drain": {},
+   "rate": 0.02,
+   "minDur": 1,
+   "cooldown": 20,
+   "baseMinutes": 0.1,
+   "spread": 0.3,
+   "intensity": null,
+   "station": false,
+   "requires": [],
+   "emotionPull": {}
+  },
+  "glance": {
+   "kind": "normal",
+   "trivial": true,
+   "category": "micro",
+   "label": "Look around",
+   "rewards": {},
+   "drain": {},
+   "rate": 0,
+   "minDur": 1,
+   "cooldown": 10,
+   "baseMinutes": 0.05,
+   "spread": 0.3,
+   "intensity": null,
+   "station": false,
+   "requires": [],
+   "emotionPull": {
+    "curious": 1.5,
+    "anxious": 1.3
+   }
+  },
+  "wall_bump": {
+   "kind": "erratic",
+   "trivial": true,
+   "category": "accident",
+   "label": "Hit a wall",
+   "rewards": {},
+   "drain": {},
+   "rate": 0,
+   "minDur": 1,
+   "cooldown": 30,
+   "baseMinutes": 0.1,
+   "spread": 0.2,
+   "intensity": null,
+   "station": false,
+   "requires": [],
+   "emotionPull": {}
+  },
+  "stumble": {
+   "kind": "erratic",
+   "trivial": true,
+   "category": "accident",
+   "label": "Stumble",
+   "rewards": {},
+   "drain": {},
+   "rate": 0,
+   "minDur": 1,
+   "cooldown": 30,
+   "baseMinutes": 0.1,
+   "spread": 0.2,
+   "intensity": null,
+   "station": false,
+   "requires": [],
+   "emotionPull": {}
+  },
+  "run_indoors": {
+   "kind": "erratic",
+   "trivial": false,
+   "category": "movement",
+   "label": "Run indoors",
+   "rewards": {
+    "fun": 0.1
+   },
+   "drain": {
+    "energy": 0.01
+   },
+   "rate": 0.02914,
+   "minDur": 3,
+   "cooldown": 60,
+   "baseMinutes": 1,
+   "spread": 0.5,
+   "intensity": "runSpeed",
+   "station": false,
+   "requires": [],
+   "emotionPull": {
+    "anxious": 1.5,
+    "joyful": 1
+   }
+  },
+  "night_shower": {
+   "kind": "erratic",
+   "trivial": false,
+   "category": "maintenance",
+   "label": "Shower at 3am",
+   "rewards": {
+    "hygiene": 1
+   },
+   "drain": {},
+   "rate": 0.05,
+   "minDur": 10,
+   "cooldown": 120,
+   "baseMinutes": 9,
+   "spread": 0.3,
+   "intensity": "showerSpeed",
+   "station": false,
+   "requires": [],
+   "emotionPull": {
+    "anxious": 1,
+    "restless": 1.2
+   }
+  },
+  "nap_bench": {
+   "kind": "erratic",
+   "trivial": false,
+   "category": "rest",
+   "label": "Collapse on bench",
+   "rewards": {
+    "energy": 0.5
+   },
+   "drain": {},
+   "rate": 0.04,
+   "minDur": 8,
+   "cooldown": 90,
+   "baseMinutes": 15,
+   "spread": 0.5,
+   "intensity": null,
+   "station": false,
+   "requires": [],
+   "emotionPull": {
+    "drowsy": 2
+   }
+  },
+  "work_through": {
+   "kind": "erratic",
+   "trivial": false,
+   "category": "intellectual",
+   "label": "Work through burnout",
+   "rewards": {
+    "focus": 0.3
+   },
+   "drain": {
+    "energy": 0.006,
+    "fun": 0.01
+   },
+   "rate": 0.02,
+   "minDur": 15,
+   "cooldown": 60,
+   "baseMinutes": 105,
+   "spread": 0.4,
+   "intensity": "typeSpeed",
+   "station": false,
+   "requires": [],
+   "emotionPull": {
+    "frustrated": 1.2,
+    "anxious": 1
+   },
+   "baseMinutesHand": 40,
+   "durationSource": "blend 0.5 hand 40 + ATUS work median 170"
+  },
+  "false_start": {
+   "kind": "erratic",
+   "trivial": true,
+   "category": "micro",
+   "label": "Begin then change mind",
+   "rewards": {},
+   "drain": {},
+   "rate": 0,
+   "minDur": 1,
+   "cooldown": 30,
+   "baseMinutes": 0.1,
+   "spread": 0.2,
+   "intensity": null,
+   "station": false,
+   "requires": [],
+   "emotionPull": {}
+  },
+  "phone_call": {
+   "kind": "normal",
+   "trivial": false,
+   "drain": {},
+   "cooldown": 30,
+   "spread": 0.5,
+   "intensity": null,
+   "station": false,
+   "requires": [],
+   "emotionPull": {
+    "lonely": 1.8,
+    "sad": 1.3,
+    "content": 1.1
+   },
+   "category": "social",
+   "label": "Social + Fun",
+   "rewards": {
+    "social": 1,
+    "fun": 0.3
+   },
+   "rate": 0.09613,
+   "minDur": 5,
+   "baseMinutes": 22,
+   "object": "phone",
+   "baseMinutesHand": 14,
+   "durationSource": "blend 0.5 hand 14 + ATUS phone median 30"
+  },
+  "write_letter": {
+   "kind": "normal",
+   "trivial": false,
+   "drain": {},
+   "cooldown": 30,
+   "spread": 0.5,
+   "intensity": null,
+   "station": false,
+   "requires": [],
+   "emotionPull": {
+    "lonely": 1.5,
+    "curious": 1.2,
+    "calm": 1.2
+   },
+   "category": "creative",
+   "label": "Creative / Fun",
+   "rewards": {
+    "social": 0.6,
+    "focus": 0.3,
+    "fun": 0.4
+   },
+   "rate": 0.02769,
+   "minDur": 10,
+   "baseMinutes": 20,
+   "object": "desk",
+   "baseMinutesHand": 25,
+   "durationSource": "blend 0.5 hand 25 + ATUS write median 15"
+  },
+  "greet_visitor": {
+   "kind": "normal",
+   "trivial": false,
+   "drain": {},
+   "cooldown": 60,
+   "spread": 0.5,
+   "intensity": null,
+   "station": false,
+   "requires": [],
+   "emotionPull": {},
+   "category": "social",
+   "label": "Social + Fun",
+   "rewards": {
+    "social": 1,
+    "fun": 0.5
+   },
+   "rate": 0.1984,
+   "minDur": 4,
+   "baseMinutes": 34.5,
+   "object": "door",
+   "forcedOnly": true,
+   "baseMinutesHand": 9,
+   "durationSource": "blend 0.5 hand 9 + ATUS social median 60"
+  },
+  "answer_phone": {
+   "kind": "normal",
+   "trivial": false,
+   "drain": {},
+   "cooldown": 60,
+   "spread": 0.5,
+   "intensity": null,
+   "station": false,
+   "requires": [],
+   "emotionPull": {},
+   "category": "social",
+   "label": "Social + Fun",
+   "rewards": {
+    "social": 1,
+    "fun": 0.2
+   },
+   "rate": 0.07,
+   "minDur": 3,
+   "baseMinutes": 8,
+   "object": "phone",
+   "forcedOnly": true
+  },
+  "art_sketch": {
+   "kind": "normal",
+   "trivial": false,
+   "drain": {
+    "energy": 0.002
+   },
+   "cooldown": 120,
+   "spread": 0.5,
+   "intensity": null,
+   "station": false,
+   "requires": [],
+   "emotionPull": {
+    "curious": 1.8,
+    "restless": 1.5,
+    "bored": 1.6,
+    "joyful": 1.4,
+    "absorbed": 1.5,
+    "sad": 1.2,
+    "anxious": 1.2,
+    "frustrated": 1.2,
+    "lonely": 1.3
+   },
+   "category": "creative",
+   "label": "Creative / Fun",
+   "object": "easel",
+   "artStage": true,
+   "rewards": {
+    "fun": 0.5,
+    "focus": 0.2
+   },
+   "rate": 0.0273,
+   "minDur": 8,
+   "baseMinutes": 20
+  },
+  "art_refine": {
+   "kind": "normal",
+   "trivial": false,
+   "drain": {
+    "energy": 0.002
+   },
+   "cooldown": 10,
+   "spread": 0.5,
+   "intensity": null,
+   "station": false,
+   "requires": [],
+   "emotionPull": {
+    "absorbed": 1.6,
+    "calm": 1.3,
+    "curious": 1.3
+   },
+   "category": "creative",
+   "label": "Creative / Fun",
+   "object": "easel",
+   "artStage": true,
+   "rewards": {
+    "fun": 0.3,
+    "focus": 0.4
+   },
+   "rate": 0.04,
+   "minDur": 8,
+   "baseMinutes": 22
+  },
+  "art_render": {
+   "kind": "normal",
+   "trivial": false,
+   "drain": {
+    "energy": 0.002
+   },
+   "cooldown": 10,
+   "spread": 0.5,
+   "intensity": null,
+   "station": false,
+   "requires": [],
+   "emotionPull": {
+    "absorbed": 1.3
+   },
+   "category": "creative",
+   "label": "Creative / Fun",
+   "object": "easel",
+   "artStage": true,
+   "rewards": {
+    "fun": 0.2,
+    "focus": 0.3
+   },
+   "rate": 0.04,
+   "minDur": 6,
+   "baseMinutes": 15
+  },
+  "art_review": {
+   "kind": "normal",
+   "trivial": false,
+   "drain": {},
+   "cooldown": 10,
+   "spread": 0.5,
+   "intensity": null,
+   "station": false,
+   "requires": [],
+   "emotionPull": {
+    "calm": 1.3,
+    "content": 1.3
+   },
+   "category": "creative",
+   "label": "Creative / Fun",
+   "object": "easel",
+   "artStage": true,
+   "rewards": {
+    "fun": 0.2,
+    "focus": 0.1
+   },
+   "rate": 0.04,
+   "minDur": 3,
+   "baseMinutes": 8
+  },
+  "water_plant": {
+   "kind": "normal",
+   "trivial": false,
+   "category": "maintenance",
+   "label": "Care",
+   "rewards": {},
+   "drain": {},
+   "rate": 0.07,
+   "minDur": 2,
+   "cooldown": 240,
+   "baseMinutes": 4,
+   "spread": 0.4,
+   "intensity": null,
+   "station": true,
+   "requires": [],
+   "emotionPull": {
+    "content": 1.3,
+    "sad": 1.2,
+    "calm": 1.2,
+    "lonely": 1.2
+   },
+   "object": "plant",
+   "habTau": 1440,
+   "habK": 6,
+   "durationSource": "hand 4 (watering one pot)",
+   "due": 1440,
+   "dueNote": "the plant needs water about once a day: appeal scales with time since last watered"
+  }
+ }
+}

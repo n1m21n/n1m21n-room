@@ -2,7 +2,7 @@
 """Face textures for the 3D man, drawn by the signed-off 2D code (ek-pinjare-mai lib/man2d.py: eye, nose, spiral).
 Maps man2d canvas px -> head UV the same way tools/build_man.py projects the head (front planar, 0.30 m window):
   x = (px - 636) * S,  z = 1.76 - (py - 146) * S   (metres, S = 0.00081 m per 2D px);  u = .5 + x/.3,  v = .5 + (z-1.64)/.3
-Run:  ~/infinite-launch-video/.venv/bin/python tools/export_face.py [expr ...]"""
+Run:  .venv/bin/python tools/export_face.py [expr ...]"""
 import os, subprocess, sys
 import numpy as np
 from PIL import Image
@@ -32,6 +32,15 @@ FACES = dict(                                    # name -> (expression, eyes_ope
 )
 
 
+GEN = os.path.join(os.path.dirname(os.path.abspath(__file__)), "emotions", "faces.gen.json")   # written by tools/emotions/gen.py
+GEN_EX = {}
+if os.path.exists(GEN):
+    import json
+    for _n, _f in json.load(open(GEN)).items():
+        GEN_EX[_n] = _f["expression"]
+        FACES[_n] = (_n, _f["eyes_open"], tuple(_f["gaze"]))                                         # generated expression keyed by its own name
+
+
 def features(P, ex, eyes_open, gaze):
     M.eye(P, (578, 276), -38, 13, gaze, open_=eyes_open, ex=ex)
     M.eye(P, (698, 272), 37, 13, gaze, open_=eyes_open, ex=ex)
@@ -53,7 +62,7 @@ def export(name):
     P = Plates(N, N, K, 0)
     for c in (P.f, P.k):
         c.translate(TX, TY)
-    features(P, M.EXPRS[ename], eyes_open, gaze)
+    features(P, GEN_EX.get(name) or M.EXPRS[ename], eyes_open, gaze)
     F = P.F.makeImageSnapshot().toarray().astype(np.float32) / 255       # RGBA premultiplied
     Kp = P.K.makeImageSnapshot().toarray().astype(np.float32) / 255
     skin = np.array([int(M.C["skin"][i:i + 2], 16) / 255 for i in (1, 3, 5)], np.float32)

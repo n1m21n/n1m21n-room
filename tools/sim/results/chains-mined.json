@@ -1,0 +1,684 @@
+{
+ "lives": 40,
+ "days": 7,
+ "freeChains": 1855,
+ "distinct": 1795,
+ "seenOnce": 1774,
+ "growth": [
+  {
+   "lives": 4,
+   "chains": 181,
+   "distinct": 181
+  },
+  {
+   "lives": 10,
+   "chains": 455,
+   "distinct": 447
+  },
+  {
+   "lives": 20,
+   "chains": 919,
+   "distinct": 897
+  },
+  {
+   "lives": 40,
+   "chains": 1855,
+   "distinct": 1795
+  }
+ ],
+ "massTop10": 0.032,
+ "massTop100": 0.086,
+ "massTop1000": 0.571,
+ "namedCoverage": 0.896,
+ "distinct2gram": 590,
+ "distinct3gram": 2435,
+ "top2": [
+  {
+   "seq": "cook>eat",
+   "n": 595
+  },
+  {
+   "seq": "nap_bench>dress",
+   "n": 483
+  },
+  {
+   "seq": "tea>read",
+   "n": 438
+  },
+  {
+   "seq": "shower>dress",
+   "n": 344
+  },
+  {
+   "seq": "dress>nap_bench",
+   "n": 338
+  },
+  {
+   "seq": "read>nap_bench",
+   "n": 337
+  },
+  {
+   "seq": "brush>dress",
+   "n": 324
+  },
+  {
+   "seq": "eat>tv",
+   "n": 287
+  },
+  {
+   "seq": "loo>brush",
+   "n": 277
+  },
+  {
+   "seq": "dress>cook",
+   "n": 271
+  },
+  {
+   "seq": "dress>read",
+   "n": 209
+  },
+  {
+   "seq": "nap_bench>shower",
+   "n": 197
+  },
+  {
+   "seq": "fridge>eat",
+   "n": 184
+  },
+  {
+   "seq": "nap_bench>brush",
+   "n": 181
+  },
+  {
+   "seq": "window>tea",
+   "n": 170
+  },
+  {
+   "seq": "read>phone_call",
+   "n": 134
+  },
+  {
+   "seq": "records>nap_bench",
+   "n": 126
+  },
+  {
+   "seq": "dress>tea",
+   "n": 118
+  },
+  {
+   "seq": "nap_bench>loo",
+   "n": 114
+  },
+  {
+   "seq": "tv>nap_bench",
+   "n": 112
+  },
+  {
+   "seq": "work>window",
+   "n": 108
+  },
+  {
+   "seq": "greet_visitor>eat",
+   "n": 105
+  },
+  {
+   "seq": "records>phone_call",
+   "n": 99
+  },
+  {
+   "seq": "dress>eat",
+   "n": 95
+  },
+  {
+   "seq": "keys>nap_bench",
+   "n": 93
+  }
+ ],
+ "top3": [
+  {
+   "seq": "dress>cook>eat",
+   "n": 233
+  },
+  {
+   "seq": "loo>brush>dress",
+   "n": 200
+  },
+  {
+   "seq": "nap_bench>shower>dress",
+   "n": 158
+  },
+  {
+   "seq": "nap_bench>dress>nap_bench",
+   "n": 147
+  },
+  {
+   "seq": "read>nap_bench>dress",
+   "n": 145
+  },
+  {
+   "seq": "tea>read>nap_bench",
+   "n": 127
+  },
+  {
+   "seq": "fridge>eat>tv",
+   "n": 121
+  },
+  {
+   "seq": "window>tea>read",
+   "n": 111
+  },
+  {
+   "seq": "dress>nap_bench>dress",
+   "n": 99
+  },
+  {
+   "seq": "cook>eat>tv",
+   "n": 82
+  },
+  {
+   "seq": "eat>tv>nap_bench",
+   "n": 70
+  },
+  {
+   "seq": "dress>read>nap_bench",
+   "n": 70
+  },
+  {
+   "seq": "nap_bench>loo>brush",
+   "n": 69
+  },
+  {
+   "seq": "shower>dress>cook",
+   "n": 68
+  },
+  {
+   "seq": "dress>tea>read",
+   "n": 67
+  },
+  {
+   "seq": "dress>fridge>eat",
+   "n": 67
+  },
+  {
+   "seq": "brush>dress>nap_bench",
+   "n": 62
+  },
+  {
+   "seq": "tea>read>keys",
+   "n": 59
+  },
+  {
+   "seq": "shower>dress>nap_bench",
+   "n": 55
+  },
+  {
+   "seq": "read>nap_bench>shower",
+   "n": 54
+  },
+  {
+   "seq": "nap_bench>dress>read",
+   "n": 54
+  },
+  {
+   "seq": "dress>nap_bench>shower",
+   "n": 53
+  },
+  {
+   "seq": "records>nap_bench>dress",
+   "n": 52
+  },
+  {
+   "seq": "cook>eat>window",
+   "n": 51
+  },
+  {
+   "seq": "dress>read>phone_call",
+   "n": 49
+  }
+ ],
+ "top": [
+  {
+   "seq": "read>sleep",
+   "n": 17,
+   "share": 0.92,
+   "flow": 3.13,
+   "named": [
+    "skip_hygiene_sleep"
+   ]
+  },
+  {
+   "seq": "tea>read>sleep",
+   "n": 10,
+   "share": 0.54,
+   "flow": 2.01,
+   "named": [
+    "skip_hygiene_sleep",
+    "regroup"
+   ]
+  },
+  {
+   "seq": "tv>sleep",
+   "n": 6,
+   "share": 0.32,
+   "flow": 3.37,
+   "named": [
+    "skip_hygiene_sleep"
+   ]
+  },
+  {
+   "seq": "dress>read>sleep",
+   "n": 5,
+   "share": 0.27,
+   "flow": 2.25,
+   "named": [
+    "skip_hygiene_sleep"
+   ]
+  },
+  {
+   "seq": "read>nap_bench>dress>nap_bench>dress>nap_bench>shower>dress",
+   "n": 4,
+   "share": 0.22,
+   "flow": 2.66,
+   "named": [
+    "shower"
+   ]
+  },
+  {
+   "seq": "eat>tv>sleep",
+   "n": 4,
+   "share": 0.22,
+   "flow": 2.63,
+   "named": [
+    "skip_hygiene_sleep"
+   ]
+  },
+  {
+   "seq": "cook>eat>tv>sleep",
+   "n": 4,
+   "share": 0.22,
+   "flow": 2.88,
+   "named": [
+    "meal",
+    "skip_hygiene_sleep"
+   ]
+  },
+  {
+   "seq": "tea>tv>sleep",
+   "n": 3,
+   "share": 0.16,
+   "flow": 2.63,
+   "named": [
+    "skip_hygiene_sleep"
+   ]
+  },
+  {
+   "seq": "dress>sleep",
+   "n": 3,
+   "share": 0.16,
+   "flow": 1.84,
+   "named": [
+    "skip_hygiene_sleep"
+   ]
+  },
+  {
+   "seq": "window>tea>read>sleep",
+   "n": 3,
+   "share": 0.16,
+   "flow": 1.09,
+   "named": [
+    "skip_hygiene_sleep",
+    "regroup"
+   ]
+  },
+  {
+   "seq": "dress>window>tea>read>sleep",
+   "n": 2,
+   "share": 0.11,
+   "flow": 0.71,
+   "named": [
+    "skip_hygiene_sleep",
+    "regroup"
+   ]
+  },
+  {
+   "seq": "keys>sleep",
+   "n": 2,
+   "share": 0.11,
+   "flow": 2.73,
+   "named": [
+    "creative_evening",
+    "skip_hygiene_sleep"
+   ]
+  },
+  {
+   "seq": "read>nap_bench>shower>dress>nap_bench>loo>brush>dress",
+   "n": 2,
+   "share": 0.11,
+   "flow": 2.21,
+   "named": [
+    "wake_up",
+    "shower"
+   ]
+  },
+  {
+   "seq": "phone_call>sleep",
+   "n": 2,
+   "share": 0.11,
+   "flow": 0.46,
+   "named": [
+    "skip_hygiene_sleep"
+   ]
+  },
+  {
+   "seq": "bench>sleep",
+   "n": 2,
+   "share": 0.11,
+   "flow": 0.66,
+   "named": [
+    "skip_hygiene_sleep"
+   ]
+  },
+  {
+   "seq": "read>nap_bench>greet_visitor>sleep",
+   "n": 2,
+   "share": 0.11,
+   "flow": 0.16,
+   "named": [
+    "skip_hygiene_sleep"
+   ]
+  },
+  {
+   "seq": "dress>nap_bench>dress>nap_bench>dress>nap_bench>dress>nap_bench",
+   "n": 2,
+   "share": 0.11,
+   "flow": 2.5,
+   "named": []
+  },
+  {
+   "seq": "fridge>eat>tv>sleep",
+   "n": 2,
+   "share": 0.11,
+   "flow": 2.88,
+   "named": [
+    "midnight_snack",
+    "skip_hygiene_sleep"
+   ]
+  },
+  {
+   "seq": "brush>sleep",
+   "n": 2,
+   "share": 0.11,
+   "flow": 1.84,
+   "named": [
+    "skip_hygiene_sleep"
+   ]
+  },
+  {
+   "seq": "dress>cook>eat>keys>phone_call>brush>loo>brush",
+   "n": 2,
+   "share": 0.11,
+   "flow": 1.21,
+   "named": [
+    "meal",
+    "creative_evening"
+   ]
+  },
+  {
+   "seq": "bench>tea>read>nap_bench>dress>nap_bench>shower>dress",
+   "n": 2,
+   "share": 0.11,
+   "flow": 1.94,
+   "named": [
+    "shower",
+    "regroup"
+   ]
+  },
+  {
+   "seq": "eat>snake>records>nap_bench>greet_visitor>eat>shower>dress",
+   "n": 1,
+   "share": 0.05,
+   "flow": 0.64,
+   "named": [
+    "shower"
+   ]
+  },
+  {
+   "seq": "tea>read>answer_phone>shower>dress>tea>tv>read",
+   "n": 1,
+   "share": 0.05,
+   "flow": 1.08,
+   "named": [
+    "shower",
+    "regroup"
+   ]
+  },
+  {
+   "seq": "cook>eat>window>loo>brush>dress>tea>read",
+   "n": 1,
+   "share": 0.05,
+   "flow": 0.86,
+   "named": [
+    "wake_up",
+    "meal",
+    "regroup"
+   ]
+  },
+  {
+   "seq": "keys>dress>read>snake>records>window>bench>tea",
+   "n": 1,
+   "share": 0.05,
+   "flow": 0.55,
+   "named": [
+    "creative_evening"
+   ]
+  },
+  {
+   "seq": "read>records>phone_call>dress>shower>dress>fridge>eat",
+   "n": 1,
+   "share": 0.05,
+   "flow": 1.39,
+   "named": [
+    "shower"
+   ]
+  },
+  {
+   "seq": "tv>tea>read>sleep",
+   "n": 1,
+   "share": 0.05,
+   "flow": 1.07,
+   "named": [
+    "skip_hygiene_sleep",
+    "regroup"
+   ]
+  },
+  {
+   "seq": "dress>eat>snake>phone_call>records>phone_call>keys>brush",
+   "n": 1,
+   "share": 0.05,
+   "flow": 1.24,
+   "named": [
+    "creative_evening"
+   ]
+  },
+  {
+   "seq": "loo>brush>dress>cook>eat>work>bench>tea",
+   "n": 1,
+   "share": 0.05,
+   "flow": 1.53,
+   "named": [
+    "wake_up",
+    "meal"
+   ]
+  },
+  {
+   "seq": "read>keys>gallery_view>window>art_sketch>tea>read>nap_bench",
+   "n": 1,
+   "share": 0.05,
+   "flow": 0.82,
+   "named": [
+    "creative_evening",
+    "regroup"
+   ]
+  },
+  {
+   "seq": "dress>art_render>window>bench>cook>eat>window>bench",
+   "n": 1,
+   "share": 0.05,
+   "flow": 0.64,
+   "named": [
+    "meal"
+   ]
+  },
+  {
+   "seq": "keys>phone_call>wash>brush>read>nap_bench>shower>dress",
+   "n": 1,
+   "share": 0.05,
+   "flow": 1.77,
+   "named": [
+    "shower",
+    "creative_evening"
+   ]
+  },
+  {
+   "seq": "tea>phone_call>read>nap_bench>dress>cook>eat>art_sketch",
+   "n": 1,
+   "share": 0.05,
+   "flow": 1.94,
+   "named": [
+    "meal",
+    "regroup"
+   ]
+  },
+  {
+   "seq": "dress>art_render>eat>tv>phone_call>window>tea>read",
+   "n": 1,
+   "share": 0.05,
+   "flow": 0.63,
+   "named": [
+    "regroup"
+   ]
+  },
+  {
+   "seq": "shower>dress>write_letter>loo>brush>dress>cook>eat",
+   "n": 1,
+   "share": 0.05,
+   "flow": 1.09,
+   "named": [
+    "wake_up",
+    "shower",
+    "meal"
+   ]
+  },
+  {
+   "seq": "brush>bench>tea>read>keys>phone_call>write_letter>dress",
+   "n": 1,
+   "share": 0.05,
+   "flow": 0.63,
+   "named": [
+    "creative_evening",
+    "regroup"
+   ]
+  },
+  {
+   "seq": "tv>greet_visitor>work>window>tea>read>keys>nap_bench",
+   "n": 1,
+   "share": 0.05,
+   "flow": 0.91,
+   "named": [
+    "work_block",
+    "creative_evening",
+    "regroup"
+   ]
+  },
+  {
+   "seq": "brush>cook>eat>window>art_sketch>bench>greet_visitor>tea",
+   "n": 1,
+   "share": 0.05,
+   "flow": 0.43,
+   "named": [
+    "meal"
+   ]
+  },
+  {
+   "seq": "art_refine>cook>eat>window>nap_bench>night_shower>sleep",
+   "n": 1,
+   "share": 0.05,
+   "flow": 1.81,
+   "named": [
+    "meal",
+    "skip_hygiene_sleep"
+   ]
+  },
+  {
+   "seq": "brush>records>art_sketch>art_refine>cook>eat>art_review>loo",
+   "n": 1,
+   "share": 0.05,
+   "flow": 0.93,
+   "named": [
+    "meal"
+   ]
+  }
+ ],
+ "unnamedFrequent": [
+  {
+   "seq": "dress>nap_bench>dress>nap_bench>dress>nap_bench>dress>nap_bench",
+   "n": 2
+  },
+  {
+   "seq": "brush>dress>pace>dress>gallery_view>phone_call>window>tea",
+   "n": 1
+  },
+  {
+   "seq": "brush>dress>read>nap_bench>dress>nap_bench>dress>nap_bench",
+   "n": 1
+  },
+  {
+   "seq": "read>nap_bench>brush>nap_bench>brush>nap_bench>dress>read",
+   "n": 1
+  },
+  {
+   "seq": "dress>read>nap_bench>dress>nap_bench>brush>nap_bench>dress",
+   "n": 1
+  },
+  {
+   "seq": "dress>eat>tv>dress>read>phone_call>write_letter>shower",
+   "n": 1
+  },
+  {
+   "seq": "brush>dress>read>nap_bench>dress>nap_bench>dress>read",
+   "n": 1
+  },
+  {
+   "seq": "guitar>nap_bench>dress>read>snake>greet_visitor>eat>tv",
+   "n": 1
+  },
+  {
+   "seq": "brush>dress>read>phone_call>greet_visitor>eat>window>bench",
+   "n": 1
+  },
+  {
+   "seq": "read>greet_visitor>nap_bench>dress>nap_bench>brush>dress>nap_bench",
+   "n": 1
+  },
+  {
+   "seq": "dress>window>phone_call>tv>greet_visitor>eat>read>dress",
+   "n": 1
+  },
+  {
+   "seq": "window>brush>read>nap_bench>dress>nap_bench>wash>tea",
+   "n": 1
+  },
+  {
+   "seq": "phone_call>write_letter>loo>brush>art_refine>cook>tea>window",
+   "n": 1
+  },
+  {
+   "seq": "bench>window>guitar>nap_bench>brush>read>nap_bench>dress",
+   "n": 1
+  },
+  {
+   "seq": "nap_bench>dress>read>greet_visitor>nap_bench>dress>shower>greet_visitor",
+   "n": 1
+  }
+ ]
+}
