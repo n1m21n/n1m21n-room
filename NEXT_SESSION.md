@@ -2,6 +2,12 @@
 
 Start here. Then read `BLUEPRINT_REVIEW.md` (review of the two Antigravity blueprints), `SIM_DESIGN.md`, `DATA_SOURCES.md`.
 
+## STATUS UPDATE (2026-10-18, stream round): core / stream split + chat errands: read `STREAM.md`
+
+- Core engine vs stream engine split (`site/src/errands/`, `camera-director.js`, `thoughts.js` core; `site/src/stream/` stream only). Chat notes on the desk, 26 commands + `!play <song>`, server-scheduled so both sites play the same errand. Music player shuffles (daily seeded order). Automatic camera on both sites, off on touch.
+- Sim untouched. Acts of the shared life itself are still real length (shortening them = sim time base, sim-rounds thread).
+- Needs before deploy: D1 migration 0004, secrets STREAM_KEY and YT_API_KEY. NOT deployed.
+
 ## STATUS UPDATE (2026-10-18, round 6): day plans: read `SIM_REVIEW.md` "Round 6"
 
 - Day-scale intentions (`tools/emotions/intentions.json`, `site/src/sim/intent.js`, `TUNE.intentPull` 1): formed in the morning or by `news`, a target window, pull on matching acts, kept / missed / carried, ledger `intention_kept` / `intention_broken`; in the snapshot.

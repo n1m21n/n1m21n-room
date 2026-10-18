@@ -145,6 +145,13 @@ export function makeRoutine({ player, spots, toast, idleAfter = 120, utility = n
   return {
     arrive, update, planned, now, dayPlan, clock, ai,
     get motives() { return ai.motives; },
+    // for a caller that sends him on an errand (the stream's chat notes): stay out of the chooser's way for `secs`, or start an act now
+    // and keep it for `secs`. Both hand him back to the live feed by themselves when the time is up.
+    hold(secs) { startedAt = performance.now(); holdFor = secs * 1000; },
+    override(what, secs) { if (!spots[what]) return false; mine = true; begin(what, { walk: true }); holdFor = secs * 1000; return true; },
+    get since() { return performance.now() - startedAt; },
+    get walking() { return going || !!player.auto?.pts; },
+    spots,
     handBack() { lastInput = -1e9; mine = true; going = false; acc = 9; },      // the visitor lets go: he rejoins the live feed at once
     get mine() { return mine; },
     get doing() { return doing; },

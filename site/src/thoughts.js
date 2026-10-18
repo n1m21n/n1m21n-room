@@ -1,0 +1,106 @@
+// Thought and speech bubbles over his head (core, both sites): what he says on the phone, at the window and the little daily musings
+// for what he is doing. `say(text, secs)` lets a caller (the stream's chat notes) put a line in the bubble for a moment, and
+// `setPace` changes how often the musings come (the stream wants them quicker).
+import * as THREE from 'three';
+
+const PHONE_LINES = [
+  "hey, yeah i'm listening.",
+  "just in the room, looking over the arrangement on this new track.",
+  "did you listen to the paranoia master? the kick drum hits so clean now.",
+  "pushed a fresh update to infinite this morning.",
+  "wait, let me send you the export link right after this call.",
+  "traffic was wild outside today honestly.",
+  "just brewed a fresh cup of tea, it's finally quiet.",
+  "found a really wild synth patch earlier, let me play it for you later.",
+  "thinking of ordering some food, what are you having?",
+  "want to hit the studio tomorrow? let's link up in the evening.",
+  "testing the mix on different speakers to check the low end.",
+  "sun is so bright outside today.",
+  "looking at the redhand vinyl sleeve right now, turned out great.",
+  "no no i'm not asleep, just spinning a record.",
+  "yeah definitely, let's lock that in.",
+  "cool, let me call you right back in a bit."
+];
+
+export const DAY_THOUGHTS = {
+  tea: ["can't start the day without a hot cup.", "steep it for two more minutes.", "warm mug, quiet room.", "ginger and black tea hit just right."],
+  cook: ["let's make something quick and simple.", "ordering food would've been faster, but cooking is nice.", "salt seems just right.", "simple meals are the best."],
+  eat: ["quiet meals are the best.", "comfort food never fails.", "taking ten minutes to just sit and eat."],
+  plant: ["monstera is finally getting a new leaf.", "don't overwater it, naman.", "a bit of green in the studio."],
+  easel: ["needs a bit more magenta in the shadows.", "doodling is pure therapy.", "two hues blending... that's it.", "pixels, paint, synths: same thing, different speed."],
+  work: ["one more commit and then a break.", "fixing node graph connections in infinite.", "music videos folder is getting huge.", "code compiles on the first try? suspicious."],
+  keys: ["what if the tempo drops to 110 here?", "that chord progression gives goosebumps.", "analog warmth just hits different.", "let's lay down a sub bassline."],
+  guitar: ["fingers getting calloused again.", "this riff has been stuck in my head all week.", "acoustic resonates nicely in this room."],
+  records: ["andhera on vinyl still sounds so warm.", "which record to play next?", "vinyl crackle is comforting."],
+  fridge: ["anything sweet left in here?", "need to restock groceries soon.", "cold water hits different."],
+  snake: ["gentle, quiet, zero thoughts in that head.", "who keeps who?", "curled up in the spiral again."]
+};
+
+export function makeThoughts({ el, man, camera, player, routine, window: win }) {
+  const headW = new THREE.Vector3(), p = el.querySelector('p');
+  let phoneLineIdx = 0, phoneLineT = 0, currentPhoneLine = '';
+  let casualT = 0, currentCasual = '', casualHold = 0;
+  let pace = { every: 20, hold: 6 }, forced = null;
+
+  function update(dt = 0.016) {
+    const isWindow = player.st.seated === win && win.t > 0.8;
+    const isPhone = (player.st.seated?.act === 'phone' && (player.st.spec?.phone || player.st.seated?.t > 0.6)) || routine.doing === 'phone' || routine.doing === 'answer';
+    const doing = routine.doing;
+
+    let text = '';
+    if (forced && (forced.left -= dt) > 0) {
+      text = forced.text;
+    } else if (isWindow) {
+      forced = null;
+      text = win.text;
+    } else if (isPhone) {
+      forced = null;
+      phoneLineT += dt;
+      if (phoneLineT > 4.5 || !currentPhoneLine) {
+        phoneLineT = 0;
+        currentPhoneLine = PHONE_LINES[phoneLineIdx % PHONE_LINES.length];
+        phoneLineIdx = (phoneLineIdx + 1) % PHONE_LINES.length;
+      }
+      text = `“${currentPhoneLine}”`;
+    } else if (DAY_THOUGHTS[doing]) {
+      forced = null;
+      casualT += dt;
+      if (casualHold > 0) {
+        casualHold -= dt;
+        text = currentCasual;
+      } else if (casualT > pace.every) {
+        casualT = 0;
+        const pool = DAY_THOUGHTS[doing];
+        currentCasual = pool[Math.floor(Math.random() * pool.length)];
+        casualHold = pace.hold;
+        text = currentCasual;
+      }
+    } else {
+      forced = null;
+      casualHold = 0;
+      currentCasual = '';
+      phoneLineT = 0;
+    }
+
+    if (!text) {
+      if (!el.hidden) el.hidden = true;
+      return;
+    }
+
+    if (p.textContent !== text) p.textContent = text;
+    if (el.hidden) el.hidden = false;
+
+    man.bones.head.getWorldPosition(headW);
+    headW.y += 0.45;
+    headW.project(camera);
+    el.style.left = ((headW.x + 1) / 2 * innerWidth) + 'px';
+    el.style.top = ((1 - headW.y) / 2 * innerHeight) + 'px';
+  }
+
+  return {
+    update,
+    say(text, secs = 5) { forced = { text, left: secs }; },        // wins over everything but ends the moment it runs out
+    setPace(next) { pace = { ...pace, ...next }; },
+    get saying() { return !!forced && forced.left > 0; },
+  };
+}

@@ -30,6 +30,10 @@ import { makeStorage } from './sim/persist.js';
 import { makeLife } from './sim/life.js';
 import { makeNudges } from './sim/nudges.js';
 import { makePosture } from './sim/posture.js';
+import { makeThoughts } from './thoughts.js';
+import { makeDirector } from './camera-director.js';
+import { makeErrands } from './errands/playback.js';
+import { makeFeed } from './errands/feed.js';
 import { PAL, skyTex } from './textures.js';
 
 const sfx = makeSfx();
@@ -302,6 +306,8 @@ function playedPiece() {
 const bench = gallery.benches[istNow().day % gallery.benches.length];
 const AS = annex.spots;
 // ?sim=1 (or localStorage n1m21n.sim = 1): the sim core chooses what he does; the old planner stays as the default and the fallback
+// ?stream=1 (src/stream/): the stream page shows the same shared life as the website and adds chat on top
+const IS_STREAM = new URLSearchParams(location.search).has('stream');
 const SIM_MODE = (() => { try { const q = new URLSearchParams(location.search).get('sim') ?? localStorage.getItem('n1m21n.sim'); return q === '1' ? 'local' : q === 'off' || q === '0' ? null : 'life'; } catch { return null; } })();   // 'life' = the shared canonical life (everyone sees the same him); 'local' = this tab's own core chooses
 const SIM_LIVE = !!SIM_MODE;
 // every act he can live has a spot; build / gather need the sim's open-world grid (not in this room) and stay off-screen
@@ -602,95 +608,9 @@ const paintSnd = () => { snd.classList.toggle('off', sfx.muted); snd.setAttribut
 snd.onclick = () => { sfx.setMuted(!sfx.muted); paintSnd(); }; paintSnd();
 document.addEventListener('click', ev => { if (ev.target.closest('.chrome button, #deck button, #prompt, .crate button, .x')) sfx.fx('tick'); }, true);
 
-// thought / speech bubbles: phone calls, window gazing, and daily musings (100% English)
-const PHONE_LINES = [
-  "hey, yeah i'm listening.",
-  "just in the room, looking over the arrangement on this new track.",
-  "did you listen to the paranoia master? the kick drum hits so clean now.",
-  "pushed a fresh update to infinite this morning.",
-  "wait, let me send you the export link right after this call.",
-  "traffic was wild outside today honestly.",
-  "just brewed a fresh cup of tea, it's finally quiet.",
-  "found a really wild synth patch earlier, let me play it for you later.",
-  "thinking of ordering some food, what are you having?",
-  "want to hit the studio tomorrow? let's link up in the evening.",
-  "testing the mix on different speakers to check the low end.",
-  "sun is so bright outside today.",
-  "looking at the redhand vinyl sleeve right now, turned out great.",
-  "no no i'm not asleep, just spinning a record.",
-  "yeah definitely, let's lock that in.",
-  "cool, let me call you right back in a bit."
-];
-
-const DAY_THOUGHTS = {
-  tea: ["can't start the day without a hot cup.", "steep it for two more minutes.", "warm mug, quiet room.", "ginger and black tea hit just right."],
-  cook: ["let's make something quick and simple.", "ordering food would've been faster, but cooking is nice.", "salt seems just right.", "simple meals are the best."],
-  eat: ["quiet meals are the best.", "comfort food never fails.", "taking ten minutes to just sit and eat."],
-  plant: ["monstera is finally getting a new leaf.", "don't overwater it, naman.", "a bit of green in the studio."],
-  easel: ["needs a bit more magenta in the shadows.", "doodling is pure therapy.", "two hues blending... that's it.", "pixels, paint, synths: same thing, different speed."],
-  work: ["one more commit and then a break.", "fixing node graph connections in infinite.", "music videos folder is getting huge.", "code compiles on the first try? suspicious."],
-  keys: ["what if the tempo drops to 110 here?", "that chord progression gives goosebumps.", "analog warmth just hits different.", "let's lay down a sub bassline."],
-  guitar: ["fingers getting calloused again.", "this riff has been stuck in my head all week.", "acoustic resonates nicely in this room."],
-  records: ["andhera on vinyl still sounds so warm.", "which record to play next?", "vinyl crackle is comforting."],
-  fridge: ["anything sweet left in here?", "need to restock groceries soon.", "cold water hits different."],
-  snake: ["gentle, quiet, zero thoughts in that head.", "who keeps who?", "curled up in the spiral again."]
-};
-
-const headW = new THREE.Vector3();
-let phoneLineIdx = 0, phoneLineT = 0, currentPhoneLine = '';
-let casualT = 0, currentCasual = '', casualHold = 0;
-
-function thought(dt = 0.016) {
-  const el = $('thought');
-  const isWindow = player.st.seated === WINDOW && WINDOW.t > 0.8;
-  const isPhone = (player.st.seated?.act === 'phone' && (player.st.spec?.phone || player.st.seated?.t > 0.6)) || routine.doing === 'phone' || routine.doing === 'answer';
-  const doing = routine.doing;
-
-  let text = '';
-  if (isWindow) {
-    text = WINDOW.text;
-  } else if (isPhone) {
-    phoneLineT += dt;
-    if (phoneLineT > 4.5 || !currentPhoneLine) {
-      phoneLineT = 0;
-      currentPhoneLine = PHONE_LINES[phoneLineIdx % PHONE_LINES.length];
-      phoneLineIdx = (phoneLineIdx + 1) % PHONE_LINES.length;
-    }
-    text = `“${currentPhoneLine}”`;
-  } else if (DAY_THOUGHTS[doing]) {
-    casualT += dt;
-    if (casualHold > 0) {
-      casualHold -= dt;
-      text = currentCasual;
-    } else if (casualT > 20) {
-      casualT = 0;
-      const pool = DAY_THOUGHTS[doing];
-      currentCasual = pool[Math.floor(Math.random() * pool.length)];
-      casualHold = 6.0;
-      text = currentCasual;
-    }
-  } else {
-    casualHold = 0;
-    currentCasual = '';
-    phoneLineT = 0;
-  }
-
-  if (!text) {
-    if (!el.hidden) el.hidden = true;
-    return;
-  }
-
-  if (el.querySelector('p').textContent !== text) {
-    el.querySelector('p').textContent = text;
-  }
-  if (el.hidden) el.hidden = false;
-
-  man.bones.head.getWorldPosition(headW);
-  headW.y += 0.45;
-  headW.project(camera);
-  el.style.left = ((headW.x + 1) / 2 * innerWidth) + 'px';
-  el.style.top = ((1 - headW.y) / 2 * innerHeight) + 'px';
-}
+// thought / speech bubbles over his head (src/thoughts.js)
+const bubble = makeThoughts({ el: $('thought'), man, camera, player, routine: { get doing() { return routine.doing; } }, window: WINDOW });
+const thought = dt => bubble.update(dt);
 
 let toastT = 0;
 function toast(s, ms = 3500) { $('toast').textContent = s; $('toast').hidden = false; clearTimeout(toastT); toastT = setTimeout(() => { $('toast').hidden = true; }, ms); }
@@ -776,7 +696,15 @@ comp.render(scene, camera);
 player.st.frozen = !!window.boot;                              // no walking about behind the loading screen
 const arrived = routine.arrive();                              // he's already at whatever the hour says
 if (night()) { shared.uLamp.value = 1; lamp.userData.pool.visible = true; F.desk.userData.lamp.userData.pool.visible = true; }
-const IS_STREAM = new URLSearchParams(window.location.search).has('stream');
+// chat errands (src/errands/): a note drops on his desk, he reads it, answers in a bubble and does what it says. The server schedules
+// them, so the website and the stream play the same errand at the same moment. Only the stream (with ?k=<key>) can announce them.
+const errands = makeErrands({ scene, desk: F.desk, chair: F.CHAIR, man, player, routine, bubble, sfx, busy: () => !$('card').hidden || portals.busy, music: deck,
+  onPlay: IS_STREAM ? hit => { sfx.setMuted(false); paintSnd(); deck.playTrack(hit.a, hit.t); } : null });       // !play changes the song only on the stream's own player
+const feed = makeFeed({ onEvent: (ev, at) => errands.push(ev, at), key: IS_STREAM ? new URLSearchParams(location.search).get('k') || '' : '' });
+// the automatic camera: runs while nobody touches the controls (any drag, tap, key or wheel turns it off, as routine.mine goes false; it comes
+// back when he is handed back to the live feed, after 2 idle minutes or 'go live'). The stream cuts quicker.
+const director = makeDirector({ player, solids, pace: IS_STREAM ? 0.6 : 1 });
+let stream = null;                                            // the stream engine (src/stream/), only on ?stream=1
 boot.ready(() => {
   player.st.frozen = false;
   routine.handBack();   // the click on enter is not play: he starts live
@@ -784,12 +712,16 @@ boot.ready(() => {
   if (IS_STREAM) {
     setTimeout(() => {
       $('enter')?.click();
+      routine.handBack();                                        // the click on enter is not play: he stays on the live feed
       sfx.setMuted(false);
       paintSnd();
     }, 400);
+    import('./stream/index.js').then(m => {                      // the stream engine: loaded only here
+      stream = m.startStream({ routine, bubble, errands, director, feed, nudges, params: new URLSearchParams(location.search) });
+      window.stream = stream; window.errands = errands;          // dev
+    }).catch(e => console.warn('stream engine failed', e));
   }
 });
-
 const clock = new THREE.Clock();
 let tick = -1, lastWhere = '', boilNow = false;
 renderer.setAnimationLoop(() => {
@@ -801,12 +733,9 @@ renderer.setAnimationLoop(() => {
   if (!audio.paused) shelf.userData.spin.rotation.y = t * 3.5;     // 33⅓-ish; stops where it was when paused
   const arm = shelf.userData.arm; arm.rotation.y += ((audio.paused ? 0 : ARM_PLAY) - arm.rotation.y) * (1 - Math.exp(-2.5 * dt));   // tonearm swings onto the record
   player.update(dt, t);
-  if (IS_STREAM && player.st.view === 'third') {
-    player.st.yaw += dt * 0.035;                                 // gentle, aesthetic 360 orbit
-    const cycle = Math.sin(t * 0.06);                            // ~100s breathing cycle
-    player.st.dist = 3.8 + cycle * 0.55;                         // smooth dolly in/out (3.25m - 4.35m)
-    player.st.pitch = 0.38 + cycle * 0.04;
-  }
+  if (routine.mine && !portals.busy) director.update(dt, { doing: routine.doing, walking: routine.walking });
+  stream?.update(dt);
+  errands.update(dt);
   framePanels(dt);
   doors.update(dt);
   ward.update(dt, t);
