@@ -16,7 +16,7 @@ export const SHOTS = {
   'I-6': { fit: FIT0, act: 'think', t: 3, face: 'lonely', sky: 'day', bone: 'chest', off: [0.6, 0.35, -1.6], fov: 50 },
   'I-7': { fit: FIT0, act: 'desk', t: 3, face: 'bored', sky: 'day', pos: [3.6, 3.1, 2.6], look: [-0.6, 0.6, -0.4], fov: 62 },
   // ACT II  trying (b15-36)
-  'II-1': { fit: FIT0, at: [0.3, 0.6, PI], face: 'restless', sky: 'day', bone: 'head', off: [0, 0.0, 1.0], fov: 40 },
+  'II-1': { fit: FIT0, at: [0.3, 0.6, PI], idle: 'fidget', face: 'restless', sky: 'day', bone: 'head', off: [0, 0.0, 1.0], fov: 40 },
   'II-2': { fit: FIT0, act: 'guitar', beat: 'retry', t: 4.8, face: 'frustrated', sky: 'day', bone: 'chest', off: [1.0, 0.3, 1.4], fov: 50 },
   'II-3': { fit: FIT0, act: 'keys', beat: 'retry', t: 4.8, face: 'given_up', sky: 'day', bone: 'chest', woff: [1.0, 0.45, 1.3], fov: 50 },
   'II-4': { fit: FIT0, act: 'paint', t: 30, face: 'sad', sky: 'dusk', bone: 'chest', off: [0.9, 0.3, 1.3], fov: 50 },
@@ -24,14 +24,14 @@ export const SHOTS = {
   'II-6': { fit: FITX, act: 'think', t: 3, face: 'lonely', sky: 'night', bone: 'head', tadd: [0, 0.1, 0], woff: [1.0, 0.0, 0.9], fov: 45 },
   'II-7': { fit: FITX, act: 'phone', t: 3, face: 'curious', sky: 'night', bone: 'head', off: [0.8, 0.15, 0.8], fov: 45 },
   // ACT III  out (b37-50)
-  'III-1': { fit: FITX, portal: { p: [0.3, 0, 0.0], ry: 0 }, at: [0.3, 1.3, PI], sky: 'night', face: 'curious', noEasel: true, pos: [2.2, 1.1, 2.4], look: [0.3, 1.0, 0.5], fov: 55 },
-  'III-2': { fit: FITX, portal: { p: [0.3, 0, 0.4], ry: 0, k: 1.25 }, at: [0.3, 0.95, PI], sky: 'night', face: 'curious', noEasel: true, pos: [0.55, 1.5, 2.3], look: [0.3, 1.1, 0.4], fov: 50 },
-  'III-3': { fit: FITX, party: { k: 0 }, at: [PX - 3, 3.2, PI * 0.9], face: 'uneasy', pos: [PX - 4.5, 2.6, 7.5], look: [PX - 0.5, 1.0, -1], fov: 55 },
+  'III-1': { fit: FITX, portal: { p: [0.3, 0, 0.0], ry: 0 }, at: [0.3, 1.3, PI], idle: 'glance', sky: 'night', face: 'curious', noEasel: true, pos: [2.2, 1.1, 2.4], look: [0.3, 1.0, 0.5], fov: 55 },
+  'III-2': { fit: FITX, portal: { p: [0.3, 0, 0.4], ry: 0, k: 1.25 }, at: [0.3, 1.5, PI], walk: [0.3, 0.45], sky: 'night', face: 'curious', noEasel: true, pos: [0.55, 1.5, 2.3], look: [0.3, 1.1, 0.4], fov: 50 },
+  'III-3': { fit: FITX, party: { k: 0 }, at: [PX - 3, 3.2, PI * 0.9], idle: 'glance', face: 'uneasy', pos: [PX - 4.5, 2.6, 7.5], look: [PX - 0.5, 1.0, -1], fov: 55 },
   'III-4': { fit: FITX, party: { k: 1, away: true }, at: [PX - 1, 1.5, PI], face: 'embarrassed', mv: 'shy', pos: [PX + 0.6, 1.4, -1.8], look: [PX - 1, 1.1, 1.5], fov: 50 },
-  'III-5': { fit: FITX, party: { k: 2, away: true }, at: [PX - 1, 1.5, PI], face: 'lonely', bone: 'head', off: [0.35, 0.0, 1.5], fov: 32 },
+  'III-5': { fit: FITX, party: { k: 2, away: true }, at: [PX - 1, 1.5, PI], idle: 'sigh', face: 'lonely', bone: 'head', off: [0.35, 0.0, 1.5], fov: 32 },
   'III-6': { fit: FITX, party: { k: 2, pool: true, dark: true, neon: false, tint: '#140C33' }, at: [PX - 1, 1.5, PI], face: 'lonely', mv: 'slump', pos: [PX - 1, 9, 1.51], look: [PX - 1, 0, 1.5], fov: 40, bg: '#05030C' },
   // ACT IV  the change (b51-70)
-  'IV-1': { fit: FITX, party: { k: 2, pool: true, dark: true, neon: false, tint: '#140C33' }, at: [PX - 1, 1.5, PI], face: 'dazed', bone: 'head', tadd: [0, 0.14, 0], off: [0, 0.0, 0.5], fov: 26, bg: '#05030C' },
+  'IV-1': { fit: FITX, party: { k: 2, pool: true, dark: true, neon: false, tint: '#140C33' }, at: [PX - 1, 1.5, PI], idle: 'sigh', face: 'dazed', bone: 'head', tadd: [0, 0.14, 0], off: [0, 0.0, 0.5], fov: 26, bg: '#05030C' },
   'IV-2': { noEasel: true, fit: FITX, at: [0.3, 1.2, PI], face: 'dazed', mv: 'slump', sky: 'night', pos: [0.3, 9.5, 1.21], look: [0.3, 0, 1.2], fov: 40 },
   'IV-3': { noEasel: true, fit: FITX, at: [0.3, 1.2, PI], face: 'absorbed', mv: 'bob', t: 0.9, sky: 'night', pos: [-0.4, 0.7, -0.5], look: [0.5, 1.3, 1.6], fov: 50 },
   'IV-4': { fit: FITX, sky: 'night', pos: [0.75, 2.2, -1.6], look: [0.75, 2.25, -3], fov: 45 },
