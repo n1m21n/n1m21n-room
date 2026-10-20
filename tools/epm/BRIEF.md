@@ -1,6 +1,18 @@
-# Ek Pinjare Mai (album: अंधेरा) in the n1m21n room: brief r1
+# Ek Pinjare Mai (album: अंधेरा) in the n1m21n room: brief r2
 
 Remake of the finished 2D film (r14) inside the room engine, the same way Bring Me Some Change is built. Story, acts and track map are the signed-off ones from `~/music videos/ek-pinjare-mai/BRIEF.md`; this file only says what changes for 3D. Nothing here is rendered as video yet.
+
+## r2 (2026-10-20, Naman's notes on r1)
+| Note | What r2 does |
+|---|---|
+| the snake stays on the floor | it lives on the floor in every scene except the peak choke (VI); it rears its head, it does not climb walls or furniture |
+| use the room's own snake | the room snake (`site/src/snake.js`) has a director mode `drive({ points, s, look, collide })`; the live site never calls it |
+| proper collision, they can never overlap | `site/src/contact.js`: his skinned body baked per pose, shrink-wrap paths on his outer surface (`wrap`, `ride`), then an iterative solver pushes every snake ring out of him, the stool and itself, keeps link length, clamps to the floor; `report()` gives the overlap in mm on every shot (`epm-qc-r2.json`, `epm_choke_keys.png`). All 38 snake shots: into 0, his 0, self 0 |
+| the choke on a chair, perfect | VI-1..VI-7 on the red stool: climbs his back from the floor, head round the neck, loop on the collar with his hands gripping it (IK placed from the solved coil, then solved again), tighter, b96 hold, lets go |
+| prison cell, scared, wants to go, tied up | iron bars on the door and window (the pinjara); he gets off the stool, tries the door and the window, the snake cuts him off on the floor and herds him back; it ties his ankles to the stool (III) |
+| dimensions through the inbuilt portal | the room's own portal (`portal.js` gates) opens on the rug; he walks in, comes out of the same portal in each dream world with the snake following out of it on the ground, and comes back out into the same room (IV, V) |
+
+Story r2, acts: I The cell (1-24), II He wants out (25-40), III Tied to the stool (41-56), IV Through the portal (57-74), V The same room (75-82), VI The choke (83-98), VII The loop (99-103). 49 scenes, see `epm_contact_sheet.png` and the act sheets.
 
 ## 0. Story (unchanged)
 | Item | Value |

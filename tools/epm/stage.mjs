@@ -26,8 +26,11 @@ run(async () => {
       if (!s.nohim) {
         if (P.st.seated) P.stand(); P.cancelAuto(); P.keys.clear();
         P.pos.set(0.3, 0, 0); P.st.heading = 0; P.st.speed = 0; for (let i = 0; i < 20; i++) P.update(1 / 30, i / 30);
-        d.man.root.position.set(0.3, 0, 0); d.man.root.rotation.set(0, 0, 0);   // he faces +z: the rug and the room d.man.root.updateMatrixWorld(true);
-        const spec = AC.ACTS.stool(3, s.t ?? 3), mod = s.pose || {};
+        const st = s.stand;                                       // standing somewhere instead: { x, z, h (heading), act, u }
+        d.man.root.position.set(st ? st.x : 0.3, 0, st ? st.z : 0); d.man.root.rotation.set(0, st ? st.h || 0 : 0, 0);   // h 0 faces +z
+        d.man.root.updateMatrixWorld(true);
+        const base = st ? (st.act ? AC.ACTS[st.act](st.u ?? 1, s.t ?? 3) : { fk: {} }) : AC.ACTS.stool(3, s.t ?? 3), mod = s.pose || {};
+        const spec = { ...base, ik: { ...(base.ik || {}) }, fk: { ...(base.fk || {}) } };
         if (mod.ik) Object.assign(spec.ik, mod.ik);
         for (const k of ['fk', 'hand', 'grip', 'pole']) if (mod[k]) spec[k] = { ...spec[k], ...mod[k] };
         const fn = n => n;
@@ -41,7 +44,18 @@ run(async () => {
       const root = d.man.root, B = n => d.man.bones[n].getWorldPosition(new V());
       const easel = d.stations.find(x => x.label === 'paint')?.obj || [];
       for (const o of [].concat(easel)) if (o) o.visible = false;
-      for (const g of (() => { const a = new Set(); scene.traverse(o => { if (o.material?.uniforms?.uOpen) a.add(o.parent); }); return a; })()) g.visible = false;
+      { const so = scene.getObjectByName('stool'); if (so) { so.visible = !s.nostool; so.traverse(o => { o.visible = !s.nostool; }); } }   // the paint station hides with the easel; the stool stays
+      const gates = [...(() => { const a = new Map(); scene.traverse(o => { if (o.material?.uniforms?.uOpen) a.set(o.parent, o.material.uniforms.uOpen); }); return a; })()];
+      for (const [g] of gates) g.visible = false;
+      (s.gates || []).forEach(([x, z, h, open = 1], i) => { const [g, u] = gates[i]; g.position.set(x, 0, z); g.rotation.set(0, h, 0); g.visible = true; u.value = open; });
+      if (s.bars) {                                                 // the pinjara: iron bars grow across the doorway (x = 4, z 0.9-2.3)
+        const iron = LK.toon ? LK.toon('#1A1424', { shade: 0.5 }) : new THREE.MeshBasicMaterial({ color: '#1A1424' }), G = new THREE.Group();
+        for (let z = 0.97; z < 2.3; z += 0.13) { const b = new THREE.Mesh(new THREE.CylinderGeometry(0.018, 0.018, 2.4, 10), iron); b.position.set(3.93, 1.2, z); G.add(b); }
+        for (const y of [0.25, 1.2, 2.2]) { const b = new THREE.Mesh(new THREE.BoxGeometry(0.03, 0.05, 1.4), iron); b.position.set(3.93, y, 1.6); G.add(b); }
+        if (s.bars === 'all') for (let x = -2.3; x < -1.05; x += 0.13) { const b = new THREE.Mesh(new THREE.CylinderGeometry(0.014, 0.014, 1.4, 8), iron); b.position.set(x, 1.95, -2.9); G.add(b); }
+        for (const b of G.children) LK.addInk?.(b, 0.006);
+        scene.add(G); G.name = 'bars';
+      }
       if (s.nohim) root.visible = false;
       for (const n of ['palette', 'paintbrush']) { const o = scene.getObjectByName(n); if (o) o.visible = false; }
 
@@ -66,7 +80,7 @@ run(async () => {
             out.push(...contact.ride(pt(t[1]), pt(t[2]), new V(...t[3]).normalize(), 0.062, t[4] || {}));
           } else if (t[0] === 'coil') {
             const [, cx, cz, r, turns, rise, ph = 0, r1 = 0.4] = t, n = Math.round(turns * 16);
-            for (let i = 0; i <= n; i++) { const k = i / n, an = ph + k * turns * Math.PI * 2, rr = r * (1 - (1 - r1) * k); out.push(new V(cx + Math.cos(an) * rr, 0.06 + rise * (1 - k) * (1 - k), cz + Math.sin(an) * rr)); }
+            for (let i = 0; i <= n; i++) { const k = i / n, an = ph + k * turns * Math.PI * 2, rr = r * (1 - (1 - r1) * k); out.push(new V(cx + Math.cos(an) * rr, rise * (1 - k) * (1 - k), cz + Math.sin(an) * rr)); }
           } else out.push(pt(t));
         }
         return out;

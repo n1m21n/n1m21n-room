@@ -37,13 +37,13 @@ for (aid,name,b0,b1,col,music,dens,cscript) in ACTS:
   img.save(OUT+f'epm_act_{aid}.png')
 W,IH=320,180; cols=5; rows=(len(S)+cols-1)//cols
 img=Image.new('RGB',(cols*W+(cols+1)*12,170+rows*(IH+54)),'#0A0618'); d=ImageDraw.Draw(img)
-d.text((12,14),"EK PINJARE MAI in the room   contact sheet r1   153 BPM   2:41.6   103 bars",font=FB,fill='white')
+d.text((12,14),"EK PINJARE MAI in the room   contact sheet r2   153 BPM   2:41.6   103 bars",font=FB,fill='white')
 tw=img.width-24
 for (aid,name,b0,b1,col,*_) in ACTS:
   x0=12+tw*(b0-1)/N_BARS; x1=12+tw*b1/N_BARS; d.rectangle([x0,60,x1,110],fill=col); d.text((x0+4,68),aid,font=FS,fill='white')
 for s in S:
   x=12+tw*(s[1]-1)/N_BARS; d.line([x,110,x,124],fill='white',width=2)
-for bb,lab in [(25,'drop'),(57,'mouth'),(83,'peak'),(96,'hold')]:
+for bb,lab in [(25,'drop'),(57,"portal"),(83,'peak'),(96,'hold')]:
   x=12+tw*(bb-1)/N_BARS; d.text((x+3,126),lab,font=FS,fill='#FFE14D')
 for i,s in enumerate(S):
   x=12+(i%cols)*(W+12); y=170+(i//cols)*(IH+54)
