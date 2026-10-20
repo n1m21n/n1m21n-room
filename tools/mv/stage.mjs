@@ -22,7 +22,7 @@ run(async () => {
   const ctx = await start();
   for (const name of names) {
     const { page, errors } = await openPage(ctx, { w: 1280, h: 720, dpr: 1, touch: false }, { query: SHOTS[name]?.surreal ? '?nobatch' : '' });   // fresh page per shot: the live cutaway never carries over
-  await page.evaluate(() => {
+  await page.evaluate(async () => {
       const d = window.dev, THREE = d.THREE, scene = d.scene;
       const toonM = (c, unlit = false) => new THREE.MeshBasicMaterial({ color: c });
       // party stage, far left of the room
@@ -75,15 +75,54 @@ run(async () => {
         }
         g.userData.mat = m; return g;
       };
+      // the crowd is him: copies of his own rig in the ghost shader (skinned), posed with the MV poses each shot
+      const M = await import('/src/man.js');
+      const gVert = `uniform float uTick, uSeed; varying vec3 vN, vV; varying vec2 vUv;
+        #include <common>
+        #include <skinning_pars_vertex>
+        float gh(float x) { return fract(sin(x * 91.17 + uSeed) * 43758.5); }
+        void main() { vUv = uv;
+          #include <skinbase_vertex>
+          #include <beginnormal_vertex>
+          #include <skinnormal_vertex>
+          #include <begin_vertex>
+          #include <skinning_vertex>
+          vec4 mv = modelViewMatrix * vec4(transformed, 1.0); vN = normalize(normalMatrix * objectNormal); vV = normalize(-mv.xyz);
+          vec4 p = projectionMatrix * mv; float band = floor(p.y / p.w * 28.0), r = gh(band + uTick * 7.0);
+          if (r > 0.8) p.x += (gh(band * 3.1 + uTick) - 0.5) * 0.1 * p.w;
+          gl_Position = p; }`;
+      const gFrag = `uniform vec3 uColor, uTint; uniform sampler2D uMap; uniform float uHasMap, uA, uTick, uSeed; varying vec3 vN, vV; varying vec2 vUv;
+        float bayer(vec2 f) { ivec2 q = ivec2(mod(f, 4.0)); int i = q.x + q.y * 4;
+          int b[16] = int[16](0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5); return (float(b[i]) + 0.5) / 16.0; }
+        void main() { float rim = pow(1.0 - abs(dot(normalize(vN), normalize(vV))), 2.0);
+          vec3 base = uHasMap > 0.5 ? texture2D(uMap, vUv).rgb : uColor;
+          float a = uA * (0.6 + 0.9 * rim);
+          if (fract(sin(floor(gl_FragCoord.y / 3.0) * 12.9 + uTick * 3.7 + uSeed) * 4375.5) > 0.92) a *= 0.15;   // dropped scanlines
+          if (bayer(gl_FragCoord.xy) > a) discard;
+          gl_FragColor = vec4(mix(base, uTint, 0.45) * (0.75 + 0.8 * rim) + uTint * rim * 0.7, 1.0); }`;
+      const ghostOf = async tint => {
+        const man = await M.loadMan();
+        const U = { uTint: { value: new THREE.Color(tint) }, uA: { value: 0.5 }, uTick: { value: 0 }, uSeed: { value: Math.random() * 100 } };
+        const meshes = []; man.root.traverse(o => { if (o.isMesh) meshes.push(o); });
+        for (const o of meshes) {
+          if (o.layers.mask !== 1) { o.visible = false; continue; }         // ink hulls: a ghost has no outline
+          const src = o.material.uniforms || {};
+          o.material = new THREE.ShaderMaterial({ uniforms: { ...U, uColor: { value: (src.uColor?.value || new THREE.Color('#fff')).clone() }, uMap: { value: src.uMap?.value || null }, uHasMap: { value: src.uHasMap?.value || 0 } },
+            vertexShader: gVert, fragmentShader: gFrag, side: o.material.side });   // his own sides: a ghost shows no inside
+        }
+        man.root.userData = { mat: { color: U.uTint.value, uniforms: U }, man };
+        return man.root;
+      };
       let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
-      for (let i = 0; i < 34; i++) {
-        const f = fig('#3A2A8C'); const a = rnd() * Math.PI * 2, r = 1.6 + rnd() * 5;
-        f.position.set(Math.cos(a) * r, 0, Math.sin(a) * r * 0.8 - 0.5); f.rotation.y = rnd() * 6.28; f.scale.setScalar(0.92 + rnd() * 0.2);
+      for (let i = 0; i < 18; i++) {
+        const f = await ghostOf('#8A7BFF'); const a = rnd() * Math.PI * 2, r = 1.6 + rnd() * 4.5;
+        f.position.set(Math.cos(a) * r, 0, Math.sin(a) * r * 0.8 - 0.5); f.rotation.y = rnd() * 6.28; f.scale.setScalar(0.95 + rnd() * 0.12);
+        f.userData.man.face(['joyful', 'absorbed', 'delighted', 'calm'][i % 4]);
         stage.add(f); crowd.push(f);
       }
-      const dj = fig('#0B0820'); dj.position.set(0, 1.1, -4.6); dj.userData.arm1.rotation.z = 2.7; dj.userData.mat.uniforms.uA.value = 0.75; stage.add(dj);
+      const dj = await ghostOf('#3EE6FF'); dj.position.set(0, 1.1, -4.6); dj.userData.mat.uniforms.uA.value = 0.75; dj.userData.man.face('absorbed'); stage.add(dj);
       window.mv = { stage, pool, neon, crowd, back, floor, X, fig, booth, truss, led, dj,
-        dance(k) { for (const [i, f] of crowd.entries()) { const up = (i + k) % 3; f.userData.arm1.rotation.z = up ? 2.6 - (i % 4) * 0.3 : 0.3; f.userData['arm-1'].rotation.z = up === 1 ? -2.6 + (i % 3) * 0.3 : -0.3; f.position.y = (i + k) % 2 ? 0.06 : 0; } },
+        dance(specs, apply) { crowd.forEach((f, i) => apply(f.userData.man, specs[i % specs.length])); apply(dj.userData.man, specs[specs.length - 1]); dj.position.y = 1.1; },
         tint(c) { for (const f of crowd) f.userData.mat.color.set(c); },
         faceAway(px, pz) { for (const f of crowd) f.rotation.y = Math.atan2(f.position.x - px, f.position.z - pz); },
         faceTo(px, pz) { for (const f of crowd) f.rotation.y = Math.atan2(px - f.position.x, pz - f.position.z); },
@@ -91,6 +130,10 @@ run(async () => {
     });
     let s = SHOTS[name]; if (!s) { console.log('no shot', name); continue; }
     if (s.mv) s = { ...s, spec: mvSpec(s.mv, s.t ?? 1) };
+    if (s.party) {                                                  // each ghost of him dances its own pose and phase
+      const k = s.party.k || 0, P = s.party.dark ? ['slump', 'sway', 'bob'] : ['up', 'sway', 'point', 'bob', 'up', 'sway'];
+      s = { ...s, ghostSpecs: Array.from({ length: 19 }, (_, i) => mvSpec(P[(i + k) % P.length], 0.31 * i + 0.17 * k)) };
+    }
     const anchors = await page.evaluate(async (s, name) => {
       const d = window.dev, P = d.player, THREE = d.THREE, mv = window.mv, V = THREE.Vector3;
       const LK = await import('/src/look.js'), AC = await import('/src/acts.js');   // first: an await later would let the live loop move the camera
@@ -100,7 +143,7 @@ run(async () => {
       mv.stage.visible = !!s.party; if (!s.party) mv.stage.position.set(mv.X, 0, 0);
       if (s.party) {
         const p = s.party;
-        mv.dance(p.k || 0); mv.tint(p.tint || '#8A7BFF');
+        mv.dance(s.ghostSpecs, AC.applyAct); mv.tint(p.tint || '#8A7BFF');
         for (const f of mv.crowd) { f.userData.mat.uniforms.uA.value = p.ghost ?? 0.5; f.userData.mat.uniforms.uTick.value = (p.k || 0) + (s.t || 0); } mv.pool.visible = !!p.pool;
         for (const b of mv.neon) b.visible = p.neon !== false;
         mv.back.material.color.set(p.dark ? '#05030C' : '#0E0826'); mv.floor.material.color.set(p.dark ? '#07041A' : '#1B0F3A');

@@ -6,6 +6,7 @@ export const SHOTS = {
     light: { dark: 0.9, lights: [{ type: 'flash', to: 'head', rel: [-1.2, 1.2, 1.6], col: '#E8F0FF', k: 1.6, cone: 0.16 }, { type: 'spot', to: [-3.4, 0.75, 2.4], rel: [0.3, 2.6, 0.2], col: '#7FA6FF', k: 0.9, cone: 0.35 }, { type: 'flicker', to: [-3.2, 1.2, 2.5], from: [-3.0, 1.9, 2.0], col: '#FFD27A', k: 0.7 }] } },
   'T-room': { fit: FIT0, act: 'bed', t: 2, face: 'sleep', sky: 'night', pos: [3.6, 3.1, 2.6], look: [-0.6, 0.6, -0.4], fov: 62,
     light: { dark: 0.92, lights: [{ type: 'area', to: 'hips', rel: [0, 2.6, 0.3], col: '#7FA6FF', k: 0.8, cone: 0.7 }, { type: 'spot', to: [0.75, 2.25, -3], rel: [0, -0.8, 1.6], col: '#FF3EA5', k: 1.0, cone: 0.25 }, { type: 'spot', to: [1.6, 0.9, -2.6], rel: [0, 2, 0.6], col: '#FFD27A', k: 1.0, cone: 0.3 }] } },
+  'T-ghost': { fit: FITX, party: { k: 1 }, at: [PX + 4, 4, PI], face: 'lonely', pos: [PX, 1.7, -3.6], look: [PX, 1.2, 2], fov: 45, light: { dark: 0.94, lights: [] } },
   // ACT I  same day (b1-14)
   'I-1': { fit: FIT0, act: 'bed', t: 2, face: 'sleep', sky: 'night', pos: [3.6, 3.1, 2.6], look: [-0.6, 0.6, -0.4], fov: 62 },
   'I-2': { fit: FIT0, act: 'bed', t: 2, face: 'drowsy', sky: 'dawn', bone: 'head', woff: [0.0, 0.85, 0.6], fov: 50 },
