@@ -41,7 +41,7 @@ function surfDist(T, p) {
   }
   return Math.sqrt(best);
 }
-function insideDepth(T, p) {
+export function insideDepth(T, p) {
   let odd = 0; for (const d of DIRS) odd += crossings(T, p, d) & 1;
   return odd >= 2 ? surfDist(T, p) : 0;
 }

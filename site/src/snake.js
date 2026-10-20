@@ -65,7 +65,38 @@ export function makeSnake() {
   const T = new THREE.Vector3(), side = new THREE.Vector3(), up = new THREE.Vector3(), Y = new THREE.Vector3(0, 1, 0);
   const tmp = new THREE.Vector3(), tan = new THREE.Vector3(), look = new THREE.Vector3();
 
+  // director mode (music video): drive({ points, s, rear, look, wave, phase, collide }) puts the body on any 3D path
+  // (tail end first, y = the underside, 0 on the floor) with the head at arc length s, follow-the-leader; collide(P, link)
+  // may move the points (contact with him). drive(null) gives it back to the floor loop. The live site never calls it.
+  let drv = null;
+  function drive(spec) {
+    if (!spec) { drv = null; return; }
+    const curve = new THREE.CatmullRomCurve3(spec.points, false, 'centripetal');
+    drv = { ...spec, curve, total: curve.getLength() };
+  }
+  const at = (s, out, tn) => {                                   // point + tangent at arc length s, straight on past the ends
+    const c = drv.curve, L = drv.total, k = Math.min(1, Math.max(0, s / L));
+    c.getPointAt(k, out); c.getTangentAt(k, tn);
+    if (s < 0) out.addScaledVector(tn, s); else if (s > L) out.addScaledVector(tn, s - L);
+  };
+  function driven(t) {
+    const phase = drv.phase ?? t * 3, s0 = drv.s ?? drv.total, rear = drv.rear || 0;
+    for (let i = 0; i < N; i++) {
+      const u = i / (N - 1);
+      at(s0 - u * LEN, P[i], tan);
+      const flat = 1 - Math.min(1, Math.abs(tan.y) * 1.5);
+      side.crossVectors(tan, Y); if (side.lengthSq() < 1e-6) side.set(1, 0, 0); side.normalize();
+      P[i].addScaledVector(side, Math.sin(u * 12.5 - phase) * 0.09 * Math.min(1, u * 4) * (drv.wave ?? 1) * flat);
+      const r = R0 * (u < 0.1 ? 0.8 + u * 2 : 1 - Math.pow((u - 0.1) / 0.9, 1.6) * 0.92);
+      P[i].y += (drv.center ? 0 : r) + (u < 0.25 ? Math.pow(1 - u / 0.25, 2) * 0.32 * rear : 0);
+      P[i].w = r;
+    }
+    if (drv.collide) drv.collide(P, LEN / (N - 1));
+  }
+
   function update(dt, t, manPos) {
+    if (drv) driven(t);
+    else {
     const hp = P[0];
     const near = manPos && hp.lengthSq() ? Math.hypot(manPos.x - hp.x, manPos.z - hp.z) : 9;
     st.napAt -= dt;
@@ -96,6 +127,7 @@ export function makeSnake() {
       }
       P[i].w = r;
     }
+    }
     for (let i = 0; i < N; i++) {
       T.subVectors(P[Math.max(0, i - 1)], P[Math.min(N - 1, i + 1)]).normalize();    // points toward the head
       side.crossVectors(T, Y).normalize(); up.crossVectors(side, T).normalize();
@@ -109,16 +141,17 @@ export function makeSnake() {
     geo.computeVertexNormals(); geo.computeBoundingSphere();
     T.subVectors(P[0], P[2]).normalize();
     head.position.copy(P[0]).addScaledVector(T, 0.06);
-    if (st.rear > 0.05 && manPos) {                            // look at his face while reared up
+    if (drv?.look) { look.copy(drv.look).sub(head.position).normalize(); T.lerp(look, drv.lookK ?? 1).normalize(); }
+    else if (st.rear > 0.05 && manPos) {                            // look at his face while reared up
       look.set(manPos.x, 1.2, manPos.z).sub(head.position).normalize();
       T.lerp(look, st.rear * 0.8).normalize();
     }
     head.lookAt(tmp.copy(head.position).add(T));
-    for (const e of eyes) e.scale.y = st.curl > 0.8 ? 0.15 : 1;   // eyes shut once it is curled up
-    tongue.visible = !asleep && (Math.sin(t * 5) > 0.55 || st.wiggle > 0);
+    for (const e of eyes) e.scale.y = !drv && st.curl > 0.8 ? 0.15 : 1;   // eyes shut once it is curled up
+    tongue.visible = drv ? !!drv.tongue : !(st.curl > 0.02) && (Math.sin(t * 5) > 0.55 || st.wiggle > 0);
     tongue.scale.z = 0.6 + Math.abs(Math.sin(t * 20)) * 0.6;
   }
   update(0, 0, null);
 
-  return { group, head, bed, update, get asleep() { return st.curl > 0.5; }, nap: (on = true) => { st.nap = on ? 1 : 0; st.napFor = on ? 60 : 0; st.napAt = on ? 0 : 120; }, pet: () => { st.wiggle = 1.2; if (st.nap) { st.nap = 0; st.napAt = 120; } } };
+  return { group, head, bed, body, update, drive, points: P, R0, LEN, get asleep() { return st.curl > 0.5; }, nap: (on = true) => { st.nap = on ? 1 : 0; st.napFor = on ? 60 : 0; st.napAt = on ? 0 : 120; }, pet: () => { st.wiggle = 1.2; if (st.nap) { st.nap = 0; st.napAt = 120; } } };
 }

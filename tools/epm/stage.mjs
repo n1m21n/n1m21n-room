@@ -10,28 +10,29 @@ run(async () => {
   const pick = process.argv.slice(2).find(a => !a.startsWith('--')) || '';
   const names = pick ? pick.split(',') : Object.keys(SHOTS);
   const ctx = await start();
-  const out = `${import.meta.dirname}/../../build-cache/review/stills/`;
+  const out = `${import.meta.dirname}/../../build-cache/review/stills/`, qcs = {};
   for (const name of names) {
     const s = SHOTS[name]; if (!s) { console.log('no shot', name); continue; }
     const { page, errors } = await openPage(ctx, { w: 1280, h: 720, dpr: 1, touch: false }, { query: '?nobatch' });
     await page.evaluate(async (s, name) => {
       const d = window.dev, THREE = d.THREE, scene = d.scene, P = d.player, V = THREE.Vector3;
-      const LK = await import('/src/look.js'), AC = await import('/src/acts.js'), TX = await import('/src/textures.js');
+      const LK = await import('/src/look.js'), AC = await import('/src/acts.js'), TX = await import('/src/textures.js'), CT = await import('/src/contact.js');
       d.sky(s.sky || 'night');
       scene.background.set('#05030C');
       if (s.fit != null) d.fits.apply(d.fits.weekday(s.fit));
       if (d.ward.open) d.ward.open(false);
       // him on the stool (hands on knees), then this scene's changes to the pose
+      let poseSpec = null;
       if (!s.nohim) {
         if (P.st.seated) P.stand(); P.cancelAuto(); P.keys.clear();
         P.pos.set(0.3, 0, 0); P.st.heading = 0; P.st.speed = 0; for (let i = 0; i < 20; i++) P.update(1 / 30, i / 30);
-        d.man.root.position.set(0.3, 0, 0); d.man.root.rotation.set(0, 0, 0); d.man.root.updateMatrixWorld(true);
+        d.man.root.position.set(0.3, 0, 0); d.man.root.rotation.set(0, 0, 0);   // he faces +z: the rug and the room d.man.root.updateMatrixWorld(true);
         const spec = AC.ACTS.stool(3, s.t ?? 3), mod = s.pose || {};
         if (mod.ik) Object.assign(spec.ik, mod.ik);
         for (const k of ['fk', 'hand', 'grip', 'pole']) if (mod[k]) spec[k] = { ...spec[k], ...mod[k] };
         const fn = n => n;
         for (const [k, v] of Object.entries(spec.ik)) if (v && !Array.isArray(v) && typeof v === 'object') { const [a, b, f] = Array.isArray(v.at) ? v.at : [v.at, v.at, 0]; spec.ik[k] = () => { const A = d.man.root.worldToLocal(d.man.bones[a].getWorldPosition(new V())).toArray(), Bp = d.man.root.worldToLocal(d.man.bones[b].getWorldPosition(new V())).toArray(); return A.map((x, i) => x + (Bp[i] - x) * f + (v.add?.[i] || 0)); }; }
-        AC.applyAct(d.man, spec);
+        AC.applyAct(d.man, spec); poseSpec = spec;
         d.man.root.updateMatrixWorld(true);
       }
       d.sky(s.sky || 'night');
@@ -41,8 +42,6 @@ run(async () => {
       const easel = d.stations.find(x => x.label === 'paint')?.obj || [];
       for (const o of [].concat(easel)) if (o) o.visible = false;
       for (const g of (() => { const a = new Set(); scene.traverse(o => { if (o.material?.uniforms?.uOpen) a.add(o.parent); }); return a; })()) g.visible = false;
-      // the room's own snake is hidden; ours is built from the shot's points
-      d.snake.group.visible = false;
       if (s.nohim) root.visible = false;
       for (const n of ['palette', 'paintbrush']) { const o = scene.getObjectByName(n); if (o) o.visible = false; }
 
@@ -61,6 +60,10 @@ run(async () => {
             const ax = b.clone().sub(a), len = ax.length(); ax.normalize();
             const u = new V(0, 0, 1).cross(ax); if (u.lengthSq() < 1e-4) u.set(1, 0, 0); u.normalize(); const w = ax.clone().cross(u);
             for (let i = 0; i <= n; i++) { const k = i / n, an = ph + k * turns * Math.PI * 2; out.push(a.clone().addScaledVector(ax, len * k).addScaledVector(u, Math.cos(an) * r).addScaledVector(w, Math.sin(an) * r)); }
+          } else if (t[0] === 'wrap') {                               // ['wrap', a, b, turns, phase, {opts}] tight on his surface
+            out.push(...contact.wrap(pt(t[1]), pt(t[2]), t[3], t[4] || 0, 0.062, t[5] || {}));
+          } else if (t[0] === 'ride') {                               // ['ride', a, b, [dx,dy,dz], {opts}] riding along him
+            out.push(...contact.ride(pt(t[1]), pt(t[2]), new V(...t[3]).normalize(), 0.062, t[4] || {}));
           } else if (t[0] === 'coil') {
             const [, cx, cz, r, turns, rise, ph = 0, r1 = 0.4] = t, n = Math.round(turns * 16);
             for (let i = 0; i <= n; i++) { const k = i / n, an = ph + k * turns * Math.PI * 2, rr = r * (1 - (1 - r1) * k); out.push(new V(cx + Math.cos(an) * rr, 0.06 + rise * (1 - k) * (1 - k), cz + Math.sin(an) * rr)); }
@@ -69,42 +72,39 @@ run(async () => {
         return out;
       };
 
-      // ---- snake: cream tube along a Catmull-Rom through the points (head first), head with red arrow + eyes
-      const buildSnake = sn => {
-        const pts = expand(sn.pts), R0 = sn.r || 0.05;
-        const curve = new THREE.CatmullRomCurve3(pts, false, 'centripetal'), L = curve.getLength();
-        const N = Math.max(30, Math.round(L * 40)), S = 10, P = [], Y = new V(0, 1, 0);
-        for (let i = 0; i < N; i++) {
-          const u = i / (N - 1), p = curve.getPointAt(u);
-          const r = R0 * (u < 0.06 ? 0.75 + u * 4 : 1 - Math.pow(Math.max(0, (u - 0.1) / 0.9), 1.6) * 0.9);
-          P.push({ p, r, u });
+      // ---- the room's own snake on the shot's path (head-first tags, reversed: the snake wants tail-first), kept out of
+      // him, the stool and itself by contact.js; report() is the overlap check, in mm
+      const contact = CT.makeContact({ phys: d.phys });
+      const sk = d.snake; sk.bed.visible = !!s.cushion;
+      let qc = null, probe = null;
+      if (s.probe) {
+        contact.bake(); probe = { parts: contact.parts.map(q => [q.name, q.box.min.toArray().map(x => +x.toFixed(2)), q.box.max.toArray().map(x => +x.toFixed(2))]), prof: [] };
+        for (let y = 1.2; y <= 1.72; y += 0.04) { const row = [+y.toFixed(2)]; for (let k = 0; k < 8; k++) { const a = k / 8 * Math.PI * 2; row.push(+contact.outer(new V(0.3, y, 0.02), new V(Math.sin(a), 0, Math.cos(a)), 0.6).toFixed(3)); } probe.prof.push(row); }
+      }
+      if (s.snake) {
+        const sn = s.snake;
+        contact.addSolid(scene.getObjectByName('stool'), 'stool');
+        for (const n of sn.solids || []) { const o = d.stations.find(q => q.label === n)?.obj; if (o) contact.addSolid([].concat(o)[0], n); }
+        if (!s.nohim) contact.bake(); else contact.bake();
+        contact.bake();
+        const pts = expand(sn.pts).reverse();
+        sk.drive({ points: pts, s: sn.s, rear: sn.rear || 0, look: sn.look ? pt(sn.look) : null, lookK: sn.lookK, wave: sn.wave ?? 0.6, phase: sn.phase ?? 1.3, tongue: !!sn.tongue, center: !!sn.center,
+          collide: s.nohim && !sn.solids ? (P, link) => contact.solve(P, link, { iters: 4 }) : (P, link) => contact.solve(P, link, { pad: sn.pad ?? 0.006, iters: sn.iters ?? 12 }) });
+        sk.update(0, 0, null);
+        if (sn.grip && poseSpec) {                                // his hands on the coil at both sides of his neck, then solve again
+          const band = sk.points.filter(p => p.y > 1.22 && p.y < 1.45 && Math.abs(p.z - 0.02) < 0.12);
+          const Lp = band.reduce((a, p) => p.x > a.x ? p : a), Rp = band.reduce((a, p) => p.x < a.x ? p : a), g = sn.grip;
+          const off = (p, sx) => [p.x - 0.3 + sx * (p.w + (g.out ?? 0.03)), p.y + (g.dy ?? 0), p.z + (g.dz ?? 0.03)];
+          poseSpec.ik.handL = off(Lp, 1); poseSpec.ik.handR = off(Rp, -1);
+          poseSpec.hand = { ...poseSpec.hand, handL: [[0, 0.5, 1], [-1, 0, 0.2]], handR: [[0, 0.5, 1], [1, 0, 0.2]] };
+          poseSpec.grip = { handL: g.fist ? 'fist' : 'cup', handR: g.fist ? 'fist' : 'cup' };
+          poseSpec.pole = { ...poseSpec.pole, handL: [0.6, -0.5, -0.1], handR: [-0.6, -0.5, -0.1] };
+          AC.applyAct(d.man, poseSpec); d.man.root.updateMatrixWorld(true);
+          contact.bake(); sk.update(0, 0, null);
         }
-        const pos = [], idx = [];
-        for (let i = 0; i < N; i++) {
-          const T = P[Math.min(N - 1, i + 1)].p.clone().sub(P[Math.max(0, i - 1)].p).normalize();
-          const ref = Math.abs(T.y) > 0.95 ? new V(1, 0, 0) : Y;
-          const side = new V().crossVectors(T, ref).normalize(), up = new V().crossVectors(side, T).normalize();
-          for (let k = 0; k < S; k++) { const a = k / S * Math.PI * 2; pos.push(...P[i].p.clone().addScaledVector(side, Math.cos(a) * P[i].r).addScaledVector(up, Math.sin(a) * P[i].r).toArray()); }
-        }
-        for (let i = 0; i < N - 1; i++) for (let k = 0; k < S; k++) { const a = i * S + k, b = i * S + (k + 1) % S, c = a + S, dd = b + S; idx.push(a, b, c, b, dd, c); }
-        for (let k = 1; k < S - 1; k++) idx.push((N - 1) * S, (N - 1) * S + k, (N - 1) * S + k + 1);
-        const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); geo.setIndex(idx); geo.computeVertexNormals();
-        const bm = LK.toon(TX.PAL.cream, { shade: 0.4 }); bm.side = THREE.DoubleSide; const body = new THREE.Mesh(geo, bm); body.frustumCulled = false; LK.addInk(body, 0.012);
-        const g = new THREE.Group(); g.add(body);
-        const hk = sn.head || 1, head = new THREE.Group();
-        head.add(LK.mesh(new THREE.SphereGeometry(0.1, 16, 12).scale(1, 0.62, 1.35), TX.PAL.cream, { ink: 0.012 }));
-        const arrow = LK.mesh(new THREE.ConeGeometry(0.04, 0.09, 3).rotateX(Math.PI / 2).scale(1, 0.3, 1), TX.PAL.red, { ink: false }); arrow.position.set(0, 0.06, 0.02); head.add(arrow);
-        for (const sd of [-1, 1]) { const e = LK.mesh(new THREE.SphereGeometry(0.02, 8, 6).scale(1, 1.3, 0.6), TX.PAL.red, { ink: 0.004 }); e.position.set(sd * 0.07, 0.03, 0.06); head.add(e); }
-        if (sn.tongue) { const tg = LK.mesh(new THREE.BoxGeometry(0.012, 0.004, 0.1), TX.PAL.red, { ink: false }); tg.position.set(0, -0.01, 0.17); head.add(tg); }
-        if (sn.gape) { const m = LK.mesh(new THREE.SphereGeometry(0.075, 12, 8).scale(1, 0.5, 1.1), '#7A0E2C', { ink: 0.006 }); m.position.set(0, -0.025, 0.1); head.add(m); }
-        const T0 = P[0].p.clone().sub(P[3].p).normalize();
-        head.position.copy(P[0].p).addScaledVector(T0, 0.05); head.scale.setScalar(hk);
-        const tgt = sn.look ? pt(sn.look) : head.position.clone().add(T0);
-        head.lookAt(tgt); g.add(head);
-        g.userData.snake = true;
-        scene.add(g); return { g, head };
-      };
-      const snakes = (s.snake ? (Array.isArray(s.snake) ? s.snake : [s.snake]) : []).map(buildSnake);
+        sk.group.visible = true;
+        qc = contact.report(sk.points, sk.LEN / (sk.points.length - 1));
+      } else sk.group.visible = false;
       // glowing slits for the opening (frame 0 = two red eyes in the dark)
       if (s.eyes) { const [x, y, z] = s.eyes.at, sp = s.eyes.gap || 0.16;
         for (const sd of [-1, 1]) { const e = new THREE.Mesh(new THREE.CircleGeometry(0.035, 24).scale(1, 1.6, 1), new THREE.MeshBasicMaterial({ color: '#FF2E4A' })); e.position.set(x + sd * sp / 2, y, z); e.lookAt(new V(...s.pos)); scene.add(e);
@@ -164,7 +164,7 @@ run(async () => {
       // ---- stage lights (same four kinds as the Bring Me Some Change tool)
       const sh = LK.shared, Lt = s.light || { dark: 0.9, lights: [] };
       root.traverse(o => { if (o.material?.uniforms?.uChar) o.material.uniforms.uChar.value = 1; });
-      for (const sn of snakes) sn.g.traverse(o => { if (o.material?.uniforms?.uChar) o.material.uniforms.uChar.value = 1; });
+      d.snake.group.traverse(o => { if (o.material?.uniforms?.uChar) o.material.uniforms.uChar.value = 1; });
       const skyMap = d.annex.sky.material.uniforms.uMap.value;
       scene.traverse(o => { const u = o.material?.uniforms; if (u?.uGlow) u.uGlow.value = u.uMap?.value === skyMap ? 1 : 0; });
       sh.uStage.value = 1;
@@ -195,12 +195,14 @@ run(async () => {
       d.render();
       await fetch('/__still?name=epm-' + name, { method: 'POST', body: d.renderer.domElement.toDataURL('image/png') });
       const f = n => B(n).toArray().map(x => +x.toFixed(2));
-      return { root: root.position.toArray().map(x => +x.toFixed(2)), rotY: +root.rotation.y.toFixed(2), head: f('head'), neck: f('neck'), shinL: f('shinL'), footL: f('footL'), handR: f('handR'), handL: f('handL'), chest: f('chest') };
-    }, s, name).then(r => { if (process.env.POS) console.log(JSON.stringify(r)); });
+      return { probe, qc, root: root.position.toArray().map(x => +x.toFixed(2)), rotY: +root.rotation.y.toFixed(2), head: f('head'), neck: f('neck'), shinL: f('shinL'), footL: f('footL'), handR: f('handR'), handL: f('handL'), chest: f('chest') };
+    }, s, name).then(r => { if (process.env.POS) console.log(JSON.stringify(r)); if (r?.qc) { qcs[name] = r.qc; console.log('qc', name, JSON.stringify(r.qc)); } });
     console.log('still', name);
     if (errors.length) console.log('errors:', [...new Set(errors)].slice(0, 5).join(' | '));
     await page.close();
   }
+  const qf = out + 'epm-qc.json', old = fs.existsSync(qf) ? JSON.parse(fs.readFileSync(qf, 'utf8')) : {};
+  fs.writeFileSync(qf, JSON.stringify({ ...old, ...qcs }, null, 1));
   await ctx.close();
   return 0;
 });

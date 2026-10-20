@@ -69,3 +69,7 @@ export const SHOTS = {
   'VII-1': { pos: [2.3, 2.6, 2.4], look: [0.3, 0.4, 0.0], fov: 52, face: 'calm', snake: { pts: [['coil', 0.3, 0.0, 0.66, 1.08, 0.06, 0.4, 1.0]], tongue: false }, light: L(0.9, [POOL(0.4), MOON]) },
 };
 SHOTS['VII-2'] = { ...SHOTS['I-1'] };
+const CHOKE = { grip: {}, pts: [w(0.16, 1.5, 0.33), w(0.24, 1.42, 0.28), ['wrap', w(0.3, 1.345, 0.02), w(0.3, 1.31, 0.02), 0.8, 0], ['ride', w(0.32, 1.2, 0.0), w(0.36, 0.82, 0.0), [0, 0, -1]], w(0.38, 0.45, -0.33), w(0.45, 0.06, -0.6)], center: true, look: w(0.3, 1.55, 0.15), tongue: true, wave: 0 };
+for (const [k, pos] of Object.entries({ hero: [0.75, 1.55, 1.1], front: [0.3, 1.45, 1.4], side: [1.5, 1.45, 0.05], back: [0.3, 1.5, -1.3], low: [0.9, 1.0, 0.9] }))
+  SHOTS['C-' + k] = { pos, look: [0.3, 1.35, 0.03], fov: 40, face: 'alarm', snake: CHOKE, light: L(0.5, [area('chest', [0.3, 1.5, 1.2], '#FFE0C0', 0.9, 0.8)]) };
+SHOTS['P-probe'] = { probe: true, pos: [0.3, 1.45, 1.4], look: [0.3, 1.35, 0.03], fov: 40 };
