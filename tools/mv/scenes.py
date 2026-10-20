@@ -1,0 +1,42 @@
+BAR = 60/138*4
+def tc(b): s=(b-1)*BAR; return f"{int(s//60)}:{s%60:04.1f}"
+ACTS = [
+ ("I", "Same day", 1, 14, "pad + low pulse, no hats", "#2A2370"),
+ ("II", "Trying", 15, 36, "air + hats in (b15), off-beat hats (b21)", "#3B5BDB"),
+ ("III", "Out", 37, 50, "kick hardens (b41-44), BREAK: kick + sub out (b47-50)", "#C2255C"),
+ ("IV", "The change", 51, 70, "kick back (b51), dip (b58), PEAK (b59-70)", "#E8590C"),
+ ("V", "Morning", 71, 86, "no kick, fading pad (b71-82), silence from b83", "#F2C14E"),
+]
+# id, bar from, bar to, camera, action (face), cut rhythm / music hit
+S = [
+ ("I-1",1,2,"top-down over the bed, locked","wakes up, drowsy","one shot; pad only"),
+ ("I-2",3,4,"side close-up at the basin","brushes his teeth, half asleep","cut on b3"),
+ ("I-3",5,6,"over the shoulder at the desk","types, bored","cut on b5"),
+ ("I-4",7,8,"wide from the side at the TV","slumped in the bean bag, bored","cut on b7"),
+ ("I-5",9,10,"behind him at the window, dusk","stares out, lonely","cut on b9"),
+ ("I-6",11,14,"high corner observer, night","back in bed. b13-14: I-1 to I-5 replay as 2-beat cuts (the loop)","hat ticks b13"),
+ ("II-1",15,16,"slow push in to his face","restless: something has to change","air enters b15"),
+ ("II-2",17,20,"3/4 medium at the guitar","tries a riff, fails, tries again (frustrated)","cut every 2 bars"),
+ ("II-3",21,24,"3/4 at the keys","tries, gives up (given up)","from b21 cut every bar: guitar / keys / easel"),
+ ("II-4",25,28,"3/4 at the easel","paints, smears it, sad","cut every bar"),
+ ("II-5",29,32,"locked front at the wardrobe","tries 4 outfits, one per bar, keeps the mustard one (proud)","outfit swaps on each downbeat"),
+ ("II-6",33,34,"behind him at the window","sky goes day / dusk / night every 2 beats: days pass (lonely)","sky change on beats"),
+ ("II-7",35,36,"medium close","phone lights up: an invite (curious)","cut on b35"),
+ ("III-1",37,38,"low wide","a spiral portal opens on the rug, he faces it","portal opens on b37"),
+ ("III-2",39,40,"behind him, push in","walks into the spiral, it fills the frame","hard cut on b41"),
+ ("III-3",41,42,"high wide behind him","the party: crowd dances to the booth, he stands at the edge (uneasy)","crowd bounces on the kick"),
+ ("III-4",43,44,"medium","hardest kick: he tries to dance, the crowd turns away (embarrassed)","cut every bar"),
+ ("III-5",45,46,"long-lens close through the crowd","alone in the crowd (lonely), dancers wipe across frame","wipes on the kick"),
+ ("III-6",47,50,"top-down, slow rise","BREAK: crowd freezes and goes dark, only him in one pool of light. Deep loneliness = the trigger","no beat-locked motion, one slow move"),
+ ("IV-1",51,52,"extreme close on his eyes","kick returns: eyes open wide (dazed)","hard cut on b51"),
+ ("IV-2",53,54,"top-down match cut","the pool of light becomes his spiral rug: the party dissolves into his own room","match cut on b53"),
+ ("IV-3",55,56,"medium","starts nodding on the kick, alone (absorbed)","head bob on every kick"),
+ ("IV-4",57,58,"insert: the eye painting","b58 dip: the painted eye looks at him","1-bar hold"),
+ ("IV-5",59,62,"low wide, window + paintings behind","PEAK: dances alone, spiral dusk sky (joyful)","cut every bar"),
+ ("IV-6",63,66,"top-down","dancers come back as a neon ring round him on the rug: he is the centre now (delighted)","ring pulses on the kick"),
+ ("IV-7",67,70,"face close-up, dutch angle","triumph. last hit b70, then silence","cut every 2 beats, max 3 flashes/s"),
+ ("V-1",71,74,"top-down (rhymes I-1)","lying on the rug, breathing (relieved)","kick gone: one locked shot"),
+ ("V-2",75,78,"behind him at the window (rhymes I-5)","dawn, calm","slow push"),
+ ("V-3",79,82,"high corner observer (rhymes I-6)","plays guitar for himself (content), snake asleep: the small change","one shot"),
+ ("V-4",83,86,"locked on the window","silence: the empty dawn window, fade to black at 2:29.6","silence from b83"),
+]
