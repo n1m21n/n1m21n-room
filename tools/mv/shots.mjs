@@ -7,10 +7,12 @@ export const SHOTS = {
   'T-room': { fit: FIT0, act: 'bed', t: 2, face: 'sleep', sky: 'night', pos: [3.6, 3.1, 2.6], look: [-0.6, 0.6, -0.4], fov: 62,
     light: { dark: 0.92, lights: [{ type: 'area', to: 'hips', rel: [0, 2.6, 0.3], col: '#7FA6FF', k: 0.8, cone: 0.7 }, { type: 'spot', to: [0.75, 2.25, -3], rel: [0, -0.8, 1.6], col: '#FF3EA5', k: 1.0, cone: 0.25 }, { type: 'spot', to: [1.6, 0.9, -2.6], rel: [0, 2, 0.6], col: '#FFD27A', k: 1.0, cone: 0.3 }] } },
   'T-ghost': { fit: FITX, party: { k: 1 }, at: [PX + 4, 4, PI], face: 'lonely', pos: [PX, 1.7, -3.6], look: [PX, 1.2, 2], fov: 45, light: { dark: 0.94, lights: [] } },
+  'T-brushL': { fit: FIT0, act: 'brush', mv: 'brush', prop: 'toothbrush', t: 5, face: 'drowsy', bone: 'head', off: [-0.75, 0.15, 0.3], fov: 45 },
+  'T-brushT': { fit: FIT0, act: 'brush', mv: 'brush', prop: 'toothbrush', t: 5.1, face: 'drowsy', bone: 'head', off: [0.35, 0.6, 0.25], fov: 50 },
   // ACT I  same day (b1-14)
   'I-1': { fit: FIT0, act: 'bed', t: 2, face: 'sleep', sky: 'night', pos: [3.6, 3.1, 2.6], look: [-0.6, 0.6, -0.4], fov: 62 },
   'I-2': { fit: FIT0, act: 'bed', t: 2, face: 'drowsy', sky: 'dawn', bone: 'head', woff: [0.0, 0.85, 0.6], fov: 50 },
-  'I-3': { fit: FIT0, act: 'brush', t: 5, face: 'drowsy', bone: 'head', off: [0.75, 0.15, 0.3], fov: 45 },
+  'I-3': { fit: FIT0, act: 'brush', mv: 'brush', prop: 'toothbrush', t: 5, face: 'drowsy', bone: 'head', off: [0.75, 0.15, 0.3], fov: 45 },
   'I-4': { fit: FIT0, act: 'desk', t: 3, face: 'bored', sky: 'day', bone: 'chest', off: [-1.4, 0.4, 0.45], fov: 50 },
   'I-5': { fit: FIT0, act: 'tv', t: 3, face: 'bored', sky: 'dusk', bone: 'chest', off: [1.6, 0.5, 1.4], fov: 50 },
   'I-6': { fit: FIT0, act: 'think', t: 3, face: 'lonely', sky: 'day', bone: 'chest', off: [0.6, 0.35, -1.6], fov: 50 },

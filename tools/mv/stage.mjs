@@ -13,7 +13,8 @@ run(async () => {
   const SHOTS = { ...BASE };
   if (process.argv.includes('--qc')) {
     for (const k of pick ? pick.split(',') : Object.keys(MV)) {
-      const lie = mvSpec(k, 1).lie, c = [0.3, lie ? 0.25 : 1.0, 1.2];
+      const lie = mvSpec(k, 1).lie, close = k === 'brush', c = [0.3, lie ? 0.25 : close ? 1.5 : 1.0, 1.2];
+      if (close) { for (const [v, pos] of Object.entries({ front: [0.3, 1.6, 2.1], right: [-0.6, 1.6, 1.5], left: [1.2, 1.6, 1.5], top: [0.3, 2.2, 1.8] })) SHOTS[`Q-${k}-${v}`] = { fit: 1, noEasel: true, at: [0.3, 1.2, 0], mv: k, prop: 'toothbrush', t: 1, sky: 'day', pos, look: c, fov: 40 }; continue; }
       const V = lie ? { front: [0.3, 2.6, 3.6], side: [2.6, 1.4, 0.4], back: [-1.6, 1.6, 2.2], top: [0.31, 4.2, 1.21] }
         : { front: [0.3, 1.3, 3.3], side: [3.0, 1.2, 1.2], back: [-1.6, 1.5, -1.2], low: [1.7, 0.4, 2.4] };
       for (const [v, pos] of Object.entries(V)) SHOTS[`Q-${k}-${v}`] = { fit: 5, noEasel: true, at: [0.3, 1.2, 0], mv: k, t: 1, sky: 'day', pos, look: lie ? [0.3, 0.2, 0.4] : c, fov: lie ? 50 : 42 };

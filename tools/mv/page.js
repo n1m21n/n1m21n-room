@@ -185,7 +185,7 @@ export async function mvShot(s, name, f = { first: true }) {
   const skyMap = d.annex.sky.material.uniforms.uMap.value;          // the window sky glows; printed things don't
   d.scene.traverse(o => { const u = o.material?.uniforms; if (u?.uGlow) u.uGlow.value = u.uMap?.value === skyMap ? 1 : 0; });
   } else if (s.walk) { P.update(dt, t);
-  } else if (s.act) {                                          // film frames after the first: the act runs on
+  } else if (s.act && !s.spec) {                               // film frames after the first: the act runs on
     P.update(dt, t); d.reading.update(); d.telly.update(false); d.annex.update(dt, t, P, d.man); d.props.update(dt, t, P, d.man, {});
   }
   if (f.film) { d.snake.update(dt, t, P.pos); const sh0 = LK.shared; sh0.uTime.value = t; sh0.uBoil.value = (Math.floor(t * 12) % 3) + 1; d.comp && (d.comp.mat.uniforms.uSeed.value = (Math.floor(t * 12) % 3) * 7.31); }
@@ -198,6 +198,23 @@ export async function mvShot(s, name, f = { first: true }) {
     d.man.root.rotation.x = sp.lie ? -Math.PI / 2 : 0; d.man.root.updateMatrixWorld(true);
     AC.applyAct(d.man, sp);
     if (!s.face && sp.face) d.man.face(sp.face);
+    if (s.act) {                                                // the act only placed him: its own props go away
+      d.man.root.updateMatrixWorld(true); if (P.st.spec) Object.assign(P.st.spec, { brush: false, tap: false }); d.annex.update(dt, t, P, d.man);
+      if (d.annex.objs?.toothbrush) d.annex.objs.toothbrush.visible = false;
+    }
+    if (s.prop === 'toothbrush') {                              // his brush, out of the thumb side of the fist
+      if (!window.mvBrush) {
+        const g = new THREE.Group(), M = (c) => new THREE.MeshBasicMaterial({ color: c });
+        const sh = new THREE.Mesh(new THREE.CylinderGeometry(0.0065, 0.0065, 0.17, 10), M('#F6E27A')); sh.position.y = 0.045; g.add(sh);
+        const hd = new THREE.Mesh(new THREE.BoxGeometry(0.014, 0.03, 0.016), M('#F4F1EA')); hd.position.set(0, 0.115, 0.008); g.add(hd);
+        d.scene.add(g); window.mvBrush = g;
+      }
+      d.man.root.updateMatrixWorld(true);
+      const pf = AC.palmFrame(d.man, 'handR'), T = new V().crossVectors(pf.F, pf.N).normalize();   // thumb axis, man-local
+      const c = pf.pos.clone().addScaledVector(pf.N, 0.044);
+      const q = new THREE.Quaternion().setFromUnitVectors(new V(0, 1, 0), T).premultiply(d.man.root.getWorldQuaternion(new THREE.Quaternion()));
+      window.mvBrush.position.copy(d.man.root.localToWorld(c)); window.mvBrush.quaternion.copy(q); window.mvBrush.visible = true;
+    }
   }
   if (f.film) (window.mvFloat || []).forEach((o, i) => {         // floating things drift on their own clock
     o.g.position.y = o.y + (o.z.lift ? 0.06 * Math.sin(t * 1.3 + i * 1.7) : 0); o.g.rotation.y = o.ry + (o.z.spin ? 0.15 * Math.sin(t * 0.5 + i) : 0);

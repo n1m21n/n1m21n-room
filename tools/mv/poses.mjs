@@ -7,6 +7,12 @@ const bounce = t => Math.abs(S(Math.PI * t / BEAT));          // 1 on every beat
 const plant = (y, w = 0.13, z = 0.03) => ({ footL: [w, 0.115, z], footR: [-w, 0.115, z - 0.03] });   // feet stay put, knees take the drop
 const KNEES = { footL: [0.1, 0.3, 1], footR: [-0.1, 0.3, 1] };
 
+const nrm = v => { const l = Math.hypot(...v); return v.map(x => x / l); };
+function heldAt(tip, F, N, reach, held = 0.012) {              // acts.js heldAt: the palm point that puts a held tool's tip at `tip`
+  F = nrm(F); const d = F[0] * N[0] + F[1] * N[1] + F[2] * N[2]; N = nrm(N.map((n, i) => n - d * F[i]));
+  return { at: tip.map((v, i) => v - F[i] * reach - N[i] * held), hand: [F, N] };
+}
+
 export const MV = {
   // euphoric: both hands up, head back, knees on the beat (IV-5, IV-7)
   up: (u, t) => {
@@ -74,6 +80,23 @@ export const MV = {
     grip: { handL: 'relax', handR: 'relax' },
     pole: { handL: [0.3, -0.4, -0.6], handR: [-0.3, -0.4, -0.6] },
   }),
+  // at the basin (I-3): an overhand fist in front of his right cheek, palm down, knuckles forward-left; the brush
+  // leaves the thumb side of the fist and runs back into the corner of his mouth (no wrist bent back at him).
+  // The page draws the brush along the fist's thumb axis (stage prop 'toothbrush'). Scrub on the beat.
+  brush: (u, t) => {
+    const sc = S(t * Math.PI * 2 * 2.3), sc2 = S(t * Math.PI * 2 * 1.15 + 1), p = 0.18;
+    const mouth = [-0.03 + sc * 0.01, 0.06 * Math.cos(p) - 0.17 * S(p) + sc2 * 0.005, 0.06 * S(p) + 0.17 * Math.cos(p) - 0.01];
+    const A = nrm([0.6, 0.1, -0.8]), N = [0, -1, 0], F = nrm([0.8, 0, 0.6]);
+    const at = mouth.map((v, i) => v - A[i] * 0.115 - N[i] * 0.044);
+    return {
+      face: 'drowsy',
+      fk: { spine: [0.06, 0, 0], neck: [0.08, 0, 0], head: [0.1, 0.05 + sc2 * 0.03, 0] },
+      ik: { handL: [0.2, 0.84, 0.12], handR: { at: 'head', add: at } },
+      hand: { handL: [[0, -1, 0.15], [-1, 0, 0]], handR: [F, N] },
+      grip: { handL: 'relax', handR: 'hold' },
+      pole: { handL: [0.3, -0.4, -0.6], handR: [-0.6, -0.7, 0.1] },
+    };
+  },
   // after: flat on the rug, arms out wide, palms up, breathing (V-1). Lying: z is height above the floor plane.
   lie: (u, t) => ({
     y: 0.12, lie: true, face: 'relieved',
