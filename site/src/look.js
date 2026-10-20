@@ -13,7 +13,17 @@ export const shared = {
   uLamp: { value: 0 },                                   // shader pool off until the lamp station; floor decal carries it
   uShadeCol: { value: new THREE.Color('#140B52') },
   uWarm: { value: new THREE.Color('#FFD27A') },
+  // stage lighting (music video; all off on the site): uDark pulls everything toward uAmb (the unlit room), then up to
+  // NSPOT spot / area lights add their colour where they land. uSpotA = (cos outer, cos inner, range m, who): who 0 = the
+  // set only, 1 = the character only (uChar 1), 2 = both. Hard cones and a hard lambert band for the character's flash,
+  // soft ones for the set.
+  uStage: { value: 0 }, uDark: { value: 0 }, uAmb: { value: new THREE.Color('#1A1440') },
+  uSpotP: { value: Array.from({ length: 6 }, () => new THREE.Vector3()) },
+  uSpotD: { value: Array.from({ length: 6 }, () => new THREE.Vector3(0, -1, 0)) },
+  uSpotC: { value: Array.from({ length: 6 }, () => new THREE.Vector3()) },
+  uSpotA: { value: Array.from({ length: 6 }, () => new THREE.Vector4(0.9, 0.95, 6, 0)) },
 };
+export const NSPOT = 6;
 
 // skinning chunks are no-ops on plain meshes (USE_SKINNING is defined only for SkinnedMesh)
 export const toonVert = /* glsl */`
@@ -112,6 +122,8 @@ export const toonFrag = /* glsl */`
   uniform vec3 uColor; uniform sampler2D uMap; uniform float uHasMap; uniform float uUnlit;
   uniform vec3 uKeyDir; uniform vec3 uLampPos; uniform float uLamp; uniform vec3 uShadeCol; uniform vec3 uWarm;
   uniform float uShadeAmt; uniform float uRestUV; uniform vec2 uRestScale;
+  uniform float uStage; uniform float uDark; uniform vec3 uAmb; uniform float uChar; uniform float uGlow;
+  uniform vec3 uSpotP[6]; uniform vec3 uSpotD[6]; uniform vec3 uSpotC[6]; uniform vec4 uSpotA[6];
   uniform float uMat; uniform float uMatAxis; uniform float uMatScale; uniform float uMatAmt;
   varying vec3 vN; varying vec3 vW; varying vec2 vUv; varying vec3 vRest; varying vec3 vON;
   ${matGLSL}
@@ -122,7 +134,19 @@ export const toonFrag = /* glsl */`
     vec2 uv = vUv;
     if (uRestUV > 0.5) uv = vec2(atan(vRest.x, vRest.z) / 6.2832 + 0.5, vRest.y) * uRestScale;   // cylindrical, rest pose
     if (uHasMap > 0.5) base = texture2D(uMap, uv).rgb;
-    if (uUnlit > 0.5) { gl_FragColor = vec4(base,1.0); return; }
+    if (uUnlit > 0.5) {
+      if (uStage > 0.5 && uGlow < 0.5) {                     // stage: printed things (rug, art) go dark too; screens and the sky glow (uGlow)
+        vec3 sum = vec3(0.0);
+        for (int i = 0; i < 6; i++) {
+          vec4 a = uSpotA[i];
+          if (dot(uSpotC[i], uSpotC[i]) < 1e-5 || (a.w > 0.5 && a.w < 1.5)) continue;
+          vec3 Ls = uSpotP[i] - vW; float dist = length(Ls); Ls /= dist;
+          sum += uSpotC[i] * smoothstep(a.x, a.y, dot(-Ls, normalize(uSpotD[i]))) * clamp(1.0 - dist / a.z, 0.0, 1.0);
+        }
+        base = mix(base, base * uAmb * 2.2, uDark) + base * sum;
+      }
+      gl_FragColor = vec4(base,1.0); return;
+    }
     if (uMat > 0.5) base = material(base, vRest * uMatScale, normalize(vON));
     vec3 n = normalize(vN);
     float key = dot(n, uKeyDir);
@@ -132,6 +156,23 @@ export const toonFrag = /* glsl */`
     vec3 L = uLampPos - vW; float d = length(L);
     float lampL = max(dot(n, L / d), 0.0) * clamp(1.0 - d / 2.6, 0.0, 1.0);
     c = mix(c, c * 0.55 + uWarm * 0.6, step(0.32, lampL) * 0.45 * uLamp);    // banded warm pool
+    if (uStage > 0.5) {
+      vec3 lit = c, sum = vec3(0.0);
+      c = mix(c, c * uAmb * 2.2, uDark);
+      for (int i = 0; i < 6; i++) {
+        vec4 a = uSpotA[i];
+        if (dot(uSpotC[i], uSpotC[i]) < 1e-5) continue;
+        float who = a.w;
+        if ((who < 0.5 && uChar > 0.5) || (who > 0.5 && who < 1.5 && uChar < 0.5)) continue;
+        vec3 Ls = uSpotP[i] - vW; float dist = length(Ls); Ls /= dist;
+        float cone = smoothstep(a.x, a.y, dot(-Ls, normalize(uSpotD[i])));
+        float fall = clamp(1.0 - dist / a.z, 0.0, 1.0);
+        float lam = dot(n, Ls);
+        float band = uChar > 0.5 ? step(0.12, lam) * 0.85 + 0.15 : smoothstep(-0.1, 0.4, lam) * 0.8 + 0.2;   // character: hard cel band; set: soft
+        sum += uSpotC[i] * cone * fall * band;
+      }
+      c += lit * sum + sum * 0.18 * uChar;                     // the character's flash also burns a little white in
+    }
     gl_FragColor = vec4(c, 1.0);
     #include <colorspace_fragment>
   }`;
@@ -145,7 +186,7 @@ export function toon(color, { map = null, unlit = false, shade = 0.5, shadeCol =
       uColor: { value: new THREE.Color(color || '#ffffff') },
       uMap: { value: map }, uHasMap: { value: map ? 1 : 0 }, uUnlit: { value: unlit ? 1 : 0 }, uShadeAmt: { value: shade },
       uRestUV: { value: restUV ? 1 : 0 }, uRestScale: { value: new THREE.Vector2(...(restUV || [1, 1])) },
-      uCut: { value: 0 },
+      uCut: { value: 0 }, uChar: { value: 0 }, uGlow: { value: 0 },
       uMat: { value: MATS[mat] || 0 }, uMatAxis: { value: 'xyz'.indexOf(matAxis) }, uMatScale: { value: matScale }, uMatAmt: { value: matAmt },
       ...(shadeCol ? { uShadeCol: { value: new THREE.Color(shadeCol) } } : {}),
     },

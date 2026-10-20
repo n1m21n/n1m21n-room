@@ -111,7 +111,7 @@ export function batch(root, { cell = 4 } = {}) {
     for (const it of kind.list) { const k = it.cx + ',' + it.cz; (cells.get(k) || cells.set(k, []).get(k)).push(it); }
     for (const list of cells.values()) {
       const mat = new THREE.ShaderMaterial({
-        uniforms: { ...shared, uMap: { value: null }, uHasMap: { value: 0 }, uUnlit: { value: kind.unlit }, uRestUV: { value: kind.restUV }, uRestScale: { value: kind.restScale }, uCut: { value: 0 } },
+        uniforms: { ...shared, uMap: { value: null }, uHasMap: { value: 0 }, uUnlit: { value: kind.unlit }, uRestUV: { value: kind.restUV }, uRestScale: { value: kind.restScale }, uCut: { value: 0 }, uChar: { value: 0 }, uGlow: { value: 0 } },
         vertexShader: batchVert, fragmentShader: batchFrag, side: kind.side,
       });
       const m = new THREE.Mesh(merge(list.map(i => i.fg)), mat); m.name = 'batch';
