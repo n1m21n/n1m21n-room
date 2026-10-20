@@ -23,6 +23,13 @@ run(async () => {
       const cols = ['#FF3EA5', '#3EE6FF', '#FFE14D', '#8A5BFF', '#FF6A3D'];
       for (let i = 0; i < 11; i++) { const b = new THREE.Mesh(new THREE.BoxGeometry(0.12, 5.5, 0.05), toonM(cols[i % 5])); b.position.set(-7.5 + i * 1.5, 3.2, -5.9); b.rotation.z = (i % 2 ? 1 : -1) * 0.35; stage.add(b); neon.push(b); }
       const booth = new THREE.Mesh(new THREE.BoxGeometry(2.4, 1.1, 0.8), toonM('#2A1660')); booth.position.set(0, 0.55, -4.2); stage.add(booth);
+      // typical rave: truss over the floor, LED wall behind the booth, a DJ on the riser, a light ring overhead
+      const truss = [];
+      for (const z of [-3, 0, 3]) { const t = new THREE.Mesh(new THREE.BoxGeometry(14, 0.12, 0.12), toonM('#2B2B3A')); t.position.set(0, 5.2, z); stage.add(t); truss.push(t); }
+      for (let i = 0; i < 12; i++) { const h = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.14, 0.25, 10), toonM(cols[i % 5])); h.position.set(-6 + i * 1.1, 5.0, i % 2 ? -3 : 0); stage.add(h); truss.push(h); }
+      const led = new THREE.Group(); led.position.set(0, 2.6, -5.8); stage.add(led);
+      for (let x = 0; x < 16; x++) for (let y = 0; y < 6; y++) { const c = new THREE.Mesh(new THREE.PlaneGeometry(0.3, 0.3), toonM(((x + y) % 4) ? '#140B52' : cols[(x * 3 + y) % 5])); c.position.set(-2.6 + x * 0.35, -1 + y * 0.35, 0); led.add(c); }
+      const ringL = new THREE.Mesh(new THREE.TorusGeometry(2.2, 0.06, 8, 64), toonM('#FFE14D')); ringL.rotation.x = Math.PI / 2; ringL.position.set(0, 4.6, 0); stage.add(ringL); truss.push(ringL);
       const crowd = [];
       const fig = (c) => {
         const g = new THREE.Group(), m = new THREE.MeshToonMaterial ? new THREE.MeshBasicMaterial({ color: c }) : null;
@@ -41,7 +48,8 @@ run(async () => {
         f.position.set(Math.cos(a) * r, 0, Math.sin(a) * r * 0.8 - 0.5); f.rotation.y = rnd() * 6.28; f.scale.setScalar(0.92 + rnd() * 0.2);
         stage.add(f); crowd.push(f);
       }
-      window.mv = { stage, pool, neon, crowd, back, floor, X, fig, booth,
+      const dj = fig('#0B0820'); dj.position.set(0, 1.1, -4.6); dj.userData.arm1.rotation.z = 2.7; stage.add(dj);
+      window.mv = { stage, pool, neon, crowd, back, floor, X, fig, booth, truss, led, dj,
         dance(k) { for (const [i, f] of crowd.entries()) { const up = (i + k) % 3; f.userData.arm1.rotation.z = up ? 2.6 - (i % 4) * 0.3 : 0.3; f.userData['arm-1'].rotation.z = up === 1 ? -2.6 + (i % 3) * 0.3 : -0.3; f.position.y = (i + k) % 2 ? 0.06 : 0; } },
         tint(c) { for (const f of crowd) f.userData.mat.color.set(c); },
         faceAway(px, pz) { for (const f of crowd) f.rotation.y = Math.atan2(f.position.x - px, f.position.z - pz); },
@@ -64,7 +72,7 @@ run(async () => {
         for (const f of mv.crowd) f.visible = p.crowd !== false;
         mv.pool.position.set(s.at[0] - mv.X, 0.01, s.at[1]);
         const ring = !!p.ring; mv.stage.position.set(ring ? 0 : mv.X, 0, 0);
-        for (const o of [mv.floor, mv.back, mv.booth, ...mv.neon]) if (ring) o.visible = false; else if (!mv.neon.includes(o)) o.visible = true;
+        for (const o of [mv.floor, mv.back, mv.booth, mv.led, mv.dj, ...mv.truss, ...mv.neon]) if (ring) o.visible = false; else if (!mv.neon.includes(o)) o.visible = !(p.dark && (o === mv.led || mv.truss.includes(o)));
         if (ring) mv.crowd.forEach((f, i) => { const n = 12; if (i >= n) { f.visible = false; return; } const a = i / n * Math.PI * 2; f.position.set(s.at[0] + Math.cos(a) * 1.5, (i % 2) * 0.06, s.at[1] + Math.sin(a) * 1.5); f.rotation.y = Math.atan2(s.at[0] - f.position.x, s.at[1] - f.position.z); f.userData.mat.color.set(['#FF3EA5', '#3EE6FF', '#FFE14D', '#8A5BFF'][i % 4]); });
       }
       if (s.fit != null) d.fits.apply(d.fits.weekday(s.fit));

@@ -8,12 +8,13 @@ const LIE = { _y: 0.2, upperarmL: [0, 0, -1.2], upperarmR: [0, 0, 1.2], head: [0
 const FIT0 = 1, FITX = 5;
 export const SHOTS = {
   // ACT I  same day (b1-14)
-  'I-1': { fit: FIT0, act: 'bed', t: 2, face: 'drowsy', sky: 'dawn', bone: 'head', woff: [0.0, 0.85, 0.6], fov: 50 },
-  'I-2': { fit: FIT0, act: 'brush', t: 5, face: 'drowsy', bone: 'head', off: [-0.7, 0.05, 0.5], fov: 45 },
-  'I-3': { fit: FIT0, act: 'desk', t: 3, face: 'bored', sky: 'day', bone: 'chest', off: [-1.4, 0.4, 0.45], fov: 50 },
-  'I-4': { fit: FIT0, act: 'tv', t: 3, face: 'bored', sky: 'dusk', bone: 'chest', off: [1.6, 0.5, 1.4], fov: 50 },
-  'I-5': { fit: FIT0, act: 'think', t: 3, face: 'lonely', sky: 'day', bone: 'chest', off: [0.6, 0.35, -1.6], fov: 50 },
-  'I-6': { fit: FIT0, act: 'bed', t: 2, face: 'sleep', sky: 'night', pos: [3.6, 3.1, 2.6], look: [-0.6, 0.6, -0.4], fov: 62 },
+  'I-1': { fit: FIT0, act: 'bed', t: 2, face: 'sleep', sky: 'night', pos: [3.6, 3.1, 2.6], look: [-0.6, 0.6, -0.4], fov: 62 },
+  'I-2': { fit: FIT0, act: 'bed', t: 2, face: 'drowsy', sky: 'dawn', bone: 'head', woff: [0.0, 0.85, 0.6], fov: 50 },
+  'I-3': { fit: FIT0, act: 'brush', t: 5, face: 'drowsy', bone: 'head', off: [-0.7, 0.05, 0.5], fov: 45 },
+  'I-4': { fit: FIT0, act: 'desk', t: 3, face: 'bored', sky: 'day', bone: 'chest', off: [-1.4, 0.4, 0.45], fov: 50 },
+  'I-5': { fit: FIT0, act: 'tv', t: 3, face: 'bored', sky: 'dusk', bone: 'chest', off: [1.6, 0.5, 1.4], fov: 50 },
+  'I-6': { fit: FIT0, act: 'think', t: 3, face: 'lonely', sky: 'day', bone: 'chest', off: [0.6, 0.35, -1.6], fov: 50 },
+  'I-7': { fit: FIT0, act: 'desk', t: 3, face: 'bored', sky: 'day', pos: [3.6, 3.1, 2.6], look: [-0.6, 0.6, -0.4], fov: 62 },
   // ACT II  trying (b15-36)
   'II-1': { fit: FIT0, at: [0.3, 0.6, PI], face: 'restless', sky: 'day', bone: 'head', off: [0, 0.0, 1.0], fov: 40 },
   'II-2': { fit: FIT0, act: 'guitar', beat: 'retry', t: 4.8, face: 'frustrated', sky: 'day', bone: 'chest', off: [1.0, 0.3, 1.4], fov: 50 },
@@ -41,5 +42,5 @@ export const SHOTS = {
   'V-1': { noEasel: true, fit: FITX, at: [0.3, 1.2, PI], lie: true, pose: LIE, face: 'relieved', sky: 'dawn', pos: [0.3, 6, 1.21], look: [0.3, 0, 1.2], fov: 40 },
   'V-2': { fit: FITX, act: 'think', t: 3, face: 'calm', sky: 'dawn', bone: 'chest', off: [0.6, 0.35, -1.6], fov: 50 },
   'V-3': { fit: FITX, act: 'guitar', t: 3, face: 'content', sky: 'day', nap: true, pos: [3.6, 3.1, 2.6], look: [-0.6, 0.6, -0.4], fov: 62 },
-  'V-4': { fit: FITX, sky: 'dawn', pos: [-1.7, 1.6, 0.4], look: [-1.7, 1.9, -3], fov: 55 },
+  'V-4': { fit: FITX, act: 'bed', t: 2, face: 'sleep', sky: 'dawn', pos: [3.6, 3.1, 2.6], look: [-0.6, 0.6, -0.4], fov: 62 },
 };

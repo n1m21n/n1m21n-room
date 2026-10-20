@@ -1,20 +1,21 @@
 BAR = 60/138*4
 def tc(b): s=(b-1)*BAR; return f"{int(s//60)}:{s%60:04.1f}"
 ACTS = [
- ("I", "Same day", 1, 14, "pad + low pulse, no hats", "#2A2370"),
- ("II", "Trying", 15, 36, "air + hats in (b15), off-beat hats (b21)", "#3B5BDB"),
- ("III", "Out", 37, 50, "kick hardens (b41-44), BREAK: kick + sub out (b47-50)", "#C2255C"),
- ("IV", "The change", 51, 70, "kick back (b51), dip (b58), PEAK (b59-70)", "#E8590C"),
- ("V", "Morning", 71, 86, "no kick, fading pad (b71-82), silence from b83", "#F2C14E"),
+ ("I", "Same day", 1, 14, "pad + low pulse, no hats", "#2A2370", "0 -> 1", "cool, low key, no accent"),
+ ("II", "Trying", 15, 36, "air + hats in (b15), off-beat hats (b21)", "#3B5BDB", "1 -> 2", "cool ground + one warm spot"),
+ ("III", "Out", 37, 50, "kick hardens (b41-44), BREAK: kick + sub out (b47-50)", "#C2255C", "2 -> 3, break 1", "saturation up: neon on a black ground, his face kept in shade; break = one white spot"),
+ ("IV", "The change", 51, 70, "kick back (b51), dip (b58), PEAK (b59-70)", "#E8590C", "2 -> 3", "temperature turns warm on him: gold spot, magenta pulses"),
+ ("V", "Morning", 71, 86, "no kick, fading pad (b71-82), silence from b83", "#F2C14E", "1 -> 0", "value up, saturation down: warm dawn, then back to the frame-0 night"),
 ]
 # id, bar from, bar to, camera, action (face), cut rhythm / music hit
 S = [
- ("I-1",1,2,"top-down over the bed, locked","wakes up, drowsy","one shot; pad only"),
- ("I-2",3,4,"side close-up at the basin","brushes his teeth, half asleep","cut on b3"),
- ("I-3",5,6,"over the shoulder at the desk","types, bored","cut on b5"),
- ("I-4",7,8,"wide from the side at the TV","slumped in the bean bag, bored","cut on b7"),
- ("I-5",9,10,"behind him at the window, dusk","stares out, lonely","cut on b9"),
- ("I-6",11,14,"high corner observer, night","back in bed. b13-14: I-1 to I-5 replay as 2-beat cuts (the loop)","hat ticks b13"),
+ ("I-1",1,2,"high corner wide, locked (establishing, = last frame)","the room at night, him asleep: frame 0","one shot; pad only"),
+ ("I-2",3,4,"top-down over the bed","wakes up, drowsy","cut on b3"),
+ ("I-3",5,6,"side close-up at the basin","brushes his teeth, half asleep","cut on b5"),
+ ("I-4",7,8,"over the shoulder at the desk","types, bored","cut on b7"),
+ ("I-5",9,10,"wide from the side at the TV","slumped in the bean bag, bored","cut on b9"),
+ ("I-6",11,12,"behind him at the window","stares out, lonely","cut on b11"),
+ ("I-7",13,14,"the I-1 wide again, day","the same day again: I-2 to I-6 replay as 2-beat cuts (the loop)","hat ticks b13: cuts every 2 beats"),
  ("II-1",15,16,"slow push in to his face","restless: something has to change","air enters b15"),
  ("II-2",17,20,"3/4 medium at the guitar","tries a riff, fails, tries again (frustrated)","cut every 2 bars"),
  ("II-3",21,24,"3/4 at the keys","tries, gives up (given up)","from b21 cut every bar: guitar / keys / easel"),
@@ -38,5 +39,5 @@ S = [
  ("V-1",71,74,"top-down (rhymes I-1)","lying on the rug, breathing (relieved)","kick gone: one locked shot"),
  ("V-2",75,78,"behind him at the window (rhymes I-5)","dawn, calm","slow push"),
  ("V-3",79,82,"high corner observer (rhymes I-6)","plays guitar for himself (content), snake asleep: the small change","one shot"),
- ("V-4",83,86,"locked on the window","silence: the empty dawn window, fade to black at 2:29.6","silence from b83"),
+ ("V-4",83,86,"the I-1 wide, locked","silence: he lies down, the light falls back to night; last frame = frame 0 (loop)","silence from b83"),
 ]

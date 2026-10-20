@@ -37,8 +37,8 @@ def grade(name, flash_on=False):
     out += cone[..., None] * col
     if i % 2 == 0:
       lx = xx - (x0 + np.tan(-ang * 1.6) * yy); out += (np.abs(lx) < 0.0018)[..., None] * col * 0.9
-  if flash_on and spec.get('flash'):
-    out = out * 0.6 + rgb(spec['flash']) * 0.4
+  if flash_on and spec.get('flash'):              # beat pulse: the lights fire, the ground lifts ~0.1 in the pulse colour (no full-screen white)
+    out = out + (out - base * (1 - mask[..., None])) * 0.6 + rgb(spec['flash']) * 0.10
   img = Image.fromarray((np.clip(out, 0, 1) * 255).astype(np.uint8))
   return img
 if __name__ == '__main__':
