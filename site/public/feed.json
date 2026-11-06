@@ -1,0 +1,4230 @@
+{
+  "version": "https://jsonfeed.org/version/1.1",
+  "title": "Naman (n1m21n) - Open Music Feed",
+  "home_page_url": "https://naman.infinitedevices.org",
+  "feed_url": "https://naman.infinitedevices.org/feed.json",
+  "description": "Direct, machine-readable music stream by electronic music producer Naman Soni (n1m21n). Streamable by human listeners, podcast apps, and autonomous AI agents.",
+  "icon": "https://naman.infinitedevices.org/media/covers/andhera-1000.webp",
+  "favicon": "https://naman.infinitedevices.org/favicon.svg",
+  "authors": [
+    {
+      "name": "Naman Soni (n1m21n)",
+      "url": "https://naman.infinitedevices.org",
+      "avatar": "https://naman.infinitedevices.org/media/covers/andhera-400.webp"
+    }
+  ],
+  "items": [
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/andhera/01-bring-me-some-change.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/andhera/01-bring-me-some-change.m4a",
+      "title": "Andhera - Bring Me Some Change",
+      "summary": "Track from 'Andhera' by Naman Soni. Genre: Electronic",
+      "date_published": "2026-06-01T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/andhera-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/andhera/01-bring-me-some-change.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2479805,
+          "duration_in_seconds": 150
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/0n0yXNPY9RBwf1CMv3j8Q6",
+        "apple_music": "https://music.apple.com/in/album/bring-me-some-change/6768245318?i=6768245324",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/bring-me-some-change"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/andhera/02-teri-aankhon-mein.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/andhera/02-teri-aankhon-mein.m4a",
+      "title": "Andhera - Teri Aankhon Mein",
+      "summary": "Track from 'Andhera' by Naman Soni. Genre: Electronic",
+      "date_published": "2026-06-01T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/andhera-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/andhera/02-teri-aankhon-mein.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 3666296,
+          "duration_in_seconds": 219
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/6CbaiRPDRWYvmhA6xgiGGT",
+        "apple_music": "https://music.apple.com/in/album/teri-aankhon-mein/6768245318?i=6768245329",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/teri-aankhon-mein"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/andhera/03-ek-pinjare-mai.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/andhera/03-ek-pinjare-mai.m4a",
+      "title": "Andhera - Ek Pinjare Mai",
+      "summary": "Track from 'Andhera' by Naman Soni. Genre: Electronic",
+      "date_published": "2026-06-01T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/andhera-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/andhera/03-ek-pinjare-mai.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2688586,
+          "duration_in_seconds": 162
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/3hmEBkJn00ICbhSTCwuPUM",
+        "apple_music": "https://music.apple.com/in/album/ek-pinjare-mai/6768245318?i=6768245331",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/ek-pinjare-mai"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/andhera/04-meri-pyaari-si-jaan.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/andhera/04-meri-pyaari-si-jaan.m4a",
+      "title": "Andhera - Meri Pyaari Si Jaan",
+      "summary": "Track from 'Andhera' by Naman Soni. Genre: Electronic",
+      "date_published": "2026-06-01T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/andhera-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/andhera/04-meri-pyaari-si-jaan.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 3075722,
+          "duration_in_seconds": 184
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/2925gdOJW5om1s67ey7IiG",
+        "apple_music": "https://music.apple.com/in/album/meri-pyaari-si-jaan/6768245318?i=6768245335",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/meri-pyaari-si-jaan"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/01-an-invitation-to-demon.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/01-an-invitation-to-demon.m4a",
+      "title": "a moment of meta awareness - an invitation to demon",
+      "summary": "Track from 'a moment of meta awareness' by Naman Soni. Genre: Electronic",
+      "date_published": "2026-05-14T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/a-moment-of-meta-awareness-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/01-an-invitation-to-demon.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2726386,
+          "duration_in_seconds": 168
+        }
+      ],
+      "external_links": {
+        "spotify": null,
+        "apple_music": null,
+        "bandcamp": "https://n1m21n.bandcamp.com/track/an-invitation-to-demon"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/02-algorithmic-tendencies.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/02-algorithmic-tendencies.m4a",
+      "title": "a moment of meta awareness - algorithmic tendencies",
+      "summary": "Track from 'a moment of meta awareness' by Naman Soni. Genre: Electronic",
+      "date_published": "2026-05-14T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/a-moment-of-meta-awareness-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/02-algorithmic-tendencies.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 4227149,
+          "duration_in_seconds": 260
+        }
+      ],
+      "external_links": {
+        "spotify": null,
+        "apple_music": null,
+        "bandcamp": "https://n1m21n.bandcamp.com/track/algorithmic-tendencies"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/03-minimal-design-gallery.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/03-minimal-design-gallery.m4a",
+      "title": "a moment of meta awareness - minimal design gallery",
+      "summary": "Track from 'a moment of meta awareness' by Naman Soni. Genre: Electronic",
+      "date_published": "2026-05-14T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/a-moment-of-meta-awareness-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/03-minimal-design-gallery.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 1930701,
+          "duration_in_seconds": 119
+        }
+      ],
+      "external_links": {
+        "spotify": null,
+        "apple_music": null,
+        "bandcamp": "https://n1m21n.bandcamp.com/track/minimal-design-gallery"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/04-first-hour-of-the-day.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/04-first-hour-of-the-day.m4a",
+      "title": "a moment of meta awareness - first hour of the day",
+      "summary": "Track from 'a moment of meta awareness' by Naman Soni. Genre: Electronic",
+      "date_published": "2026-05-14T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/a-moment-of-meta-awareness-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/04-first-hour-of-the-day.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 283138,
+          "duration_in_seconds": 18
+        }
+      ],
+      "external_links": {
+        "spotify": null,
+        "apple_music": null,
+        "bandcamp": "https://n1m21n.bandcamp.com/track/first-hour-of-the-day"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/05-morning-glitter.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/05-morning-glitter.m4a",
+      "title": "a moment of meta awareness - morning glitter",
+      "summary": "Track from 'a moment of meta awareness' by Naman Soni. Genre: Electronic",
+      "date_published": "2026-05-14T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/a-moment-of-meta-awareness-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/05-morning-glitter.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2409735,
+          "duration_in_seconds": 148
+        }
+      ],
+      "external_links": {
+        "spotify": null,
+        "apple_music": null,
+        "bandcamp": "https://n1m21n.bandcamp.com/track/morning-glitter"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/06-this-is-how-death-feels-like.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/06-this-is-how-death-feels-like.m4a",
+      "title": "a moment of meta awareness - this is how death feels like",
+      "summary": "Track from 'a moment of meta awareness' by Naman Soni. Genre: Electronic",
+      "date_published": "2026-05-14T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/a-moment-of-meta-awareness-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/06-this-is-how-death-feels-like.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2052985,
+          "duration_in_seconds": 126
+        }
+      ],
+      "external_links": {
+        "spotify": null,
+        "apple_music": null,
+        "bandcamp": "https://n1m21n.bandcamp.com/track/this-is-how-death-feels-like"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/07-if-love-had-one-more-chance.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/07-if-love-had-one-more-chance.m4a",
+      "title": "a moment of meta awareness - if love had one more chance",
+      "summary": "Track from 'a moment of meta awareness' by Naman Soni. Genre: Electronic",
+      "date_published": "2026-05-14T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/a-moment-of-meta-awareness-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/07-if-love-had-one-more-chance.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 1417012,
+          "duration_in_seconds": 87
+        }
+      ],
+      "external_links": {
+        "spotify": null,
+        "apple_music": null,
+        "bandcamp": "https://n1m21n.bandcamp.com/track/if-love-had-one-more-chance"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/08-are-my-thougths-cold.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/08-are-my-thougths-cold.m4a",
+      "title": "a moment of meta awareness - are my thougths cold?",
+      "summary": "Track from 'a moment of meta awareness' by Naman Soni. Genre: Electronic",
+      "date_published": "2026-05-14T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/a-moment-of-meta-awareness-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/08-are-my-thougths-cold.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 4246102,
+          "duration_in_seconds": 262
+        }
+      ],
+      "external_links": {
+        "spotify": null,
+        "apple_music": null,
+        "bandcamp": "https://n1m21n.bandcamp.com/track/are-my-thougths-cold"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/09-you-are-my-dream.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/09-you-are-my-dream.m4a",
+      "title": "a moment of meta awareness - you are my dream",
+      "summary": "Track from 'a moment of meta awareness' by Naman Soni. Genre: Electronic",
+      "date_published": "2026-05-14T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/a-moment-of-meta-awareness-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/09-you-are-my-dream.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 3904573,
+          "duration_in_seconds": 240
+        }
+      ],
+      "external_links": {
+        "spotify": null,
+        "apple_music": null,
+        "bandcamp": "https://n1m21n.bandcamp.com/track/you-are-my-dream"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/10-it-s-the-end-of-the-chapter.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/10-it-s-the-end-of-the-chapter.m4a",
+      "title": "a moment of meta awareness - it's the end of the chapter",
+      "summary": "Track from 'a moment of meta awareness' by Naman Soni. Genre: Electronic",
+      "date_published": "2026-05-14T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/a-moment-of-meta-awareness-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/10-it-s-the-end-of-the-chapter.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2979831,
+          "duration_in_seconds": 183
+        }
+      ],
+      "external_links": {
+        "spotify": null,
+        "apple_music": null,
+        "bandcamp": "https://n1m21n.bandcamp.com/track/its-the-end-of-the-chapter"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/11-has-the-universe-answered-my-call.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/11-has-the-universe-answered-my-call.m4a",
+      "title": "a moment of meta awareness - has the universe answered my call",
+      "summary": "Track from 'a moment of meta awareness' by Naman Soni. Genre: Electronic",
+      "date_published": "2026-05-14T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/a-moment-of-meta-awareness-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/11-has-the-universe-answered-my-call.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 4368098,
+          "duration_in_seconds": 268
+        }
+      ],
+      "external_links": {
+        "spotify": null,
+        "apple_music": null,
+        "bandcamp": "https://n1m21n.bandcamp.com/track/has-the-universe-answered-my-call"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/12-sound-of-your-voice.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/12-sound-of-your-voice.m4a",
+      "title": "a moment of meta awareness - sound of your voice",
+      "summary": "Track from 'a moment of meta awareness' by Naman Soni. Genre: Electronic",
+      "date_published": "2026-05-14T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/a-moment-of-meta-awareness-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/12-sound-of-your-voice.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 10023895,
+          "duration_in_seconds": 618
+        }
+      ],
+      "external_links": {
+        "spotify": null,
+        "apple_music": null,
+        "bandcamp": "https://n1m21n.bandcamp.com/track/sound-of-your-voice"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/13-view-from-a-skyscraper.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/13-view-from-a-skyscraper.m4a",
+      "title": "a moment of meta awareness - view from a skyscraper",
+      "summary": "Track from 'a moment of meta awareness' by Naman Soni. Genre: Electronic",
+      "date_published": "2026-05-14T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/a-moment-of-meta-awareness-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/13-view-from-a-skyscraper.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 1199612,
+          "duration_in_seconds": 74
+        }
+      ],
+      "external_links": {
+        "spotify": null,
+        "apple_music": null,
+        "bandcamp": "https://n1m21n.bandcamp.com/track/view-from-a-skyscraper"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/14-falling-down-from-a-staircase.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/14-falling-down-from-a-staircase.m4a",
+      "title": "a moment of meta awareness - falling down from a staircase",
+      "summary": "Track from 'a moment of meta awareness' by Naman Soni. Genre: Electronic",
+      "date_published": "2026-05-14T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/a-moment-of-meta-awareness-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/14-falling-down-from-a-staircase.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 4192792,
+          "duration_in_seconds": 258
+        }
+      ],
+      "external_links": {
+        "spotify": null,
+        "apple_music": null,
+        "bandcamp": "https://n1m21n.bandcamp.com/track/falling-down-from-a-staircase"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/15-formation-of-life.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/15-formation-of-life.m4a",
+      "title": "a moment of meta awareness - formation of life",
+      "summary": "Track from 'a moment of meta awareness' by Naman Soni. Genre: Electronic",
+      "date_published": "2026-05-14T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/a-moment-of-meta-awareness-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/15-formation-of-life.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 4203708,
+          "duration_in_seconds": 258
+        }
+      ],
+      "external_links": {
+        "spotify": null,
+        "apple_music": null,
+        "bandcamp": "https://n1m21n.bandcamp.com/track/formation-of-life"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/16-a-call-that-can-t-be-answered.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/16-a-call-that-can-t-be-answered.m4a",
+      "title": "a moment of meta awareness - a call that can't be answered",
+      "summary": "Track from 'a moment of meta awareness' by Naman Soni. Genre: Electronic",
+      "date_published": "2026-05-14T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/a-moment-of-meta-awareness-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/16-a-call-that-can-t-be-answered.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 8232554,
+          "duration_in_seconds": 506
+        }
+      ],
+      "external_links": {
+        "spotify": null,
+        "apple_music": null,
+        "bandcamp": "https://n1m21n.bandcamp.com/track/a-call-that-cant-be-answered"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/17-post-valentine-crisis.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/17-post-valentine-crisis.m4a",
+      "title": "a moment of meta awareness - post valentine crisis",
+      "summary": "Track from 'a moment of meta awareness' by Naman Soni. Genre: Electronic",
+      "date_published": "2026-05-14T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/a-moment-of-meta-awareness-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/17-post-valentine-crisis.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2501230,
+          "duration_in_seconds": 153
+        }
+      ],
+      "external_links": {
+        "spotify": null,
+        "apple_music": null,
+        "bandcamp": "https://n1m21n.bandcamp.com/track/post-valentine-crisis"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/18-minor-resolution-period.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/18-minor-resolution-period.m4a",
+      "title": "a moment of meta awareness - minor resolution period",
+      "summary": "Track from 'a moment of meta awareness' by Naman Soni. Genre: Electronic",
+      "date_published": "2026-05-14T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/a-moment-of-meta-awareness-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/18-minor-resolution-period.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 1067998,
+          "duration_in_seconds": 66
+        }
+      ],
+      "external_links": {
+        "spotify": null,
+        "apple_music": null,
+        "bandcamp": "https://n1m21n.bandcamp.com/track/minor-resolution-period"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/19-as-if-evolution-stopped.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/19-as-if-evolution-stopped.m4a",
+      "title": "a moment of meta awareness - as if evolution stopped",
+      "summary": "Track from 'a moment of meta awareness' by Naman Soni. Genre: Electronic",
+      "date_published": "2026-05-14T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/a-moment-of-meta-awareness-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/19-as-if-evolution-stopped.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 5136538,
+          "duration_in_seconds": 316
+        }
+      ],
+      "external_links": {
+        "spotify": null,
+        "apple_music": null,
+        "bandcamp": "https://n1m21n.bandcamp.com/track/as-if-evolution-stopped"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/20-another-maniac-occurence.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/20-another-maniac-occurence.m4a",
+      "title": "a moment of meta awareness - another maniac occurence",
+      "summary": "Track from 'a moment of meta awareness' by Naman Soni. Genre: Electronic",
+      "date_published": "2026-05-14T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/a-moment-of-meta-awareness-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/20-another-maniac-occurence.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2958431,
+          "duration_in_seconds": 182
+        }
+      ],
+      "external_links": {
+        "spotify": null,
+        "apple_music": null,
+        "bandcamp": "https://n1m21n.bandcamp.com/track/another-maniac-occurence"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/21-worms.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/21-worms.m4a",
+      "title": "a moment of meta awareness - worms",
+      "summary": "Track from 'a moment of meta awareness' by Naman Soni. Genre: Electronic",
+      "date_published": "2026-05-14T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/a-moment-of-meta-awareness-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/21-worms.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2826061,
+          "duration_in_seconds": 174
+        }
+      ],
+      "external_links": {
+        "spotify": null,
+        "apple_music": null,
+        "bandcamp": "https://n1m21n.bandcamp.com/track/worms"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/22-regression.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/22-regression.m4a",
+      "title": "a moment of meta awareness - regression",
+      "summary": "Track from 'a moment of meta awareness' by Naman Soni. Genre: Electronic",
+      "date_published": "2026-05-14T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/a-moment-of-meta-awareness-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/a-moment-of-meta-awareness/22-regression.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 6935480,
+          "duration_in_seconds": 428
+        }
+      ],
+      "external_links": {
+        "spotify": null,
+        "apple_music": null,
+        "bandcamp": "https://n1m21n.bandcamp.com/track/regression"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/redhand/01-bad-record.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/redhand/01-bad-record.m4a",
+      "title": "Redhand - Bad Record",
+      "summary": "Track from 'Redhand' by Naman Soni. Genre: Electronic",
+      "date_published": "2025-12-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/redhand-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/redhand/01-bad-record.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2809452,
+          "duration_in_seconds": 166
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/2XgBlrUNucv9eMAqqpcl5v",
+        "apple_music": "https://music.apple.com/in/album/bad-record/1864736290?i=1864736293",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/bad-record"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/redhand/02-hypnotic.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/redhand/02-hypnotic.m4a",
+      "title": "Redhand - Hypnotic",
+      "summary": "Track from 'Redhand' by Naman Soni. Genre: Electronic",
+      "date_published": "2025-12-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/redhand-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/redhand/02-hypnotic.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2194833,
+          "duration_in_seconds": 131
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/23KdvE9EcVL7IC0RWMiX6N",
+        "apple_music": "https://music.apple.com/in/album/hypnotic/1864736290?i=1864736656",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/hypnotic"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/redhand/03-charged.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/redhand/03-charged.m4a",
+      "title": "Redhand - Charged",
+      "summary": "Track from 'Redhand' by Naman Soni. Genre: Electronic",
+      "date_published": "2025-12-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/redhand-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/redhand/03-charged.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 3137948,
+          "duration_in_seconds": 186
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/2GfVabH6ZMXPzlPOqHgFgB",
+        "apple_music": "https://music.apple.com/in/album/charged/1864736290?i=1864736659",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/charged"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/redhand/04-passing-by.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/redhand/04-passing-by.m4a",
+      "title": "Redhand - Passing By",
+      "summary": "Track from 'Redhand' by Naman Soni. Genre: Electronic",
+      "date_published": "2025-12-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/redhand-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/redhand/04-passing-by.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2364100,
+          "duration_in_seconds": 143
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/5TicDmqwFX8qwTPnXE6hIM",
+        "apple_music": "https://music.apple.com/in/album/passing-by/1864736290?i=1864736662",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/passing-by"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/redhand/05-third-degree.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/redhand/05-third-degree.m4a",
+      "title": "Redhand - Third Degree",
+      "summary": "Track from 'Redhand' by Naman Soni. Genre: Electronic",
+      "date_published": "2025-12-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/redhand-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/redhand/05-third-degree.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2465438,
+          "duration_in_seconds": 147
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/6Gm9y5ZIXfBXvdQGTK3xxr",
+        "apple_music": "https://music.apple.com/in/album/third-degree/1864736290?i=1864736668",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/third-degree"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/redhand/06-kab-tak-karunga.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/redhand/06-kab-tak-karunga.m4a",
+      "title": "Redhand - Kab Tak Karunga?",
+      "summary": "Track from 'Redhand' by Naman Soni. Genre: Electronic",
+      "date_published": "2025-12-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/redhand-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/redhand/06-kab-tak-karunga.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2734304,
+          "duration_in_seconds": 164
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/1AbiGnuYoo0OqodiZhneu7",
+        "apple_music": "https://music.apple.com/in/album/kab-tak-karunga/1864736290?i=1864736669",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/kab-tak-karunga"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/redhand/07-after-life.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/redhand/07-after-life.m4a",
+      "title": "Redhand - After Life",
+      "summary": "Track from 'Redhand' by Naman Soni. Genre: Electronic",
+      "date_published": "2025-12-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/redhand-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/redhand/07-after-life.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2080289,
+          "duration_in_seconds": 125
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/2OBYIdsf7DuckLEFg7U3Y7",
+        "apple_music": "https://music.apple.com/in/album/after-life/1864736290?i=1864736671",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/after-life"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/paranoia/01-birth-of-light.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/paranoia/01-birth-of-light.m4a",
+      "title": "Paranoia - Birth of Light",
+      "summary": "Track from 'Paranoia' by Naman Soni. Genre: Electronic",
+      "date_published": "2025-10-04T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/paranoia-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/paranoia/01-birth-of-light.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2330206,
+          "duration_in_seconds": 140
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/1v4QL061vDQcpZkpPtgdu8",
+        "apple_music": "https://music.apple.com/in/album/birth-of-light/1844956850?i=1844956858",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/birth-of-light"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/paranoia/02-closer-door.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/paranoia/02-closer-door.m4a",
+      "title": "Paranoia - Closer Door",
+      "summary": "Track from 'Paranoia' by Naman Soni. Genre: Electronic",
+      "date_published": "2025-10-04T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/paranoia-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/paranoia/02-closer-door.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2010498,
+          "duration_in_seconds": 119
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/26XXqDk90NoBZegDLH26rx",
+        "apple_music": "https://music.apple.com/in/album/closer-door/1844956850?i=1844956862",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/closer-door"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/paranoia/03-pretty-trauma.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/paranoia/03-pretty-trauma.m4a",
+      "title": "Paranoia - Pretty Trauma",
+      "summary": "Track from 'Paranoia' by Naman Soni. Genre: Electronic",
+      "date_published": "2025-10-04T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/paranoia-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/paranoia/03-pretty-trauma.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2812646,
+          "duration_in_seconds": 168
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/1RRwsuVIIJHfGr4KkySHFq",
+        "apple_music": "https://music.apple.com/in/album/pretty-trauma/1844956850?i=1844957108",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/pretty-trauma"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/paranoia/04-strangled.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/paranoia/04-strangled.m4a",
+      "title": "Paranoia - Strangled",
+      "summary": "Track from 'Paranoia' by Naman Soni. Genre: Electronic",
+      "date_published": "2025-10-04T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/paranoia-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/paranoia/04-strangled.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2205977,
+          "duration_in_seconds": 133
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/3WQG7csChUJ7SxbMhMX6I9",
+        "apple_music": "https://music.apple.com/in/album/strangled/1844956850?i=1844957109",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/strangled"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/paranoia/05-the-creator.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/paranoia/05-the-creator.m4a",
+      "title": "Paranoia - The Creator",
+      "summary": "Track from 'Paranoia' by Naman Soni. Genre: Electronic",
+      "date_published": "2025-10-04T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/paranoia-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/paranoia/05-the-creator.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2458305,
+          "duration_in_seconds": 147
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/3jha8w4Bjt9avHt6ckK1xu",
+        "apple_music": "https://music.apple.com/in/album/the-creator/1844956850?i=1844957111",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/the-creator"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/paranoia/06-wish-of-death.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/paranoia/06-wish-of-death.m4a",
+      "title": "Paranoia - Wish of Death",
+      "summary": "Track from 'Paranoia' by Naman Soni. Genre: Electronic",
+      "date_published": "2025-10-04T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/paranoia-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/paranoia/06-wish-of-death.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2572100,
+          "duration_in_seconds": 156
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/5Bzd1rXKVTIey5NG9tyN2S",
+        "apple_music": "https://music.apple.com/in/album/wish-of-death/1844956850?i=1844957113",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/wish-of-death"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/paranoia/07-cannibal.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/paranoia/07-cannibal.m4a",
+      "title": "Paranoia - Cannibal",
+      "summary": "Track from 'Paranoia' by Naman Soni. Genre: Electronic",
+      "date_published": "2025-10-04T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/paranoia-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/paranoia/07-cannibal.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2194360,
+          "duration_in_seconds": 133
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/2BCQdxGhGo2iYSYaDn4oDH",
+        "apple_music": "https://music.apple.com/in/album/cannibal/1844956850?i=1844957126",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/cannibal"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/synthetic-vision/01-collapse.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/synthetic-vision/01-collapse.m4a",
+      "title": "Synthetic Vision - Collapse",
+      "summary": "Track from 'Synthetic Vision' by Naman Soni. Genre: Electronic",
+      "date_published": "2025-06-14T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/synthetic-vision-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/synthetic-vision/01-collapse.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2211344,
+          "duration_in_seconds": 130
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/2O2MMicbEFHsJfD4ExDN8o",
+        "apple_music": "https://music.apple.com/in/album/collapse/1820942202?i=1820942249",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/collapse"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/synthetic-vision/02-garden-of-eyes.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/synthetic-vision/02-garden-of-eyes.m4a",
+      "title": "Synthetic Vision - Garden of Eyes",
+      "summary": "Track from 'Synthetic Vision' by Naman Soni. Genre: Electronic",
+      "date_published": "2025-06-14T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/synthetic-vision-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/synthetic-vision/02-garden-of-eyes.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2492167,
+          "duration_in_seconds": 138
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/7zH0u5DDVxaTkBCqLHIy9B",
+        "apple_music": "https://music.apple.com/in/album/garden-of-eyes/1820942202?i=1820942253",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/garden-of-eyes"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/synthetic-vision/03-natural-response.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/synthetic-vision/03-natural-response.m4a",
+      "title": "Synthetic Vision - Natural Response",
+      "summary": "Track from 'Synthetic Vision' by Naman Soni. Genre: Electronic",
+      "date_published": "2025-06-14T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/synthetic-vision-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/synthetic-vision/03-natural-response.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2345041,
+          "duration_in_seconds": 142
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/4Z1XVqMpbZzcR8WlYi6pgY",
+        "apple_music": "https://music.apple.com/in/album/natural-response/1820942202?i=1820942256",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/natural-response"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/synthetic-vision/04-she-loves-me-not.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/synthetic-vision/04-she-loves-me-not.m4a",
+      "title": "Synthetic Vision - She Loves Me Not",
+      "summary": "Track from 'Synthetic Vision' by Naman Soni. Genre: Electronic",
+      "date_published": "2025-06-14T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/synthetic-vision-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/synthetic-vision/04-she-loves-me-not.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 1023963,
+          "duration_in_seconds": 63
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/0dmW4uwkcE9e65v7sI6rZa",
+        "apple_music": "https://music.apple.com/in/album/she-loves-me-not/1820942202?i=1820942266",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/she-loves-me-not"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/synthetic-vision/05-red-bloom.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/synthetic-vision/05-red-bloom.m4a",
+      "title": "Synthetic Vision - Red Bloom",
+      "summary": "Track from 'Synthetic Vision' by Naman Soni. Genre: Electronic",
+      "date_published": "2025-06-14T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/synthetic-vision-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/synthetic-vision/05-red-bloom.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2299545,
+          "duration_in_seconds": 115
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/2cipk2KKcnrNcBx9xzt0kz",
+        "apple_music": "https://music.apple.com/in/album/red-bloom/1820942202?i=1820942524",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/red-bloom"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/synthetic-vision/06-the-five-senses.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/synthetic-vision/06-the-five-senses.m4a",
+      "title": "Synthetic Vision - The Five Senses",
+      "summary": "Track from 'Synthetic Vision' by Naman Soni. Genre: Electronic",
+      "date_published": "2025-06-14T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/synthetic-vision-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/synthetic-vision/06-the-five-senses.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2440919,
+          "duration_in_seconds": 137
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/2OK8i609AO8X8cAVM7KTN1",
+        "apple_music": "https://music.apple.com/in/album/the-five-senses/1820942202?i=1820942527",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/the-five-senses"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/synthetic-vision/07-vision-is-a-lie.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/synthetic-vision/07-vision-is-a-lie.m4a",
+      "title": "Synthetic Vision - Vision Is a Lie",
+      "summary": "Track from 'Synthetic Vision' by Naman Soni. Genre: Electronic",
+      "date_published": "2025-06-14T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/synthetic-vision-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/synthetic-vision/07-vision-is-a-lie.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2109614,
+          "duration_in_seconds": 114
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/7nekZHu9hXL82xXlSsuOLA",
+        "apple_music": "https://music.apple.com/in/album/vision-is-a-lie/1820942202?i=1820942532",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/vision-is-a-lie"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/godsdie/01-stonecry.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/godsdie/01-stonecry.m4a",
+      "title": "Godsdie - Stonecry",
+      "summary": "Track from 'Godsdie' by Naman Soni. Genre: Electronic",
+      "date_published": "2025-01-26T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/godsdie-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/godsdie/01-stonecry.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2394318,
+          "duration_in_seconds": 142
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/0eRx1LEQYq4KXlpvngDYcx",
+        "apple_music": "https://music.apple.com/in/album/stonecry/1794224379?i=1794224569",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/stonecry"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/godsdie/02-bloodrush.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/godsdie/02-bloodrush.m4a",
+      "title": "Godsdie - Bloodrush",
+      "summary": "Track from 'Godsdie' by Naman Soni. Genre: Electronic",
+      "date_published": "2025-01-26T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/godsdie-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/godsdie/02-bloodrush.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2152149,
+          "duration_in_seconds": 131
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/7EGVRoEyc2TqSkfLpaggR4",
+        "apple_music": "https://music.apple.com/in/album/bloodrush/1794224379?i=1794224571",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/bloodrush"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/godsdie/03-dreamsnap.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/godsdie/03-dreamsnap.m4a",
+      "title": "Godsdie - Dreamsnap",
+      "summary": "Track from 'Godsdie' by Naman Soni. Genre: Electronic",
+      "date_published": "2025-01-26T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/godsdie-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/godsdie/03-dreamsnap.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2990594,
+          "duration_in_seconds": 181
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/0pKsW4rb2lMLndUTGcKQXa",
+        "apple_music": "https://music.apple.com/in/album/dreamsnap/1794224379?i=1794224584",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/dreamsnap"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/godsdie/04-heartlove.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/godsdie/04-heartlove.m4a",
+      "title": "Godsdie - Heartlove",
+      "summary": "Track from 'Godsdie' by Naman Soni. Genre: Electronic",
+      "date_published": "2025-01-26T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/godsdie-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/godsdie/04-heartlove.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2454173,
+          "duration_in_seconds": 146
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/0jLKA3LQqV5enPgPCDICqo",
+        "apple_music": "https://music.apple.com/in/album/heartlove/1794224379?i=1794224590",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/heartlove"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/godsdie/05-thunderlock.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/godsdie/05-thunderlock.m4a",
+      "title": "Godsdie - Thunderlock",
+      "summary": "Track from 'Godsdie' by Naman Soni. Genre: Electronic",
+      "date_published": "2025-01-26T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/godsdie-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/godsdie/05-thunderlock.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2399096,
+          "duration_in_seconds": 144
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/51wbMCYHWgSRmS9yGOEBb1",
+        "apple_music": "https://music.apple.com/in/album/thunderlock/1794224379?i=1794224694",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/thunderlock"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/godsdie/06-wavecrush.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/godsdie/06-wavecrush.m4a",
+      "title": "Godsdie - Wavecrush",
+      "summary": "Track from 'Godsdie' by Naman Soni. Genre: Electronic",
+      "date_published": "2025-01-26T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/godsdie-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/godsdie/06-wavecrush.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2566773,
+          "duration_in_seconds": 154
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/1yLRytLgmzA4ue74QuVPnr",
+        "apple_music": "https://music.apple.com/in/album/wavecrush/1794224379?i=1794224699",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/wavecrush"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/godsdie/07-deepsync.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/godsdie/07-deepsync.m4a",
+      "title": "Godsdie - Deepsync",
+      "summary": "Track from 'Godsdie' by Naman Soni. Genre: Electronic",
+      "date_published": "2025-01-26T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/godsdie-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/godsdie/07-deepsync.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2559911,
+          "duration_in_seconds": 156
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/0M19tnmmIIWK0xW9q3crqu",
+        "apple_music": "https://music.apple.com/in/album/deepsync/1794224379?i=1794224704",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/deepsync"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/electric-memory/01-electric-memory.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/electric-memory/01-electric-memory.m4a",
+      "title": "electric memory - electric memory",
+      "summary": "Track from 'electric memory' by Naman Soni. Genre: Electronic",
+      "date_published": "2025-01-05T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/electric-memory-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/electric-memory/01-electric-memory.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2252398,
+          "duration_in_seconds": 136
+        }
+      ],
+      "external_links": {
+        "spotify": null,
+        "apple_music": null,
+        "bandcamp": "https://n1m21n.bandcamp.com/track/electric-memory"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/ye-kesi-kahani-hai/01-ye-kesi-kahani-hai.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/ye-kesi-kahani-hai/01-ye-kesi-kahani-hai.m4a",
+      "title": "Ye Kesi Kahani Hai? - Ye Kesi Kahani Hai?",
+      "summary": "Track from 'Ye Kesi Kahani Hai?' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-12-27T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/ye-kesi-kahani-hai-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/ye-kesi-kahani-hai/01-ye-kesi-kahani-hai.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2094983,
+          "duration_in_seconds": 123
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/03OJckXhDZ1I3id8ZGbN9b",
+        "apple_music": "https://music.apple.com/in/album/ye-kesi-kahani-hai/1788022208?i=1788022209",
+        "bandcamp": null
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/naked-space/01-the-day-i-saw-you.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/naked-space/01-the-day-i-saw-you.m4a",
+      "title": "Naked Space - The Day I Saw You",
+      "summary": "Track from 'Naked Space' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-11-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/naked-space-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/naked-space/01-the-day-i-saw-you.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2133525,
+          "duration_in_seconds": 128
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/1pqOBjLall8Zm48oJqMOrW",
+        "apple_music": "https://music.apple.com/in/album/the-day-i-saw-you/1795653113?i=1795653126",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/the-day-i-saw-you"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/naked-space/02-lover-s-point.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/naked-space/02-lover-s-point.m4a",
+      "title": "Naked Space - Lover's Point",
+      "summary": "Track from 'Naked Space' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-11-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/naked-space-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/naked-space/02-lover-s-point.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 1976346,
+          "duration_in_seconds": 120
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/2m4tgvYdOpJcm2RFo3s8CH",
+        "apple_music": "https://music.apple.com/in/album/lovers-point/1795653113?i=1795653133",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/lovers-point"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/naked-space/03-find-me-baby.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/naked-space/03-find-me-baby.m4a",
+      "title": "Naked Space - Find Me, Baby",
+      "summary": "Track from 'Naked Space' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-11-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/naked-space-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/naked-space/03-find-me-baby.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2309567,
+          "duration_in_seconds": 138
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/5JL2cp2cJZqPKko5tFeJ6I",
+        "apple_music": "https://music.apple.com/in/album/find-me-baby/1795653113?i=1795653137",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/find-me-baby"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/naked-space/04-peppermint.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/naked-space/04-peppermint.m4a",
+      "title": "Naked Space - Peppermint",
+      "summary": "Track from 'Naked Space' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-11-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/naked-space-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/naked-space/04-peppermint.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2182917,
+          "duration_in_seconds": 127
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/5fm8iZHX0aCcJvMVKwavmc",
+        "apple_music": "https://music.apple.com/in/album/peppermint/1795653113?i=1795653265",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/peppermint"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/naked-space/05-summer.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/naked-space/05-summer.m4a",
+      "title": "Naked Space - Summer",
+      "summary": "Track from 'Naked Space' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-11-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/naked-space-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/naked-space/05-summer.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2045520,
+          "duration_in_seconds": 121
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/6syL32d8h0QSIPWZEnxCXE",
+        "apple_music": "https://music.apple.com/in/album/summer/1795653113?i=1795653267",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/summer"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/naked-space/06-don-t-let-me-fall.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/naked-space/06-don-t-let-me-fall.m4a",
+      "title": "Naked Space - Don't Let Me Fall",
+      "summary": "Track from 'Naked Space' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-11-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/naked-space-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/naked-space/06-don-t-let-me-fall.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2266157,
+          "duration_in_seconds": 136
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/14Pr0O2EJUBnnWboUnflN9",
+        "apple_music": "https://music.apple.com/in/album/dont-let-me-fall/1795653113?i=1795653272",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/dont-let-me-fall"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/naked-space/07-bring-back-my-freedom.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/naked-space/07-bring-back-my-freedom.m4a",
+      "title": "Naked Space - Bring Back My Freedom",
+      "summary": "Track from 'Naked Space' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-11-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/naked-space-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/naked-space/07-bring-back-my-freedom.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 3732700,
+          "duration_in_seconds": 224
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/5Cil3MB8vwaSZCkfEbqihT",
+        "apple_music": "https://music.apple.com/in/album/bring-back-my-freedom/1795653113?i=1795653280",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/bring-back-my-freedom"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/naked-space/08-too-late.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/naked-space/08-too-late.m4a",
+      "title": "Naked Space - Too Late?",
+      "summary": "Track from 'Naked Space' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-11-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/naked-space-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/naked-space/08-too-late.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2553883,
+          "duration_in_seconds": 154
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/5o9QgO27saW9Y9rwVGGlJ3",
+        "apple_music": "https://music.apple.com/in/album/too-late-feat-punya/1795653113?i=1795653286",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/too-late"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/naked-space/09-commander-cory.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/naked-space/09-commander-cory.m4a",
+      "title": "Naked Space - Commander Cory",
+      "summary": "Track from 'Naked Space' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-11-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/naked-space-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/naked-space/09-commander-cory.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2964559,
+          "duration_in_seconds": 175
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/4fpkODCJOAj8oimVfuDlRF",
+        "apple_music": "https://music.apple.com/in/album/commander-cory/1795653113?i=1795653563",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/commander-cory"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/naked-space/10-dead-man-sky.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/naked-space/10-dead-man-sky.m4a",
+      "title": "Naked Space - Dead Man Sky",
+      "summary": "Track from 'Naked Space' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-11-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/naked-space-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/naked-space/10-dead-man-sky.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2116898,
+          "duration_in_seconds": 125
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/1InlElhPG3l5xsijHwPHoT",
+        "apple_music": "https://music.apple.com/in/album/dead-man-sky/1795653113?i=1795653565",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/dead-man-sky"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/naked-space/11-oh-my-love-halley.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/naked-space/11-oh-my-love-halley.m4a",
+      "title": "Naked Space - Oh My Love, Halley",
+      "summary": "Track from 'Naked Space' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-11-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/naked-space-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/naked-space/11-oh-my-love-halley.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 1854022,
+          "duration_in_seconds": 113
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/1MxvsTqzjkVZVoGvSdSqJs",
+        "apple_music": "https://music.apple.com/in/album/oh-my-love-halley-feat-punya/1795653113?i=1795653579",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/oh-my-love-halley"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/naked-space/12-what-would-be-space-without-us.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/naked-space/12-what-would-be-space-without-us.m4a",
+      "title": "Naked Space - What Would Be Space Without Us?",
+      "summary": "Track from 'Naked Space' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-11-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/naked-space-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/naked-space/12-what-would-be-space-without-us.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2415092,
+          "duration_in_seconds": 146
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/6sE6o7KOGEhELXekSxZFE5",
+        "apple_music": "https://music.apple.com/in/album/what-would-be-space-without-us/1795653113?i=1795653582",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/what-would-be-space-without-us"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/blue-party/01-blue-party.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/blue-party/01-blue-party.m4a",
+      "title": "blue party - blue party",
+      "summary": "Track from 'blue party' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-10-19T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/blue-party-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/blue-party/01-blue-party.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2852316,
+          "duration_in_seconds": 174
+        }
+      ],
+      "external_links": {
+        "spotify": null,
+        "apple_music": null,
+        "bandcamp": "https://n1m21n.bandcamp.com/track/blue-party"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/circle-of-time/01-that-must-be-jazz.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/circle-of-time/01-that-must-be-jazz.m4a",
+      "title": "Circle of Time - That Must Be Jazz",
+      "summary": "Track from 'Circle of Time' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-10-01T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/circle-of-time-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/circle-of-time/01-that-must-be-jazz.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2130222,
+          "duration_in_seconds": 127
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/0kqdLsynjY4oaGnSFXV8SK",
+        "apple_music": "https://music.apple.com/in/album/that-must-be-jazz/1771179037?i=1771179041",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/that-must-be-jazz"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/circle-of-time/02-444.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/circle-of-time/02-444.m4a",
+      "title": "Circle of Time - 444",
+      "summary": "Track from 'Circle of Time' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-10-01T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/circle-of-time-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/circle-of-time/02-444.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2398748,
+          "duration_in_seconds": 144
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/3u01zRSxkkaBaRGj7d4Dfd",
+        "apple_music": "https://music.apple.com/in/album/444/1771179037?i=1771179044",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/444"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/circle-of-time/03-you-look-like-a-fool.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/circle-of-time/03-you-look-like-a-fool.m4a",
+      "title": "Circle of Time - You Look Like a Fool",
+      "summary": "Track from 'Circle of Time' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-10-01T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/circle-of-time-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/circle-of-time/03-you-look-like-a-fool.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2356054,
+          "duration_in_seconds": 138
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/4ZEkBLqBvSSaUsIpFkcwOs",
+        "apple_music": "https://music.apple.com/in/album/you-look-like-a-fool/1771179037?i=1771179046",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/you-look-like-a-fool"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/circle-of-time/04-i-still-need-you.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/circle-of-time/04-i-still-need-you.m4a",
+      "title": "Circle of Time - I Still Need You",
+      "summary": "Track from 'Circle of Time' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-10-01T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/circle-of-time-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/circle-of-time/04-i-still-need-you.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2309537,
+          "duration_in_seconds": 138
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/7HRmj9f3XcGxs2U3b2ZEc5",
+        "apple_music": "https://music.apple.com/in/album/i-still-need-you/1771179037?i=1771179199",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/i-still-need-you"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/circle-of-time/05-lost-star-21.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/circle-of-time/05-lost-star-21.m4a",
+      "title": "Circle of Time - Lost Star 21",
+      "summary": "Track from 'Circle of Time' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-10-01T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/circle-of-time-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/circle-of-time/05-lost-star-21.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2009742,
+          "duration_in_seconds": 121
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/6qhBhaOtelTD39KEp3IzMR",
+        "apple_music": "https://music.apple.com/in/album/lost-star-21/1771179037?i=1771179205",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/lost-star-21"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/circle-of-time/06-i-m-spinning.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/circle-of-time/06-i-m-spinning.m4a",
+      "title": "Circle of Time - I'm Spinning",
+      "summary": "Track from 'Circle of Time' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-10-01T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/circle-of-time-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/circle-of-time/06-i-m-spinning.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2431376,
+          "duration_in_seconds": 144
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/6SXvssGUEtfg2APyD15iF0",
+        "apple_music": "https://music.apple.com/in/album/im-spinning/1771179037?i=1771179208",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/im-spinning"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/circle-of-time/07-clear-the-way.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/circle-of-time/07-clear-the-way.m4a",
+      "title": "Circle of Time - Clear the Way",
+      "summary": "Track from 'Circle of Time' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-10-01T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/circle-of-time-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/circle-of-time/07-clear-the-way.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2096664,
+          "duration_in_seconds": 124
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/2etZa2YOBuoH0PIlgAbc7C",
+        "apple_music": "https://music.apple.com/in/album/clear-the-way/1771179037?i=1771179213",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/clear-the-way"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/circle-of-time/08-everything-is-a-dream.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/circle-of-time/08-everything-is-a-dream.m4a",
+      "title": "Circle of Time - Everything Is a Dream",
+      "summary": "Track from 'Circle of Time' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-10-01T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/circle-of-time-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/circle-of-time/08-everything-is-a-dream.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2127013,
+          "duration_in_seconds": 127
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/3RrHk1xmzbkLNSOkpfetsh",
+        "apple_music": "https://music.apple.com/in/album/everything-is-a-dream/1771179037?i=1771179219",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/everything-is-a-dream"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/circle-of-time/09-stay-here-tonight.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/circle-of-time/09-stay-here-tonight.m4a",
+      "title": "Circle of Time - Stay Here Tonight",
+      "summary": "Track from 'Circle of Time' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-10-01T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/circle-of-time-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/circle-of-time/09-stay-here-tonight.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2227884,
+          "duration_in_seconds": 132
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/3sJ9WfKflgF6PmtgBm6QWs",
+        "apple_music": "https://music.apple.com/in/album/stay-here-tonight/1771179037?i=1771179221",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/stay-here-tonight"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/circle-of-time/10-i-can-t.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/circle-of-time/10-i-can-t.m4a",
+      "title": "Circle of Time - I Can't",
+      "summary": "Track from 'Circle of Time' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-10-01T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/circle-of-time-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/circle-of-time/10-i-can-t.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2471060,
+          "duration_in_seconds": 145
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/12g5L6Lhj4kQHCWTMTFMgD",
+        "apple_music": "https://music.apple.com/in/album/i-cant/1771179037?i=1771179320",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/i-cant"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/circle-of-time/11-final-break.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/circle-of-time/11-final-break.m4a",
+      "title": "Circle of Time - Final Break",
+      "summary": "Track from 'Circle of Time' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-10-01T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/circle-of-time-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/circle-of-time/11-final-break.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2478485,
+          "duration_in_seconds": 146
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/6GFo9IuhRMIaS0VPXagwJJ",
+        "apple_music": "https://music.apple.com/in/album/final-break/1771179037?i=1771179321",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/final-break"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/don-t-even-try/01-don-t-even-try.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/don-t-even-try/01-don-t-even-try.m4a",
+      "title": "Don't Even (Try) - Don't Even (Try)",
+      "summary": "Track from 'Don't Even (Try)' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-08-23T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/don-t-even-try-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/don-t-even-try/01-don-t-even-try.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2681925,
+          "duration_in_seconds": 159
+        }
+      ],
+      "external_links": {
+        "spotify": null,
+        "apple_music": null,
+        "bandcamp": "https://n1m21n.bandcamp.com/track/dont-even-try"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/awakened/01-flux.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/awakened/01-flux.m4a",
+      "title": "Awakened - Flux",
+      "summary": "Track from 'Awakened' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-07-31T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/awakened-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/awakened/01-flux.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2629384,
+          "duration_in_seconds": 156
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/2z8DTCeECUTASBsztzbww3",
+        "apple_music": "https://music.apple.com/in/album/flux/1760902107?i=1760902110",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/flux"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/awakened/02-chronome.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/awakened/02-chronome.m4a",
+      "title": "Awakened - Chronome",
+      "summary": "Track from 'Awakened' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-07-31T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/awakened-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/awakened/02-chronome.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2483497,
+          "duration_in_seconds": 150
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/5dei4N6seDObvzy9vUY3Gz",
+        "apple_music": "https://music.apple.com/in/album/chronome/1760902107?i=1760902117",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/chronome"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/awakened/03-third-dimension.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/awakened/03-third-dimension.m4a",
+      "title": "Awakened - Third Dimension",
+      "summary": "Track from 'Awakened' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-07-31T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/awakened-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/awakened/03-third-dimension.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2206549,
+          "duration_in_seconds": 131
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/5RFtQnHyACfEPtTU3TC3il",
+        "apple_music": "https://music.apple.com/in/album/third-dimension/1760902107?i=1760902118",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/third-dimension"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/awakened/04-nexus.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/awakened/04-nexus.m4a",
+      "title": "Awakened - Nexus",
+      "summary": "Track from 'Awakened' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-07-31T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/awakened-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/awakened/04-nexus.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2761568,
+          "duration_in_seconds": 165
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/5H2JlX8VeIYOmd45qR6tYW",
+        "apple_music": "https://music.apple.com/in/album/nexus/1760902107?i=1760902128",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/nexus"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/awakened/05-wavex.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/awakened/05-wavex.m4a",
+      "title": "Awakened - Wavex",
+      "summary": "Track from 'Awakened' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-07-31T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/awakened-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/awakened/05-wavex.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2369923,
+          "duration_in_seconds": 144
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/4u92bYtwQqOUP4SyuHavov",
+        "apple_music": "https://music.apple.com/in/album/wavex/1760902107?i=1760902341",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/wavex"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/awakened/06-siphyrium.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/awakened/06-siphyrium.m4a",
+      "title": "Awakened - Siphyrium",
+      "summary": "Track from 'Awakened' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-07-31T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/awakened-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/awakened/06-siphyrium.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2118952,
+          "duration_in_seconds": 127
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/1A7tSAD8noxKalFCBOVP8B",
+        "apple_music": "https://music.apple.com/in/album/siphyrium/1760902107?i=1760902343",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/siphyrium"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/awakened/07-lilith.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/awakened/07-lilith.m4a",
+      "title": "Awakened - Lilith",
+      "summary": "Track from 'Awakened' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-07-31T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/awakened-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/awakened/07-lilith.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2543871,
+          "duration_in_seconds": 151
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/1cOF5lT0sFmezVTUYQUCMz",
+        "apple_music": "https://music.apple.com/in/album/lilith/1760902107?i=1760902349",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/lilith"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/awakened/08-phexal.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/awakened/08-phexal.m4a",
+      "title": "Awakened - Phexal",
+      "summary": "Track from 'Awakened' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-07-31T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/awakened-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/awakened/08-phexal.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2162630,
+          "duration_in_seconds": 128
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/67JDIRDKwkBgd5GHkGiJ5R",
+        "apple_music": "https://music.apple.com/in/album/phexal/1760902107?i=1760902357",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/phexal"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/awakened/09-silver.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/awakened/09-silver.m4a",
+      "title": "Awakened - Silver",
+      "summary": "Track from 'Awakened' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-07-31T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/awakened-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/awakened/09-silver.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2444317,
+          "duration_in_seconds": 146
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/6k1Zl6DVocKtO2Yh4rXoFK",
+        "apple_music": "https://music.apple.com/in/album/silver/1760902107?i=1760902366",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/silver"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/awakened/10-junos.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/awakened/10-junos.m4a",
+      "title": "Awakened - Junos",
+      "summary": "Track from 'Awakened' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-07-31T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/awakened-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/awakened/10-junos.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2312656,
+          "duration_in_seconds": 139
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/6GIwnADsBp6hDAzHhd2vHH",
+        "apple_music": "https://music.apple.com/in/album/junos/1760902107?i=1760902368",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/junos"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/awakened/11-zylyte.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/awakened/11-zylyte.m4a",
+      "title": "Awakened - Zylyte",
+      "summary": "Track from 'Awakened' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-07-31T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/awakened-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/awakened/11-zylyte.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2204584,
+          "duration_in_seconds": 131
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/4KO0D0KVw2mcORYDFmIOKy",
+        "apple_music": "https://music.apple.com/in/album/zylyte/1760902107?i=1760902526",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/zylyte"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/awakened/12-pyronation.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/awakened/12-pyronation.m4a",
+      "title": "Awakened - Pyronation",
+      "summary": "Track from 'Awakened' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-07-31T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/awakened-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/awakened/12-pyronation.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2086541,
+          "duration_in_seconds": 125
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/7yqoAkLSyqUE9FYi8EN7IQ",
+        "apple_music": "https://music.apple.com/in/album/pyronation/1760902107?i=1760902532",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/pyronation"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/liquid-x/01-liquid-x.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/liquid-x/01-liquid-x.m4a",
+      "title": "Liquid X - Liquid X",
+      "summary": "Track from 'Liquid X' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-07-07T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/liquid-x-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/liquid-x/01-liquid-x.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2739685,
+          "duration_in_seconds": 165
+        }
+      ],
+      "external_links": {
+        "spotify": null,
+        "apple_music": null,
+        "bandcamp": "https://n1m21n.bandcamp.com/track/liquid-x"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/hiraku/01-ooze.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/hiraku/01-ooze.m4a",
+      "title": "Hiraku - Ooze",
+      "summary": "Track from 'Hiraku' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-06-09T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/hiraku-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/hiraku/01-ooze.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 3722083,
+          "duration_in_seconds": 222
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/61s90v33cOkw9B4FJIVnTB",
+        "apple_music": "https://music.apple.com/in/album/ooze/1753044580?i=1753044585",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/ooze"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/hiraku/02-world-450.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/hiraku/02-world-450.m4a",
+      "title": "Hiraku - World 450",
+      "summary": "Track from 'Hiraku' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-06-09T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/hiraku-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/hiraku/02-world-450.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2702681,
+          "duration_in_seconds": 164
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/0sHSMjykmtuUeQcRIKqjRf",
+        "apple_music": "https://music.apple.com/in/album/world-450/1753044580?i=1753045011",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/world-450"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/hiraku/03-erratic.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/hiraku/03-erratic.m4a",
+      "title": "Hiraku - Erratic",
+      "summary": "Track from 'Hiraku' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-06-09T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/hiraku-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/hiraku/03-erratic.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2428518,
+          "duration_in_seconds": 142
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/26x0Z9lglK6bpVaMVQdlCh",
+        "apple_music": "https://music.apple.com/in/album/erratic/1753044580?i=1753045019",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/erratic"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/hiraku/04-the-world-is-a-very-weird-place.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/hiraku/04-the-world-is-a-very-weird-place.m4a",
+      "title": "Hiraku - The World Is a Very Weird Place",
+      "summary": "Track from 'Hiraku' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-06-09T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/hiraku-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/hiraku/04-the-world-is-a-very-weird-place.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2403946,
+          "duration_in_seconds": 148
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/4AGXQNctY4EQo3UJgqV7z9",
+        "apple_music": "https://music.apple.com/in/album/the-world-is-a-very-weird-place/1753044580?i=1753045029",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/the-world-is-a-very-weird-place"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/hiraku/05-parallels.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/hiraku/05-parallels.m4a",
+      "title": "Hiraku - Parallels",
+      "summary": "Track from 'Hiraku' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-06-09T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/hiraku-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/hiraku/05-parallels.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2476184,
+          "duration_in_seconds": 146
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/3JCdU0aFWHjsFBQk8ybvGq",
+        "apple_music": "https://music.apple.com/in/album/parallels/1753044580?i=1753045036",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/parallels"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/hiraku/06-my-soul-can-t-find-itself.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/hiraku/06-my-soul-can-t-find-itself.m4a",
+      "title": "Hiraku - My Soul Can't Find Itself",
+      "summary": "Track from 'Hiraku' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-06-09T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/hiraku-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/hiraku/06-my-soul-can-t-find-itself.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2361952,
+          "duration_in_seconds": 146
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/1dM5sS02iv1cxD39iIyKXd",
+        "apple_music": "https://music.apple.com/in/album/my-soul-cant-find-itself/1753044580?i=1753045477",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/my-soul-cant-find-itself"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/hiraku/07-nebula.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/hiraku/07-nebula.m4a",
+      "title": "Hiraku - Nebula",
+      "summary": "Track from 'Hiraku' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-06-09T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/hiraku-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/hiraku/07-nebula.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 1845959,
+          "duration_in_seconds": 114
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/0d28VODJy6dDcJcejglKuh",
+        "apple_music": "https://music.apple.com/in/album/nebula/1753044580?i=1753045482",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/nebula"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/hiraku/08-goodbye-love.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/hiraku/08-goodbye-love.m4a",
+      "title": "Hiraku - Goodbye Love",
+      "summary": "Track from 'Hiraku' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-06-09T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/hiraku-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/hiraku/08-goodbye-love.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2024980,
+          "duration_in_seconds": 121
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/24bCg4zghCnHxFkOyAbnLS",
+        "apple_music": "https://music.apple.com/in/album/goodbye-love/1753044580?i=1753045737",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/goodbye-love"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/hiraku/09-breaking.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/hiraku/09-breaking.m4a",
+      "title": "Hiraku - Breaking",
+      "summary": "Track from 'Hiraku' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-06-09T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/hiraku-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/hiraku/09-breaking.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 1973611,
+          "duration_in_seconds": 117
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/4TnIpvacAZJFxiJIsq1RLr",
+        "apple_music": "https://music.apple.com/in/album/breaking/1753044580?i=1753045748",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/breaking"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/hiraku/10-vete-la.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/hiraku/10-vete-la.m4a",
+      "title": "Hiraku - Vete La",
+      "summary": "Track from 'Hiraku' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-06-09T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/hiraku-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/hiraku/10-vete-la.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2175789,
+          "duration_in_seconds": 129
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/3FnDZfXE40fbszxfosjff2",
+        "apple_music": "https://music.apple.com/in/album/vete-la/1753044580?i=1753046076",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/vete-la"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/hiraku/11-bob-the-pop.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/hiraku/11-bob-the-pop.m4a",
+      "title": "Hiraku - Bob the Pop",
+      "summary": "Track from 'Hiraku' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-06-09T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/hiraku-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/hiraku/11-bob-the-pop.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 1851105,
+          "duration_in_seconds": 111
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/6cLWauothHTDzqZH9qqjFK",
+        "apple_music": "https://music.apple.com/in/album/bob-the-pop/1753044580?i=1753046248",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/bob-the-pop"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/hiraku/12-al0n3.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/hiraku/12-al0n3.m4a",
+      "title": "Hiraku - Al0n3",
+      "summary": "Track from 'Hiraku' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-06-09T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/hiraku-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/hiraku/12-al0n3.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2575119,
+          "duration_in_seconds": 156
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/0s9u7R2fCdRUnhcIPTcElW",
+        "apple_music": "https://music.apple.com/in/album/al0n3/1753044580?i=1753046255",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/al0n3"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/hiraku/13-maze.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/hiraku/13-maze.m4a",
+      "title": "Hiraku - Maze",
+      "summary": "Track from 'Hiraku' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-06-09T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/hiraku-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/hiraku/13-maze.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 3807483,
+          "duration_in_seconds": 236
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/3g6Cq0LCReZEyhHVC9z8GU",
+        "apple_music": "https://music.apple.com/in/album/maze/1753044580?i=1753046267",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/maze"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/hiraku/14-noox.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/hiraku/14-noox.m4a",
+      "title": "Hiraku - Noox",
+      "summary": "Track from 'Hiraku' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-06-09T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/hiraku-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/hiraku/14-noox.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 1744493,
+          "duration_in_seconds": 102
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/3CHM2RYOYcYJvFMzldaRLp",
+        "apple_music": "https://music.apple.com/in/album/noox/1753044580?i=1753046484",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/noox"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/hiraku/15-zaza.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/hiraku/15-zaza.m4a",
+      "title": "Hiraku - Zaza",
+      "summary": "Track from 'Hiraku' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-06-09T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/hiraku-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/hiraku/15-zaza.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2874019,
+          "duration_in_seconds": 173
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/1VIsoCDUXkD7onJdOGeScS",
+        "apple_music": "https://music.apple.com/in/album/zaza/1753044580?i=1753046491",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/zaza"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/hiraku/16-thor.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/hiraku/16-thor.m4a",
+      "title": "Hiraku - Thor",
+      "summary": "Track from 'Hiraku' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-06-09T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/hiraku-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/hiraku/16-thor.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 1798703,
+          "duration_in_seconds": 107
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/28z6h16kB9IzIUvBP843jW",
+        "apple_music": "https://music.apple.com/in/album/thor/1753044580?i=1753046498",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/thor"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/hiraku/17-morine.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/hiraku/17-morine.m4a",
+      "title": "Hiraku - Morine",
+      "summary": "Track from 'Hiraku' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-06-09T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/hiraku-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/hiraku/17-morine.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2519155,
+          "duration_in_seconds": 151
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/3U4Ldg6WlkmoeQyjb92KJq",
+        "apple_music": "https://music.apple.com/in/album/morine/1753044580?i=1753046503",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/morine"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/hiraku/18-it-s-sunday.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/hiraku/18-it-s-sunday.m4a",
+      "title": "Hiraku - It's Sunday",
+      "summary": "Track from 'Hiraku' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-06-09T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/hiraku-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/hiraku/18-it-s-sunday.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2388952,
+          "duration_in_seconds": 142
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/1psWYQy5VXM1B3XCM3XH01",
+        "apple_music": "https://music.apple.com/in/album/its-sunday/1753044580?i=1753046505",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/its-sunday"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/realms/01-collision.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/realms/01-collision.m4a",
+      "title": "Realms - Collision",
+      "summary": "Track from 'Realms' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-04-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/realms-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/realms/01-collision.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2205667,
+          "duration_in_seconds": 134
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/15O8piqcGfXMZk4jDE9T3c",
+        "apple_music": "https://music.apple.com/in/album/collision/1742566911?i=1742566931",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/collision"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/realms/02-crawlers.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/realms/02-crawlers.m4a",
+      "title": "Realms - Crawlers",
+      "summary": "Track from 'Realms' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-04-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/realms-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/realms/02-crawlers.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 3099108,
+          "duration_in_seconds": 189
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/459pcR0zQ4M5H2FRLGP0LE",
+        "apple_music": "https://music.apple.com/in/album/crawlers/1742566911?i=1742567122",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/crawlers"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/realms/03-fantasy-of-clouds.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/realms/03-fantasy-of-clouds.m4a",
+      "title": "Realms - Fantasy of Clouds",
+      "summary": "Track from 'Realms' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-04-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/realms-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/realms/03-fantasy-of-clouds.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2451424,
+          "duration_in_seconds": 147
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/18YkrczE4laKXroEuk08eu",
+        "apple_music": "https://music.apple.com/in/album/fantasy-of-clouds/1742566911?i=1742567130",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/fantasy-of-clouds"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/realms/04-magick.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/realms/04-magick.m4a",
+      "title": "Realms - MagicK",
+      "summary": "Track from 'Realms' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-04-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/realms-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/realms/04-magick.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 4638675,
+          "duration_in_seconds": 279
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/3zDYWDH38zVgqrwyLZuemr",
+        "apple_music": "https://music.apple.com/in/album/magick/1742566911?i=1742567138",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/magick"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/realms/05-secrets-of-life.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/realms/05-secrets-of-life.m4a",
+      "title": "Realms - Secrets of Life",
+      "summary": "Track from 'Realms' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-04-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/realms-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/realms/05-secrets-of-life.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2946744,
+          "duration_in_seconds": 176
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/1JDZTOIzglVNVqfcenUPHG",
+        "apple_music": "https://music.apple.com/in/album/secrets-of-life/1742566911?i=1742567365",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/secrets-of-life"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/realms/06-wizardry.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/realms/06-wizardry.m4a",
+      "title": "Realms - Wizardry",
+      "summary": "Track from 'Realms' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-04-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/realms-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/realms/06-wizardry.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2639403,
+          "duration_in_seconds": 160
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/7vT4V1Gi34r8TQp6oiDMTb",
+        "apple_music": "https://music.apple.com/in/album/wizardry/1742566911?i=1742567373",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/wizardry"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/realms/07-the-end-of-everything-else.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/realms/07-the-end-of-everything-else.m4a",
+      "title": "Realms - The End of Everything Else",
+      "summary": "Track from 'Realms' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-04-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/realms-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/realms/07-the-end-of-everything-else.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 5153476,
+          "duration_in_seconds": 315
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/79Qsufv7z4KUjAZwjonJrO",
+        "apple_music": "https://music.apple.com/in/album/the-end-of-everything-else/1742566911?i=1742567385",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/the-end-of-everything-else"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/rehab/01-signal.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/rehab/01-signal.m4a",
+      "title": "Rehab - Signal",
+      "summary": "Track from 'Rehab' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-04-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/rehab-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/rehab/01-signal.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 3947497,
+          "duration_in_seconds": 238
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/4HacaPWxJe9NjFlil9DVlR",
+        "apple_music": "https://music.apple.com/in/album/signal/1742657978?i=1742657982",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/signal"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/rehab/02-channel.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/rehab/02-channel.m4a",
+      "title": "Rehab - Channel",
+      "summary": "Track from 'Rehab' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-04-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/rehab-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/rehab/02-channel.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 3413286,
+          "duration_in_seconds": 202
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/6tf00areQoK0O5d9Q3CFAF",
+        "apple_music": "https://music.apple.com/in/album/channel/1742657978?i=1742658316",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/channel"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/rehab/03-division.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/rehab/03-division.m4a",
+      "title": "Rehab - Division",
+      "summary": "Track from 'Rehab' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-04-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/rehab-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/rehab/03-division.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2694850,
+          "duration_in_seconds": 159
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/7doDOzTRsgbh0iB9N3buYp",
+        "apple_music": "https://music.apple.com/in/album/division/1742657978?i=1742658317",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/division"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/rehab/04-ignorance.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/rehab/04-ignorance.m4a",
+      "title": "Rehab - Ignorance",
+      "summary": "Track from 'Rehab' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-04-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/rehab-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/rehab/04-ignorance.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2519383,
+          "duration_in_seconds": 153
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/0unAuRmPyzZCJRvjjjvGpe",
+        "apple_music": "https://music.apple.com/in/album/ignorance/1742657978?i=1742658438",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/ignorance"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/rehab/05-side-love.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/rehab/05-side-love.m4a",
+      "title": "Rehab - Side Love",
+      "summary": "Track from 'Rehab' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-04-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/rehab-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/rehab/05-side-love.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2913612,
+          "duration_in_seconds": 174
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/4Jble785jakXC09BnnJmiT",
+        "apple_music": "https://music.apple.com/in/album/side-love/1742657978?i=1742658446",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/side-love"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/rehab/06-clear-feeling.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/rehab/06-clear-feeling.m4a",
+      "title": "Rehab - Clear Feeling",
+      "summary": "Track from 'Rehab' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-04-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/rehab-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/rehab/06-clear-feeling.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 1612518,
+          "duration_in_seconds": 97
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/0hd62rFfGwRqbLIBvXboX6",
+        "apple_music": "https://music.apple.com/in/album/clear-feeling/1742657978?i=1742658458",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/clear-feeling"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/rehab/07-hold-me.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/rehab/07-hold-me.m4a",
+      "title": "Rehab - Hold Me",
+      "summary": "Track from 'Rehab' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-04-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/rehab-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/rehab/07-hold-me.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2260695,
+          "duration_in_seconds": 135
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/0Xiedlnoe161PwoFo4mCbj",
+        "apple_music": "https://music.apple.com/in/album/hold-me/1742657978?i=1742658460",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/hold-me"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/rehab/08-installation.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/rehab/08-installation.m4a",
+      "title": "Rehab - Installation",
+      "summary": "Track from 'Rehab' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-04-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/rehab-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/rehab/08-installation.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2377443,
+          "duration_in_seconds": 141
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/7brDDBGaxnCWScx1y1ClAx",
+        "apple_music": "https://music.apple.com/in/album/installation/1742657978?i=1742658461",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/installation"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/rehab/09-skulls.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/rehab/09-skulls.m4a",
+      "title": "Rehab - Skulls",
+      "summary": "Track from 'Rehab' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-04-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/rehab-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/rehab/09-skulls.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2610444,
+          "duration_in_seconds": 157
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/0pmGXLlY4lXj57LYJ1Hsmo",
+        "apple_music": "https://music.apple.com/in/album/skulls/1742657978?i=1742658462",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/skulls"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/rehab/10-net.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/rehab/10-net.m4a",
+      "title": "Rehab - Net",
+      "summary": "Track from 'Rehab' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-04-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/rehab-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/rehab/10-net.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 3015483,
+          "duration_in_seconds": 179
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/0LYSH1xYbmxQZpNEYHdDWQ",
+        "apple_music": "https://music.apple.com/in/album/net/1742657978?i=1742658463",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/net"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/rehab/11-blur.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/rehab/11-blur.m4a",
+      "title": "Rehab - Blur",
+      "summary": "Track from 'Rehab' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-04-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/rehab-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/rehab/11-blur.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2849427,
+          "duration_in_seconds": 168
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/2FNJJ1WEdWV1EPCg6q36Wa",
+        "apple_music": "https://music.apple.com/in/album/blur/1742657978?i=1742658620",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/blur"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/rehab/12-voyage.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/rehab/12-voyage.m4a",
+      "title": "Rehab - Voyage",
+      "summary": "Track from 'Rehab' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-04-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/rehab-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/rehab/12-voyage.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2211411,
+          "duration_in_seconds": 133
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/6mF1RyEIC1b6Zm5ZESvZHF",
+        "apple_music": "https://music.apple.com/in/album/voyage/1742657978?i=1742658623",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/voyage"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/rehab/13-do-my-laundry.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/rehab/13-do-my-laundry.m4a",
+      "title": "Rehab - Do My Laundry",
+      "summary": "Track from 'Rehab' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-04-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/rehab-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/rehab/13-do-my-laundry.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2090887,
+          "duration_in_seconds": 124
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/0nDLfrw8GwKxuMol5urbbx",
+        "apple_music": "https://music.apple.com/in/album/do-my-laundry/1742657978?i=1742658626",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/do-my-laundry"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/rehab/14-forget-it.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/rehab/14-forget-it.m4a",
+      "title": "Rehab - Forget It",
+      "summary": "Track from 'Rehab' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-04-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/rehab-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/rehab/14-forget-it.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2673864,
+          "duration_in_seconds": 159
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/0TnAhniAnKvL6W2L5zNG5e",
+        "apple_music": "https://music.apple.com/in/album/forget-it/1742657978?i=1742658636",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/forget-it"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/rehab/15-i-was-about-to-chill.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/rehab/15-i-was-about-to-chill.m4a",
+      "title": "Rehab - I Was About to Chill",
+      "summary": "Track from 'Rehab' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-04-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/rehab-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/rehab/15-i-was-about-to-chill.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2569173,
+          "duration_in_seconds": 155
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/0ss5olRjNN1veufM7muRJp",
+        "apple_music": "https://music.apple.com/in/album/i-was-about-to-chill/1742657978?i=1742658637",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/i-was-about-to-chill"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/rehab/16-my-dreams-are-not-okay.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/rehab/16-my-dreams-are-not-okay.m4a",
+      "title": "Rehab - My Dreams Are Not Okay",
+      "summary": "Track from 'Rehab' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-04-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/rehab-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/rehab/16-my-dreams-are-not-okay.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 1900343,
+          "duration_in_seconds": 117
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/1qLX2BDhdDn13K19SQ7I9l",
+        "apple_music": "https://music.apple.com/in/album/my-dreams-are-not-okay/1742657978?i=1742658639",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/my-dreams-are-not-okay"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/rehab/17-this-feels-like-a-journal.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/rehab/17-this-feels-like-a-journal.m4a",
+      "title": "Rehab - This Feels Like a Journal",
+      "summary": "Track from 'Rehab' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-04-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/rehab-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/rehab/17-this-feels-like-a-journal.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2420550,
+          "duration_in_seconds": 147
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/4XshIHN47u5NGNE5SDwiU1",
+        "apple_music": "https://music.apple.com/in/album/this-feels-like-a-journal/1742657978?i=1742658642",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/this-feels-like-a-journal"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/rehab/18-i-can-feel-the-trance.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/rehab/18-i-can-feel-the-trance.m4a",
+      "title": "Rehab - I Can Feel the Trance",
+      "summary": "Track from 'Rehab' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-04-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/rehab-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/rehab/18-i-can-feel-the-trance.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 3214580,
+          "duration_in_seconds": 190
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/4xryagNoeigJMG3UrhNKLi",
+        "apple_music": "https://music.apple.com/in/album/i-can-feel-the-trance/1742657978?i=1742658646",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/i-can-feel-the-trance"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/rehab/19-space-boy.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/rehab/19-space-boy.m4a",
+      "title": "Rehab - Space Boy",
+      "summary": "Track from 'Rehab' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-04-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/rehab-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/rehab/19-space-boy.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2706222,
+          "duration_in_seconds": 164
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/20A1zbII3j97oqiL5xdtEu",
+        "apple_music": "https://music.apple.com/in/album/space-boy/1742657978?i=1742658920",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/space-boy"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/rehab/20-reality-is-defect.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/rehab/20-reality-is-defect.m4a",
+      "title": "Rehab - Reality Is Defect",
+      "summary": "Track from 'Rehab' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-04-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/rehab-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/rehab/20-reality-is-defect.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2723889,
+          "duration_in_seconds": 166
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/78uqoeC5eKXfAMXcBFuOgq",
+        "apple_music": "https://music.apple.com/in/album/reality-is-defect/1742657978?i=1742658924",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/reality-is-defect"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/rehab/21-tunnel.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/rehab/21-tunnel.m4a",
+      "title": "Rehab - Tunnel",
+      "summary": "Track from 'Rehab' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-04-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/rehab-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/rehab/21-tunnel.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2080510,
+          "duration_in_seconds": 127
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/7eZfzjhd4tzjO8ar8ckYTS",
+        "apple_music": "https://music.apple.com/in/album/tunnel/1742657978?i=1742658925",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/tunnel"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/rehab/22-external.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/rehab/22-external.m4a",
+      "title": "Rehab - External",
+      "summary": "Track from 'Rehab' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-04-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/rehab-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/rehab/22-external.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 3117502,
+          "duration_in_seconds": 190
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/4NWVxPCaIg9Au6jaHCI5Eg",
+        "apple_music": "https://music.apple.com/in/album/external/1742657978?i=1742658930",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/external"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/rehab/23-deep-inside-my-cells.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/rehab/23-deep-inside-my-cells.m4a",
+      "title": "Rehab - Deep Inside My Cells",
+      "summary": "Track from 'Rehab' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-04-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/rehab-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/rehab/23-deep-inside-my-cells.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 1485754,
+          "duration_in_seconds": 92
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/3hYJdlsOQOi8SVmWojpkPK",
+        "apple_music": "https://music.apple.com/in/album/deep-inside-my-cells/1742657978?i=1742658933",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/deep-inside-my-cells"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/rehab/24-it-s-time-to-go-home.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/rehab/24-it-s-time-to-go-home.m4a",
+      "title": "Rehab - It's Time to Go Home",
+      "summary": "Track from 'Rehab' by Naman Soni. Genre: Electronic",
+      "date_published": "2024-04-25T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/rehab-1000.webp",
+      "tags": [
+        "Electronic",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/rehab/24-it-s-time-to-go-home.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2883743,
+          "duration_in_seconds": 170
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/5rxpYkcige4sMrwZQMyIjp",
+        "apple_music": "https://music.apple.com/in/album/its-time-to-go-home/1742657978?i=1742658937",
+        "bandcamp": "https://n1m21n.bandcamp.com/track/its-time-to-go-home"
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/water-computer/01-slow-death.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/water-computer/01-slow-death.m4a",
+      "title": "Water Computer - Slow Death",
+      "summary": "Track from 'Water Computer' by Naman Soni. Genre: Instrumental",
+      "date_published": "2024-01-21T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/water-computer-1000.webp",
+      "tags": [
+        "Instrumental",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/water-computer/01-slow-death.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2978030,
+          "duration_in_seconds": 183
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/0JSmTVTDK1cJKnb0BodL9T",
+        "apple_music": "https://music.apple.com/in/album/slow-death/1727307976?i=1727308187",
+        "bandcamp": null
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/water-computer/02-i-like-to-fly.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/water-computer/02-i-like-to-fly.m4a",
+      "title": "Water Computer - I Like to Fly",
+      "summary": "Track from 'Water Computer' by Naman Soni. Genre: Instrumental",
+      "date_published": "2024-01-21T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/water-computer-1000.webp",
+      "tags": [
+        "Instrumental",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/water-computer/02-i-like-to-fly.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2885478,
+          "duration_in_seconds": 175
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/7e6R62gxu2jqRYOwDPNrXC",
+        "apple_music": "https://music.apple.com/in/album/i-like-to-fly/1727307976?i=1727308189",
+        "bandcamp": null
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/water-computer/03-computer-tricks.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/water-computer/03-computer-tricks.m4a",
+      "title": "Water Computer - Computer Tricks",
+      "summary": "Track from 'Water Computer' by Naman Soni. Genre: Instrumental",
+      "date_published": "2024-01-21T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/water-computer-1000.webp",
+      "tags": [
+        "Instrumental",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/water-computer/03-computer-tricks.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2635562,
+          "duration_in_seconds": 160
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/5BgQMY0nJ2eUYUPCTsehqD",
+        "apple_music": "https://music.apple.com/in/album/computer-tricks/1727307976?i=1727308191",
+        "bandcamp": null
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/water-computer/04-past-is-future.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/water-computer/04-past-is-future.m4a",
+      "title": "Water Computer - Past Is Future",
+      "summary": "Track from 'Water Computer' by Naman Soni. Genre: Instrumental",
+      "date_published": "2024-01-21T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/water-computer-1000.webp",
+      "tags": [
+        "Instrumental",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/water-computer/04-past-is-future.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2570332,
+          "duration_in_seconds": 154
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/6I2duGcr5KBcN4zTA9PRs6",
+        "apple_music": "https://music.apple.com/in/album/past-is-future/1727307976?i=1727308193",
+        "bandcamp": null
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/it-s-alchemy/01-warm-and-cold.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/it-s-alchemy/01-warm-and-cold.m4a",
+      "title": "It's Alchemy - Warm & Cold",
+      "summary": "Track from 'It's Alchemy' by Naman Soni. Genre: Instrumental",
+      "date_published": "2023-12-22T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/it-s-alchemy-1000.webp",
+      "tags": [
+        "Instrumental",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/it-s-alchemy/01-warm-and-cold.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2581114,
+          "duration_in_seconds": 156
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/7KBPnalXb1lp6E0qeeMtDj",
+        "apple_music": "https://music.apple.com/in/album/warm-cold/1722768911?i=1722768916",
+        "bandcamp": null
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/it-s-alchemy/02-i-was-being-lazy.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/it-s-alchemy/02-i-was-being-lazy.m4a",
+      "title": "It's Alchemy - I Was Being Lazy",
+      "summary": "Track from 'It's Alchemy' by Naman Soni. Genre: Instrumental",
+      "date_published": "2023-12-22T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/it-s-alchemy-1000.webp",
+      "tags": [
+        "Instrumental",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/it-s-alchemy/02-i-was-being-lazy.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2633819,
+          "duration_in_seconds": 161
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/5abrXZ57jNlTz5eKZQFtcx",
+        "apple_music": "https://music.apple.com/in/album/i-was-being-lazy/1722768911?i=1722769140",
+        "bandcamp": null
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/it-s-alchemy/03-ascendant.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/it-s-alchemy/03-ascendant.m4a",
+      "title": "It's Alchemy - Ascendant",
+      "summary": "Track from 'It's Alchemy' by Naman Soni. Genre: Instrumental",
+      "date_published": "2023-12-22T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/it-s-alchemy-1000.webp",
+      "tags": [
+        "Instrumental",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/it-s-alchemy/03-ascendant.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 4222493,
+          "duration_in_seconds": 254
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/5wkdBRgliFgKRMj99CjeBF",
+        "apple_music": "https://music.apple.com/in/album/ascendant/1722768911?i=1722769143",
+        "bandcamp": null
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/it-s-alchemy/04-i-thought-it-was-love.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/it-s-alchemy/04-i-thought-it-was-love.m4a",
+      "title": "It's Alchemy - I Thought It Was Love",
+      "summary": "Track from 'It's Alchemy' by Naman Soni. Genre: Instrumental",
+      "date_published": "2023-12-22T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/it-s-alchemy-1000.webp",
+      "tags": [
+        "Instrumental",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/it-s-alchemy/04-i-thought-it-was-love.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2380234,
+          "duration_in_seconds": 144
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/1rOMFCF0UF71HJ7mWpMjvd",
+        "apple_music": "https://music.apple.com/in/album/i-thought-it-was-love/1722768911?i=1722769150",
+        "bandcamp": null
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/it-s-alchemy/05-can-i-go-back-in-time.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/it-s-alchemy/05-can-i-go-back-in-time.m4a",
+      "title": "It's Alchemy - Can I Go Back in Time?",
+      "summary": "Track from 'It's Alchemy' by Naman Soni. Genre: Instrumental",
+      "date_published": "2023-12-22T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/it-s-alchemy-1000.webp",
+      "tags": [
+        "Instrumental",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/it-s-alchemy/05-can-i-go-back-in-time.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2229714,
+          "duration_in_seconds": 135
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/3NOCigiTvu4IUIQeYcjcdT",
+        "apple_music": "https://music.apple.com/in/album/can-i-go-back-in-time/1722768911?i=1722769153",
+        "bandcamp": null
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/it-s-alchemy/06-when-we-locked-eyes.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/it-s-alchemy/06-when-we-locked-eyes.m4a",
+      "title": "It's Alchemy - When We Locked Eyes",
+      "summary": "Track from 'It's Alchemy' by Naman Soni. Genre: Instrumental",
+      "date_published": "2023-12-22T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/it-s-alchemy-1000.webp",
+      "tags": [
+        "Instrumental",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/it-s-alchemy/06-when-we-locked-eyes.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2065919,
+          "duration_in_seconds": 127
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/3QSSl3Ig4wkOKXcPD7J7xE",
+        "apple_music": "https://music.apple.com/in/album/when-we-locked-eyes/1722768911?i=1722769466",
+        "bandcamp": null
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/it-s-alchemy/07-i-m-dizzying.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/it-s-alchemy/07-i-m-dizzying.m4a",
+      "title": "It's Alchemy - I'm Dizzying",
+      "summary": "Track from 'It's Alchemy' by Naman Soni. Genre: Instrumental",
+      "date_published": "2023-12-22T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/it-s-alchemy-1000.webp",
+      "tags": [
+        "Instrumental",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/it-s-alchemy/07-i-m-dizzying.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2098047,
+          "duration_in_seconds": 128
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/2eDKQIG5cq53IINpNgl1On",
+        "apple_music": "https://music.apple.com/in/album/im-dizzying/1722768911?i=1722769468",
+        "bandcamp": null
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/species/01-origin.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/species/01-origin.m4a",
+      "title": "Species - Origin",
+      "summary": "Track from 'Species' by Naman Soni. Genre: Rock",
+      "date_published": "2023-11-22T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/species-1000.webp",
+      "tags": [
+        "Rock",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/species/01-origin.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2661044,
+          "duration_in_seconds": 160
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/09RpgKvIfjKekbCJZlNU3Z",
+        "apple_music": "https://music.apple.com/in/album/origin/1717978280?i=1717978287",
+        "bandcamp": null
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/species/02-wild-summer.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/species/02-wild-summer.m4a",
+      "title": "Species - Wild Summer",
+      "summary": "Track from 'Species' by Naman Soni. Genre: Rock",
+      "date_published": "2023-11-22T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/species-1000.webp",
+      "tags": [
+        "Rock",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/species/02-wild-summer.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2556774,
+          "duration_in_seconds": 154
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/2kpT77DPnsyFNV71uFuClK",
+        "apple_music": "https://music.apple.com/in/album/wild-summer/1717978280?i=1717978289",
+        "bandcamp": null
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/species/03-take-the-next-exit.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/species/03-take-the-next-exit.m4a",
+      "title": "Species - Take the Next Exit",
+      "summary": "Track from 'Species' by Naman Soni. Genre: Rock",
+      "date_published": "2023-11-22T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/species-1000.webp",
+      "tags": [
+        "Rock",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/species/03-take-the-next-exit.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2106653,
+          "duration_in_seconds": 130
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/7asnRg7iJHXPJpGWF5dVOi",
+        "apple_music": "https://music.apple.com/in/album/take-the-next-exit/1717978280?i=1717978294",
+        "bandcamp": null
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/species/04-deranged.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/species/04-deranged.m4a",
+      "title": "Species - Deranged",
+      "summary": "Track from 'Species' by Naman Soni. Genre: Rock",
+      "date_published": "2023-11-22T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/species-1000.webp",
+      "tags": [
+        "Rock",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/species/04-deranged.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2963181,
+          "duration_in_seconds": 182
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/4CrjvZihf7DYPuwgINVxgg",
+        "apple_music": "https://music.apple.com/in/album/deranged/1717978280?i=1717978298",
+        "bandcamp": null
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/species/05-i-don-t-belong-here.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/species/05-i-don-t-belong-here.m4a",
+      "title": "Species - I Don't Belong Here",
+      "summary": "Track from 'Species' by Naman Soni. Genre: Rock",
+      "date_published": "2023-11-22T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/species-1000.webp",
+      "tags": [
+        "Rock",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/species/05-i-don-t-belong-here.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 4341527,
+          "duration_in_seconds": 264
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/0hYxHMJSflxheTcdALt3cm",
+        "apple_music": "https://music.apple.com/in/album/i-dont-belong-here/1717978280?i=1717978301",
+        "bandcamp": null
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/species/06-arrival.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/species/06-arrival.m4a",
+      "title": "Species - Arrival",
+      "summary": "Track from 'Species' by Naman Soni. Genre: Rock",
+      "date_published": "2023-11-22T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/species-1000.webp",
+      "tags": [
+        "Rock",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/species/06-arrival.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2047585,
+          "duration_in_seconds": 124
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/69IggikesVbjqsxsU6DDDy",
+        "apple_music": "https://music.apple.com/in/album/arrival/1717978280?i=1717979035",
+        "bandcamp": null
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/species/07-impulse.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/species/07-impulse.m4a",
+      "title": "Species - Impulse",
+      "summary": "Track from 'Species' by Naman Soni. Genre: Rock",
+      "date_published": "2023-11-22T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/species-1000.webp",
+      "tags": [
+        "Rock",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/species/07-impulse.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 2319378,
+          "duration_in_seconds": 141
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/0EALKMbgBigEcW7TnOLfY7",
+        "apple_music": "https://music.apple.com/in/album/impulse/1717978280?i=1717979041",
+        "bandcamp": null
+      }
+    },
+    {
+      "id": "https://naman.infinitedevices.org/media/audio/species/08-thoughts-of-paradise.m4a",
+      "url": "https://naman.infinitedevices.org/media/audio/species/08-thoughts-of-paradise.m4a",
+      "title": "Species - Thoughts of Paradise",
+      "summary": "Track from 'Species' by Naman Soni. Genre: Rock",
+      "date_published": "2023-11-22T12:00:00+00:00",
+      "image": "https://naman.infinitedevices.org/media/covers/species-1000.webp",
+      "tags": [
+        "Rock",
+        "Electronic",
+        "Independent"
+      ],
+      "attachments": [
+        {
+          "url": "https://naman.infinitedevices.org/media/audio/species/08-thoughts-of-paradise.m4a",
+          "mime_type": "audio/mp4",
+          "size_in_bytes": 3534775,
+          "duration_in_seconds": 216
+        }
+      ],
+      "external_links": {
+        "spotify": "https://open.spotify.com/track/3KjbccBBrPLBDRa72xCBfI",
+        "apple_music": "https://music.apple.com/in/album/thoughts-of-paradise/1717978280?i=1717979246",
+        "bandcamp": null
+      }
+    }
+  ]
+}
