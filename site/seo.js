@@ -18,7 +18,7 @@ function data() {
 }
 
 function jsonld({ links, albums }) {
-  const sameAs = links.socials.map(s => s.url);
+  const sameAs = [...links.socials.map(s => s.url), 'https://www.wikidata.org/wiki/Q142066671'];
   return {
     '@context': 'https://schema.org',
     '@graph': [
