@@ -1,4 +1,13 @@
+/feed.xml
+  Content-Type: application/rss+xml; charset=utf-8
+  Access-Control-Allow-Origin: *
+/feed.json
+  Content-Type: application/feed+json; charset=utf-8
+  Access-Control-Allow-Origin: *
 /llms.txt
   Content-Type: text/plain; charset=utf-8
+  Access-Control-Allow-Origin: *
 /data/*
+  Access-Control-Allow-Origin: *
+/media/*
   Access-Control-Allow-Origin: *
