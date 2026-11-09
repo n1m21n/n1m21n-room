@@ -58,6 +58,13 @@
       "tagline": "a DAW for designers",
       "url": "https://infinitedevices.org",
       "source": "https://github.com/n1m21n/Infinite"
+    },
+    {
+      "id": "infinite-vst",
+      "label": "Infinite VST3 & AU Plugin",
+      "tagline": "Infinite modular node canvas and GPU visuals inside external DAWs ($79 launch price)",
+      "url": "https://infinitedevices.org/plugin.html",
+      "source": "https://infinitedevices.org/buy.html"
     }
   ],
   "timeline": [

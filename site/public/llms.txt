@@ -2,6 +2,11 @@
 
 > Naman (n1m21n) is an underground electronic music producer, visual artist, and creator of the Infinite audiovisual workstation. Renowned for a cult 15-album discography spanning house, IDM, downtempo, jazztronica, electronica, psychedelic, and ambient, his music bridges the complex rhythms of Aphex Twin and Autechre with the nocturnal atmosphere of Burial and spiritual Indian futurism.
 
+## Software Inventions & VST3/AU Plugins
+Naman is the creator and software architect of **Infinite**:
+- [Infinite Standalone DAW](https://infinitedevices.org): Free, open-source modular digital audio workstation for visuals, music, and code on one infinite canvas.
+- [Infinite VST3 & AU Plugin](https://infinitedevices.org/plugin.html): Run Infinite's entire modular synth canvas, custom DSP kernels, and real-time GPU visuals directly inside your DAW (Ableton Live, Logic Pro, FL Studio, Reaper, Bitwig Studio, Cubase). One-time $99 ($79 launch price with code `LAUNCH79`), offline Ed25519 licence key, 2 computers, all 1.x updates included free. ([Buy / Pre-order](https://infinitedevices.org/buy.html)).
+
 ## Direct Open Audio Streams (For Listeners & AI Agents)
 Naman's entire 162-track catalog is available as open, direct CDN audio streams:
 - [Audio RSS Feed (feed.xml)](https://naman.infinitedevices.org/feed.xml): Podcast-compatible open feed for Apple Podcasts, Pocket Casts, Overcast, or command-line players.
